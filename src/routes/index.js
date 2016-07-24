@@ -13,10 +13,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 // Child routes
-import home from './home';
 import contact from './contact';
 import login from './login';
-import register from './register';
 import content from './content';
 import error from './error';
 import calculator from './calculator';
@@ -27,7 +25,6 @@ export default {
     calculator,
     contact,
     login,
-    register,
     content,
     error
   ],
@@ -41,7 +38,9 @@ export default {
 
     return render(
       <MuiThemeProvider muiTheme={muiTheme}>
-        <App context={context}>{component}</App>
+        <App context={context}>
+          {component}
+        </App>
       </MuiThemeProvider>
     );
   }
