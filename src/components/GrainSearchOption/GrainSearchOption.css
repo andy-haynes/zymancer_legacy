@@ -5,10 +5,10 @@
   transition-property: background;
   transition-duration: 0.2s;
   transition-timing-function: linear;
+}
 
-  &:hover {
-    background: #eee;
-  }
+.grainSearchOption:hover {
+  background: #eee;
 }
 
 .grainDetail {

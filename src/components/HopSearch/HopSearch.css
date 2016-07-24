@@ -16,8 +16,8 @@
 .resultsHeader {
   background-color: #444;
   color: white;
+}
 
-  span {
-    padding: 4px 0 4px 5%;
-  }
+.resultsHeader span {
+  padding: 4px 0 4px 5%;
 }
