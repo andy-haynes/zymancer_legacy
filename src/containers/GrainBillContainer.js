@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { removeGrain, setGrainWeight, setGrainGravity, setGrainLovibond } from '../actions';
 import { SRMtoRGB, calculateSRM } from '../utils/BrewMath';
 import GrainBill from '../components/GrainBill';

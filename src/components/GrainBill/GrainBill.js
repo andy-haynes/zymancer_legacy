@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import _ from 'lodash';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Grain from '../Grain';
 import s from './GrainBill.css';

@@ -8,7 +8,6 @@ import {
 } from '../constants/RecipeActionTypes';
 import hopAddition from './hopAddition';
 import { roundTo } from '../utils/core';
-import _ from 'lodash';
 
 const hop = (state = {}, action) => {
   switch (action.type) {

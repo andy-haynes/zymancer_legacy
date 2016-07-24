@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { setMashThickness, setBoilOff, setGrainAbsorption, setInfusionTemp, setMashoutTemp, setGrainTemp } from '../actions';
 import MashSchedule from '../components/MashSchedule'
 

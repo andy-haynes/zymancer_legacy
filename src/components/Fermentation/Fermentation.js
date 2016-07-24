@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import _ from 'lodash';
 import SliderInput from '../SliderInput';
 import Yeast from '../Yeast';
 import { roundTo } from '../../utils/core';

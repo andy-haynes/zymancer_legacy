@@ -1,6 +1,5 @@
 import { AddHop, AddHopAddition, SetHopAdditionTime, SetHopAdditionWeight } from '../constants/RecipeActionTypes';
 import { DefaultHopAdditionWeight } from '../constants/Defaults';
-import _ from 'lodash';
 import measurement from './measurement';
 
 const hopAddition = (state = {}, action) => {

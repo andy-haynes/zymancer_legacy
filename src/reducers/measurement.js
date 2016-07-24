@@ -1,6 +1,5 @@
 import { MeasurementPrecision } from '../constants/Defaults';
 import { convertToUnit } from '../utils/core';
-import _ from 'lodash';
 
 const measurement = (state = {}, action) => {
   let quantity = Object.assign({}, action.measurement);

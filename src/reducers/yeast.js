@@ -11,7 +11,6 @@ import { DefaultGrainWeight } from '../constants/Defaults';
 import { calculateYeastViability } from '../utils/BrewMath';
 import { extractRange } from '../utils/core';
 import measurement from './measurement';
-import _ from 'lodash';
 
 const yeast = (state = {}, action) => {
   switch (action.type) {

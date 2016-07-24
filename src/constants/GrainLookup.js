@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { Pound } from './Units';
 
 const GrainLookup = [
@@ -96,6 +95,6 @@ const GrainLookup = [
   { id: 92, name: "Sucrose (white table sugar)", category: "Sugars", lovibond: "NA", gravity: 1.046, description: "Increases alcohol. Use in Australian lagers and English bitters." },
   { id: 93, name: "Syrup Malt Extract", category: "Sugars", lovibond: "Varie", gravity: 1.033, description: "Extra Light (3.5°), Light (3.5 -5°), Amber (10°), Dark (30°), Wheat (2°)." },
   { id: 94, name: "Treacle", category: "Sugars", lovibond: "100", gravity: 1.036, description: "Imparts intense, sweet flavor. A British mixture of molasses, invert sugar and golden syrup (corn syrup). Use in dark English ales." },
-].map(g => _.assignIn(g, { weight: { unit: Pound, value: 1 }}));
+].map(g => Object.assign({}, g, { weight: { unit: Pound, value: 1 }}));
 
 export default GrainLookup;

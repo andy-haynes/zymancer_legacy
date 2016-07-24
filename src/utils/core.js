@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { Fahrenheit, Celsius } from '../constants/Units';
 import conversionTable from '../constants/ConversionTable';
 

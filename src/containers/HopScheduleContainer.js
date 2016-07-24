@@ -1,5 +1,4 @@
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import { removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition, setHopAlpha } from '../actions';
 import HopSchedule from '../components/HopSchedule';
 

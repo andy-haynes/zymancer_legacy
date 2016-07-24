@@ -2,7 +2,6 @@ import { AddGrain, SetGrainWeight, SetGrainGravity, SetGrainLovibond } from '../
 import { DefaultGrainWeight } from '../constants/Defaults';
 import { calculateSRM, SRMtoRGB } from '../utils/BrewMath';
 import measurement from './measurement';
-import _ from 'lodash';
 
 const grain = (state = {}, action) => {
   switch (action.type) {
