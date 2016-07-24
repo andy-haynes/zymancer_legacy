@@ -58,14 +58,31 @@ app.use(expressJwt({
 }));
 app.use(passport.initialize());
 
+const expirationSeconds = 60 * 60 * 24 * 180; // 180 days
+/*
 app.get('/login/facebook',
   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
 );
 app.get('/login/facebook/return',
   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
   (req, res) => {
-    const expiresIn = 60 * 60 * 24 * 180; // 180 days
+    const expiresIn = expirationSeconds;
     const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
+    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
+    res.redirect('/');
+  }
+);
+*/
+
+app.get('/login/google',
+  passport.authenticate('google', { scope: ['email'], session: false })
+);
+app.get('/login/google/return',
+  passport.authenticate('google', { failureRedirect: '/login', session: false }),
+  (req, res) => {
+    const expiresIn = expirationSeconds;
+    // needs to be stringified else the xtend call in jwt.sign will create circular ref from user obj
+    const token = jwt.sign(JSON.stringify(req.user), auth.jwt.secret);
     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
     res.redirect('/');
   }
