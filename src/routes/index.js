@@ -9,6 +9,8 @@
 
 import React from 'react';
 import App from '../components/App';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 // Child routes
 import home from './home';
@@ -17,26 +19,30 @@ import login from './login';
 import register from './register';
 import content from './content';
 import error from './error';
+import calculator from './calculator';
 
 export default {
-
   path: '/',
-
   children: [
-    home,
+    calculator,
     contact,
     login,
     register,
     content,
-    error,
+    error
   ],
-
   async action({ next, render, context }) {
+    const muiTheme = getMuiTheme({userAgent: 'all'});
     const component = await next();
-    if (component === undefined) return component;
-    return render(
-      <App context={context}>{component}</App>
-    );
-  },
 
+    if (component === undefined) {
+      return component;
+    }
+
+    return render(
+      <MuiThemeProvider muiTheme={muiTheme}>
+        <App context={context}>{component}</App>
+      </MuiThemeProvider>
+    );
+  }
 };

@@ -29,6 +29,8 @@ export default {
     const { data } = await resp.json();
     if (!data || !data.news) throw new Error('Failed to load the news feed.');
     */
-    return <Calculator />;
+    return (
+      <Calculator />
+    );
   }
 };

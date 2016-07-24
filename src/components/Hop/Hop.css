@@ -1,0 +1,34 @@
+.hop {
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 8px;
+}
+
+.expandAdditions {
+  padding-top: 10px;
+}
+
+.hopName {
+  padding-top: 10px;
+}
+
+.alpha {
+  width: 40% !important;
+}
+
+.addRemoveHop {
+  padding-top: 10px;
+
+  svg {
+    margin-left: 12px;
+  }
+}
+
+.detailLabel {
+  font-size: 10px;
+  color: #666;
+}
+
+.hopDetail {
+  padding-top: 5%;
+}

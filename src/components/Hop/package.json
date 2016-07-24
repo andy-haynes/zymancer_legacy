@@ -1,0 +1,6 @@
+{
+  "name": "Hop",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Hop.js"
+}

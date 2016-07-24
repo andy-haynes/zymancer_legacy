@@ -21,6 +21,9 @@ import {
   windowScrollX,
   windowScrollY,
 } from './core/DOMUtils';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
 
 const context = {
   store: null,

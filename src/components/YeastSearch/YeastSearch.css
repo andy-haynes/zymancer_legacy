@@ -1,0 +1,23 @@
+.yeastSearch {
+}
+
+.searchInput {
+  padding-top: 18px;
+}
+
+.searchResults {
+  position: absolute;
+  top: 58px;
+  width: 46%;
+  z-index: 1000;
+  background-color: white;
+}
+
+.resultsHeader {
+  background-color: #444;
+  color: white;
+
+  span {
+    padding: 4px 0 4px 5%;
+  }
+}

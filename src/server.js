@@ -88,9 +88,7 @@ app.get('/login/google/return',
   }
 );
 
-//
-// Register API middleware
-// -----------------------------------------------------------------------------
+/* Register API middleware */
 app.use('/graphql', expressGraphQL(req => ({
   schema,
   graphiql: true,
@@ -98,9 +96,7 @@ app.use('/graphql', expressGraphQL(req => ({
   pretty: process.env.NODE_ENV !== 'production',
 })));
 
-//
-// Register server-side rendering middleware
-// -----------------------------------------------------------------------------
+/* Register server-side rendering middleware */
 app.get('*', async (req, res, next) => {
   try {
     let css = [];
@@ -125,7 +121,7 @@ app.get('*', async (req, res, next) => {
           styles.forEach(style => css.push(style._getCss())); // eslint-disable-line no-underscore-dangle, max-len
         },
         setTitle: value => (data.title = value),
-        setMeta: (key, value) => (data[key] = value),
+        setMeta: (key, value) => (data[key] = value)
       },
       render(component, status = 200) {
         css = [];
@@ -146,9 +142,7 @@ app.get('*', async (req, res, next) => {
   }
 });
 
-//
-// Error handling
-// -----------------------------------------------------------------------------
+/* Error handling */
 const pe = new PrettyError();
 pe.skipNodeFiles();
 pe.skipPackage('express');
@@ -169,9 +163,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   res.send(`<!doctype html>${html}`);
 });
 
-//
-// Launch the server
-// -----------------------------------------------------------------------------
+/* Launch the server */
 /* eslint-disable no-console */
 models.sync().catch(err => console.error(err.stack)).then(() => {
   app.listen(port, () => {

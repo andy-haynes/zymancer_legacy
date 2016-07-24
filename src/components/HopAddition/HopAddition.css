@@ -1,0 +1,25 @@
+.hopAddition {
+  border-radius: 4px;
+  padding: 3px 6px;
+  margin-top: 8px;
+}
+
+.additionMinutes {
+}
+
+.additionWeight {
+  padding-top: 8px;
+}
+
+.removeAddition {
+  padding-top: 22px;
+}
+
+.detailLabel {
+  font-size: 10px;
+  color: #666;
+}
+
+.additionDetail {
+  padding-top: 20%;
+}

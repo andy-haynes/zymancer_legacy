@@ -1,0 +1,6 @@
+{
+  "name": "Ratio",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Ratio.js"
+}
