@@ -60,7 +60,7 @@ class App extends Component {
     return (
       <Provider store={this.props.context.store}>
         <div>
-          <Header />
+          <Header userLoggedIn={this.props.context.userLoggedIn} />
           {this.props.children}
           <Feedback />
           <Footer />

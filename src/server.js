@@ -117,6 +117,7 @@ app.get('*', async (req, res, next) => {
       query: req.query,
       context: {
         store,
+        userLoggedIn: typeof req.user !== 'undefined',
         insertCss: (...styles) => {
           styles.forEach(style => css.push(style._getCss())); // eslint-disable-line no-underscore-dangle, max-len
         },

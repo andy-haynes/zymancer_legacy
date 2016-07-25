@@ -13,21 +13,33 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../Link';
 
-function Navigation({ className }) {
+function Navigation({ className, userLoggedIn }) {
+  const accountLink = userLoggedIn ? (
+      <span>
+        <Link className={s.link} to="/account">Account</Link>
+        <span className={s.spacer}>|</span>
+        <Link className={s.link} to="/logout">Log out</Link>
+      </span>
+  ) : (<Link className={s.link} to="/login">Log in</Link>);
+
   return (
     <div className={cx(s.root, className)} role="navigation">
-      <Link className={s.link} to="/about">About</Link>
+      <Link className={s.link} to="/">Calculator</Link>
+      <span className={s.spacer}>|</span>
+      <Link className={s.link} to="/recipes">Recipes</Link>
+      <span className={s.spacer}>|</span>
+      <Link className={s.link} to="/equipment">Equipment</Link>
+      <span className={s.spacer}>|</span>
+      {accountLink}
+      <span className={s.spacer}>|</span>
       <Link className={s.link} to="/contact">Contact</Link>
-      <span className={s.spacer}> | </span>
-      <Link className={s.link} to="/login">Log in</Link>
-      <span className={s.spacer}>or</span>
-      <Link className={cx(s.link, s.highlight)} to="/register">Sign up</Link>
     </div>
   );
 }
 
 Navigation.propTypes = {
   className: PropTypes.string,
+  userLoggedIn: PropTypes.bool
 };
 
 export default withStyles(s)(Navigation);
