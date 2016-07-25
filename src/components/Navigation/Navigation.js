@@ -30,9 +30,9 @@ function Navigation({ className, userLoggedIn }) {
       <span className={s.spacer}>|</span>
       <Link className={s.link} to="/equipment">Equipment</Link>
       <span className={s.spacer}>|</span>
-      {accountLink}
-      <span className={s.spacer}>|</span>
       <Link className={s.link} to="/contact">Contact</Link>
+      <span className={s.spacer}>|</span>
+      {accountLink}
     </div>
   );
 }

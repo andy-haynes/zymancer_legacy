@@ -20,7 +20,6 @@ function Header({ userLoggedIn }) {
       <div className={s.container}>
         <Navigation className={s.nav} userLoggedIn={userLoggedIn} />
         <Link className={s.brand} to="/">
-          <img src={logoUrl} width="38" height="38" alt="React" />
           <span className={s.brandTxt}>Zymancer</span>
         </Link>
       </div>
