@@ -48,14 +48,13 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//
-// Authentication
-// -----------------------------------------------------------------------------
+//region authentication
 app.use(expressJwt({
   secret: auth.jwt.secret,
   credentialsRequired: false,
   getToken: req => req.cookies.id_token,
 }));
+
 app.use(passport.initialize());
 
 const expirationSeconds = 60 * 60 * 24 * 180; // 180 days
@@ -88,6 +87,13 @@ app.get('/login/google/return',
   }
 );
 
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.clearCookie('id_token');
+  res.redirect('/');
+});
+//endregion
+
 /* Register API middleware */
 app.use('/graphql', expressGraphQL(req => ({
   schema,
@@ -106,11 +112,6 @@ app.get('*', async (req, res, next) => {
     const store = configureStore({}, {
       cookie: req.headers.cookie,
     });
-
-    store.dispatch(setRuntimeVariable({
-      name: 'initialNow',
-      value: Date.now(),
-    }));
 
     await UniversalRouter.resolve(routes, {
       path: req.path,
@@ -131,7 +132,7 @@ app.get('*', async (req, res, next) => {
         data.style = css.join('');
         data.state = store.getState();
         return true;
-      },
+      }
     });
 
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
