@@ -20,7 +20,7 @@ function Header({ userLoggedIn }) {
       <div className={s.container}>
         <Navigation className={s.nav} userLoggedIn={userLoggedIn} />
         <Link className={s.brand} to="/">
-          <span className={s.brandTxt}>Zymancer</span>
+          <span className={s.brandTxt}>ᚨᛚᚢ Zymancer</span>
         </Link>
       </div>
     </div>
