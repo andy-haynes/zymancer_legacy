@@ -29,7 +29,7 @@ export default {
     error
   ],
   async action({ next, render, context }) {
-    const muiTheme = getMuiTheme({userAgent: 'all'});
+    const muiTheme = getMuiTheme();
     const component = await next();
 
     if (component === undefined) {
