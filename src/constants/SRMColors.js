@@ -1,5 +1,5 @@
 const SRMColors = {
-  0:	'#FFFFFF',
+  0:	'#FFFBEE',
   1:	'#FFE699',
   2:	'#FFD878',
   3:	'#FFCA5A',
