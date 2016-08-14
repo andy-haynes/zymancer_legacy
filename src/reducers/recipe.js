@@ -18,6 +18,7 @@ import {
   SetGrainGravity,
   SetGrainLovibond,
 // recipe
+  ImportRecipe,
   SetRecipeName,
   SetBoilTime,
   SetBoilVolume,
@@ -121,6 +122,8 @@ const recipe = (state = initialState, action) => {
   const updateRecipe = (changed) => Object.assign({}, state, recalculate(state, changed));
 
   switch (action.type) {
+    case ImportRecipe:
+      return updateRecipe(action.recipe);
     case SetRecipeName:
       return Object.assign({}, state, { recipeName: action.name });
     case SetTargetVolume:

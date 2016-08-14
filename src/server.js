@@ -30,6 +30,8 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import { port, auth } from './config';
+import { importRecipe } from './actions';
+import exampleRecipe from './constants/ExampleRecipe';
 
 const app = express();
 
@@ -110,8 +112,11 @@ app.get('*', async (req, res, next) => {
     const data = { title: '', description: '', style: '', script: assets.main.js, children: '' };
 
     const store = configureStore({}, {
-      cookie: req.headers.cookie,
+      cookie: req.headers.cookie
     });
+
+    // set initial recipe
+    store.dispatch(importRecipe(exampleRecipe));
 
     await UniversalRouter.resolve(routes, {
       path: req.path,
