@@ -3,7 +3,7 @@ import RecipeContainer from '../../containers/RecipeContainer';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Calculator.css';
 
-function Calculator({}, context) {
+function Calculator(props, context) {
   return (
     <div className={s.calculator}>
       <RecipeContainer />

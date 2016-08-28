@@ -1,3 +1,4 @@
+//region imports
 import {
 // hops
   AddHop,
@@ -74,6 +75,7 @@ import mashSchedule from './mashSchedule';
 import hopSearch from './hopSearch';
 import measurement from './measurement';
 import _ from 'lodash'
+//endregion
 
 const initialState = {
   recipeName: 'My Awesome Mixed Beer #6',

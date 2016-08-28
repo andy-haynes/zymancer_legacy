@@ -118,12 +118,14 @@ app.get('*', async (req, res, next) => {
     // set initial recipe
     store.dispatch(importRecipe(exampleRecipe));
 
+    const userLoggedIn = typeof req.user !== 'undefined';
     await UniversalRouter.resolve(routes, {
       path: req.path,
+      user: req.user,
       query: req.query,
       context: {
         store,
-        userLoggedIn: typeof req.user !== 'undefined',
+        userLoggedIn,
         insertCss: (...styles) => {
           styles.forEach(style => css.push(style._getCss())); // eslint-disable-line no-underscore-dangle, max-len
         },
