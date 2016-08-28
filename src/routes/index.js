@@ -19,12 +19,14 @@ import content from './content';
 import error from './error';
 import calculator from './calculator';
 import recipes from './recipes';
+import equipment from './equipment';
 
 export default {
   path: '/',
   children: [
     calculator,
     recipes,
+    equipment,
     contact,
     login,
     content,
