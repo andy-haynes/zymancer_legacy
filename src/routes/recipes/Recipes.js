@@ -1,19 +1,15 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Recipes.css';
+import SavedRecipesContainer from '../../containers/SavedRecipesContainer';
 
 function Recipes(props, context) {
   context.setTitle('Saved Recipes');
   return (
     <div className={s.recipes}>
-      recipes!
+      Saved Recipes
       <div>
-        {props.recipes.map(recipe => (
-          <div>
-            <span>{recipe.name}</span>
-            <span>{recipe.style}</span>
-          </div>
-        ))}
+        <SavedRecipesContainer recipes={props.recipes} />
       </div>
     </div>
   );

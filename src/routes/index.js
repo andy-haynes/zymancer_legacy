@@ -18,11 +18,13 @@ import login from './login';
 import content from './content';
 import error from './error';
 import calculator from './calculator';
+import recipes from './recipes';
 
 export default {
   path: '/',
   children: [
     calculator,
+    recipes,
     contact,
     login,
     content,
