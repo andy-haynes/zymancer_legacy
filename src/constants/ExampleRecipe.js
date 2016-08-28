@@ -6,30 +6,10 @@ import fermentation from '../reducers/fermentation';
 import yeastSearch from '../reducers/yeastSearch';
 import grainSearch from '../reducers/grainSearch';
 
-const initialState = {
-  recipeName: 'My Awesome Mixed Beer #6',
-  originalGravity: 1.0,
-  finalGravity: 1.0,
-  IBU: 0,
-  ABV: 0,
-  targetVolume: DefaultTargetVolume,
-  boilVolume: DefaultBoilVolume,
-  boilMinutes: DefaultBoilMinutes,
-  efficiency: DefaultEfficiencyPercentage,
-  grains: [],
-  grainSearch: grainSearch(undefined, {}),
-  hops: [],
-  hopSearch: hopSearch(undefined, {}),
-  mashSchedule: mashSchedule(undefined, {}),
-  fermentation: fermentation(undefined, {}),
-  yeastSearch: yeastSearch(undefined, {})
-};
-
-//const recipe = Object.assign({}, initialState, {
+//https://www.brewtoad.com/recipes/berts-imperial-stout
 const recipe = {
-  recipeName: 'bisghetti',
-  targetVolume: DefaultTargetVolume,
-  boilVolume: DefaultBoilVolume,
+  recipeName: "Bert's Imperial Stout",
+  targetVolume: { value: 5.5, unit: Gallon },
   boilMinutes: DefaultBoilMinutes,
   efficiency: DefaultEfficiencyPercentage,
   mashSchedule: Object.assign({}, mashSchedule(undefined, {}), {
@@ -38,9 +18,11 @@ const recipe = {
   }),
   grains: [
     { id: 1, name: '2-Row Brewers Malt Briess', gravity: 1.037, lovibond: 1, weight: { value: 14, unit: Pound } },
-    { id: 2, name: 'Invert Sugar', gravity: 1.050, lovibond: 0, weight: { value: 1.5, unit: Pound } },
-    { id: 3, name: 'Flaked Barley', gravity: 1.011, lovibond: 1, weight: { value: 1, unit: Pound } },
-    { id: 4, name: 'Black Malt', gravity: 1.028, lovibond: 550, weight: { value: 0.75, unit: Pound } }
+    { id: 2, name: 'Invert Sugar', gravity: 1.046, lovibond: 0, weight: { value: 1.5, unit: Pound } },
+    { id: 3, name: 'Flaked Barley', gravity: 1.032, lovibond: 1, weight: { value: 1, unit: Pound } },
+    { id: 4, name: 'Flaked Wheat', gravity: 1.034, lovibond: 2, weight: { value: 1, unit: Pound } },
+    { id: 5, name: 'Black Malt', gravity: 1.030, lovibond: 550, weight: { value: 0.75, unit: Pound } },
+    { id: 6, name: 'Chocolate Malt', gravity: 1.032, lovibond: 475, weight: { value: 0.25, unit: Pound } }
   ],
   hops: [
     { id: 1, name: 'Columbus', alpha: 15.4, categories: ["Earthy","Citrus","Spicy"], additions: [
