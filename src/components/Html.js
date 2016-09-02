@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { analytics } from '../config';
 
-function Html({ title, description, style, script, children }) {
+function Html({ title, description, style, script, children, state }) {
   return (
     <html className="no-js" lang="">
       <head>
@@ -11,11 +11,18 @@ function Html({ title, description, style, script, children }) {
         <meta name="description" content={description} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/pure-min.css" />
         <style id="css" dangerouslySetInnerHTML={{ __html: style }} />
       </head>
       <body>
         <div id="app" dangerouslySetInnerHTML={{ __html: children }} />
-        {script && <script src={script} />}
+        {script && (
+          <script
+            id="source"
+            src={script}
+            data-initial-state={JSON.stringify(state)}
+          />
+        )}
         {analytics.google.trackingId &&
           <script
             dangerouslySetInnerHTML={{ __html:
@@ -37,6 +44,7 @@ Html.propTypes = {
   style: PropTypes.string.isRequired,
   script: PropTypes.string,
   children: PropTypes.string,
+  state: PropTypes.object.isRequired,
 };
 
 export default Html;

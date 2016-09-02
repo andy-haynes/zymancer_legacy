@@ -1,0 +1,13 @@
+.sliderInput {
+  height: 60px;
+}
+
+.slider {
+  width: 92% !important;
+}
+
+.input {
+  width: 35px !important;
+  position: relative;
+  top: 8px;
+}

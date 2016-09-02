@@ -1,0 +1,23 @@
+.hopSearch {
+}
+
+.searchInput {
+  padding-top: 18px;
+}
+
+.searchResults {
+  position: absolute;
+  top: 58px;
+  width: 45%;
+  z-index: 1000;
+  background-color: white;
+}
+
+.resultsHeader {
+  background-color: #444;
+  color: white;
+}
+
+.resultsHeader span {
+  padding: 4px 0 4px 5%;
+}

@@ -1,0 +1,26 @@
+.grain {
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 8px;
+}
+
+.grainName {
+  padding: 10px 0 0 10px;
+}
+
+.gravityInput {
+  width: 40% !important;
+}
+
+.lovibondInput {
+  width: 40% !important;
+}
+
+.removeGrain {
+  padding-top: 10px;
+}
+
+.grainColor {
+  width: 100%;
+  height: 100%;
+}

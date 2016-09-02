@@ -13,6 +13,7 @@ import FastClick from 'fastclick';
 import UniversalRouter from 'universal-router';
 import routes from './routes';
 import history from './core/history';
+import configureStore from './store/configureStore';
 import { readState, saveState } from 'history/lib/DOMStateStorage';
 import {
   addEventListener,
@@ -20,8 +21,12 @@ import {
   windowScrollX,
   windowScrollY,
 } from './core/DOMUtils';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
 
 const context = {
+  store: null,
   insertCss: (...styles) => {
     const removeCss = styles.map(style => style._insertCss()); // eslint-disable-line no-underscore-dangle, max-len
     return () => {
@@ -89,10 +94,17 @@ function render(container, state, component) {
 
 function run() {
   const container = document.getElementById('app');
+  const initialState = JSON.parse(
+    document.
+      getElementById('source').
+      getAttribute('data-initial-state')
+  );
   let currentLocation = history.getCurrentLocation();
 
   // Make taps on links and buttons work fast on mobiles
   FastClick.attach(document.body);
+
+  context.store = configureStore(initialState, {});
 
   // Re-render the app when window.location changes
   function onLocationChange(location) {

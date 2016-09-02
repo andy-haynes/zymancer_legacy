@@ -1,0 +1,12 @@
+.measurement {
+
+}
+
+.measurementValue {
+  position: relative;
+  bottom: 4px;
+}
+
+.measurementUnit {
+  width: 50px;
+}

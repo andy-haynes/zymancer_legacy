@@ -1,0 +1,6 @@
+{
+  "name": "Grain",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./Grain.js"
+}

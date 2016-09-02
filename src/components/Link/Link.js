@@ -22,7 +22,7 @@ class Link extends Component { // eslint-disable-line react/prefer-stateless-fun
 
   static propTypes = {
     to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
-    onClick: PropTypes.func,
+    onClick: PropTypes.func
   };
 
   handleClick = (event) => {
@@ -56,7 +56,8 @@ class Link extends Component { // eslint-disable-line react/prefer-stateless-fun
 
   render() {
     const { to, ...props } = this.props; // eslint-disable-line no-use-before-define
-    return <a href={history.createHref(to)} {...props} onClick={this.handleClick} />;
+    const active = history.getCurrentLocation().pathname === to;
+    return <a data-active={active} href={history.createHref(to)} {...props} onClick={this.handleClick} />;
   }
 
 }

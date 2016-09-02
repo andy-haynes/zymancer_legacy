@@ -15,12 +15,67 @@
 
 import passport from 'passport';
 import { Strategy as FacebookStrategy } from 'passport-facebook';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import { User, UserLogin, UserClaim, UserProfile } from '../data/models';
 import { auth as config } from '../config';
 
-/**
- * Sign in with Facebook.
- */
+/* Google */
+const GOOGLE_CLIENT_ID = '889109937568-psa87ru4vja43i7ti5valdooe43i6h3c.apps.googleusercontent.com';
+const GOOGLE_CLIENT_SECRET = 'abb7mKH4Cph5lVQMNqO7gg9D';
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: '/login/google/return'
+  }, (accessToken, refreshToken, profile, done) => {
+    /* eslint-disable no-underscore-dangle */
+    const email = profile.emails[0].value;
+    const loginName = 'google';
+    const claimType = 'urn:google:access_token';
+
+    const getOrCreate = async () => {
+      const users = await User.findAll({
+        attributes: ['id', 'email'],
+        where: { '$logins.name$': loginName, '$logins.key$': profile.id },
+        include: [{
+          attributes: ['name', 'key'],
+          model: UserLogin,
+          as: 'logins',
+          required: true
+        }]
+      });
+
+      if (users.length) {
+        done(null, users[0]);
+      } else {
+        let user = await User.findOne({ where: { email: email } });
+        if (user) {
+          // There is already an account using this email address
+          done(null);
+        } else {
+          user = await User.create({
+            email,
+            emailVerified: true,
+            logins: [{ name: loginName, key: profile.id }],
+            claims: [{ type: claimType, value: accessToken }],
+            displayName: profile.displayName
+          }, {
+            include: [
+              { model: UserLogin, as: 'logins' },
+              { model: UserClaim, as: 'claims' }
+            ]
+          });
+
+          done(null, { id: user.id, email });
+        }
+      }
+    };
+
+    getOrCreate().catch(done);
+  }
+));
+
+/* Facebook */
+/*
 passport.use(new FacebookStrategy({
   clientID: config.facebook.id,
   clientSecret: config.facebook.secret,
@@ -28,7 +83,7 @@ passport.use(new FacebookStrategy({
   profileFields: ['name', 'email', 'link', 'locale', 'timezone'],
   passReqToCallback: true,
 }, (req, accessToken, refreshToken, profile, done) => {
-  /* eslint-disable no-underscore-dangle */
+  * eslint-disable no-underscore-dangle *
   const loginName = 'facebook';
   const claimType = 'urn:facebook:access_token';
   const fooBar = async () => {
@@ -122,5 +177,6 @@ passport.use(new FacebookStrategy({
 
   fooBar().catch(done);
 }));
+*/
 
 export default passport;

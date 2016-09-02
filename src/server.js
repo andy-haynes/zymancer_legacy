@@ -27,7 +27,11 @@ import models from './data/models';
 import schema from './data/schema';
 import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
+import configureStore from './store/configureStore';
+import { setRuntimeVariable } from './actions/runtime';
 import { port, auth } from './config';
+import { importRecipe } from './actions';
+import exampleRecipe from './constants/ExampleRecipe';
 
 const app = express();
 
@@ -46,32 +50,53 @@ app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//
-// Authentication
-// -----------------------------------------------------------------------------
+//region authentication
 app.use(expressJwt({
   secret: auth.jwt.secret,
   credentialsRequired: false,
   getToken: req => req.cookies.id_token,
 }));
+
 app.use(passport.initialize());
 
+const expirationSeconds = 60 * 60 * 24 * 180; // 180 days
+/*
 app.get('/login/facebook',
   passport.authenticate('facebook', { scope: ['email', 'user_location'], session: false })
 );
 app.get('/login/facebook/return',
   passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
   (req, res) => {
-    const expiresIn = 60 * 60 * 24 * 180; // 180 days
+    const expiresIn = expirationSeconds;
     const token = jwt.sign(req.user, auth.jwt.secret, { expiresIn });
     res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
     res.redirect('/');
   }
 );
+*/
 
-//
-// Register API middleware
-// -----------------------------------------------------------------------------
+app.get('/login/google',
+  passport.authenticate('google', { scope: ['email'], session: false })
+);
+app.get('/login/google/return',
+  passport.authenticate('google', { failureRedirect: '/login', session: false }),
+  (req, res) => {
+    const expiresIn = expirationSeconds;
+    // needs to be stringified else the xtend call in jwt.sign will create circular ref from user obj
+    const token = jwt.sign(JSON.stringify(req.user), auth.jwt.secret);
+    res.cookie('id_token', token, { maxAge: 1000 * expiresIn, httpOnly: true });
+    res.redirect('/');
+  }
+);
+
+app.get('/logout', (req, res) => {
+  req.logout();
+  res.clearCookie('id_token');
+  res.redirect('/');
+});
+//endregion
+
+/* Register API middleware */
 app.use('/graphql', expressGraphQL(req => ({
   schema,
   graphiql: true,
@@ -79,32 +104,42 @@ app.use('/graphql', expressGraphQL(req => ({
   pretty: process.env.NODE_ENV !== 'production',
 })));
 
-//
-// Register server-side rendering middleware
-// -----------------------------------------------------------------------------
+/* Register server-side rendering middleware */
 app.get('*', async (req, res, next) => {
   try {
     let css = [];
     let statusCode = 200;
     const data = { title: '', description: '', style: '', script: assets.main.js, children: '' };
 
+    const store = configureStore({}, {
+      cookie: req.headers.cookie
+    });
+
+    // set initial recipe
+    store.dispatch(importRecipe(exampleRecipe));
+
+    const userLoggedIn = typeof req.user !== 'undefined';
     await UniversalRouter.resolve(routes, {
       path: req.path,
+      user: req.user,
       query: req.query,
       context: {
+        store,
+        userLoggedIn,
         insertCss: (...styles) => {
           styles.forEach(style => css.push(style._getCss())); // eslint-disable-line no-underscore-dangle, max-len
         },
         setTitle: value => (data.title = value),
-        setMeta: (key, value) => (data[key] = value),
+        setMeta: (key, value) => (data[key] = value)
       },
       render(component, status = 200) {
         css = [];
         statusCode = status;
         data.children = ReactDOM.renderToString(component);
         data.style = css.join('');
+        data.state = store.getState();
         return true;
-      },
+      }
     });
 
     const html = ReactDOM.renderToStaticMarkup(<Html {...data} />);
@@ -116,9 +151,7 @@ app.get('*', async (req, res, next) => {
   }
 });
 
-//
-// Error handling
-// -----------------------------------------------------------------------------
+/* Error handling */
 const pe = new PrettyError();
 pe.skipNodeFiles();
 pe.skipPackage('express');
@@ -139,9 +172,7 @@ app.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   res.send(`<!doctype html>${html}`);
 });
 
-//
-// Launch the server
-// -----------------------------------------------------------------------------
+/* Launch the server */
 /* eslint-disable no-console */
 models.sync().catch(err => console.error(err.stack)).then(() => {
   app.listen(port, () => {

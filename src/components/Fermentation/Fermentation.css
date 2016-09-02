@@ -1,0 +1,20 @@
+.fermentation {
+  padding: 4px 8px;
+}
+
+.fermentationLabel {
+  padding: 20% 0 0 5%;
+  text-align: center;
+}
+
+.fermentationControl {
+  margin: 0 8px 8px 0;
+  padding: 6px 2px;
+}
+
+.pitchUnits {
+  font-size: 11px;
+  text-align: left;
+  position: relative;
+  top: 16px;
+}
