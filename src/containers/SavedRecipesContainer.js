@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Recipe from '../components/Recipe';
+import SavedRecipes from '../components/SavedRecipes';
 import { importRecipe } from '../actions';
 
 const mapStateToProps = (state) => ({
@@ -8,13 +8,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadRecipe: (id) => dispatch(importRecipe(id))
+    loadRecipe: (recipe) => dispatch(importRecipe(recipe))
   };
 };
 
 const SavedRecipesContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Recipe);
+)(SavedRecipes);
 
 export default SavedRecipesContainer;

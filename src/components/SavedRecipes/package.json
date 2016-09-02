@@ -1,0 +1,6 @@
+{
+  "name": "SavedRecipes",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./SavedRecipes.js"
+}

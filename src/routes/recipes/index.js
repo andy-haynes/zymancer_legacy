@@ -27,13 +27,7 @@ const fetchRecipes = async (query, dataField) => {
 
 export default {
   path: '/recipes',
-  async action({ user }) {
-    if (user) {
-      const query = `{recipes(userId:${user.id}){id,name,style}}`;
-      const recipes = await fetchRecipes(query, 'recipes');
-      return <Recipes recipes={recipes}/>;
-    } else {
-      return <div>Log in to see your recipes</div>;
-    }
+  async action() {
+    return <Recipes />;
   }
 };

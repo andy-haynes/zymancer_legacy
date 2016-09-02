@@ -8,7 +8,9 @@ import grainSearch from '../reducers/grainSearch';
 
 //https://www.brewtoad.com/recipes/berts-imperial-stout
 const recipe = {
+  id: 1,
   recipeName: "Bert's Imperial Stout",
+  style: "Imperial Stout",
   targetVolume: { value: 5.5, unit: Gallon },
   boilMinutes: DefaultBoilMinutes,
   efficiency: DefaultEfficiencyPercentage,

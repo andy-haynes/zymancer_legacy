@@ -111,12 +111,9 @@ app.get('*', async (req, res, next) => {
     let statusCode = 200;
     const data = { title: '', description: '', style: '', script: assets.main.js, children: '' };
 
-    const store = configureStore({}, {
+    const store = configureStore({ savedRecipes: [exampleRecipe] }, {
       cookie: req.headers.cookie
     });
-
-    // set initial recipe
-    store.dispatch(importRecipe(exampleRecipe));
 
     const userLoggedIn = typeof req.user !== 'undefined';
     await UniversalRouter.resolve(routes, {

@@ -9,7 +9,7 @@ function Recipes(props, context) {
     <div className={s.recipes}>
       Saved Recipes
       <div>
-        <SavedRecipesContainer recipes={props.recipes} />
+        <SavedRecipesContainer />
       </div>
     </div>
   );
