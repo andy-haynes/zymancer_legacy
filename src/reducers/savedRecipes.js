@@ -2,11 +2,11 @@ import {
   ImportRecipe
 } from '../constants/RecipeActionTypes';
 
-const fermentation = (state = [], action) => {
+const savedRecipes = (state = [], action) => {
   switch (action.type) {
     default:
       return state;
   }
 };
 
-export default fermentation;
+export default savedRecipes;
