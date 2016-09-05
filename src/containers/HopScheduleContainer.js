@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition, setHopAlpha } from '../actions';
+import { removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition, setHopAlpha, setHopBeta } from '../actions';
 import HopSchedule from '../components/HopSchedule';
 
 const mapStateToProps = (state) => ({
@@ -21,7 +21,9 @@ const mapDispatchToProps = (dispatch) => {
     removeAddition: (addition, hop) =>
       dispatch(removeAddition(addition, hop)),
     setAlpha: (hop, originalGravity, boilVolume, alpha) =>
-      dispatch(setHopAlpha(hop, originalGravity, boilVolume, alpha))
+      dispatch(setHopAlpha(hop, originalGravity, boilVolume, alpha)),
+    setBeta: (hop, originalGravity, boilVolume, beta) =>
+      dispatch(setHopBeta(hop, originalGravity, boilVolume, beta))
   };
 };
 

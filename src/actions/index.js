@@ -15,6 +15,7 @@ import {
   SetHopAdditionWeight,
   RemoveHopAddition,
   SetHopAlpha,
+  SetHopBeta,
   FilterHops,
   ClearHopSearch,
   // mash
@@ -90,6 +91,7 @@ export const setAdditionTime = createAction(SetHopAdditionTime, ['addition', 'ho
 export const setAdditionWeight = createAction(SetHopAdditionWeight, ['addition', 'hop', 'measurement']);
 export const removeAddition = createAction(RemoveHopAddition, ['addition', 'hop']);
 export const setHopAlpha = createAction(SetHopAlpha, ['hop', 'alpha']);
+export const setHopBeta = createAction(SetHopBeta, ['hop', 'beta']);
 export const filterHops = createAction(FilterHops, ['query']);
 export const clearHopSearch = createAction(ClearHopSearch);
 

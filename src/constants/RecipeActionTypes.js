@@ -11,6 +11,7 @@ export const SetGrainLovibond = 'SetGrainLovibond';
 export const AddHop = 'AddHop';
 export const RemoveHop = 'RemoveHop';
 export const SetHopAlpha = 'SetHopAlpha';
+export const SetHopBeta = 'SetHopBeta';
 export const AddHopAddition = 'AddHopAddition';
 export const SetHopAdditionTime = 'SetHopAdditionTime';
 export const SetHopAdditionWeight = 'SetHopAdditionWeight';

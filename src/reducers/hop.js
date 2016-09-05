@@ -1,6 +1,7 @@
 import {
   AddHop,
   SetHopAlpha,
+  SetHopBeta,
   AddHopAddition,
   SetHopAdditionTime,
   SetHopAdditionWeight,
@@ -24,6 +25,8 @@ const hop = (state = {}, action) => {
       };
     case SetHopAlpha:
       return Object.assign({}, state, { alpha: action.alpha });
+    case SetHopBeta:
+      return Object.assign({}, state, { beta: action.beta });
     case AddHopAddition:
       return Object.assign({}, state, { additions: state.additions.concat(hopAddition(undefined, action)) });
     case RemoveHopAddition:

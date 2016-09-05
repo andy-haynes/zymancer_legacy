@@ -4,6 +4,7 @@ import {
   AddHop,
   RemoveHop,
   SetHopAlpha,
+  SetHopBeta,
   AddHopAddition,
   RemoveHopAddition,
   SetHopAdditionTime,
@@ -139,6 +140,7 @@ const recipe = (state = initialState, action) => {
     case RemoveHop:
       return updateRecipe({ hops: state.hops.filter(h => h.id !== action.hop.id) });
     case SetHopAlpha:
+    case SetHopBeta:
     case AddHopAddition:
     case RemoveHopAddition:
     case SetHopAdditionTime:

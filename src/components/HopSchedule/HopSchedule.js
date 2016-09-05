@@ -3,7 +3,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Hop from '../Hop';
 import s from './HopSchedule.css';
 
-const HopSchedule = ({ hops, originalGravity, boilVolume, setAlpha, removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition }) => (
+const HopSchedule = ({ hops, originalGravity, boilVolume, setAlpha, setBeta, removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition }) => (
   <div className={s.hopSchedule}>
     {hops.map(hop => (
       <Hop
@@ -12,6 +12,7 @@ const HopSchedule = ({ hops, originalGravity, boilVolume, setAlpha, removeHop, a
         originalGravity={originalGravity}
         boilVolume={boilVolume}
         setAlpha={setAlpha}
+        setBeta={setBeta}
         removeHop={() => removeHop(hop)}
         addAddition={() => addAddition(hop)}
         setAdditionTime={setAdditionTime}

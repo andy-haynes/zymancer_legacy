@@ -12,15 +12,15 @@ import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 
-const Hop = ({ hop, originalGravity, boilVolume, setAlpha, removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition }) => (
+const Hop = ({ hop, originalGravity, boilVolume, setAlpha, setBeta, removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition }) => (
   <Paper className={s.hop} zDepth={1}>
     <div className="pure-g">
-      <div className="pure-u-2-24">
+      <div className="pure-u-1-24">
         <div className={s.expandAdditions}>
           <NavigationExpandLess />
         </div>
       </div>
-      <div className="pure-u-9-24">
+      <div className="pure-u-8-24">
         <div className={s.hopName}>
           {hop.name}
         </div>
@@ -29,12 +29,21 @@ const Hop = ({ hop, originalGravity, boilVolume, setAlpha, removeHop, addAdditio
         α &nbsp;
         <TextField
           id="hop-alpha"
-          className={s.alpha}
+          className={s.hopInput}
           value={hop.alpha}
           onChange={e => setAlpha(hop, e.target.value)}
         />
       </div>
-      <div className="pure-u-6-24">
+      <div className="pure-u-4-24">
+        β &nbsp;
+        <TextField
+          id="hop-beta"
+          className={s.hopInput}
+          value={hop.beta}
+          onChange={e => setBeta(hop, e.target.value)}
+        />
+      </div>
+      <div className="pure-u-4-24">
         <div className="pure-g">
           <div className="pure-u-1-2">
             <div className={s.hopDetail}>
