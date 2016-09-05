@@ -1,3 +1,10 @@
 .grainBill {
   padding: 8px;
 }
+
+.grainHeaders {
+  border-top: 1px solid #bbb;
+  border-bottom: 1px solid #bbb;
+  font-size: 14px;
+  color: #777;
+}
