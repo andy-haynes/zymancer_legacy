@@ -33,7 +33,11 @@ export default {
     error
   ],
   async action({ next, render, context }) {
-    const muiTheme = getMuiTheme();
+    const muiTheme = getMuiTheme({
+      tabs: { backgroundColor: '#777' },
+      inkBar: { backgroundColor: '#0cf' }
+    });
+    
     const component = await next();
 
     if (component === undefined) {
