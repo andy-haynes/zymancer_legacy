@@ -11,81 +11,21 @@ import MashScheduleContainer from '../../containers/MashScheduleContainer';
 import FermentationContainer from '../../containers/FermentationContainer';
 import YeastSearchContainer from '../../containers/YeastSearchContainer';
 import { RecipeVolume } from '../../constants/MeasurementUnits';
-import Measurement from '../Measurement';
-import { roundTo } from '../../utils/core';
+import RecipeHeader from '../RecipeHeader';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
-import SliderInput from '../SliderInput';
-import TextField from 'material-ui/TextField';
-import ContentSave from 'material-ui/svg-icons/content/save';
-import { grey200 } from 'material-ui/styles/colors';
 
-const RecipeTabs = ({ recipeName, originalGravity, finalGravity, targetVolume, boilVolume, boilMinutes, efficiency, hops, IBU, ABV, setRecipeName, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, exportRecipe }) => (
+const RecipeTabs = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, exportRecipe }) => (
   <div className={s.recipeTabs}>
-    <div className={s.recipeHeader}>
-      <div className="pure-g">
-        <div className="pure-u-1-24">
-          <ContentSave
-            className={s.exportRecipe}
-            color={grey200}
-            onClick={exportRecipe}
-          />
-        </div>
-        <div className="pure-u-5-24">Recipe Name</div>
-        <div className="pure-u-2-24">OG</div>
-        <div className="pure-u-2-24">FG</div>
-        <div className="pure-u-1-24">IBU</div>
-        <div className="pure-u-1-24">ABV</div>
-        <div className="pure-u-3-24">Target Volume</div>
-        <div className="pure-u-3-24">Boil Volume</div>
-        <div className="pure-u-2-24">Boil Time</div>
-        <div className="pure-u-4-24">Efficiency</div>
-      </div>
-    </div>
-    <div className="pure-g">
-      <div className="pure-u-1-24"></div>
-      <div className="pure-u-5-24">
-        <TextField id="recipe-name" value={recipeName} onChange={e => setRecipeName(e.target.value)} />
-      </div>
-      <div className="pure-u-2-24">
-        <div className={s.calculatedValue}>
-          {originalGravity}
-        </div>
-      </div>
-      <div className="pure-u-2-24">
-        <div className={s.calculatedValue}>
-          {finalGravity}
-        </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.calculatedValue}>
-          {roundTo(IBU, 1)}
-        </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.calculatedValue}>
-          {ABV}%
-        </div>
-      </div>
-      <div className="pure-u-3-24">
-        <Measurement measurement={targetVolume} update={setTargetVolume} options={RecipeVolume} />
-      </div>
-      <div className="pure-u-3-24">
-        <Measurement measurement={boilVolume} update={setBoilVolume} options={RecipeVolume} />
-      </div>
-      <div className="pure-u-2-24">
-        <TextField
-          id="boil-minutes"
-          className={s.recipeInput}
-          value={boilMinutes}
-          onChange={e => setBoilTime(e.target.value)}
-          style={{width: "40px"}}
-        />
-      </div>
-      <div className="pure-u-4-24">
-        <SliderInput value={efficiency} min={25} max={95} update={setEfficiency} />
-      </div>
-    </div>
+    <RecipeHeader
+      recipe={recipe}
+      setRecipeName={setRecipeName}
+      setTargetVolume={setTargetVolume}
+      setBoilVolume={setBoilVolume}
+      setBoilTime={setBoilTime}
+      setEfficiency={setEfficiency}
+      exportRecipe={exportRecipe}
+    />
     <Tabs>
       <Tab className={s.recipeTab} label="Grains">
         <div className="pure-g">
@@ -108,7 +48,7 @@ const RecipeTabs = ({ recipeName, originalGravity, finalGravity, targetVolume, b
           <div className="pure-u-1-2">
             <HopSearchContainer />
             <div className={s.hopChart}>
-              {hops.length ? <HopChart /> : ''}
+              {recipe.hops.length ? <HopChart /> : ''}
             </div>
           </div>
         </div>

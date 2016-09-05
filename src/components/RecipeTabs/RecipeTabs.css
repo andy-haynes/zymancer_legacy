@@ -5,38 +5,10 @@
   background-color: #444 !important;
 }
 
-.efficiencySlider {
-  width: 100px;
-  display: inline-block;
-}
-
-.recipeInput {
-  width: 35px;
-  display: inline-block;
-}
-
 .grainChart {
   padding: 8% 0 0 18%;
 }
 
 .hopChart {
   padding: 8% 0 0 18%;
-}
-
-svg {
-  cursor: pointer;
-}
-
-.recipeHeader {
-  background-color: #444;
-  color: white;
-/*
-  span {
-    padding: 4px 0 4px 5%;
-  }
-  */
-}
-
-.calculatedValue {
-  padding-top: 14px;
 }

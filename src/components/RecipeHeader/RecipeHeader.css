@@ -1,0 +1,26 @@
+.recipeHeader {
+}
+
+.headers {
+  background-color: #444;
+  color: white;
+}
+
+.efficiencySlider {
+  width: 100px;
+  display: inline-block;
+}
+
+.recipeInput {
+  width: 35px;
+  display: inline-block;
+}
+
+
+svg {
+  cursor: pointer;
+}
+
+.calculatedValue {
+  padding-top: 14px;
+}
