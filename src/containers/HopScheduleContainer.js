@@ -10,20 +10,13 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    removeHop: (hopId) =>
-      dispatch(removeHop(hopId)),
-    addAddition: (hop, originalGravity, boilVolume) =>
-      dispatch(addAddition(hop, originalGravity, boilVolume)),
-    setAdditionTime: (addition, hop, originalGravity, boilVolume, minutes) =>
-      dispatch(setAdditionTime(addition, hop, originalGravity, boilVolume, minutes)),
-    setAdditionWeight: (addition, hop, originalGravity, boilVolume, weight) =>
-      dispatch(setAdditionWeight(addition, hop, originalGravity, boilVolume, weight)),
-    removeAddition: (addition, hop) =>
-      dispatch(removeAddition(addition, hop)),
-    setAlpha: (hop, originalGravity, boilVolume, alpha) =>
-      dispatch(setHopAlpha(hop, originalGravity, boilVolume, alpha)),
-    setBeta: (hop, originalGravity, boilVolume, beta) =>
-      dispatch(setHopBeta(hop, originalGravity, boilVolume, beta))
+    removeHop: (hop) => dispatch(removeHop(hop)),
+    addAddition: (hop) => dispatch(addAddition(hop)),
+    setAdditionTime: (addition, hop, minutes) => dispatch(setAdditionTime(addition, hop, minutes)),
+    setAdditionWeight: (addition, hop, weight) => dispatch(setAdditionWeight(addition, hop, weight)),
+    removeAddition: (addition, hop) => dispatch(removeAddition(addition, hop)),
+    setAlpha: (hop, alpha) => dispatch(setHopAlpha(hop, alpha)),
+    setBeta: (hop, beta) => dispatch(setHopBeta(hop, beta))
   };
 };
 

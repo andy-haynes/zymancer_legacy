@@ -10,8 +10,8 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    addHop: (hop, originalGravity, boilVolume) => {
-      dispatch(addHop(hop, originalGravity, boilVolume));
+    addHop: (hop) => {
+      dispatch(addHop(hop));
       dispatch(clearHopSearch());
     },
     filterHops: (query) => {
