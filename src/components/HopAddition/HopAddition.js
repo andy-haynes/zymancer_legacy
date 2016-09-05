@@ -19,7 +19,7 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTi
             value={addition.minutes}
             min={0}
             max={60}
-            update={setAdditionTime.bind(null, addition, hop)}
+            update={(minutes) => setAdditionTime(addition, hop, minutes)}
           />
         </div>
       </div>
@@ -27,7 +27,7 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTi
         <div className={s.additionWeight}>
           <Measurement
             measurement={addition.weight}
-            update={setAdditionWeight.bind(null, addition, hop)}
+            update={(weight) => setAdditionWeight(addition, hop, weight)}
             options={HopAdditionWeight}
           />
         </div>
