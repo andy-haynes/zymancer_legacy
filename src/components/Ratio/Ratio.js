@@ -24,7 +24,7 @@ const Ratio = ({ ratio, antecedentOptions, consequentOptions, update }) => (
       ))}
     </SelectField>
     &nbsp;&nbsp;
-    <span style={{position: 'relative', top: '6px', fontSize: '32px', fontWeight: '100'}}>/</span>
+    <span style={{position: 'relative', top: '4px', fontSize: '28px', fontWeight: '100', color: '#bbb'}}>/</span>
     &nbsp;&nbsp;
     <SelectField
       className={s.ratioUnit}
