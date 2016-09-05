@@ -11,7 +11,7 @@ import Paper from 'material-ui/Paper';
 import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-circle-outline';
 
 const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTime, setAdditionWeight, removeAddition }) => (
-  <Paper className={s.hopAddition} zDepth={1}>
+  <Paper className={s.hopAddition} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-12-24">
         <div className={s.additionMinutes}>

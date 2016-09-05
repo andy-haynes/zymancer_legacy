@@ -28,7 +28,7 @@ const MashSchedule = ({
   <div className={s.mashSchedule}>
     <div className="pure-g">
       <div className="pure-u-1-2">
-        <Paper className={s.mashControl} zDepth={1}>
+        <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
             <div className="pure-u-1-6">
               <div className={s.mashLabel}>
@@ -48,7 +48,7 @@ const MashSchedule = ({
             </div>
           </div>
         </Paper>
-        <Paper className={s.mashControl} zDepth={1}>
+        <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
             <div className="pure-u-1-4">
               <div className={s.mashLabel}>
@@ -73,7 +73,7 @@ const MashSchedule = ({
             </div>
           </div>
         </Paper>
-        <Paper className={s.mashControl} zDepth={1}>
+        <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
             <div className="pure-u-1-4">
               <div className={s.mashLabel}>
@@ -98,7 +98,7 @@ const MashSchedule = ({
             </div>
           </div>
         </Paper>
-        <Paper className={s.mashControl} zDepth={1}>
+        <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
             <div className="pure-u-1-4">
               <div className={s.mashLabel}>
@@ -125,7 +125,7 @@ const MashSchedule = ({
         </Paper>
       </div>
       <div className="pure-u-1-2">
-        <Paper className={s.mashControl} zDepth={1}>
+        <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
             <div className="pure-u-4-24">
               <div className={s.mashLabel}>
@@ -137,7 +137,7 @@ const MashSchedule = ({
             </div>
           </div>
         </Paper>
-        <Paper className={s.mashControl} zDepth={1}>
+        <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
             <div className="pure-u-6-24">
               <div className={s.mashLabel}>
@@ -160,7 +160,7 @@ const MashSchedule = ({
             </div>
           </div>
         </Paper>
-        <Paper className={s.mashControl} zDepth={1}>
+        <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
             <div className="pure-u-6-24">
               <div className={s.mashLabel}>

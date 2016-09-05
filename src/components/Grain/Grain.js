@@ -9,7 +9,7 @@ import Paper from 'material-ui/Paper';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 
 const Grain = ({ grain, targetVolume, removeGrain, setWeight, setGravity, setLovibond }) => (
-  <Paper className={s.grain} zDepth={1}>
+  <Paper className={s.grain} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-1-24">
         <div className={s.grainColor} style={{backgroundColor: calculateGrainRGB(targetVolume, grain)}}></div>

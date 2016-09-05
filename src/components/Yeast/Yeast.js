@@ -16,7 +16,7 @@ import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 
 const Yeast = ({ yeast, removeYeast, setMfgDate, setAttenuation, setViability, setQuantity, addStarterStep, removeStarterStep }) => (
-  <Paper className={s.yeast} zDepth={1}>
+  <Paper className={s.yeast} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-18-24">
         <span className={s.yeastName}>{yeast.name}</span>

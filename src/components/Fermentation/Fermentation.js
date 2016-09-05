@@ -13,7 +13,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setP
       <div className="pure-u-1-2">
         <div className="pure-g">
           <div className="pure-u-1-2">
-            <Paper className={s.fermentationControl} zDepth={1}>
+            <Paper className={s.fermentationControl} zDepth={2}>
               <div className="pure-g">
                 <div className="pure-u-5-8">
                   Cell Count
@@ -27,7 +27,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setP
             </Paper>
           </div>
           <div className="pure-u-1-2">
-            <Paper className={s.fermentationControl} zDepth={1}>
+            <Paper className={s.fermentationControl} zDepth={2}>
               <div className="pure-g">
                 <div className="pure-u-5-8">
                   Recommended
@@ -43,7 +43,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setP
         </div>
         <div className="pure-g">
           <div className="pure-u-1-1">
-            <Paper className={s.fermentationControl} zDepth={1}>
+            <Paper className={s.fermentationControl} zDepth={2}>
               <div className="pure-g">
                 <div className="pure-u-4-24">
                   <div className={s.fermentationLabel}>

@@ -10,7 +10,7 @@ import RemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import ImportExport from 'material-ui/svg-icons/communication/import-export';
 
 const Recipe = ({ recipe, loadRecipe }) => (
-  <Paper className={s.recipe} zDepth={1}>
+  <Paper className={s.recipe} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-1-24">
       </div>

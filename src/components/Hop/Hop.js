@@ -13,7 +13,7 @@ import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 
 const Hop = ({ hop, originalGravity, boilVolume, setAlpha, setBeta, removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition }) => (
-  <Paper className={s.hop} zDepth={1}>
+  <Paper className={s.hop} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-1-24">
         <div className={s.expandAdditions}>
