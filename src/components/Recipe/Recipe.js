@@ -12,29 +12,49 @@ import ImportExport from 'material-ui/svg-icons/communication/import-export';
 const Recipe = ({ recipe, loadRecipe }) => (
   <Paper className={s.recipe} zDepth={2}>
     <div className="pure-g">
-      <div className="pure-u-1-24">
-      </div>
-      <div className="pure-u-9-24">
+      <div className="pure-u-1-24"></div>
+      <div className="pure-u-10-24">
         <div className={s.recipeName}>
           {recipe.recipeName}
         </div>
       </div>
-      <div className="pure-u-4-24">
-        {recipe.style}
+      <div className="pure-u-3-24">
+        <span className={s.recipeLabel}>OG</span>
+        <div className={s.recipeValue}>{recipe.originalGravity}</div>
       </div>
-      <div className="pure-u-4-24">
+      <div className="pure-u-3-24">
+        <span className={s.recipeLabel}>IBU</span>
+        <div className={s.recipeValue}>{recipe.IBU}</div>
+      </div>
+      <div className="pure-u-1-24">
         <ImportExport className={s.recipeAction} onClick={loadRecipe} />
-      </div>
-      <div className="pure-u-5-24">
       </div>
       <div className="pure-u-1-24">
         <RemoveCircle className={s.recipeAction} />
       </div>
     </div>
+    <div className="pure-g">
+      <div className="pure-u-1-24"></div>
+      <div className="pure-u-10-24">
+        <div className={s.recipeStyle}>
+          {recipe.style}
+        </div>
+      </div>
+      <div className="pure-u-3-24">
+        <span className={s.recipeLabel}>FG</span>
+        <div className={s.recipeValue}>{recipe.finalGravity}</div>
+      </div>
+      <div className="pure-u-3-24">
+        <span className={s.recipeLabel}>ABV</span>
+        <div className={s.recipeValue}>{recipe.ABV}%</div>
+      </div>
+    </div>
   </Paper>
 );
+
 /*
 Recipe.propTypes = {
 };
 */
+
 export default withStyles(s)(Recipe);

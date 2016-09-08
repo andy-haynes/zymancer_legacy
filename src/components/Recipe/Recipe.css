@@ -6,8 +6,35 @@
 
 .recipeName {
   padding: 10px 0 0 10px;
+  border-bottom: 1px solid #ccc;
+}
+
+.recipeStyle {
+  padding: 10px 12px;
+  color: #888;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
 }
 
 .recipeAction {
   padding-top: 10px;
+}
+
+.recipeLabel {
+  color: #888;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  margin-right: 6px;
+}
+
+.recipeValue {
+  color: #333;
+  font-size: 13px;
+  display: inline-block;
+}
+
+svg {
+  cursor: pointer;
 }
