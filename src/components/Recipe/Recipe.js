@@ -6,6 +6,7 @@ import { GrainWeight } from '../../constants/MeasurementUnits';
 import { calculateGrainRGB, calculateSRM } from '../../utils/BrewMath';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
+import Link from '../Link';
 import RemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import ImportExport from 'material-ui/svg-icons/communication/import-export';
 
@@ -27,7 +28,9 @@ const Recipe = ({ recipe, loadRecipe }) => (
         <div className={s.recipeValue}>{recipe.IBU}</div>
       </div>
       <div className="pure-u-1-24">
-        <ImportExport className={s.recipeAction} onClick={loadRecipe} />
+        <Link to="/">
+          <ImportExport className={s.recipeAction} onClick={loadRecipe} />
+        </Link>
       </div>
       <div className="pure-u-1-24">
         <RemoveCircle className={s.recipeAction} />

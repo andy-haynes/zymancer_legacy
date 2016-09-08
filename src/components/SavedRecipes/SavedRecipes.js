@@ -9,13 +9,15 @@ const SavedRecipes = ({ recipes, loadRecipe }) => (
       <Recipe
         key={recipe.id}
         recipe={recipe}
-        loadSavedRecipe={() => loadRecipe(recipe)}
+        loadRecipe={() => loadRecipe(recipe)}
       />
     ))}
   </div>
 );
+
 /*
 SavedRecipes.propTypes = {
 };
 */
+
 export default withStyles(s)(SavedRecipes);
