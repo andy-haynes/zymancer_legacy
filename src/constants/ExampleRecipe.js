@@ -12,6 +12,10 @@ const recipe = {
   recipeName: "Bert's Imperial Stout",
   style: "Imperial Stout",
   targetVolume: { value: 5.5, unit: Gallon },
+  originalGravity: 1.065,
+  finalGravity: 1.012,
+  ABV: 6,
+  IBU: 32.3,
   boilMinutes: DefaultBoilMinutes,
   efficiency: DefaultEfficiencyPercentage,
   mashSchedule: Object.assign({}, mashSchedule(undefined, {}), {
@@ -27,11 +31,11 @@ const recipe = {
     { id: 6, name: 'Chocolate Malt', gravity: 1.032, lovibond: 475, weight: { value: 0.25, unit: Pound } }
   ],
   hops: [
-    { id: 1, name: 'Columbus', alpha: 15.4, categories: ["Earthy","Citrus","Spicy"], additions: [
+    { id: 1, name: 'Columbus', alpha: 15.4, beta: 5.1, categories: ["Earthy","Citrus","Spicy"], additions: [
       { id: 1, minutes: 60, weight: { value: 1, unit: Ounce } }
     ]
     },
-    { id: 2, name: 'Cascade', alpha: 6.6, categories: ["Floral","Citrus","Spicy"], additions: [
+    { id: 2, name: 'Cascade', alpha: 6.6, beta: 4.3, categories: ["Floral","Citrus","Spicy"], additions: [
       { id: 2, minutes: 30, weight: { value: 1.5, unit: Ounce } },
       { id: 3, minutes: 20, weight: { value: 1.5, unit: Ounce } },
       { id: 4, minutes: 10, weight: { value: 1, unit: Ounce } }
