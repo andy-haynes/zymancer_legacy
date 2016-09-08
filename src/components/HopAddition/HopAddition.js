@@ -13,7 +13,7 @@ import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-cir
 const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTime, setAdditionWeight, removeAddition }) => (
   <Paper className={s.hopAddition} zDepth={2}>
     <div className="pure-g">
-      <div className="pure-u-12-24">
+      <div className="pure-u-11-24">
         <div className={s.additionMinutes}>
           <SliderInput
             value={addition.minutes}
@@ -23,7 +23,10 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTi
           />
         </div>
       </div>
-      <div className="pure-u-6-24">
+      <div className="pure-u-2-24">
+        <div className={s.minuteLabel}>Min</div>
+      </div>
+      <div className="pure-u-5-24">
         <div className={s.additionWeight}>
           <Measurement
             measurement={addition.weight}
