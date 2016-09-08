@@ -14,55 +14,57 @@ import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 
 const Hop = ({ hop, originalGravity, boilVolume, setAlpha, setBeta, removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition }) => (
   <Paper className={s.hop} zDepth={2}>
-    <div className="pure-g">
-      <div className="pure-u-1-24">
-        <div className={s.expandAdditions}>
-          <NavigationExpandLess />
-        </div>
-      </div>
-      <div className="pure-u-8-24">
-        <div className={s.hopName}>
-          {hop.name}
-        </div>
-      </div>
-      <div className="pure-u-4-24">
-        α &nbsp;
-        <TextField
-          id="hop-alpha"
-          className={s.hopInput}
-          value={hop.alpha}
-          onChange={e => setAlpha(hop, e.target.value)}
-        />
-      </div>
-      <div className="pure-u-4-24">
-        β &nbsp;
-        <TextField
-          id="hop-beta"
-          className={s.hopInput}
-          value={hop.beta}
-          onChange={e => setBeta(hop, e.target.value)}
-        />
-      </div>
-      <div className="pure-u-4-24">
-        <div className="pure-g">
-          <div className="pure-u-1-2">
-            <div className={s.hopDetail}>
-              <div className={s.detailLabel}>IBU</div>
-              {roundTo(calculateTotalIBU(boilVolume, originalGravity, [hop]), 1)}
-            </div>
-          </div>
-          <div className="pure-u-1-2">
-            <div className={s.hopDetail}>
-              <div className={s.detailLabel}>Util</div>
-              {roundTo(calculateTotalUtilization(hop.additions, originalGravity), 2)}
-            </div>
+    <div className={s.hopDetailRow}>
+      <div className="pure-g">
+        <div className="pure-u-1-24">
+          <div className={s.expandAdditions}>
+            <NavigationExpandLess />
           </div>
         </div>
-      </div>
-      <div className="pure-u-3-24">
-        <div className={s.addRemoveHop}>
-          <ContentAddCircle className={s.addAddition} onClick={addAddition} />
-          <ContentRemoveCircle className={s.removeHop} onClick={removeHop} />
+        <div className="pure-u-8-24">
+          <div className={s.hopName}>
+            {hop.name}
+          </div>
+        </div>
+        <div className="pure-u-4-24">
+          α &nbsp;
+          <TextField
+            id="hop-alpha"
+            className={s.hopInput}
+            value={hop.alpha}
+            onChange={e => setAlpha(hop, e.target.value)}
+          />
+        </div>
+        <div className="pure-u-4-24">
+          β &nbsp;
+          <TextField
+            id="hop-beta"
+            className={s.hopInput}
+            value={hop.beta}
+            onChange={e => setBeta(hop, e.target.value)}
+          />
+        </div>
+        <div className="pure-u-4-24">
+          <div className="pure-g">
+            <div className="pure-u-1-2">
+              <div className={s.hopDetail}>
+                <div className={s.detailLabel}>IBU</div>
+                {roundTo(calculateTotalIBU(boilVolume, originalGravity, [hop]), 1)}
+              </div>
+            </div>
+            <div className="pure-u-1-2">
+              <div className={s.hopDetail}>
+                <div className={s.detailLabel}>Util</div>
+                {roundTo(calculateTotalUtilization(hop.additions, originalGravity), 2)}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="pure-u-3-24">
+          <div className={s.addRemoveHop}>
+            <ContentAddCircle className={s.addAddition} onClick={addAddition} />
+            <ContentRemoveCircle className={s.removeHop} onClick={removeHop} />
+          </div>
         </div>
       </div>
     </div>
