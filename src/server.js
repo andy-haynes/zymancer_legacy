@@ -30,7 +30,7 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { setRuntimeVariable } from './actions/runtime';
 import { port, auth } from './config';
-import { importRecipe } from './actions';
+import { importRecipe } from './actions/calculator';
 import exampleRecipe from './constants/ExampleRecipe';
 
 const app = express();

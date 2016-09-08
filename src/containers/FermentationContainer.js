@@ -8,7 +8,7 @@ import {
   setYeastQuantity,
   addStarterStep,
   removeStarterStep
-} from '../actions';
+} from '../actions/calculator';
 import Fermentation from '../components/Fermentation';
 
 const mapStateToProps = (state) => ({ ...state.recipe.fermentation });

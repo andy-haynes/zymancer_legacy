@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addGrain, filterGrains, clearGrainSearch } from '../actions';
+import { addGrain, filterGrains, clearGrainSearch } from '../actions/calculator';
 import { SRMtoRGB } from '../utils/BrewMath';
 import GrainSearch from '../components/GrainSearch';
 

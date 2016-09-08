@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SavedRecipes from '../components/SavedRecipes';
-import { importRecipe } from '../actions';
+import { importRecipe } from '../actions/calculator';
 
 const mapStateToProps = (state) => ({
   recipes: state.savedRecipes

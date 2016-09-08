@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addYeast, filterYeast, clearYeastSearch } from '../actions';
+import { addYeast, filterYeast, clearYeastSearch } from '../actions/calculator';
 import YeastSearch from '../components/YeastSearch';
 
 const mapStateToProps = (state) => ({ ...state.recipe.yeastSearch });

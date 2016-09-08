@@ -1,5 +1,13 @@
 import { connect } from 'react-redux';
-import { removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition, setHopAlpha, setHopBeta } from '../actions';
+import {
+  removeHop,
+  addAddition,
+  setAdditionTime,
+  setAdditionWeight,
+  removeAddition,
+  setHopAlpha,
+  setHopBeta
+} from '../actions/calculator';
 import HopSchedule from '../components/HopSchedule';
 
 const mapStateToProps = (state) => ({

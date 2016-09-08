@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addHop, filterHops, clearHopSearch } from '../actions';
+import { addHop, filterHops, clearHopSearch } from '../actions/calculator';
 import HopSearch from '../components/HopSearch';
 
 const mapStateToProps = (state) => ({

@@ -1,6 +1,12 @@
 import { connect } from 'react-redux';
 import RecipeTabs from '../components/RecipeTabs';
-import { setRecipeName, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency } from '../actions';
+import {
+  setRecipeName,
+  setTargetVolume,
+  setBoilVolume,
+  setBoilTime,
+  setEfficiency
+} from '../actions/calculator';
 
 const mapStateToProps = (state) => ({ recipe: state.recipe });
 

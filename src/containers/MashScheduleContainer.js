@@ -1,5 +1,12 @@
 import { connect } from 'react-redux';
-import { setMashThickness, setBoilOff, setGrainAbsorption, setInfusionTemp, setMashoutTemp, setGrainTemp } from '../actions';
+import {
+  setMashThickness,
+  setBoilOff,
+  setGrainAbsorption,
+  setInfusionTemp,
+  setMashoutTemp,
+  setGrainTemp
+} from '../actions/calculator';
 import MashSchedule from '../components/MashSchedule'
 
 const mapStateToProps = (state) => ({ ...state.recipe.mashSchedule });
