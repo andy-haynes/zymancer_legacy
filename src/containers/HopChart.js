@@ -38,7 +38,7 @@ const getChartItems = (hops, categories) => hops.map((hop, i) => {
 });
 
 const mapStateToProps = (state) => {
-  const currentCategories = [].concat.apply([], state.recipe.hops.map(hop => hop.categories))
+  const currentCategories = [].concat.apply([], state.currentRecipe.hops.map(hop => hop.categories))
                               .filter((v, i, a) => a.indexOf(v) === i);
   return {
     redraw: true,
@@ -46,7 +46,7 @@ const mapStateToProps = (state) => {
     height: chartHeight,
     data: {
       labels: currentCategories,
-      datasets: getChartItems(state.recipe.hops, currentCategories)
+      datasets: getChartItems(state.currentRecipe.hops, currentCategories)
     }
   };
 };

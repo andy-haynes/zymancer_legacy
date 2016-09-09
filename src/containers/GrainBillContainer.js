@@ -4,8 +4,8 @@ import { SRMtoRGB, calculateSRM } from '../utils/BrewMath';
 import GrainBill from '../components/GrainBill';
 
 const mapStateToProps = (state) => ({
-  grains: state.recipe.grains,
-  targetVolume: state.recipe.targetVolume
+  grains: state.currentRecipe.grains,
+  targetVolume: state.currentRecipe.targetVolume
 });
 
 const mapDispatchToProps = (dispatch) => {

@@ -3,7 +3,7 @@ import { addGrain, filterGrains, clearGrainSearch } from '../actions/calculator'
 import { SRMtoRGB } from '../utils/BrewMath';
 import GrainSearch from '../components/GrainSearch';
 
-const mapStateToProps = (state) => ({ ...state.recipe.grainSearch });
+const mapStateToProps = (state) => ({ ...state.currentRecipe.grainSearch });
 
 const mapDispatchToProps = (dispatch) => {
   return {

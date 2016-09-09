@@ -11,7 +11,7 @@ import {
 } from '../actions/calculator';
 import Fermentation from '../components/Fermentation';
 
-const mapStateToProps = (state) => ({ ...state.recipe.fermentation });
+const mapStateToProps = (state) => ({ ...state.currentRecipe.fermentation });
 
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -9,7 +9,7 @@ import {
 } from '../actions/calculator';
 import MashSchedule from '../components/MashSchedule'
 
-const mapStateToProps = (state) => ({ ...state.recipe.mashSchedule });
+const mapStateToProps = (state) => ({ ...state.currentRecipe.mashSchedule });
 
 const mapDispatchToProps = (dispatch) => {
   return {

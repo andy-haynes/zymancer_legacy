@@ -11,9 +11,9 @@ import {
 import HopSchedule from '../components/HopSchedule';
 
 const mapStateToProps = (state) => ({
-  hops: state.recipe.hops,
-  originalGravity: state.recipe.originalGravity,
-  boilVolume: state.recipe.boilVolume
+  hops: state.currentRecipe.hops,
+  originalGravity: state.currentRecipe.originalGravity,
+  boilVolume: state.currentRecipe.boilVolume
 });
 
 const mapDispatchToProps = (dispatch) => {

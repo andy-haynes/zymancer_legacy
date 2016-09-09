@@ -8,7 +8,7 @@ import {
   setEfficiency
 } from '../actions/calculator';
 
-const mapStateToProps = (state) => ({ recipe: state.recipe });
+const mapStateToProps = (state) => ({ recipe: state.currentRecipe });
 
 const mapDispatchToProps = (dispatch) => {
   return {

@@ -9,11 +9,11 @@ const chartHeight = '350px';
 
 const mapStateToProps = (state) => {
   return {
-    data: state.recipe.grains.map(grain => ({
+    data: state.currentRecipe.grains.map(grain => ({
       key: grain.id,
       value: convertToUnit(grain.weight, Pound, 2),
       label: grain.name,
-      color: SRMtoRGB(calculateSRM(state.recipe.targetVolume, [grain]))
+      color: SRMtoRGB(calculateSRM(state.currentRecipe.targetVolume, [grain]))
     })),
     width: chartWidth,
     height: chartHeight

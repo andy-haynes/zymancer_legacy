@@ -3,9 +3,9 @@ import { addHop, filterHops, clearHopSearch } from '../actions/calculator';
 import HopSearch from '../components/HopSearch';
 
 const mapStateToProps = (state) => ({
-  originalGravity: state.recipe.originalGravity,
-  boilVolume: state.recipe.boilVolume,
-  ...state.recipe.hopSearch
+  originalGravity: state.currentRecipe.originalGravity,
+  boilVolume: state.currentRecipe.boilVolume,
+  ...state.currentRecipe.hopSearch
 });
 
 const mapDispatchToProps = (dispatch) => {
