@@ -9,7 +9,7 @@ import TextField from 'material-ui/TextField';
 import ContentSave from 'material-ui/svg-icons/content/save';
 import { grey200 } from 'material-ui/styles/colors';
 
-const RecipeHeader = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, exportRecipe }) => (
+const RecipeHeader = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, saveRecipe }) => (
   <div className={s.recipeHeader}>
     <div className={s.headers}>
       <div className="pure-g">
@@ -17,7 +17,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, s
           <ContentSave
             className={s.exportRecipe}
             color={grey200}
-            onClick={exportRecipe}
+            onClick={saveRecipe}
           />
         </div>
         <div className="pure-u-5-24">Recipe Name</div>

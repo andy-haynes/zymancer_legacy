@@ -15,7 +15,7 @@ import RecipeHeader from '../RecipeHeader';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 
-const RecipeTabs = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, exportRecipe }) => (
+const RecipeTabs = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, saveRecipe }) => (
   <div className={s.recipeTabs}>
     <RecipeHeader
       recipe={recipe}
@@ -24,7 +24,7 @@ const RecipeTabs = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, set
       setBoilVolume={setBoilVolume}
       setBoilTime={setBoilTime}
       setEfficiency={setEfficiency}
-      exportRecipe={exportRecipe}
+      saveRecipe={() => saveRecipe(recipe)}
     />
     <Tabs>
       <Tab className={s.recipeTab} label="Grains">
