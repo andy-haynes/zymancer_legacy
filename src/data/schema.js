@@ -14,7 +14,6 @@ import {
 
 import me from './queries/me';
 import content from './queries/content';
-import news from './queries/news';
 import userRecipes from './queries/userRecipes';
 
 const schema = new Schema({
@@ -23,7 +22,6 @@ const schema = new Schema({
     fields: {
       me,
       content,
-      news,
       userRecipes
     }
   })

@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 import createHelpers from './createHelpers';
-import createLogger from './logger';
 
 export default function configureStore(initialState, helpersConfig) {
   const helpers = createHelpers(helpersConfig);
@@ -11,8 +10,6 @@ export default function configureStore(initialState, helpersConfig) {
   let enhancer;
 
   if (__DEV__) {
-    //middleware.push(createLogger());
-
     // https://github.com/zalmoxisus/redux-devtools-extension#redux-devtools-extension
     let devToolsExtension = f => f;
     if (process.env.BROWSER && window.devToolsExtension) {
