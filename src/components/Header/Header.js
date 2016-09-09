@@ -11,14 +11,14 @@ import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
-import Navigation from '../Navigation';
+import NavigationContainer from '../Navigation';
 import logoUrl from './logo-small.png';
 
-function Header({ userLoggedIn }) {
+function Header() {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        <Navigation className={s.nav} userLoggedIn={userLoggedIn} />
+        <NavigationContainer />
         <Link className={s.brand} to="/">
           <span className={s.brandTxt}>ᚨᛚᚢ Zymancer</span>
         </Link>

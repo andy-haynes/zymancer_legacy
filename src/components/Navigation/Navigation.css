@@ -8,7 +8,8 @@
  */
 
 .root {
-  margin: 0;
+  float: right;
+  margin-top: 6px;
 }
 
 .link {
