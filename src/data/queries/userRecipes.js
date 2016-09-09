@@ -6,7 +6,7 @@ import {
 import RecipeType from '../types/RecipeType';
 import { Recipe } from '../models';
 
-const recipes = {
+const userRecipes = {
   type: new List(RecipeType),
   args: {
     userId: { type: new NonNull(Int) }
@@ -19,4 +19,4 @@ const recipes = {
   }
 };
 
-export default recipes;
+export default userRecipes;

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import recipe from './recipe';
 import runtime from './runtime';
-import savedRecipes from './savedRecipes';
+import recipes from './recipes';
 
 export default combineReducers({
   recipe,
-  savedRecipes,
+  recipes,
   runtime
 });

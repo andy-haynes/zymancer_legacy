@@ -111,7 +111,7 @@ app.get('*', async (req, res, next) => {
     let statusCode = 200;
     const data = { title: '', description: '', style: '', script: assets.main.js, children: '' };
 
-    const store = configureStore({ savedRecipes: [exampleRecipe] }, {
+    const store = configureStore({ }, {
       cookie: req.headers.cookie
     });
 

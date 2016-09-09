@@ -8,8 +8,10 @@ function Recipes(props, context) {
   return (
     <div className={s.recipes}>
       Saved Recipes
-      <div>
-        <SavedRecipesContainer />
+      <div className="pure-g">
+        <div className="pure-u-1-2">
+          <SavedRecipesContainer />
+        </div>
       </div>
     </div>
   );

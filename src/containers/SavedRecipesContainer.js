@@ -2,13 +2,17 @@ import { connect } from 'react-redux';
 import SavedRecipes from '../components/SavedRecipes';
 import { importRecipe } from '../actions/calculator';
 
-const mapStateToProps = (state) => ({
-  recipes: state.savedRecipes
-});
+function mapStateToProps(state) {
+  return {
+    isFetching: state.recipes.saved.isFetching,
+    recipes: state.recipes.saved.recipes
+  };
+}
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadRecipe: (recipe) => dispatch(importRecipe(recipe))
+    loadRecipe: (recipe) => dispatch(importRecipe(recipe)),
+    dispatch
   };
 };
 

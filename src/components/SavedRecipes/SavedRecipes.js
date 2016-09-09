@@ -2,18 +2,33 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SavedRecipes.css';
 import Recipe from '../Recipe';
+import { fetchSavedRecipesIfNeeded, invalidateSavedRecipes } from '../../actions/recipes';
 
-const SavedRecipes = ({ recipes, loadRecipe }) => (
-  <div className={s.savedRecipes}>
-    {recipes.map(recipe => (
-      <Recipe
-        key={recipe.id}
-        recipe={recipe}
-        loadRecipe={() => loadRecipe(recipe)}
-      />
-    ))}
-  </div>
-);
+class SavedRecipes extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    this.props.dispatch(fetchSavedRecipesIfNeeded());
+  }
+
+  render() {
+    return (
+      <div className={s.savedRecipes}>
+        {this.props.isFetching && 'looking for your objects'}
+
+        {!this.props.isFetching && this.props.recipes.map(recipe => (
+          <Recipe
+            key={recipe.id}
+            recipe={recipe}
+            loadRecipe={() => this.props.loadRecipe(recipe)}
+          />
+        ))}
+      </div>
+    );
+  }
+}
 
 /*
 SavedRecipes.propTypes = {
