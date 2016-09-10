@@ -3,6 +3,10 @@ import {
   RequestSavedRecipes,
   ReceiveSavedRecipes
 } from '../constants/ServerActionTypes';
+import {
+  SaveRecipe,
+  RecipeSaved
+} from '../constants/RecipeActionTypes';
 import fetch from '../core/fetch';
 
 export function requestSavedRecipes() {
@@ -18,6 +22,14 @@ export function receiveSavedRecipes(json) {
 
 export function invalidateSavedRecipes() {
   return { type: InvalidateSavedRecipes };
+}
+
+export function saveRecipe() {
+  return { type: SaveRecipe };
+}
+
+export function recipeSaved() {
+  return { type: RecipeSaved };
 }
 
 function fetchSavedRecipes() {
@@ -38,6 +50,7 @@ function fetchSavedRecipes() {
   };
 }
 
+// retrieve saved recipes
 function shouldFetchSavedRecipes(state) {
   const recipes = state.savedRecipes;
   if (!recipes) {
@@ -54,5 +67,22 @@ export function fetchSavedRecipesIfNeeded() {
     if (shouldFetchSavedRecipes(getState())) {
       return dispatch(fetchSavedRecipes());
     }
+  };
+}
+
+// save recipe
+export function saveCurrentRecipe(recipe) {
+  return dispatch => {
+    const query = {
+      method: 'post',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ query: `{saveRecipe(name:"${recipe.recipeName}", style:"Oyster Pils"){id,name}}` })
+    };
+
+    return fetch('/graphql', query)
+            .then(response => dispatch(recipeSaved()));
   };
 }

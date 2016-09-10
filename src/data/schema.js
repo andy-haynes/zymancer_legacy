@@ -1,28 +1,21 @@
-/**
- * React Starter Kit (https://www.reactstarterkit.com/)
- *
- * Copyright © 2014-2016 Kriasoft, LLC. All rights reserved.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE.txt file in the root directory of this source tree.
- */
-
 import {
-  GraphQLSchema as Schema,
-  GraphQLObjectType as ObjectType,
+  GraphQLSchema,
+  GraphQLObjectType
 } from 'graphql';
 
-import me from './queries/me';
-import content from './queries/content';
 import userRecipes from './queries/userRecipes';
 
-const schema = new Schema({
-  query: new ObjectType({
+import saveRecipe from './mutations/saveRecipe';
+
+// TODO: why can't I access /graphql/mutations without getting "Must provide query string"?
+const schema = new GraphQLSchema({
+  query: new GraphQLObjectType({
     name: 'Query',
     fields: {
-      me,
-      content,
-      userRecipes
+      // queries
+      userRecipes,
+      // mutations
+      saveRecipe
     }
   })
 });

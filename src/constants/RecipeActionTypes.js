@@ -30,6 +30,7 @@ export const SetGrainTemp = 'SetGrainTemp';
 // recipe actions
 export const ImportRecipe = 'ImportRecipe';
 export const SaveRecipe = 'SaveRecipe';
+export const RecipeSaved = 'RecipeSaved';
 export const SetRecipeName = 'SetRecipeName';
 export const SetBoilVolume = 'SetBoilVolume';
 export const SetTargetVolume = 'SetTargetVolume';

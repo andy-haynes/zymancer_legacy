@@ -16,7 +16,7 @@ const Recipe = ({ recipe, loadRecipe }) => (
       <div className="pure-u-1-24"></div>
       <div className="pure-u-10-24">
         <div className={s.recipeName}>
-          {recipe.recipeName}
+          {recipe.name}
         </div>
       </div>
       <div className="pure-u-3-24">

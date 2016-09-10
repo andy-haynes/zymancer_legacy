@@ -5,15 +5,17 @@ import {
   setTargetVolume,
   setBoilVolume,
   setBoilTime,
-  setEfficiency,
-  saveRecipe
+  setEfficiency
 } from '../actions/calculator';
+import {
+  saveCurrentRecipe
+} from '../actions/recipes';
 
 const mapStateToProps = (state) => ({ recipe: state.currentRecipe });
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveRecipe: (recipe) => dispatch(saveRecipe(recipe)),
+    saveRecipe: (recipe) => dispatch(saveCurrentRecipe(recipe)),
     setRecipeName: (name) => dispatch(setRecipeName(name)),
     setTargetVolume: (volume) => dispatch(setTargetVolume(volume)),
     setBoilVolume: (volume) => dispatch(setBoilVolume(volume)),
