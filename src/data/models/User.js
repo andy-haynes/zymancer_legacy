@@ -1,15 +1,14 @@
 import DataType from 'sequelize';
 import Model from '../sequelize';
 
-const User = Model.define('User', {
+const User = Model.define('Users', {
   id: {
-    type: DataType.INTEGER,
-    defaultValue: 1,
-    autoIncrement: true,
+    type: DataType.UUID,
+    defaultValue: DataType.UUIDV1,
     primaryKey: true
   },
   email: {
-    type: DataType.STRING(255),
+    type: DataType.STRING(256),
     validate: { isEmail: true }
   },
   emailConfirmed: {

@@ -18,13 +18,15 @@ class SavedRecipes extends React.Component {
       <div className={s.savedRecipes}>
         {this.props.isFetching && 'looking for your objects'}
 
-        {!this.props.isFetching && this.props.recipes.map(recipe => (
+        {!this.props.isFetching && this.props.recipes && this.props.recipes.map(recipe => (
           <Recipe
             key={recipe.id}
             recipe={recipe}
             loadRecipe={() => this.props.loadRecipe(recipe)}
           />
         ))}
+
+        {!this.props.isFetching && !this.props.recipes && `you fucked up! null? ${this.props.recipes == null} - elements? ${this.props.recipes != null && this.props.recipes.length > 0}`}
       </div>
     );
   }

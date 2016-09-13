@@ -10,8 +10,7 @@ const RecipeType = new ObjectType({
   fields: {
     userId: { type: new NonNull(Int) },
     id: { type: new NonNull(Int) },
-    name: { type: new NonNull(StringType) },
-    style: { type: new NonNull(StringType) }
+    name: { type: new NonNull(StringType) }
   }
 });
 

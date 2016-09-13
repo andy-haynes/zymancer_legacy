@@ -15,14 +15,12 @@ const recipeInputType = new GraphQLInputObjectType({
 const saveRecipe = {
   type: RecipeType,
   args: {
-    name: { type: GraphQLString },
-    style: { type: GraphQLString }
+    name: { type: GraphQLString }
   },
-  async resolve({ request }, { name, style }) {
+  async resolve({ request }, { name }) {
     return await Recipe.create({
-      userId: request.user.id,
-      name,
-      style
+      ownerId: request.user.id,
+      name
     });
   }
 };

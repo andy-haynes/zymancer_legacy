@@ -34,7 +34,7 @@ export function recipeSaved() {
 
 function fetchSavedRecipes() {
   return (dispatch, getState, helpers) => {
-    return helpers.graphqlRequest('{userRecipes{id,name,style}}')
+    return helpers.graphqlRequest('{userRecipes{id,name}}')
             .then(json => dispatch(receiveSavedRecipes(json)));
   };
 }
@@ -62,7 +62,7 @@ export function fetchSavedRecipesIfNeeded() {
 // save recipe
 export function saveCurrentRecipe(recipe) {
   return (dispatch, getState, helpers) => {
-    return helpers.graphqlRequest(`{saveRecipe(name:"${recipe.recipeName}", style:"Oyster Pils"){id,name}}`)
+    return helpers.graphqlRequest(`{saveRecipe(name:"${recipe.recipeName}"){id,name}}`)
             .then(response => dispatch(recipeSaved()));
   };
 }

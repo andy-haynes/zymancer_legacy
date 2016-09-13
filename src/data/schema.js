@@ -4,6 +4,7 @@ import {
 } from 'graphql';
 
 import userRecipes from './queries/userRecipes';
+import sharedRecipes from './queries/sharedRecipes';
 
 import saveRecipe from './mutations/saveRecipe';
 
@@ -14,6 +15,7 @@ const schema = new GraphQLSchema({
     fields: {
       // queries
       userRecipes,
+      sharedRecipes,
       // mutations
       saveRecipe
     }
