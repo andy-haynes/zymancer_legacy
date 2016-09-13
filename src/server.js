@@ -114,14 +114,11 @@ app.get('*', async (req, res, next) => {
       cookie: req.headers.cookie
     });
 
-    const userLoggedIn = typeof req.user !== 'undefined';
     await UniversalRouter.resolve(routes, {
       path: req.path,
-      user: req.user,
       query: req.query,
       context: {
         store,
-        userLoggedIn,
         insertCss: (...styles) => {
           styles.forEach(style => css.push(style._getCss())); // eslint-disable-line no-underscore-dangle, max-len
         },
