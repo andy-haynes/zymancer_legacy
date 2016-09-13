@@ -20,7 +20,7 @@ const saveRecipe = {
   },
   async resolve({ request }, { name, style }) {
     return await Recipe.create({
-      userId: 1,
+      userId: request.user.id,
       name,
       style
     });

@@ -33,19 +33,8 @@ export function recipeSaved() {
 }
 
 function fetchSavedRecipes() {
-  return dispatch => {
-    dispatch(requestSavedRecipes());
-    const recipeQuery = {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ query: `{userRecipes(userId:1){id,name,style}}` })
-    };
-
-    return fetch('/graphql', recipeQuery)
-            .then(response => response.json())
+  return (dispatch, getState, helpers) => {
+    return helpers.graphqlRequest('{userRecipes{id,name,style}}')
             .then(json => dispatch(receiveSavedRecipes(json)));
   };
 }
@@ -72,17 +61,8 @@ export function fetchSavedRecipesIfNeeded() {
 
 // save recipe
 export function saveCurrentRecipe(recipe) {
-  return dispatch => {
-    const query = {
-      method: 'post',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ query: `{saveRecipe(name:"${recipe.recipeName}", style:"Oyster Pils"){id,name}}` })
-    };
-
-    return fetch('/graphql', query)
+  return (dispatch, getState, helpers) => {
+    return helpers.graphqlRequest(`{saveRecipe(name:"${recipe.recipeName}", style:"Oyster Pils"){id,name}}`)
             .then(response => dispatch(recipeSaved()));
   };
 }
