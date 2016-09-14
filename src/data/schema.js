@@ -3,7 +3,7 @@ import {
   GraphQLObjectType
 } from 'graphql';
 
-import userRecipes from './queries/userRecipes';
+import savedRecipes from './queries/savedRecipes';
 import sharedRecipes from './queries/sharedRecipes';
 
 import saveRecipe from './mutations/saveRecipe';
@@ -14,7 +14,7 @@ const schema = new GraphQLSchema({
     name: 'Query',
     fields: {
       // queries
-      userRecipes,
+      savedRecipes,
       sharedRecipes,
       // mutations
       saveRecipe

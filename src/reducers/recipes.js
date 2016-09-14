@@ -1,14 +1,59 @@
 import {
   InvalidateSavedRecipes,
   RequestSavedRecipes,
-  ReceiveSavedRecipes
+  ReceiveSavedRecipes,
+  InvalidateSharedRecipes,
+  RequestSharedRecipes,
+  ReceiveSharedRecipes,
+  InvalidatePublicRecipes,
+  RequestPublicRecipes,
+  ReceivePublicRecipes
 } from '../constants/ServerActionTypes';
-import savedRecipes from './savedRecipes';
+import {
+  RecipeType
+} from '../constants/AppConstants';
+
+const recipeTypeMap = {
+  [RecipeType.SavedRecipes]: { invalidate: InvalidateSavedRecipes, request: RequestSavedRecipes, receive: ReceiveSavedRecipes },
+  [RecipeType.SharedRecipes]: { invalidate: InvalidateSharedRecipes, request: RequestSharedRecipes, receive: ReceiveSharedRecipes },
+  [RecipeType.PublicRecipes]: { invalidate: InvalidatePublicRecipes, request: RequestPublicRecipes, receive: ReceivePublicRecipes }
+};
+
+function createRecipeFetchReducer(recipeType) {
+  const initialState = {
+    isFetching: false,
+    didInvalidate: true,
+    recipes: []
+  };
+  const typeMap = recipeTypeMap[recipeType];
+
+  return (state = initialState, action) => {
+    switch (action.type) {
+      case typeMap.invalidate:
+        return Object.assign({}, state, {
+          didInvalidate: true
+        });
+      case typeMap.request:
+        return Object.assign({}, state, {
+          isFetching: true,
+          didInvalidate: false
+        });
+      case typeMap.receive:
+        return Object.assign({}, state, {
+          isFetching: false,
+          didInvalidate: false,
+          recipes: action.recipes
+        });
+      default:
+        return state;
+    }
+  }
+}
 
 const initialState = {
-  saved: savedRecipes(undefined, {}),
-  shared: {},
-  public: {}
+  [RecipeType.SavedRecipes]: createRecipeFetchReducer(RecipeType.SavedRecipes)(undefined, {}),
+  [RecipeType.SharedRecipes]: createRecipeFetchReducer(RecipeType.SharedRecipes)(undefined, {}),
+  [RecipeType.PublicRecipes]: createRecipeFetchReducer(RecipeType.PublicRecipes)(undefined, {})
 };
 
 function recipes(state = initialState, action) {
@@ -16,7 +61,21 @@ function recipes(state = initialState, action) {
     case InvalidateSavedRecipes:
     case RequestSavedRecipes:
     case ReceiveSavedRecipes:
-      return Object.assign({}, state, { saved: savedRecipes(state.saved, action) });
+      return Object.assign({}, state, {
+        [RecipeType.SavedRecipes]: createRecipeFetchReducer(RecipeType.SavedRecipes)(state[RecipeType.SavedRecipes], action)
+      });
+    case InvalidateSharedRecipes:
+    case RequestSharedRecipes:
+    case ReceiveSharedRecipes:
+      return Object.assign({}, state, {
+        [RecipeType.SharedRecipes]: createRecipeFetchReducer(RecipeType.SharedRecipes)(state[RecipeType.SharedRecipes], action)
+      });
+    case InvalidatePublicRecipes:
+    case RequestPublicRecipes:
+    case ReceivePublicRecipes:
+      return Object.assign({}, state, {
+        [RecipeType.PublicRecipes]: createRecipeFetchReducer(RecipeType.PublicRecipes)(state[RecipeType.PublicRecipes], action)
+      });
     default:
       return state;
   }

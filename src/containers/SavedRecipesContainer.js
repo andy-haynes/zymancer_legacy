@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
 import SavedRecipes from '../components/SavedRecipes';
 import { importRecipe } from '../actions/calculator';
+import { RecipeType } from '../constants/AppConstants';
 
 function mapStateToProps(state) {
   return {
-    isFetching: state.recipes.saved.isFetching,
-    recipes: state.recipes.saved.recipes
+    [RecipeType.SavedRecipes]: state.recipes[RecipeType.SavedRecipes],
+    [RecipeType.SharedRecipes]: state.recipes[RecipeType.SharedRecipes],
+    [RecipeType.PublicRecipes]: state.recipes[RecipeType.PublicRecipes]
   };
 }
 

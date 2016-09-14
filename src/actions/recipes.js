@@ -1,27 +1,66 @@
 import {
   InvalidateSavedRecipes,
   RequestSavedRecipes,
-  ReceiveSavedRecipes
+  ReceiveSavedRecipes,
+  InvalidateSharedRecipes,
+  RequestSharedRecipes,
+  ReceiveSharedRecipes,
+  InvalidatePublicRecipes,
+  RequestPublicRecipes,
+  ReceivePublicRecipes
 } from '../constants/ServerActionTypes';
 import {
   SaveRecipe,
   RecipeSaved
 } from '../constants/RecipeActionTypes';
+import {
+  RecipeType
+} from '../constants/AppConstants';
 import fetch from '../core/fetch';
 
 export function requestSavedRecipes() {
   return { type: RequestSavedRecipes };
 }
 
+export function requestSharedRecipes() {
+  return { type: RequestSharedRecipes };
+}
+
+export function requestPublicRecipes() {
+  return { type: RequestPublicRecipes };
+}
+
 export function receiveSavedRecipes(json) {
   return {
     type: ReceiveSavedRecipes,
-    recipes: json.data.userRecipes
+    recipes: json.data.savedRecipes
+  };
+}
+
+export function receiveSharedRecipes(json) {
+  return {
+    type: ReceiveSharedRecipes,
+    recipes: json.data.sharedRecipes
+  };
+}
+
+export function receivePublicRecipes(json) {
+  return {
+    type: ReceivePublicRecipes,
+    recipes: json.data.recipes
   };
 }
 
 export function invalidateSavedRecipes() {
   return { type: InvalidateSavedRecipes };
+}
+
+export function invalidateSharedRecipes() {
+  return { type: InvalidateSharedRecipes };
+}
+
+export function invalidatePublicRecipes() {
+  return { type: InvalidatePublicRecipes };
 }
 
 export function saveRecipe() {
@@ -32,16 +71,23 @@ export function recipeSaved() {
   return { type: RecipeSaved };
 }
 
-function fetchSavedRecipes() {
+const recipeFetchMap = {
+  [RecipeType.SavedRecipes]: { query: 'savedRecipes', action: receiveSavedRecipes },
+  [RecipeType.SharedRecipes]: { query: 'sharedRecipes', action: receiveSharedRecipes },
+  [RecipeType.PublicRecipes]: { query: 'publicRecipes', action: receivePublicRecipes },
+};
+function fetchRecipes(recipeType) {
   return (dispatch, getState, helpers) => {
-    return helpers.graphqlRequest('{userRecipes{id,name}}')
-            .then(json => dispatch(receiveSavedRecipes(json)));
+    const { query, action } = recipeFetchMap[recipeType];
+    return helpers.graphqlRequest(`{${query}{id,name}}`)
+            .then(json => dispatch(action(json)));
   };
 }
 
 // retrieve saved recipes
-function shouldFetchSavedRecipes(state) {
-  const recipes = state.savedRecipes;
+function shouldFetchRecipes(recipeType, state) {
+  const recipes = state.recipes[recipeType];
+
   if (!recipes) {
     return true;
   } else if (recipes.isFetching) {
@@ -51,10 +97,10 @@ function shouldFetchSavedRecipes(state) {
   }
 }
 
-export function fetchSavedRecipesIfNeeded() {
+export function fetchRecipesIfNeeded(recipeType) {
   return (dispatch, getState) => {
-    if (shouldFetchSavedRecipes(getState())) {
-      return dispatch(fetchSavedRecipes());
+    if (shouldFetchRecipes(recipeType, getState())) {
+      return dispatch(fetchRecipes(recipeType));
     }
   };
 }
