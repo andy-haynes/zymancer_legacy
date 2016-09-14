@@ -62,7 +62,7 @@ export function fetchSavedRecipesIfNeeded() {
 // save recipe
 export function saveCurrentRecipe(recipe) {
   return (dispatch, getState, helpers) => {
-    return helpers.graphqlRequest(`{saveRecipe(name:"${recipe.recipeName}"){id,name}}`)
+    return helpers.graphqlRequest(`{saveRecipe(name:"${recipe.name}"){id,name}}`)
             .then(response => dispatch(recipeSaved()));
   };
 }

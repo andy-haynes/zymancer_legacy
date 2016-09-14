@@ -79,7 +79,7 @@ import _ from 'lodash'
 //endregion
 
 const initialState = {
-  recipeName: 'My Awesome Mixed Beer #6',
+  name: 'My Awesome Mixed Beer #6',
   originalGravity: 1.0,
   finalGravity: 1.0,
   IBU: 0,
@@ -98,8 +98,8 @@ const initialState = {
 };
 
 const recalculate = (state, changed) => {
-  let grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV;
-  ({  grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed));
+  let name, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV;
+  ({ name, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed));
 
   const thicknessUnit = mashSchedule.thickness.consequent;
   const grainWeight = { value: _.sumBy(grains, g => convertToUnit(g.weight, thicknessUnit)), unit: thicknessUnit };
@@ -118,7 +118,7 @@ const recalculate = (state, changed) => {
   finalGravity = calculateFinalGravity(originalGravity, attenuation);
   ABV = calculateABV(originalGravity, finalGravity);
 
-  return { grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV };
+  return { name, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV };
 };
 
 const recipe = (state = initialState, action) => {
@@ -128,7 +128,7 @@ const recipe = (state = initialState, action) => {
     case ImportRecipe:
       return updateRecipe(action.recipe);
     case SetRecipeName:
-      return Object.assign({}, state, { recipeName: action.name });
+      return Object.assign({}, state, { name: action.name });
     case SetTargetVolume:
       return updateRecipe({ targetVolume: measurement(state.targetVolume, action) });
     case SetBoilVolume:

@@ -34,7 +34,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, s
     <div className="pure-g">
       <div className="pure-u-1-24"></div>
       <div className="pure-u-5-24">
-        <TextField id="recipe-name" value={recipe.recipeName} onChange={e => setRecipeName(e.target.value)} />
+        <TextField id="recipe-name" value={recipe.name} onChange={e => setRecipeName(e.target.value)} />
       </div>
       <div className="pure-u-2-24">
         <div className={s.calculatedValue}>

@@ -68,7 +68,7 @@ export function saveCurrentRecipe(recipe) {
         Accept: 'application/json',
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ query: `{saveRecipe(name:"${recipe.recipeName}", style:"Oyster Pils"){id,name}}` })
+      body: JSON.stringify({ query: `{saveRecipe(name:"${recipe.name}", style:"Oyster Pils"){id,name}}` })
     };
 
     return fetch('/graphql', query)
