@@ -47,7 +47,7 @@ export function receiveSharedRecipes(json) {
 export function receivePublicRecipes(json) {
   return {
     type: ReceivePublicRecipes,
-    recipes: json.data.recipes
+    recipes: json.data.publicRecipes
   };
 }
 
