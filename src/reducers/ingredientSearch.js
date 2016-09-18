@@ -34,6 +34,7 @@ function createIngredientSearchReducer(ingredientType) {
       case filter:
         return Object.assign({}, state, {
           query: action.query,
+          results: action.query.length ? state.results : [],
           loading: action.query.length >= MinSearchQueryLength,
           error: null
         });
