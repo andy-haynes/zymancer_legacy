@@ -13,9 +13,7 @@ import Grain from './Grain';
 import Hop from './Hop';
 import Yeast from './Yeast';
 
-import Grains from '../../constants/GrainLookup';
-import Hops from '../../constants/YCHHops';
-import Yeasts from '../../constants/Yeast_Wyeast';
+import Ingredients from '../../constants/TestIngredients';
 
 User.hasMany(UserLogin, {
   foreignKey: 'userId',
@@ -67,7 +65,7 @@ function sync(...args) {
     //return sequelize.sync(...args)
     let currentIngredientId = 0;
     return sequelize.sync(Object.assign({}, args, { force: false }));
-      /*
+    /*
             .then(() => {
               return User.findOrCreate({
                 where: {
@@ -75,12 +73,9 @@ function sync(...args) {
                   email: 'andyghaynes@gmail.com',
                   emailConfirmed: true
               }});
-            }).then(() => {
-              return Ingredient.bulkCreate(Grains.map(() => ({
-                ingredientType: 1
-              })));
-            }).then(() => {
-              return Grain.bulkCreate(Grains.map(grain => ({
+            }).then(() => Ingredient.bulkCreate(Ingredients.map(({ ingredientType }) => ({ ingredientType })))
+            ).then(() => {
+              return Grain.bulkCreate(Ingredients.filter(i => i.ingredientType === 1).map(grain => ({
                 ingredientId: ++currentIngredientId,
                 name: grain.name,
                 category: grain.category,
@@ -89,11 +84,7 @@ function sync(...args) {
                 description: grain.description
               })));
             }).then(() => {
-              return Ingredient.bulkCreate(Hops.map(() => ({
-                ingredientType: 2
-              })));
-            }).then(() => {
-              return Hop.bulkCreate(Hops.map(hop => ({
+              return Hop.bulkCreate(Ingredients.filter(i => i.ingredientType === 2).map(hop => ({
                 ingredientId: ++currentIngredientId,
                 name: hop.name,
                 aroma: hop.aroma.join(','),
@@ -110,11 +101,7 @@ function sync(...args) {
                 geraniol: hop.geraniol
               })));
             }).then(() => {
-              return Ingredient.bulkCreate(Yeasts.map(() => ({
-                ingredientType: 3
-              })));
-            }).then(() => {
-              return Yeast.bulkCreate(Yeasts.map(yeast => ({
+              return Yeast.bulkCreate(Ingredients.filter(i => i.ingredientType === 3).map(yeast => ({
                 ingredientId: ++currentIngredientId,
                 name: yeast.name,
                 code: yeast.code,

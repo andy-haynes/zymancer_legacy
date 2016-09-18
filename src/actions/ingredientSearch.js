@@ -73,12 +73,12 @@ const ingredientTypeMap = {
   [IngredientType.Hop]: {
     filter: filterHopResults,
     update: updateHopResults,
-    buildQuery: q => `{searchHops(query:"${q}"){id,name,aroma,categories,alpha,beta}}`
+    buildQuery: q => `{searchHops(query:"${q}"){id,name,url,aroma,categories,alpha,beta}}`
   },
   [IngredientType.Yeast]: {
     filter: filterYeastResults,
     update: updateYeastResults,
-    buildQuery: q => `{searchYeast(query:"${q}"){id,name,code,attenuation,description,flocculation,rangeF,rangeC,tolerance,mfg,styles}}`
+    buildQuery: q => `{searchYeast(query:"${q}"){id,name,url,code,attenuation,description,flocculation,rangeF,rangeC,tolerance,mfg,styles}}`
   }
 };
 

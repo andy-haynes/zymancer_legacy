@@ -17,7 +17,7 @@ class SavedRecipes extends React.Component {
     const buildRecipeSet = (recipeType) => {
       const { isFetching, recipes } = this.props[recipeType];
       return (
-        <FetchedItem isFetching={isFetching} load={() => this.props.dispatch(fetchRecipesIfNeeded(recipeType))}>
+        <FetchedItem isFetching={isFetching} load={() => this.props.retrieveRecipes(recipeType)}>
           {!isFetching && recipes && recipes.map(recipe => (
             <Recipe
               key={recipe.id}

@@ -1,5 +1,5 @@
 import { GraphQLList, GraphQLString } from 'graphql';
-import HopType from '../types/HopType';
+import { HopType } from '../types/IngredientTypes';
 import { Hop } from '../models';
 
 const searchHops = {
@@ -9,9 +9,9 @@ const searchHops = {
   },
   async resolve({ request }, { query }) {
     return await Hop.findAll({
-      attributes: ['id', 'name', 'categories', 'aroma', 'alpha', 'beta'],
+      attributes: Object.keys(HopType._fields),
       where: { name: { $like: `%${query}%` } }
-    })
+    });
   }
 };
 
