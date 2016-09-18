@@ -1,11 +1,13 @@
 import { connect } from 'react-redux';
-import { addHop, filterHops, clearHopSearch } from '../actions/calculator';
+import { addHop } from '../actions/calculator';
+import { queryIngredients, filterHopSearch, clearHopSearch } from '../actions/ingredientSearch';
 import HopSearch from '../components/HopSearch';
+import { IngredientType } from '../constants/AppConstants';
 
 const mapStateToProps = (state) => ({
   originalGravity: state.currentRecipe.originalGravity,
   boilVolume: state.currentRecipe.boilVolume,
-  ...state.currentRecipe.hopSearch
+  ...state.ingredientSearch[IngredientType.Hop]
 });
 
 const mapDispatchToProps = (dispatch) => {
@@ -14,9 +16,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addHop(hop));
       dispatch(clearHopSearch());
     },
-    filterHops: (query) => {
-      dispatch(filterHops(query));
-    }
+    searchHops: (query) => dispatch(queryIngredients(IngredientType.Hop, query))
   };
 };
 

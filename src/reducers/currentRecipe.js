@@ -9,11 +9,7 @@ import {
   RemoveHopAddition,
   SetHopAdditionTime,
   SetHopAdditionWeight,
-  FilterHops,
-  ClearHopSearch,
 // grains
-  FilterGrains,
-  ClearGrainSearch,
   AddGrain,
   RemoveGrain,
   SetGrainWeight,
@@ -42,10 +38,14 @@ import {
   SetYeastViability,
   SetYeastQuantity,
   AddStarterStep,
-  RemoveStarterStep,
-  FilterYeast,
+  RemoveStarterStep
+} from '../constants/RecipeActionTypes';//region imports
+import {
+  FilterHopResults,
+  ClearHopSearch,
+  FilterYeastResults,
   ClearYeastSearch
-} from '../constants/RecipeActionTypes';
+} from '../constants/SearchActionTypes';
 import {
   calculateGravity,
   calculateTotalIBU,
@@ -70,10 +70,7 @@ import {
 import grain from './grain';
 import hop from './hop';
 import fermentation from './fermentation';
-import yeastSearch from './yeastSearch';
-import grainSearch from './grainSearch';
 import mashSchedule from './mashSchedule';
-import hopSearch from './hopSearch';
 import measurement from './measurement';
 import _ from 'lodash'
 //endregion
@@ -89,12 +86,9 @@ const initialState = {
   boilMinutes: DefaultBoilMinutes,
   efficiency: DefaultEfficiencyPercentage,
   grains: [],
-  grainSearch: grainSearch(undefined, {}),
   hops: [],
-  hopSearch: hopSearch(undefined, {}),
   mashSchedule: mashSchedule(undefined, {}),
-  fermentation: fermentation(undefined, {}),
-  yeastSearch: yeastSearch(undefined, {})
+  fermentation: fermentation(undefined, {})
 };
 
 const recalculate = (state, changed) => {
@@ -154,12 +148,6 @@ const recipe = (state = initialState, action) => {
     case SetGrainGravity:
     case SetGrainLovibond:
       return updateRecipe({ grains: state.grains.map(g => g.id === action.grain.id ? grain(g, action) : g) });
-    case FilterHops:
-    case ClearHopSearch:
-      return Object.assign({}, state, { hopSearch: hopSearch(action.query, action) });
-    case FilterGrains:
-    case ClearGrainSearch:
-      return Object.assign({}, state, { grainSearch: grainSearch(state.grainSearch, action) });
     case SetMashThickness:
     case SetBoilOff:
     case SetGrainAbsorption:
@@ -177,9 +165,6 @@ const recipe = (state = initialState, action) => {
     case AddStarterStep:
     case RemoveStarterStep:
       return updateRecipe({ fermentation: fermentation(state.fermentation, action) });
-    case FilterYeast:
-    case ClearYeastSearch:
-      return Object.assign({}, state, { yeastSearch: yeastSearch(state.yeastSearch, action) });
     default:
       return state;
   }

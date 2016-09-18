@@ -3,8 +3,6 @@ export const AddGrain = 'AddGrain';
 export const RemoveGrain = 'RemoveGrain';
 export const SetGrainWeight = 'SetGrainWeight';
 export const SetGrainGravity = 'SetGrainGravity';
-export const FilterGrains = 'FilterGrains';
-export const ClearGrainSearch = 'ClearGrainSearch';
 export const SetGrainLovibond = 'SetGrainLovibond';
 
 // hop action types
@@ -16,8 +14,6 @@ export const AddHopAddition = 'AddHopAddition';
 export const SetHopAdditionTime = 'SetHopAdditionTime';
 export const SetHopAdditionWeight = 'SetHopAdditionWeight';
 export const RemoveHopAddition = 'RemoveHopAddition';
-export const FilterHops = 'FilterHops';
-export const ClearHopSearch = 'ClearSearch';
 
 // mash action types
 export const SetMashThickness = 'SetMashThickness';
@@ -47,5 +43,3 @@ export const SetYeastMfgDate = 'SetYeastMfgDate';
 export const SetYeastAttenuation = 'SetYeastAttenuation';
 export const SetYeastViability = 'SetYeastViability';
 export const SetYeastQuantity = 'SetYeastQuantity';
-export const FilterYeast = 'FilterYeast';
-export const ClearYeastSearch = 'ClearYeastSearch';

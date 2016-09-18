@@ -20,25 +20,25 @@ const recipeTypeMap = {
 };
 
 function createRecipeFetchReducer(recipeType) {
+  const { invalidate, request, receive } = recipeTypeMap[recipeType];
   const initialState = {
     isFetching: false,
     didInvalidate: true,
     recipes: []
   };
-  const typeMap = recipeTypeMap[recipeType];
 
   return (state = initialState, action) => {
     switch (action.type) {
-      case typeMap.invalidate:
+      case invalidate:
         return Object.assign({}, state, {
           didInvalidate: true
         });
-      case typeMap.request:
+      case request:
         return Object.assign({}, state, {
           isFetching: true,
           didInvalidate: false
         });
-      case typeMap.receive:
+      case receive:
         return Object.assign({}, state, {
           isFetching: false,
           didInvalidate: false,

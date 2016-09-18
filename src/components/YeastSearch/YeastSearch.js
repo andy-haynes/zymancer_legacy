@@ -4,7 +4,7 @@ import YeastSearchOption from '../YeastSearchOption';
 import s from './YeastSearch.css';
 import TextField from 'material-ui/TextField';
 
-const YeastSearch = ({ query, results, addYeast, filterYeast }) => (
+const YeastSearch = ({ query, results, loading, error, addYeast, searchYeast }) => (
   <div className={s.yeastSearch}>
     <TextField
       id="yeast-search"
@@ -12,7 +12,7 @@ const YeastSearch = ({ query, results, addYeast, filterYeast }) => (
       inputStyle={{padding: '0 8px', lineHeight: '28px', fontSize: '18px', textAlign: 'center'}}
       placeholder="Start typing to search yeast..."
       value={query}
-      onChange={e => filterYeast(e.target.value)}
+      onChange={e => searchYeast(e.target.value)}
       style={{width: '90%'}}
     />
     <div className={s.searchResults}>

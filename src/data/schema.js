@@ -6,6 +6,9 @@ import {
 import savedRecipes from './queries/savedRecipes';
 import sharedRecipes from './queries/sharedRecipes';
 import publicRecipes from './queries/publicRecipes';
+import searchGrains from './queries/searchGrains';
+import searchHops from './queries/searchHops';
+import searchYeast from './queries/searchYeast';
 
 import saveRecipe from './mutations/saveRecipe';
 
@@ -18,6 +21,9 @@ const schema = new GraphQLSchema({
       savedRecipes,
       sharedRecipes,
       publicRecipes,
+      searchGrains,
+      searchHops,
+      searchYeast,
       // mutations
       saveRecipe
     }

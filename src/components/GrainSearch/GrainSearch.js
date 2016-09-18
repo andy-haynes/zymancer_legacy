@@ -4,7 +4,7 @@ import GrainSearchOption from '../GrainSearchOption';
 import s from './GrainSearch.css';
 import TextField from 'material-ui/TextField';
 
-const GrainSearch = ({ query, results, addGrain, filterGrains }) => (
+const GrainSearch = ({ query, results, loading, error, addGrain, searchGrains }) => (
     <div className={s.grainSearch}>
       <TextField
           id="grain-search"
@@ -12,9 +12,9 @@ const GrainSearch = ({ query, results, addGrain, filterGrains }) => (
           inputStyle={{padding: '0 8px', lineHeight: '28px', fontSize: '18px', textAlign: 'center'}}
           placeholder="Start typing to search grains..."
           value={query}
-          onChange={e => filterGrains(e.target.value)}
+          onChange={e => searchGrains(e.target.value)}
           style={{width: '90%'}}
-          />
+      />
       <div className={s.searchResults}>
         {results.length === 0 ? '' : (
           <div className={s.resultsHeader}>

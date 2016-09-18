@@ -4,7 +4,7 @@ import HopSearchOption from '../HopSearchOption';
 import s from './HopSearch.css';
 import TextField from 'material-ui/TextField';
 
-const HopSearch = ({ query, results, originalGravity, boilVolume, addHop, filterHops }) => (
+const HopSearch = ({ query, results, loading, error, originalGravity, boilVolume, addHop, searchHops }) => (
   <div className={s.hopSearch}>
     <TextField
       id="hop-search"
@@ -12,7 +12,7 @@ const HopSearch = ({ query, results, originalGravity, boilVolume, addHop, filter
       inputStyle={{padding: '0 8px', lineHeight: '28px', fontSize: '18px', textAlign: 'center'}}
       placeholder="Start typing to search hops..."
       value={query}
-      onChange={e => filterHops(e.target.value)}
+      onChange={e => searchHops(e.target.value)}
       style={{width: '90%'}}
     />
     <div className={s.searchResults}>

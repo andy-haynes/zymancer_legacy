@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
-import { addYeast, filterYeast, clearYeastSearch } from '../actions/calculator';
+import { addYeast } from '../actions/calculator';
+import { queryIngredients, filterYeastResults, clearYeastSearch } from '../actions/ingredientSearch';
 import YeastSearch from '../components/YeastSearch';
+import { IngredientType } from '../constants/AppConstants';
 
-const mapStateToProps = (state) => ({ ...state.currentRecipe.yeastSearch });
+const mapStateToProps = (state) => ({ ...state.ingredientSearch[IngredientType.Yeast] });
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -10,9 +12,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addYeast(yeast));
       dispatch(clearYeastSearch());
     },
-    filterYeast: (query) => {
-      dispatch(filterYeast(query));
-    }
+    searchYeast: (query) => dispatch(queryIngredients(IngredientType.Yeast, query))
   };
 };
 

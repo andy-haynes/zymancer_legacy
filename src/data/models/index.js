@@ -9,6 +9,13 @@ import RecipeHistory from './RecipeHistory';
 import CustomIngredient from './CustomIngredient';
 import RecipeIngredient from './RecipeIngredient';
 import Ingredient from './Ingredient';
+import Grain from './Grain';
+import Hop from './Hop';
+import Yeast from './Yeast';
+
+import Grains from '../../constants/GrainLookup';
+import Hops from '../../constants/YCHHops';
+import Yeasts from '../../constants/Yeast_Wyeast';
 
 User.hasMany(UserLogin, {
   foreignKey: 'userId',
@@ -51,9 +58,16 @@ Ingredient.belongsToMany(Recipe, { through: RecipeIngredient, as: 'Recipes', for
 User.belongsToMany(Ingredient, { through: CustomIngredient, as: 'CustomIngredients', foreignKey: 'userId' });
 Ingredient.belongsToMany(User, { through: CustomIngredient, as: 'UserOverrides', foreignKey: 'ingredientId' });
 
+Grain.belongsTo(Ingredient, { as: 'Ingredient', foreignKey: 'ingredientId' });
+Hop.belongsTo(Ingredient, { as: 'Ingredient', foreignKey: 'ingredientId' });
+Yeast.belongsTo(Ingredient, { as: 'Ingredient', foreignKey: 'ingredientId' });
+
 function sync(...args) {
   if (process.env.NODE_ENV !== 'production') {
-    return sequelize.sync(...args)
+    //return sequelize.sync(...args)
+    let currentIngredientId = 0;
+    return sequelize.sync(Object.assign({}, args, { force: false }));
+      /*
             .then(() => {
               return User.findOrCreate({
                 where: {
@@ -61,11 +75,65 @@ function sync(...args) {
                   email: 'andyghaynes@gmail.com',
                   emailConfirmed: true
               }});
+            }).then(() => {
+              return Ingredient.bulkCreate(Grains.map(() => ({
+                ingredientType: 1
+              })));
+            }).then(() => {
+              return Grain.bulkCreate(Grains.map(grain => ({
+                ingredientId: ++currentIngredientId,
+                name: grain.name,
+                category: grain.category,
+                gravity: grain.gravity,
+                lovibond: grain.lovibond,
+                description: grain.description
+              })));
+            }).then(() => {
+              return Ingredient.bulkCreate(Hops.map(() => ({
+                ingredientType: 2
+              })));
+            }).then(() => {
+              return Hop.bulkCreate(Hops.map(hop => ({
+                ingredientId: ++currentIngredientId,
+                name: hop.name,
+                aroma: hop.aroma.join(','),
+                categories: hop.categories.join(','),
+                url: hop.url,
+                alpha: hop.alpha,
+                beta: hop.beta,
+                coHumulone: hop.coHumulone,
+                totalOil: hop.totalOil,
+                myrcene: hop.myrcene,
+                caryophyllene: hop.caryophyllene,
+                farnesene: hop.farnesene,
+                humulene: hop.humulene,
+                geraniol: hop.geraniol
+              })));
+            }).then(() => {
+              return Ingredient.bulkCreate(Yeasts.map(() => ({
+                ingredientType: 3
+              })));
+            }).then(() => {
+              return Yeast.bulkCreate(Yeasts.map(yeast => ({
+                ingredientId: ++currentIngredientId,
+                name: yeast.name,
+                code: yeast.code,
+                url: yeast.url,
+                description: yeast.description,
+                flocculation: yeast.flocculation,
+                rangeF: yeast.rangeF,
+                rangeC: yeast.rangeC,
+                tolerance: yeast.tolerance,
+                attenuation: yeast.attenuation,
+                mfg: yeast.mfg,
+                styles: yeast.styles.join(',')
+              })));
             });
+            */
   } else {
     return sequelize.sync(...args);
   }
 }
 
 export default { sync };
-export { User, UserLogin, UserClaim, UserProfile, Recipe, SharedRecipe };
+export { User, UserLogin, UserClaim, UserProfile, Recipe, SharedRecipe, Grain, Hop, Yeast, Ingredient };

@@ -1,9 +1,11 @@
 import { connect } from 'react-redux';
-import { addGrain, filterGrains, clearGrainSearch } from '../actions/calculator';
+import { addGrain } from '../actions/calculator';
+import { queryIngredients, clearGrainSearch } from '../actions/ingredientSearch';
 import { SRMtoRGB } from '../utils/BrewMath';
 import GrainSearch from '../components/GrainSearch';
+import { IngredientType } from '../constants/AppConstants';
 
-const mapStateToProps = (state) => ({ ...state.currentRecipe.grainSearch });
+const mapStateToProps = (state) => ({ ...state.ingredientSearch[IngredientType.Grain] });
 
 const mapDispatchToProps = (dispatch) => {
   return {
@@ -11,9 +13,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(addGrain(grain));
       dispatch(clearGrainSearch());
     },
-    filterGrains: (query) => {
-      dispatch(filterGrains(query));
-    }
+    searchGrains: (query) => dispatch(queryIngredients(IngredientType.Grain, query))
   };
 };
 

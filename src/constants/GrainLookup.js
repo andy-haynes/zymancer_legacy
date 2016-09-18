@@ -59,20 +59,20 @@ const GrainLookup = [
   { id: 56, name: "Acidulated (Sauer) Malt", category: "German", lovibond: "1.7-2.8", gravity: 1.033, description: "High lactic acid. For lambics, sour mash beers, Irish stout, pilsners and wheats." },
   { id: 57, name: "Carafa I", category: "German", lovibond: "300-340", gravity: 1.038, description: "Gives deep  aroma  and color to dark beers, bocks, stout, alt and schwarzbier." },
   { id: 58, name: "Carafa II", category: "German", lovibond: "375-450", gravity: 1.038, description: "Carafa I, II and III also are available de-husked. Adds aroma, color and body." },
-  { id: 59, name: "Carafa III", category: "German", lovibond: "490-560", gravity: 1.038, description: "" },
+  { id: 59, name: "Carafa III", category: "German", lovibond: "490-560", gravity: 1.038, description: "What part of de-husked did you not understand?" },
   { id: 60, name: "Chocolate Wheat Malt", category: "German", lovibond: "375-450", gravity: 1.038, description: "Intensifies aroma;  improves color. For dark ales, alt, dark wheat, stout and porter." },
   { id: 61, name: "Chocolate Rye Malt", category: "German", lovibond: "190-300", gravity: 1.030, description: "Enhances aroma of dark ales and improves color. For dunkel rye wheat and ale." },
   { id: 62, name: "CaraHell Malt (light crystal)", category: "German", lovibond: "8-12", gravity: 1.033, description: "For light colored beer for body; hefeweizen, pale ale, golden ale, Oktoberfest." },
   { id: 63, name: "CaraMunich Malt I", category: "German", lovibond: "30-38", gravity: 1.033, description: "Provides body. For Oktoberfest, bock, porter, stout, red, amber and brown ales." },
   { id: 64, name: "CaraMunich Malt II", category: "German", lovibond: "42-50", gravity: 1.033, description: "CaraMunich Malt III is dark crystal." },
-  { id: 65, name: "CaraMunich Malt III", category: "German", lovibond: "53-60", gravity: 1.033, description: "" },
+  { id: 65, name: "CaraMunich Malt III", category: "German", lovibond: "53-60", gravity: 1.033, description: "CaraMunich Malt III is a skexis." },
   { id: 66, name: "Light Munich Malt", category: "German", lovibond: "5-6", gravity: 1.034, description: "For a desired malty, nutty flavor.  Lagers, Oktoberfests and bock beer." },
   { id: 67, name: "Dark Munich Malt", category: "German", lovibond: "8-10", gravity: 1.034, description: "Enhances body and aroma.  Stout, schwarzbier, brown ale, dark and amber ales." },
   { id: 68, name: "Melanoidin Malt", category: "German", lovibond: "23-31", gravity: 1.033, description: "For amber lagers and ales, dark lagers and ales, Scottish & red ales." },
   { id: 69, name: "Rauch Smoked Malt", category: "German", lovibond: "2-4", gravity: 1.037, description: "For rauchbier, kellerbier, smoked porters, Scottish ales and barleywines." },
   { id: 70, name: "Rye Malt", category: "German", lovibond: "2.8-4.3", gravity: 1.029, description: "Dry character. Can use as a base malt. For seasonal beers, roggenbier and ales." },
   { id: 71, name: "Wheat Malt Light", category: "German", lovibond: "1.5-2", gravity: 1.039, description: "Typical top fermented aroma, produces superb wheat beers." },
-  { id: 72, name: "Wheat Malt Dark", category: "German", lovibond: "6-8", gravity: 1.039, description: "" },
+  { id: 72, name: "Wheat Malt Dark", category: "German", lovibond: "6-8", gravity: 1.039, description: "It's much like light wheat malt, but darker in a way" },
   { id: 73, name: "Caramel Wheat Malt", category: "German", lovibond: "38-53", gravity: 1.035, description: "For dark ales, hefeweizen, dunkelweizen, wheat bocks and double bocks." },
   { id: 74, name: "Belgian Candi Sugar (clear)", category: "Sugars", lovibond: "0.5", gravity: 1.036, description: "Smooth taste, good head retention, sweet aroma and high gravity without being apparent. Use in Belgian and holiday ales. Use clear for tripels, amber for dubbels, and dark is used in brown beer and strong golden ales." },
   { id: 75, name: "Candi Sugar (amber)", category: "Sugars", lovibond: "75", gravity: 1.036, description: "Smooth taste, good head retention, sweet aroma and high gravity without being apparent. Use in Belgian and holiday ales. Use clear for tripels, amber for dubbels, and dark is used in brown beer and strong golden ales." },
@@ -94,7 +94,7 @@ const GrainLookup = [
   { id: 91, name: "Rice Solids", category: "Sugars", lovibond: "0.01", gravity: 1.040, description: "Lightens flavor without taste. Use in American and Asian lagers." },
   { id: 92, name: "Sucrose (white table sugar)", category: "Sugars", lovibond: "NA", gravity: 1.046, description: "Increases alcohol. Use in Australian lagers and English bitters." },
   { id: 93, name: "Syrup Malt Extract", category: "Sugars", lovibond: "Varie", gravity: 1.033, description: "Extra Light (3.5°), Light (3.5 -5°), Amber (10°), Dark (30°), Wheat (2°)." },
-  { id: 94, name: "Treacle", category: "Sugars", lovibond: "100", gravity: 1.036, description: "Imparts intense, sweet flavor. A British mixture of molasses, invert sugar and golden syrup (corn syrup). Use in dark English ales." },
+  { id: 94, name: "Treacle", category: "Sugars", lovibond: "100", gravity: 1.036, description: "Imparts intense, sweet flavor. A British mixture of molasses, invert sugar and golden syrup (corn syrup). Use in dark English ales." }
 ].map(g => Object.assign({}, g, { weight: { unit: Pound, value: 1 }}));
 
 export default GrainLookup;

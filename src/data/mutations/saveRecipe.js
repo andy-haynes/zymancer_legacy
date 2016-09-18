@@ -5,12 +5,12 @@ import {
 import RecipeType from '../types/RecipeType';
 import { Recipe } from '../models';
 
-const recipeInputType = new GraphQLInputObjectType({
-   name: 'recipe',
-   fields: () => ({
-     name: { type: GraphQLString }
-   })
- });
+//const recipeInputType = new GraphQLInputObjectType({
+//   name: 'recipe',
+//   fields: () => ({
+//     name: { type: GraphQLString }
+//   })
+// });
 
 const saveRecipe = {
   type: RecipeType,

@@ -1,10 +1,6 @@
 import { Gallon, Pound, Ounce, Fahrenheit } from './Units';
 import { DefaultTargetVolume, DefaultBoilVolume, DefaultBoilMinutes, DefaultEfficiencyPercentage, DefaultMashThickness } from './Defaults';
-import hopSearch from '../reducers/hopSearch';
 import mashSchedule from '../reducers/mashSchedule';
-import fermentation from '../reducers/fermentation';
-import yeastSearch from '../reducers/yeastSearch';
-import grainSearch from '../reducers/grainSearch';
 
 //https://www.brewtoad.com/recipes/berts-imperial-stout
 const recipe = {

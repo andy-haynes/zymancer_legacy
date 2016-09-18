@@ -2,7 +2,7 @@ import {
   // grains
   AddGrain,
   RemoveGrain,
-  FilterGrains,
+  FilterGrainResults,
   ClearGrainSearch,
   SetGrainWeight,
   SetGrainGravity,
@@ -16,8 +16,6 @@ import {
   RemoveHopAddition,
   SetHopAlpha,
   SetHopBeta,
-  FilterHops,
-  ClearHopSearch,
   // mash
   SetMashThickness,
   SetBoilOff,
@@ -42,9 +40,7 @@ import {
   RemoveStarterStep,
   SetYeastMfgDate,
   AddYeast,
-  RemoveYeast,
-  FilterYeast,
-  ClearYeastSearch
+  RemoveYeast
 } from '../constants/RecipeActionTypes';
 
 function createAction(type, argNames, setters) {
@@ -78,8 +74,6 @@ let yeastId = 0;
 // ***************************** grains ***************************
 export const addGrain = createAction(AddGrain, ['grain'], { grainId: () => grainId++ });
 export const removeGrain = createAction(RemoveGrain, ['grain']);
-export const filterGrains = createAction(FilterGrains, ['query']);
-export const clearGrainSearch = createAction(ClearGrainSearch);
 export const setGrainWeight = createAction(SetGrainWeight, ['grain', 'measurement']);
 export const setGrainGravity = createAction(SetGrainGravity, ['grain', 'gravity']);
 export const setGrainLovibond = createAction(SetGrainLovibond, ['grain', 'lovibond']);
@@ -93,8 +87,6 @@ export const setAdditionWeight = createAction(SetHopAdditionWeight, ['addition',
 export const removeAddition = createAction(RemoveHopAddition, ['addition', 'hop']);
 export const setHopAlpha = createAction(SetHopAlpha, ['hop', 'alpha']);
 export const setHopBeta = createAction(SetHopBeta, ['hop', 'beta']);
-export const filterHops = createAction(FilterHops, ['query']);
-export const clearHopSearch = createAction(ClearHopSearch);
 
 // ************************* mash schedule ************************
 export const setMashThickness = createAction(SetMashThickness, ['thickness']);
@@ -123,5 +115,3 @@ export const setYeastViability = createAction(SetYeastViability, ['yeast', 'viab
 export const setYeastQuantity = createAction(SetYeastQuantity, ['yeast', 'quantity']);
 export const addStarterStep = createAction(AddStarterStep, ['yeast', 'gravity', 'hours']);
 export const removeStarterStep = createAction(RemoveStarterStep, ['yeast']);
-export const filterYeast = createAction(FilterYeast, ['query']);
-export const clearYeastSearch = createAction(ClearYeastSearch);

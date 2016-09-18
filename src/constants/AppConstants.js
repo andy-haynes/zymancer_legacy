@@ -7,3 +7,15 @@ export const RecipeType = {
   SharedRecipes,
   PublicRecipes
 };
+
+const Grain = 'Grain';
+const Hop = 'Hop';
+const Yeast = 'Yeast';
+
+export const IngredientType = {
+  Grain,
+  Hop,
+  Yeast
+};
+
+export const MinSearchQueryLength = 3;
