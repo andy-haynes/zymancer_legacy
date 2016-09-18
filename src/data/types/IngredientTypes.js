@@ -10,6 +10,7 @@ const GrainType = new GraphQLObjectType({
   name: 'GrainType',
   fields: {
     id: { type: new GraphQLNonNull(GraphQLInt) },
+    ingredientId: { type: new GraphQLNonNull(GraphQLInt) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     gravity: { type: GraphQLFloat },
     lovibond: { type: GraphQLString }
@@ -20,6 +21,7 @@ const HopType = new GraphQLObjectType({
   name: 'HopType',
   fields: {
     id: { type: new GraphQLNonNull(GraphQLInt) },
+    ingredientId: { type: new GraphQLNonNull(GraphQLInt) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     url: { type: new GraphQLNonNull(GraphQLString) },
     aroma: { type: GraphQLString },
@@ -33,6 +35,7 @@ const YeastType = new GraphQLObjectType({
   name: 'YeastType',
   fields: {
     id: { type: new GraphQLNonNull(GraphQLInt) },
+    ingredientId: { type: new GraphQLNonNull(GraphQLInt) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     url: { type: new GraphQLNonNull(GraphQLString) },
     code: { type: GraphQLString },

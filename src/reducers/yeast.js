@@ -23,6 +23,7 @@ const yeast = (state = {}, action) => {
 
       return {
         id: action.yeastId,
+        ingredientId: action.yeast.ingredientId,
         name: action.yeast.name,
         code: action.yeast.code,
         mfg: action.yeast.mfg,

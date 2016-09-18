@@ -8,6 +8,7 @@ const grain = (state = {}, action) => {
     case AddGrain:
       return {
         id: action.grainId,
+        ingredientId: action.grain.ingredientId,
         name: action.grain.name,
         weight: DefaultGrainWeight,
         gravity: action.grain.gravity,

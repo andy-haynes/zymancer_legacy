@@ -27,7 +27,7 @@ const GrainBill = ({ grains, targetVolume, removeGrain, setWeight, setGravity, s
     </div>
     {grains.map(grain => (
       <Grain
-        key={grain.id}
+        key={grain.ingredientId}
         grain={grain}
         targetVolume={targetVolume}
         removeGrain={() => removeGrain(grain)}

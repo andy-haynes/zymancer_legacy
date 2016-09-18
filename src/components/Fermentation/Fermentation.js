@@ -67,7 +67,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setP
         <YeastSearchContainer />
         {yeasts.map(yeast => (
           <Yeast
-            key={yeast.id}
+            key={yeast.ingredientId}
             yeast={yeast}
             setMfgDate={(date) => setMfgDate(yeast, date)}
             setAttenuation={(attenuation) => setAttenuation(yeast, attenuation)}
