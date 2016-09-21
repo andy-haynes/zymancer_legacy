@@ -3,7 +3,6 @@ import Model from '../sequelize';
 
 const Grain = Model.define('Grains', {
   id: { type: DataType.INTEGER, primaryKey: true },
-  ingredientId: { type: DataType.INTEGER, allowNull: false },
   name: { type: DataType.STRING, allowNull: false },
   category: { type: DataType.STRING, allowNull: true },
   lovibond: { type: DataType.STRING, allowNull: true },

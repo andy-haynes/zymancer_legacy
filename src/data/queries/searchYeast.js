@@ -1,15 +1,15 @@
 import { GraphQLList, GraphQLString } from 'graphql';
-import { YeastType } from '../types/IngredientTypes';
+import { YeastSearchType } from '../types/IngredientTypes';
 import { Yeast } from '../models';
 
 const searchHops = {
-  type: new GraphQLList(YeastType),
+  type: new GraphQLList(YeastSearchType),
   args: {
     query: { type: GraphQLString }
   },
   async resolve({ request }, { query }) {
     return await Yeast.findAll({
-      attributes: Object.keys(YeastType._fields),
+      attributes: Object.keys(YeastSearchType._fields),
       where: {
         $or: [
           { name: { $like: `%${query}%` } },

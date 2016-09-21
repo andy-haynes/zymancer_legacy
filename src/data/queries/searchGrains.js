@@ -1,15 +1,15 @@
 import { GraphQLList, GraphQLString } from 'graphql';
-import { GrainType } from '../types/IngredientTypes';
+import { GrainSearchType } from '../types/IngredientTypes';
 import { Grain } from '../models';
 
 const searchGrains = {
-  type: new GraphQLList(GrainType),
+  type: new GraphQLList(GrainSearchType),
   args: {
     query: { type: GraphQLString }
   },
   async resolve({ request }, { query }) {
     return await Grain.findAll({
-      attributes: Object.keys(GrainType._fields),
+      attributes: ['id', 'name', 'gravity', 'lovibond'],
       where: { name: { $like: `%${query}%` } }
     });
   }

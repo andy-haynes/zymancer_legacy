@@ -29,7 +29,7 @@ const Recipe = ({ recipe, loadRecipe }) => (
       </div>
       <div className="pure-u-1-24">
         <Link to="/">
-          <ImportExport className={s.recipeAction} onClick={loadRecipe} />
+          <ImportExport className={s.recipeAction} onClick={() => loadRecipe(recipe.id)} />
         </Link>
       </div>
       <div className="pure-u-1-24">

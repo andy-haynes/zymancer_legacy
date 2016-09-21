@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SavedRecipes from '../components/SavedRecipes';
-import { importRecipe } from '../actions/calculator';
+import { loadSavedRecipe } from '../actions/recipes';
 import { RecipeType } from '../constants/AppConstants';
 import { fetchRecipesIfNeeded } from '../actions/recipes';
 
@@ -14,7 +14,7 @@ function mapStateToProps(state) {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadRecipe: (recipe) => dispatch(importRecipe(recipe)),
+    loadRecipe: (recipeId) => dispatch(loadSavedRecipe(recipeId)),
     retrieveRecipes: (recipeType) => dispatch(fetchRecipesIfNeeded(recipeType))
   };
 };

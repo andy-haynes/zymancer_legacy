@@ -68,17 +68,17 @@ const ingredientTypeMap = {
   [IngredientType.Grain]: {
     filter: filterGrainResults,
     update: updateGrainResults,
-    buildQuery: q => `{searchGrains(query:"${q}"){id,ingredientId,name,gravity,lovibond}}`
+    buildQuery: q => `{searchGrains(query:"${q}"){id,name,gravity,lovibond}}`
   },
   [IngredientType.Hop]: {
     filter: filterHopResults,
     update: updateHopResults,
-    buildQuery: q => `{searchHops(query:"${q}"){id,ingredientId,name,url,aroma,categories,alpha,beta}}`
+    buildQuery: q => `{searchHops(query:"${q}"){id,name,url,aroma,categories,alpha,beta}}`
   },
   [IngredientType.Yeast]: {
     filter: filterYeastResults,
     update: updateYeastResults,
-    buildQuery: q => `{searchYeast(query:"${q}"){id,ingredientId,name,url,code,attenuation,description,flocculation,rangeF,rangeC,tolerance,mfg,styles}}`
+    buildQuery: q => `{searchYeast(query:"${q}"){id,name,url,code,attenuation,description,flocculation,rangeF,rangeC,tolerance,mfg,styles}}`
   }
 };
 

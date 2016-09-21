@@ -3,7 +3,6 @@ import Model from '../sequelize';
 
 const Yeast = Model.define('Yeast', {
   id: { type: DataType.INTEGER, primaryKey: true },
-  ingredientId: { type: DataType.INTEGER, allowNull: false },
   name: { type: DataType.STRING, allowNull: false },
   code: { type: DataType.STRING, allowNull: true },
   url: { type: DataType.STRING, allowNull: false },

@@ -22,8 +22,7 @@ const yeast = (state = {}, action) => {
       const tempC = extractRange(action.yeast.rangeC);
 
       return {
-        id: action.yeastId,
-        ingredientId: action.yeast.ingredientId,
+        id: action.yeast.id,
         name: action.yeast.name,
         code: action.yeast.code,
         mfg: action.yeast.mfg,

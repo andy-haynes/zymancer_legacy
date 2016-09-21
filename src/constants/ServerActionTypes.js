@@ -7,3 +7,5 @@ export const ReceiveSharedRecipes = 'ReceiveSharedRecipes';
 export const InvalidatePublicRecipes = 'InvalidatePublicRecipes';
 export const RequestPublicRecipes = 'RequestPublicRecipes';
 export const ReceivePublicRecipes = 'ReceivePublicRecipes';
+
+export const LoadSavedRecipe = 'LoadSavedRecipe';

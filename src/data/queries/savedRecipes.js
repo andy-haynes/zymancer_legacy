@@ -8,7 +8,7 @@ const savedRecipes = {
     return await Recipe.findAll({
       attributes: ['id', 'name'],
       where: { ownerId: request.user.id }
-    })
+    });
   }
 };
 

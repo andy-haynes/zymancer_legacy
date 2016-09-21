@@ -15,7 +15,6 @@ const hop = (state = {}, action) => {
     case AddHop:
       return {
         id: action.hopId,
-        ingredientId: action.hop.ingredientId,
         alpha: roundTo(action.hop.alphaRange.avg, 1),
         beta: roundTo(action.hop.betaRange.avg, 1),
         alphaRange: action.hop.alphaRange,

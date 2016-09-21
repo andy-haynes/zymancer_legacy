@@ -7,16 +7,20 @@ import {
   ReceiveSharedRecipes,
   InvalidatePublicRecipes,
   RequestPublicRecipes,
-  ReceivePublicRecipes
+  ReceivePublicRecipes,
+  LoadSavedRecipe
 } from '../constants/ServerActionTypes';
 import {
   SaveRecipe,
-  RecipeSaved
+  RecipeSaved,
+  ImportRecipe
 } from '../constants/RecipeActionTypes';
 import {
   RecipeType
 } from '../constants/AppConstants';
 import fetch from '../core/fetch';
+import { roundTo } from '../utils/core';
+import _ from 'lodash';
 
 export function requestSavedRecipes() {
   return { type: RequestSavedRecipes };
@@ -71,6 +75,13 @@ export function recipeSaved() {
   return { type: RecipeSaved };
 }
 
+export function importRecipe(recipe) {
+  return {
+    type: ImportRecipe,
+    recipe
+  };
+}
+
 const recipeFetchMap = {
   [RecipeType.SavedRecipes]: { query: 'savedRecipes', action: receiveSavedRecipes },
   [RecipeType.SharedRecipes]: { query: 'sharedRecipes', action: receiveSharedRecipes },
@@ -105,10 +116,134 @@ export function fetchRecipesIfNeeded(recipeType) {
   };
 }
 
+// TODO: use numbers
+function keylessStringify(obj) {
+  function parseKeys (o, str) {
+    Object.keys(o).forEach(k => {
+      switch (typeof o[k]) {
+        case 'object':
+          str += (Object.keys(o[k]) ? `${k}:{${parseKeys(o[k], '')}},` : o[k].toString());
+          break;
+        case 'number':
+          str += `${k}:${o[k]},`;
+          break;
+        case 'string':
+          str += `${k}:"${o[k]}",`;
+          break;
+      }
+    });
+
+    return str.substring(0, str.length - 1);
+  }
+
+  return `{${parseKeys(obj, '')}}`;
+}
+
+
 // save recipe
 export function saveCurrentRecipe(recipe) {
   return (dispatch, getState, helpers) => {
-    return helpers.graphqlRequest(`{saveRecipe(name:"${recipe.name}"){id,name}}`)
+    const grains = recipe.grains.map(g => keylessStringify({
+      id: g.id,
+      weight: g.weight,
+      lovibond: g.lovibond,
+      gravity: g.gravity
+    }));
+    const hops = [].concat.apply([], recipe.hops.map(h => h.additions.map(a => keylessStringify({
+      id: a.hop.id,
+      alpha: h.alpha,
+      beta: h.beta,
+      minutes: a.minutes,
+      weight: a.weight
+    }))));
+    const yeast = recipe.fermentation.yeasts.map(y => keylessStringify({
+      id: y.id,
+      mfgDate: y.mfgDate.toString(),
+      attenuation: roundTo(y.attenuation / 100, 2),
+      quantity: y.quantity
+    }));
+
+    const query = `{
+      saveRecipe(
+        name:"${recipe.name}",
+        grains:[${grains.join(',')}],
+        hops:[${hops.join(',')}],
+        yeast:[${yeast.join(',')}]
+      ) { id }
+    }`;
+
+    return helpers.graphqlRequest(query)
             .then(response => dispatch(recipeSaved()));
+  };
+}
+
+// load recipe
+export function loadSavedRecipe(recipeId) {
+  return (dispatch, getState, helpers) => {
+    const query = `{
+      loadRecipe(id:${recipeId}) {
+        id,
+        name,
+        grains {
+          id,
+          name,
+          gravity,
+          lovibond,
+          weight {
+            value,
+            unit
+          }
+        },
+        hops {
+          id,
+          name,
+          alpha,
+          beta,
+          categories,
+          minutes,
+          weight {
+            value,
+            unit
+          }
+        },
+        yeast {
+          id,
+          name,
+          mfg,
+          code,
+          description,
+          tolerance,
+          rangeF,
+          rangeC,
+          mfgDate,
+          attenuation,
+          quantity
+        }
+      }
+    }`;
+
+    function mapJsonToRecipe(json) {
+      const hops = _.groupBy(json.data.loadRecipe.hops, v => v.id);
+      const rolledHops = Object.keys(hops).map(k => ({
+        id: k,
+        name: hops[k][0].name,
+        alpha: hops[k][0].alpha,
+        beta: hops[k][0].beta,
+        categories: hops[k][0].categories,
+        additions: hops[k].map(a => ({ minutes: a.minutes, weight: a.weight }))
+      }));
+
+      return Object.assign({}, json.data.loadRecipe, {
+        hops: rolledHops,
+        fermentation: {
+          yeasts: json.data.loadRecipe.yeast.map(y => Object.assign({}, y, {
+            mfgDate: new Date(y.mfgDate)
+          }))
+        }
+      })
+    }
+
+    return helpers.graphqlRequest(query)
+            .then(json => dispatch(importRecipe(mapJsonToRecipe(json))))
   };
 }

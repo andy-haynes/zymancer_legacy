@@ -22,7 +22,7 @@ class SavedRecipes extends React.Component {
             <Recipe
               key={recipe.id}
               recipe={recipe}
-              loadRecipe={() => this.props.loadRecipe(recipe)}
+              loadRecipe={this.props.loadRecipe}
             />
           ))}
         </FetchedItem>

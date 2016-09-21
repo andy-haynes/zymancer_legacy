@@ -2,7 +2,7 @@ import DataType from 'sequelize';
 import Model from '../sequelize';
 
 const Recipe = Model.define('Recipes', {
-  id: { type: DataType.INTEGER, primaryKey: true },
+  id: { type: DataType.INTEGER, primaryKey: true, autoIncrement: true },
   ownerId: { type: DataType.UUID, allowNull: false },
   isPublic: { type: DataType.BOOLEAN, defaultValue: false },
   name: { type: DataType.STRING, allowNull: false },

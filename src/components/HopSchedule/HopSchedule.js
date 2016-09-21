@@ -7,7 +7,7 @@ const HopSchedule = ({ hops, originalGravity, boilVolume, setAlpha, setBeta, rem
   <div className={s.hopSchedule}>
     {hops.map(hop => (
       <Hop
-        key={hop.ingredientId}
+        key={hop.id}
         hop={hop}
         originalGravity={originalGravity}
         boilVolume={boilVolume}
