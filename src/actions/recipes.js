@@ -116,13 +116,20 @@ export function fetchRecipesIfNeeded(recipeType) {
   };
 }
 
-// TODO: use numbers
 function keylessStringify(obj) {
   function parseKeys (o, str) {
     Object.keys(o).forEach(k => {
       switch (typeof o[k]) {
         case 'object':
-          str += (Object.keys(o[k]) ? `${k}:{${parseKeys(o[k], '')}},` : o[k].toString());
+          if (Object.keys(o[k])) {
+            if (typeof o[k].length === 'undefined') {
+              str += `${k}:{${parseKeys(o[k], '')}},`;
+            } else {
+              str += o[k].map(v => parseKeys(v, '')).join(',');
+            }
+          } else {
+            str += o[k].toString();
+          }
           break;
         case 'number':
           str += `${k}:${o[k]},`;
