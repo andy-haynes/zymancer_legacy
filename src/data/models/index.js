@@ -69,7 +69,7 @@ function sync(...args) {
             .then(() => {
               return User.findOrCreate({
                 where: {
-                  id: 'cc845b20-798b-11e6-8a74-99d691d2ae33',
+                  id: 'c42ccdc0-806d-11e6-a049-657457c8144e',
                   email: 'andyghaynes@gmail.com',
                   emailConfirmed: true
                 }
