@@ -132,10 +132,12 @@ function keylessStringify(obj) {
           }
           break;
         case 'number':
-          str += `${k}:${o[k]},`;
-          break;
         case 'string':
-          str += `${k}:"${o[k]}",`;
+          if (!isNaN(o[k])) {
+            str += `${k}:${o[k]},`;
+          } else {
+            str += `${k}:"${o[k]}",`;
+          }
           break;
       }
     });
