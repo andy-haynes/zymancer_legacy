@@ -11,6 +11,7 @@ const SliderInput = ({ value, min, max, update, children, sliderWidth = '7-8', i
     <TextField
       name="slider-input"
       className={s.input}
+      type="number"
       value={value}
       onChange={(e) => update(e.target.value)}
     />
