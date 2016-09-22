@@ -21,7 +21,7 @@ const Recipe = ({ recipe, loadRecipe }) => (
       </div>
       <div className="pure-u-3-24">
         <span className={s.recipeLabel}>OG</span>
-        <div className={s.recipeValue}>{recipe.originalGravity}</div>
+        <div className={s.recipeValue}>{recipe.OG}</div>
       </div>
       <div className="pure-u-3-24">
         <span className={s.recipeLabel}>IBU</span>
@@ -45,7 +45,7 @@ const Recipe = ({ recipe, loadRecipe }) => (
       </div>
       <div className="pure-u-3-24">
         <span className={s.recipeLabel}>FG</span>
-        <div className={s.recipeValue}>{recipe.finalGravity}</div>
+        <div className={s.recipeValue}>{recipe.FG}</div>
       </div>
       <div className="pure-u-3-24">
         <span className={s.recipeLabel}>ABV</span>

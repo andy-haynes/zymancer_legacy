@@ -90,7 +90,7 @@ const recipeFetchMap = {
 function fetchRecipes(recipeType) {
   return (dispatch, getState, helpers) => {
     const { query, action } = recipeFetchMap[recipeType];
-    return helpers.graphqlRequest(`{${query}{id,name}}`)
+    return helpers.graphqlRequest(`{${query}{ id, name, ABV, IBU, OG, FG }}`)
             .then(json => dispatch(action(json)));
   };
 }
@@ -175,6 +175,10 @@ export function saveCurrentRecipe(recipe) {
     const query = `{
       saveRecipe(
         name:"${recipe.name}",
+        ABV:${roundTo(parseFloat(recipe.ABV), 2)},
+        IBU:${roundTo(parseFloat(recipe.IBU), 2)},
+        OG:${parseFloat(recipe.originalGravity)},
+        FG:${parseFloat(recipe.finalGravity)},
         grains:[${grains.join(',')}],
         hops:[${hops.join(',')}],
         yeast:[${yeast.join(',')}]

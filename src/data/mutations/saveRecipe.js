@@ -14,14 +14,22 @@ const saveRecipe = {
   type: RecipeType,
   args: {
     name: { type: GraphQLString },
+    ABV: { type: GraphQLFloat },
+    IBU: { type: GraphQLFloat },
+    OG: { type: GraphQLFloat },
+    FG: { type: GraphQLFloat },
     grains: { type: new GraphQLList(GrainInputType) },
     hops: { type: new GraphQLList(HopInputType) },
     yeast: { type: new GraphQLList(YeastInputType) }
   },
-  async resolve({ request }, { name, grains, hops, yeast }) {
+  async resolve({ request }, { name, ABV, IBU, OG, FG, grains, hops, yeast }) {
     return await Recipe.create({
       ownerId: request.user.id,
-      name
+      name,
+      ABV,
+      IBU,
+      OG,
+      FG
     }).then(recipe => {
       RecipeGrain.bulkCreate(grains.map(g => ({
         recipeId: recipe.id,
