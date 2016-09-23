@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLInt } from 'graphql';
 import RecipeType from '../types/RecipeType';
-import { Recipe, RecipeIngredient, Grain, Hop, Yeast } from '../models';
+import { Recipe, Grain, Hop, Yeast } from '../models';
 
 const loadRecipe = {
   type: RecipeType,
@@ -11,16 +11,28 @@ const loadRecipe = {
     return await Recipe.findOne({
       attributes: ['id', 'name'],
       include: [{
+        attributes: ['id', 'name'],
         model: Grain,
         as: 'grains'
       }, {
+        attributes: ['id', 'name', 'alpha', 'beta', 'categories'],
         model: Hop,
         as: 'hopAdditions'
       }, {
+        attributes: ['id', 'name', 'description', 'mfg', 'code', 'rangeC', 'rangeF', 'tolerance'],
         model: Yeast,
         as: 'yeast'
       }],
-      where: { id: id }
+      where: {
+        id: id,
+        $and: {
+          $or: [
+            { ownerId: request.user ? request.user.id : null },
+            // shared with
+            { isPublic: true }
+          ]
+        }
+      }
     }).then(recipe => ({
       id: recipe.id,
       name: recipe.name,
