@@ -18,7 +18,7 @@ function Navigation({ className, userLoggedIn }) {
       <span>
         <Link className={s.link} to="/account">Account</Link>
         <span className={s.spacer}>|</span>
-        <Link className={s.link} to="/logout">Log out</Link>
+        <a className={s.link} href="/logout">Log out</a>
       </span>
   ) : (<Link className={s.link} to="/login">Log in</Link>);
 
