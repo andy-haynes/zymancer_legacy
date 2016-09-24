@@ -18,25 +18,25 @@ function createGraphqlRequest(fetchKnowingCookie) {
 }
 
 function createFetchKnowingCookie({ cookie }) {
-  if (!process.env.BROWSER) {
-    return (url, options = {}) => {
-      const isLocalUrl = /^\/($|[^\/])/.test(url);
-
-      // pass cookie only for itself.
-      // We can't know cookies for other sites BTW
-      if (isLocalUrl && options.credentials === 'include') {
-        const headers = {
-          ...options.headers,
-          cookie,
-        };
-        return fetch(url, { ...options, headers });
-      }
-
-      return fetch(url, options);
-    };
+  if (process.env.BROWSER) {
+    return fetch;
   }
 
-  return fetch;
+  return (url, options = {}) => {
+    const isLocalUrl = /^\/($|[^\/])/.test(url);
+
+    // pass cookie only for itself.
+    // We can't know cookies for other sites BTW
+    if (isLocalUrl && options.credentials === 'include') {
+      const headers = {
+        cookie,
+        ...options.headers
+      };
+      return fetch(url, { ...options, headers });
+    }
+
+    return fetch(url, options);
+  };
 }
 
 export default function createHelpers(config) {
@@ -45,6 +45,6 @@ export default function createHelpers(config) {
 
   return {
     fetch: fetchKnowingCookie,
-    graphqlRequest,
+    graphqlRequest
   };
 }
