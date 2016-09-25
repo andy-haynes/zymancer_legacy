@@ -44,3 +44,32 @@ const _msMonths = 1000 * 60 * 60 * 24 * 30;
 
 export const monthsSinceDate = (date) => (new Date() - date) / _msMonths;
 export const subtractMonthsFromNow = (months) => new Date(new Date() - (months * _msMonths));
+
+// recursively stringify json without quoting keys
+export function jsonToGraphql(obj) {
+  function parseKeys (o, str) {
+    Object.keys(o).forEach(k => {
+      if (typeof o[k] === 'object') {
+        if (Object.keys(o[k])) {
+          if (typeof o[k].length === 'undefined') {
+            str += `${k}:{${parseKeys(o[k], '')}},`;
+          } else {
+            str += o[k].map(v => parseKeys(v, '')).join(',');
+          }
+        } else {
+          str += o[k].toString();
+        }
+      } else if (['number', 'string'].indexOf(typeof o[k]) > -1) {
+        if (!isNaN(o[k])) {
+          str += `${k}:${o[k]},`;
+        } else {
+          str += `${k}:"${o[k]}",`;
+        }
+      }
+    });
+
+    return str.substring(0, str.length - 1);
+  }
+
+  return `{${parseKeys(obj, '')}}`;
+}

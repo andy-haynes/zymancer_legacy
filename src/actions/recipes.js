@@ -21,6 +21,7 @@ import {
 import fetch from '../core/fetch';
 import { roundTo } from '../utils/core';
 import _ from 'lodash';
+import currentRecipe from '../reducers/currentRecipe';
 
 export function requestSavedRecipes() {
   return { type: RequestSavedRecipes };
@@ -116,76 +117,10 @@ export function fetchRecipesIfNeeded(recipeType) {
   };
 }
 
-function keylessStringify(obj) {
-  function parseKeys (o, str) {
-    Object.keys(o).forEach(k => {
-      switch (typeof o[k]) {
-        case 'object':
-          if (Object.keys(o[k])) {
-            if (typeof o[k].length === 'undefined') {
-              str += `${k}:{${parseKeys(o[k], '')}},`;
-            } else {
-              str += o[k].map(v => parseKeys(v, '')).join(',');
-            }
-          } else {
-            str += o[k].toString();
-          }
-          break;
-        case 'number':
-        case 'string':
-          if (!isNaN(o[k])) {
-            str += `${k}:${o[k]},`;
-          } else {
-            str += `${k}:"${o[k]}",`;
-          }
-          break;
-      }
-    });
-
-    return str.substring(0, str.length - 1);
-  }
-
-  return `{${parseKeys(obj, '')}}`;
-}
-
-
 // save recipe
 export function saveCurrentRecipe(recipe) {
   return (dispatch, getState, helpers) => {
-    const grains = recipe.grains.map(g => keylessStringify({
-      id: g.id,
-      weight: g.weight,
-      lovibond: g.lovibond,
-      gravity: g.gravity
-    }));
-    const hops = [].concat.apply([], recipe.hops.map(h => h.additions.map(a => keylessStringify({
-      id: a.hop.id,
-      alpha: h.alpha,
-      beta: h.beta,
-      minutes: a.minutes,
-      weight: a.weight
-    }))));
-    const yeast = recipe.fermentation.yeasts.map(y => keylessStringify({
-      id: y.id,
-      mfgDate: y.mfgDate.toString(),
-      attenuation: roundTo(y.attenuation / 100, 2),
-      quantity: y.quantity
-    }));
-
-    const query = `{
-      saveRecipe(
-        name:"${recipe.name}",
-        ABV:${roundTo(parseFloat(recipe.ABV), 2)},
-        IBU:${roundTo(parseFloat(recipe.IBU), 2)},
-        OG:${parseFloat(recipe.originalGravity)},
-        FG:${parseFloat(recipe.finalGravity)},
-        grains:[${grains.join(',')}],
-        hops:[${hops.join(',')}],
-        yeast:[${yeast.join(',')}]
-      ) { id }
-    }`;
-
-    return helpers.graphqlRequest(query)
+    return helpers.graphqlRequest(recipe.exportToGraphql())
             .then(response => dispatch(recipeSaved()));
   };
 }
@@ -193,48 +128,6 @@ export function saveCurrentRecipe(recipe) {
 // load recipe
 export function loadSavedRecipe(recipeId) {
   return (dispatch, getState, helpers) => {
-    const query = `{
-      loadRecipe(id:${recipeId}) {
-        id,
-        name,
-        grains {
-          id,
-          name,
-          gravity,
-          lovibond,
-          weight {
-            value,
-            unit
-          }
-        },
-        hops {
-          id,
-          name,
-          alpha,
-          beta,
-          categories,
-          minutes,
-          weight {
-            value,
-            unit
-          }
-        },
-        yeast {
-          id,
-          name,
-          mfg,
-          code,
-          description,
-          tolerance,
-          rangeF,
-          rangeC,
-          mfgDate,
-          attenuation,
-          quantity
-        }
-      }
-    }`;
-
     function mapJsonToRecipe(json) {
       const hops = _.groupBy(json.data.loadRecipe.hops, v => v.id);
       const rolledHops = Object.keys(hops).map(k => ({
@@ -256,7 +149,7 @@ export function loadSavedRecipe(recipeId) {
       })
     }
 
-    return helpers.graphqlRequest(query)
-            .then(json => dispatch(importRecipe(mapJsonToRecipe(json))))
+    return helpers.graphqlRequest(currentRecipe.buildLoadRecipeQuery(recipeId))
+            .then(json => dispatch(importRecipe(mapJsonToRecipe(json))));
   };
 }

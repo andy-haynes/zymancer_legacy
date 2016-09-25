@@ -59,7 +59,7 @@ import {
   calculateFinalGravity,
   calculateMashoutWaterTemp
 } from '../utils/BrewMath';
-import { convertToUnit } from '../utils/core';
+import { convertToUnit, jsonToGraphql, roundTo } from '../utils/core';
 import {
   DefaultBoilVolume,
   DefaultTargetVolume,
@@ -91,9 +91,45 @@ const initialState = {
   fermentation: fermentation(undefined, {})
 };
 
-const recalculate = (state, changed) => {
-  let name, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV;
-  ({ name, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed));
+function exportToGraphql() {
+    const grains = this.grains.map(g => jsonToGraphql({
+      id: g.id,
+      weight: g.weight,
+      lovibond: g.lovibond,
+      gravity: g.gravity
+    }));
+
+    const hops = [].concat.apply([], this.hops.map(h => h.additions.map(a => jsonToGraphql({
+      id: a.hop.id,
+      alpha: h.alpha,
+      beta: h.beta,
+      minutes: a.minutes,
+      weight: a.weight
+    }))));
+
+    const yeast = this.fermentation.yeasts.map(y => jsonToGraphql({
+      id: y.id,
+      mfgDate: y.mfgDate.toString(),
+      attenuation: roundTo(y.attenuation / 100, 2),
+      quantity: y.quantity
+    }));
+
+    return `{
+      saveRecipe(
+        name:"${this.name}",
+        ABV:${roundTo(parseFloat(this.ABV), 2)},
+        IBU:${roundTo(parseFloat(this.IBU), 2)},
+        OG:${parseFloat(this.originalGravity)},
+        FG:${parseFloat(this.finalGravity)},
+        grains:[${grains.join(',')}],
+        hops:[${hops.join(',')}],
+        yeast:[${yeast.join(',')}]
+      ) { id }
+    }`;
+}
+
+function recalculate(state, changed) {
+  let { name, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed);
 
   const thicknessUnit = mashSchedule.thickness.consequent;
   const grainWeight = { value: _.sumBy(grains, g => convertToUnit(g.weight, thicknessUnit)), unit: thicknessUnit };
@@ -113,16 +149,20 @@ const recalculate = (state, changed) => {
   ABV = calculateABV(originalGravity, finalGravity);
 
   return { name, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV };
-};
+}
 
 const recipe = (state = initialState, action) => {
-  const updateRecipe = (changed) => Object.assign({}, state, recalculate(state, changed));
+  const updateRecipe = (changed) => {
+    let r = Object.assign({}, state, recalculate(state, changed));
+    r.exportToGraphql = exportToGraphql.bind(r);
+    return r;
+  };
 
   switch (action.type) {
     case ImportRecipe:
       return updateRecipe(action.recipe);
     case SetRecipeName:
-      return Object.assign({}, state, { name: action.name });
+      return updateRecipe({ name: action.name });
     case SetTargetVolume:
       return updateRecipe({ targetVolume: measurement(state.targetVolume, action) });
     case SetBoilVolume:
@@ -168,6 +208,50 @@ const recipe = (state = initialState, action) => {
     default:
       return state;
   }
+};
+
+recipe.buildLoadRecipeQuery = function(recipeId) {
+  return `{
+    loadRecipe(id:${recipeId}) {
+      id,
+      name,
+      grains {
+        id,
+        name,
+        gravity,
+        lovibond,
+        weight {
+          value,
+          unit
+        }
+      },
+      hops {
+        id,
+        name,
+        alpha,
+        beta,
+        categories,
+        minutes,
+        weight {
+          value,
+          unit
+        }
+      },
+      yeast {
+        id,
+        name,
+        mfg,
+        code,
+        description,
+        tolerance,
+        rangeF,
+        rangeC,
+        mfgDate,
+        attenuation,
+        quantity
+      }
+    }
+  }`;
 };
 
 export default recipe;
