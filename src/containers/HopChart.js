@@ -38,7 +38,9 @@ const getChartItems = (hops, categories) => hops.map((hop, i) => {
 });
 
 const mapStateToProps = (state) => {
-  const currentCategories = [].concat.apply([], state.currentRecipe.hops.map(hop => hop.categories))
+  const currentCategories = state.currentRecipe.hops
+                              .map(hop => hop.categories)
+                              .reduce((prev, next) => prev.concat(next), [])
                               .filter((v, i, a) => a.indexOf(v) === i);
   return {
     redraw: true,

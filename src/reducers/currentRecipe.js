@@ -99,13 +99,13 @@ function exportToGraphql() {
       gravity: g.gravity
     }));
 
-    const hops = [].concat.apply([], this.hops.map(h => h.additions.map(a => jsonToGraphql({
-      id: a.hop.id,
-      alpha: h.alpha,
-      beta: h.beta,
-      minutes: a.minutes,
-      weight: a.weight
-    }))));
+  const hops = this.hops.map(h => h.additions.map(a => jsonToGraphql({
+    id: a.hop.id,
+    alpha: h.alpha,
+    beta: h.beta,
+    minutes: a.minutes,
+    weight: a.weight
+  }))).reduce((prev, next) => prev.concat(next), []);
 
     const yeast = this.fermentation.yeasts.map(y => jsonToGraphql({
       id: y.id,
