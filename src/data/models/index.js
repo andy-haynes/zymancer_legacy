@@ -12,8 +12,12 @@ import RecipeYeast from './RecipeYeast';
 import Grain from './Grain';
 import Hop from './Hop';
 import Yeast from './Yeast';
+import BJCPCategory from './BJCPCategory';
+import BJCPStyle from './BJCPStyle';
+import _ from 'lodash';
 
 import Ingredients from '../../constants/TestIngredients';
+import styles from '../../constants/BJCP_JSON';
 
 User.hasMany(UserLogin, {
   foreignKey: 'userId',
@@ -60,6 +64,8 @@ Hop.belongsToMany(Recipe, { through: RecipeHop, as: 'recipes', foreignKey: 'hopI
 Recipe.belongsToMany(Yeast, { through: RecipeYeast, as: 'yeast', foreignKey: 'recipeId' });
 Yeast.belongsToMany(Recipe, { through: RecipeYeast, as: 'recipes', foreignKey: 'yeastId' });
 
+BJCPStyle.belongsTo(BJCPCategory, { as: 'category', foreignKey: 'categoryId' });
+
 function sync(...args) {
   if (process.env.NODE_ENV !== 'production') {
     const clean = false;
@@ -80,39 +86,27 @@ function sync(...args) {
           type: 'urn:google:access_token',
           value: 'ya29.CjBoA4VfDDBaobEg88kaAsLu_i8GxedUA7rRLn5zZoU6XB2CDcwAWrrMji7mHm9WmXM',
           userId: 'c17bd4a0-8288-11e6-9448-dd60cdc5f340'
-        })).then(() => Grain.bulkCreate(Ingredients.filter(i => i.ingredientType === 1).map(grain => ({
-          name: grain.name,
-          category: grain.category,
-          gravity: grain.gravity,
-          lovibond: grain.lovibond,
-          description: grain.description
-        })))).then(() => Hop.bulkCreate(Ingredients.filter(i => i.ingredientType === 2).map(hop => ({
-          name: hop.name,
-          aroma: hop.aroma.join(','),
-          categories: hop.categories.join(','),
-          url: hop.url,
-          alpha: hop.alpha,
-          beta: hop.beta,
-          coHumulone: hop.coHumulone,
-          totalOil: hop.totalOil,
-          myrcene: hop.myrcene,
-          caryophyllene: hop.caryophyllene,
-          farnesene: hop.farnesene,
-          humulene: hop.humulene,
-          geraniol: hop.geraniol
-        })))).then(() => Yeast.bulkCreate(Ingredients.filter(i => i.ingredientType === 3).map(yeast => ({
-          name: yeast.name,
-          code: yeast.code,
-          url: yeast.url,
-          description: yeast.description,
-          flocculation: yeast.flocculation,
-          rangeF: yeast.rangeF,
-          rangeC: yeast.rangeC,
-          tolerance: yeast.tolerance,
-          attenuation: yeast.attenuation,
-          mfg: yeast.mfg,
-          styles: yeast.styles.join(',')
-        }))));
+        })).then(() => Grain.bulkCreate(Ingredients.filter(i => i.ingredientType === 1).map(grain => _.pick(grain, 'name', 'category', 'gravity', 'lovibond', 'description')))
+        ).then(() => Hop.bulkCreate(Ingredients.filter(i => i.ingredientType === 2).map(hop => Object.assign(
+          _.pick(hop, 'name', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'),
+          { aroma: hop.aroma.join(','), categories: hop.categories.join(',') }
+        )))).then(() => Yeast.bulkCreate(Ingredients.filter(i => i.ingredientType === 3).map(yeast => Object.assign(
+          _.pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'rangeF', 'rangeC', 'tolerance', 'attenuation', 'mfg'),
+          { styles: yeast.styles.join(',') }
+        )))).then(() => BJCPCategory.bulkCreate(Object.keys(styles).map(k => ({
+          id: parseInt(k),
+          name: styles[k].name,
+          description: styles[k].description
+        })))).then(() => BJCPStyle.bulkCreate(
+          Object.keys(styles)
+            .map(k => styles[k].styles)
+            .reduce((prev, next) => prev.concat(next), [])
+            .map(style => Object.assign({}, style, {
+              categoryId: style.code ? parseInt(style.code) : (style.name.indexOf('IPA') > -1 ? 22 : 27),
+              commercialExamples: style.commercialExamples && style.commercialExamples.length ? style.commercialExamples.join(', ') : '',
+              tags: style.tags && style.tags.length ? style.tags.join(', ') : ''
+            }))
+        ));
     }
   } else {
     return sequelize.sync(...args);
@@ -132,5 +126,7 @@ export {
   RecipeYeast,
   Grain,
   Hop,
-  Yeast
+  Yeast,
+  BJCPCategory,
+  BJCPStyle
 };
