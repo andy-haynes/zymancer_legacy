@@ -28,6 +28,7 @@ export const ImportRecipe = 'ImportRecipe';
 export const SaveRecipe = 'SaveRecipe';
 export const RecipeSaved = 'RecipeSaved';
 export const SetRecipeName = 'SetRecipeName';
+export const SetRecipeStyle = 'SetRecipeStyle';
 export const SetBoilVolume = 'SetBoilVolume';
 export const SetTargetVolume = 'SetTargetVolume';
 export const SetBoilTime = 'SetBoilTime';

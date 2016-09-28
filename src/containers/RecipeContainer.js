@@ -2,6 +2,7 @@ import { connect } from 'react-redux';
 import RecipeTabs from '../components/RecipeTabs';
 import {
   setRecipeName,
+  setRecipeStyle,
   setTargetVolume,
   setBoilVolume,
   setBoilTime,
@@ -17,6 +18,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     saveRecipe: (recipe) => dispatch(saveCurrentRecipe(recipe)),
     setRecipeName: (name) => dispatch(setRecipeName(name)),
+    setRecipeStyle: (style) => dispatch(setRecipeStyle(style)),
     setTargetVolume: (volume) => dispatch(setTargetVolume(volume)),
     setBoilVolume: (volume) => dispatch(setBoilVolume(volume)),
     setBoilTime: (minutes) => dispatch(setBoilTime(parseInt(minutes))),

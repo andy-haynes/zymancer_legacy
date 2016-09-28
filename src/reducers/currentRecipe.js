@@ -18,6 +18,7 @@ import {
 // recipe
   ImportRecipe,
   SetRecipeName,
+  SetRecipeStyle,
   SetBoilTime,
   SetBoilVolume,
   SetTargetVolume,
@@ -77,6 +78,7 @@ import _ from 'lodash'
 
 const initialState = {
   name: 'My Awesome Mixed Beer #6',
+  style: 'American Pale Ale',
   originalGravity: 1.0,
   finalGravity: 1.0,
   IBU: 0,
@@ -112,6 +114,7 @@ function exportToGraphql() {
   return `{
     saveRecipe(
       name:"${this.name}",
+      style:"${this.style}",
       ABV:${roundTo(parseFloat(this.ABV), 2)},
       IBU:${roundTo(parseFloat(this.IBU), 2)},
       OG:${parseFloat(this.originalGravity)},
@@ -126,7 +129,7 @@ function exportToGraphql() {
 }
 
 function recalculate(state, changed) {
-  let { name, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed);
+  let { grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed);
 
   const thicknessUnit = mashSchedule.thickness.consequent;
   const grainWeight = { value: _.sumBy(grains, g => convertToUnit(g.weight, thicknessUnit)), unit: thicknessUnit };
@@ -145,21 +148,26 @@ function recalculate(state, changed) {
   finalGravity = calculateFinalGravity(originalGravity, attenuation);
   ABV = calculateABV(originalGravity, finalGravity);
 
-  return { name, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV };
+  return { grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV };
 }
 
 const recipe = (state = initialState, action) => {
-  const updateRecipe = (changed) => {
-    let r = Object.assign({}, state, recalculate(state, changed));
+  const updateRecipe = (changed, refresh = true) => {
+    let r = Object.assign({}, state, refresh ? recalculate(state, changed) : changed);
     r.exportToGraphql = exportToGraphql.bind(r);
     return r;
   };
 
   switch (action.type) {
     case ImportRecipe:
-      return updateRecipe(action.recipe);
+      return Object.assign({}, updateRecipe(action.recipe), {
+        name: action.recipe.name,
+        style: action.recipe.style
+      });
     case SetRecipeName:
-      return updateRecipe({ name: action.name });
+      return updateRecipe({ name: action.name }, false);
+    case SetRecipeStyle:
+      return updateRecipe({ style: action.style }, false);
     case SetTargetVolume:
       return updateRecipe({ targetVolume: measurement(state.targetVolume, action) });
     case SetBoilVolume:
@@ -212,6 +220,7 @@ recipe.buildLoadRecipeQuery = function(recipeId) {
     loadRecipe(id:${recipeId}) {
       id,
       name,
+      style,
       grains {
         id,
         name,

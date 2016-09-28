@@ -10,8 +10,9 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem'
 import ContentSave from 'material-ui/svg-icons/content/save';
 import { grey200 } from 'material-ui/styles/colors';
+import BJCPStyles from '../../constants/BJCPStyles';
 
-const RecipeHeader = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, saveRecipe }) => (
+const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, saveRecipe }) => (
   <div className={s.recipeHeader}>
     <div>
       <div className="pure-g">
@@ -72,9 +73,17 @@ const RecipeHeader = ({ recipe, setRecipeName, setTargetVolume, setBoilVolume, s
     <div className="pure-g">
       <div className="pure-u-1-24"></div>
       <div className="pure-u-6-24">
-        <SelectField value="old">
-          <MenuItem key="1" value="old" primaryText="Old Ale" />
-          <MenuItem key="2" value="new" primaryText="New Ale" />
+        <SelectField
+          value={recipe.style}
+          onChange={(e, i, v) => setRecipeStyle(v)}
+        >
+          {BJCPStyles.map((style, i) => (
+            <MenuItem
+              key={i}
+              value={style.name}
+              primaryText={style.code ? `${style.code} - ${style.name}` : style.name}
+            />
+          ))}
         </SelectField>
       </div>
       <div className="pure-u-1-24">

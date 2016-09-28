@@ -26,6 +26,7 @@ import {
   // recipe
   SaveRecipe,
   SetRecipeName,
+  SetRecipeStyle,
   SetBoilVolume,
   SetTargetVolume,
   SetBoilTime,
@@ -97,6 +98,7 @@ export const setGrainTemp = createAction(SetGrainTemp, ['measurement']);
 
 // *************************** recipe *****************************
 export const setRecipeName = createAction(SetRecipeName, ['name']);
+export const setRecipeStyle = createAction(SetRecipeStyle, ['style']);
 export const setBoilVolume = createAction(SetBoilVolume, ['measurement']);
 export const setTargetVolume = createAction(SetTargetVolume, ['measurement']);
 export const setBoilTime = createAction(SetBoilTime, ['minutes']);

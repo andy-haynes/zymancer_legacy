@@ -17,6 +17,7 @@ const saveRecipe = {
   type: RecipeType,
   args: {
     name: { type: GraphQLString },
+    style: { type: GraphQLString },
     ABV: { type: GraphQLFloat },
     IBU: { type: GraphQLFloat },
     OG: { type: GraphQLFloat },
@@ -27,9 +28,10 @@ const saveRecipe = {
     mashSchedule: { type: MashScheduleInputType },
     fermentation: { type: FermentationInputType }
   },
-  async resolve({ request }, { name, ABV, IBU, OG, FG, grains, hops, yeast, mashSchedule, fermentation }) {
+  async resolve({ request }, { name, style, ABV, IBU, OG, FG, grains, hops, yeast, mashSchedule, fermentation }) {
     return await Recipe.create({
       ownerId: request.user.id,
+      style,
       name,
       ABV,
       IBU,

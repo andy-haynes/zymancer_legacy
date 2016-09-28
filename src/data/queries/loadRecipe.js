@@ -10,7 +10,7 @@ const loadRecipe = {
   },
   async resolve({ request }, { id }) {
     return await Recipe.findOne({
-      attributes: ['id', 'name'],
+      attributes: ['id', 'name', 'style'],
       include: [{
         attributes: ['id', 'name'],
         model: Grain,
@@ -45,6 +45,7 @@ const loadRecipe = {
     }).then(recipe => ({
       id: recipe.id,
       name: recipe.name,
+      style: recipe.style,
       grains: recipe.grains.map(grain => ({
         id: grain.id,
         name: grain.name,
