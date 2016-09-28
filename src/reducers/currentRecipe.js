@@ -94,43 +94,6 @@ const initialState = {
   fermentation: fermentation(undefined, {})
 };
 
-function exportToGraphql() {
-  const grains = this.grains.map(g => jsonToGraphql(_.pick(g, 'id', 'weight', 'lovibond', 'gravity')));
-  const hops = this.hops.map(h => h.additions.map(a => jsonToGraphql(Object.assign(
-    _.pick(a, 'alpha', 'beta', 'minutes', 'weight'),
-    { id: a.hop.id }
-  )))).reduce((prev, next) => prev.concat(next), []);
-
-  const yeast = this.fermentation.yeasts.map(y => jsonToGraphql(Object.assign(_.pick(y, 'id', 'quantity'), {
-    mfgDate: y.mfgDate.toString(),
-    attenuation: roundTo(y.attenuation / 100, 2)
-  })));
-
-  const mashSchedule = jsonToGraphql(
-    _.pick(this.mashSchedule, 'style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp')
-  );
-
-  const fermentation = jsonToGraphql({
-    pitchRateMillionsMLP: this.fermentation.pitchRate
-  });
-
-  return `{
-    saveRecipe(
-      name:"${this.name}",
-      style:"${this.style}",
-      ABV:${roundTo(parseFloat(this.ABV), 2)},
-      IBU:${roundTo(parseFloat(this.IBU), 2)},
-      OG:${parseFloat(this.originalGravity)},
-      FG:${parseFloat(this.finalGravity)},
-      grains:[${grains.join(',')}],
-      hops:[${hops.join(',')}],
-      yeast:[${yeast.join(',')}],
-      mashSchedule:${mashSchedule},
-      fermentation:${fermentation}
-    ) { id }
-  }`;
-}
-
 function recalculate(state, changed) {
   let { grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed);
 
@@ -155,12 +118,12 @@ function recalculate(state, changed) {
 }
 
 const recipe = (state = initialState, action) => {
-  const updateRecipe = (changed, refresh = true) => {
-    let r = Object.assign({}, state, refresh ? recalculate(state, changed) : changed);
-    r.exportToGraphql = exportToGraphql.bind(r);
-    r.loaded = true;
-    return r;
-  };
+  const updateRecipe = (changed, refresh = true) => Object.assign(
+    {},
+    state,
+    refresh ? recalculate(state, changed) : changed,
+    { loaded: true }
+  );
 
   switch (action.type) {
     case SetRecipeName:
@@ -213,63 +176,6 @@ const recipe = (state = initialState, action) => {
     default:
       return state;
   }
-};
-
-recipe.buildLoadRecipeQuery = function(recipeId) {
-  return `{
-    loadRecipe(id:${recipeId}) {
-      id,
-      name,
-      style,
-      grains {
-        id,
-        name,
-        gravity,
-        lovibond,
-        weight {
-          value,
-          unit
-        }
-      },
-      hops {
-        id,
-        name,
-        alpha,
-        beta,
-        categories,
-        minutes,
-        weight {
-          value,
-          unit
-        }
-      },
-      yeast {
-        id,
-        name,
-        mfg,
-        code,
-        description,
-        tolerance,
-        rangeF,
-        rangeC,
-        mfgDate,
-        attenuation,
-        quantity
-      },
-      fermentation {
-        pitchRateMillionsMLP
-      },
-      mashSchedule {
-        style,
-        thickness { value, antecedent, consequent },
-        absorption { value, antecedent, consequent },
-        boilOff { value, antecedent, consequent },
-        grainTemp { value, unit },
-        infusionTemp { value, unit },
-        mashoutTemp { value, unit },
-      }
-    }
-  }`;
 };
 
 export default recipe;
