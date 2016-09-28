@@ -129,7 +129,9 @@ export function saveCurrentRecipe(recipe) {
 export function loadSavedRecipe(recipeId) {
   return (dispatch, getState, helpers) => {
     function mapJsonToRecipe(json) {
-      const hops = _.groupBy(json.data.loadRecipe.hops, v => v.id);
+      let { hops, yeast, fermentation } = json.data.loadRecipe;
+
+      hops = hops && hops.length ? _.groupBy(hops, h => h.id) : [];
       const rolledHops = Object.keys(hops).map(k => ({
         id: k,
         name: hops[k][0].name,
@@ -142,7 +144,8 @@ export function loadSavedRecipe(recipeId) {
       return Object.assign({}, json.data.loadRecipe, {
         hops: rolledHops,
         fermentation: {
-          yeasts: json.data.loadRecipe.yeast.map(y => Object.assign({}, y, {
+          pitchRate: fermentation.pitchRateMillionsMLP,
+          yeasts: yeast.map(y => Object.assign({}, y, {
             mfgDate: new Date(y.mfgDate)
           }))
         }

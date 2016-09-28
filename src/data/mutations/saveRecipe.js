@@ -8,7 +8,10 @@ import {
 } from 'graphql';
 import RecipeType from '../types/RecipeType';
 import { GrainInputType, HopInputType, YeastInputType } from '../types/IngredientTypes';
-import { Recipe, RecipeGrain, RecipeHop, RecipeYeast } from '../models';
+import { FermentationInputType } from '../types/FermentationType';
+import { MashScheduleInputType } from '../types/MashScheduleType';
+import { Recipe, RecipeGrain, RecipeHop, RecipeYeast, RecipeFermentation, MashSchedule } from '../models';
+import _ from 'lodash';
 
 const saveRecipe = {
   type: RecipeType,
@@ -20,9 +23,11 @@ const saveRecipe = {
     FG: { type: GraphQLFloat },
     grains: { type: new GraphQLList(GrainInputType) },
     hops: { type: new GraphQLList(HopInputType) },
-    yeast: { type: new GraphQLList(YeastInputType) }
+    yeast: { type: new GraphQLList(YeastInputType) },
+    mashSchedule: { type: MashScheduleInputType },
+    fermentation: { type: FermentationInputType }
   },
-  async resolve({ request }, { name, ABV, IBU, OG, FG, grains, hops, yeast }) {
+  async resolve({ request }, { name, ABV, IBU, OG, FG, grains, hops, yeast, mashSchedule, fermentation }) {
     return await Recipe.create({
       ownerId: request.user.id,
       name,
@@ -31,34 +36,38 @@ const saveRecipe = {
       OG,
       FG
     }).then(recipe => {
-      RecipeGrain.bulkCreate(grains.map(g => ({
+      RecipeGrain.bulkCreate(grains.map(g => Object.assign(_.pick(g, 'lovibond', 'gravity', 'weight'), {
         recipeId: recipe.id,
-        grainId: g.id,
-        lovibond: g.lovibond,
-        gravity: g.gravity,
-        weight: g.weight
+        grainId: g.id
       })));
 
       return recipe;
     }).then(recipe => {
-      RecipeHop.bulkCreate(hops.map(h => ({
+      RecipeHop.bulkCreate(hops.map(h => Object.assign(_.pick(h, 'alpha', 'beta', 'minutes', 'weight'), {
         recipeId: recipe.id,
-        hopId: h.id,
-        alpha: h.alpha,
-        beta: h.beta,
-        minutes: h.minutes,
-        weight: h.weight
+        hopId: h.id
       })));
 
       return recipe;
     }).then(recipe => {
-      RecipeYeast.bulkCreate(yeast.map(y => ({
+      RecipeYeast.bulkCreate(yeast.map(y => Object.assign(_.pick(y, 'mfgDate', 'attenuation', 'quantity'), {
         recipeId: recipe.id,
-        yeastId: y.id,
-        mfgDate: y.mfgDate,
-        attenuation: y.attenuation,
-        quantity: y.quantity
+        yeastId: y.id
       })));
+
+      return recipe;
+    }).then(recipe => {
+      RecipeFermentation.create({
+        recipeId: recipe.id,
+        pitchRateMillionsMLP: fermentation.pitchRateMillionsMLP
+      });
+
+      return recipe;
+    }).then(recipe => {
+      MashSchedule.create(Object.assign(
+        _.pick(mashSchedule, 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'),
+        { recipeId: recipe.id }
+      ));
 
       return recipe;
     });

@@ -92,40 +92,37 @@ const initialState = {
 };
 
 function exportToGraphql() {
-    const grains = this.grains.map(g => jsonToGraphql({
-      id: g.id,
-      weight: g.weight,
-      lovibond: g.lovibond,
-      gravity: g.gravity
-    }));
+  const grains = this.grains.map(g => jsonToGraphql(_.pick(g, 'id', 'weight', 'lovibond', 'gravity')));
+  const hops = this.hops.map(h => h.additions.map(a => jsonToGraphql(Object.assign(
+    _.pick(a, 'alpha', 'beta', 'minutes', 'weight'),
+    { id: a.hop.id }
+  )))).reduce((prev, next) => prev.concat(next), []);
 
-  const hops = this.hops.map(h => h.additions.map(a => jsonToGraphql({
-    id: a.hop.id,
-    alpha: h.alpha,
-    beta: h.beta,
-    minutes: a.minutes,
-    weight: a.weight
-  }))).reduce((prev, next) => prev.concat(next), []);
+  const yeast = this.fermentation.yeasts.map(y => jsonToGraphql(Object.assign(_.pick(y, 'id', 'quantity'), {
+    mfgDate: y.mfgDate.toString(),
+    attenuation: roundTo(y.attenuation / 100, 2)
+  })));
 
-    const yeast = this.fermentation.yeasts.map(y => jsonToGraphql({
-      id: y.id,
-      mfgDate: y.mfgDate.toString(),
-      attenuation: roundTo(y.attenuation / 100, 2),
-      quantity: y.quantity
-    }));
+  const mashSchedule = jsonToGraphql(_.pick(this.mashSchedule, 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'));
 
-    return `{
-      saveRecipe(
-        name:"${this.name}",
-        ABV:${roundTo(parseFloat(this.ABV), 2)},
-        IBU:${roundTo(parseFloat(this.IBU), 2)},
-        OG:${parseFloat(this.originalGravity)},
-        FG:${parseFloat(this.finalGravity)},
-        grains:[${grains.join(',')}],
-        hops:[${hops.join(',')}],
-        yeast:[${yeast.join(',')}]
-      ) { id }
-    }`;
+  const fermentation = jsonToGraphql({
+    pitchRateMillionsMLP: this.fermentation.pitchRate
+  });
+
+  return `{
+    saveRecipe(
+      name:"${this.name}",
+      ABV:${roundTo(parseFloat(this.ABV), 2)},
+      IBU:${roundTo(parseFloat(this.IBU), 2)},
+      OG:${parseFloat(this.originalGravity)},
+      FG:${parseFloat(this.finalGravity)},
+      grains:[${grains.join(',')}],
+      hops:[${hops.join(',')}],
+      yeast:[${yeast.join(',')}],
+      mashSchedule:${mashSchedule},
+      fermentation:${fermentation}
+    ) { id }
+  }`;
 }
 
 function recalculate(state, changed) {
@@ -249,6 +246,17 @@ recipe.buildLoadRecipeQuery = function(recipeId) {
         mfgDate,
         attenuation,
         quantity
+      },
+      fermentation {
+        pitchRateMillionsMLP
+      },
+      mashSchedule {
+        thickness { value, antecedent, consequent },
+        absorption { value, antecedent, consequent },
+        boilOff { value, antecedent, consequent },
+        grainTemp { value, unit },
+        infusionTemp { value, unit },
+        mashoutTemp { value, unit },
       }
     }
   }`;

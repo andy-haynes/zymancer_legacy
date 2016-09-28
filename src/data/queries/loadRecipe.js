@@ -1,6 +1,7 @@
 import { GraphQLList, GraphQLInt } from 'graphql';
 import RecipeType from '../types/RecipeType';
-import { Recipe, Grain, Hop, Yeast } from '../models';
+import { Recipe, Grain, Hop, Yeast, MashSchedule, RecipeFermentation } from '../models';
+import _ from 'lodash';
 
 const loadRecipe = {
   type: RecipeType,
@@ -22,6 +23,14 @@ const loadRecipe = {
         attributes: ['id', 'name', 'description', 'mfg', 'code', 'rangeC', 'rangeF', 'tolerance'],
         model: Yeast,
         as: 'yeast'
+      }, {
+        attributes: ['thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'],
+        model: MashSchedule,
+        as: 'mashSchedule'
+      }, {
+        attributes: ['pitchRateMillionsMLP'],
+        model: RecipeFermentation,
+        as: 'fermentation'
       }],
       where: {
         id: id,
@@ -64,7 +73,16 @@ const loadRecipe = {
         mfgDate: yeast.RecipeYeast.mfgDate,
         attenuation: yeast.RecipeYeast.attenuation,
         quantity: yeast.RecipeYeast.quantity
-      }))
+      })),
+      fermentation: _.pick(recipe.fermentation, 'pitchRateMillionsMLP'),
+      mashSchedule: {
+        thickness: JSON.parse(recipe.mashSchedule.thickness),
+        absorption: JSON.parse(recipe.mashSchedule.absorption),
+        boilOff: JSON.parse(recipe.mashSchedule.boilOff),
+        grainTemp: JSON.parse(recipe.mashSchedule.grainTemp),
+        infusionTemp: JSON.parse(recipe.mashSchedule.infusionTemp),
+        mashoutTemp: JSON.parse(recipe.mashSchedule.mashoutTemp)
+      }
     }));
   }
 };

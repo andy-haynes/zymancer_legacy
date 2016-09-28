@@ -12,6 +12,8 @@ import RecipeYeast from './RecipeYeast';
 import Grain from './Grain';
 import Hop from './Hop';
 import Yeast from './Yeast';
+import MashSchedule from './MashSchedule';
+import RecipeFermentation from './RecipeFermentation';
 import BJCPCategory from './BJCPCategory';
 import BJCPStyle from './BJCPStyle';
 import _ from 'lodash';
@@ -63,6 +65,10 @@ Hop.belongsToMany(Recipe, { through: RecipeHop, as: 'recipes', foreignKey: 'hopI
 // Recipe <- RecipeYeast -> Yeast
 Recipe.belongsToMany(Yeast, { through: RecipeYeast, as: 'yeast', foreignKey: 'recipeId' });
 Yeast.belongsToMany(Recipe, { through: RecipeYeast, as: 'recipes', foreignKey: 'yeastId' });
+
+// why does't this work when the sour are reversed and 'belongsTo' is used?
+Recipe.hasOne(MashSchedule, { as: 'mashSchedule', foreignKey: 'recipeId' });
+Recipe.hasOne(RecipeFermentation, { as: 'fermentation', foreignKey: 'recipeId' });
 
 BJCPStyle.belongsTo(BJCPCategory, { as: 'category', foreignKey: 'categoryId' });
 
@@ -127,6 +133,8 @@ export {
   Grain,
   Hop,
   Yeast,
+  MashSchedule,
+  RecipeFermentation,
   BJCPCategory,
   BJCPStyle
 };
