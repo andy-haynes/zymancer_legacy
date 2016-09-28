@@ -16,7 +16,9 @@ const Recipe = ({ recipe, loadRecipe }) => (
       <div className="pure-u-1-24"></div>
       <div className="pure-u-10-24">
         <div className={s.recipeName}>
-          {recipe.name}
+          <Link to={`/recipe/${recipe.id}`}>
+            {recipe.name}
+          </Link>
         </div>
       </div>
       <div className="pure-u-3-24">

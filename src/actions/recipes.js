@@ -76,13 +76,6 @@ export function recipeSaved() {
   return { type: RecipeSaved };
 }
 
-export function importRecipe(recipe) {
-  return {
-    type: ImportRecipe,
-    recipe
-  };
-}
-
 const recipeFetchMap = {
   [RecipeType.SavedRecipes]: { query: 'savedRecipes', action: receiveSavedRecipes },
   [RecipeType.SharedRecipes]: { query: 'sharedRecipes', action: receiveSharedRecipes },
@@ -122,37 +115,5 @@ export function saveCurrentRecipe(recipe) {
   return (dispatch, getState, helpers) => {
     return helpers.graphqlRequest(recipe.exportToGraphql())
             .then(response => dispatch(recipeSaved()));
-  };
-}
-
-// load recipe
-export function loadSavedRecipe(recipeId) {
-  return (dispatch, getState, helpers) => {
-    function mapJsonToRecipe(json) {
-      let { hops, yeast, fermentation } = json.data.loadRecipe;
-
-      hops = hops && hops.length ? _.groupBy(hops, h => h.id) : [];
-      const rolledHops = Object.keys(hops).map(k => ({
-        id: k,
-        name: hops[k][0].name,
-        alpha: hops[k][0].alpha,
-        beta: hops[k][0].beta,
-        categories: hops[k][0].categories,
-        additions: hops[k].map(a => ({ minutes: a.minutes, weight: a.weight }))
-      }));
-
-      return Object.assign({}, json.data.loadRecipe, {
-        hops: rolledHops,
-        fermentation: {
-          pitchRate: fermentation.pitchRateMillionsMLP,
-          yeasts: yeast.map(y => Object.assign({}, y, {
-            mfgDate: new Date(y.mfgDate)
-          }))
-        }
-      })
-    }
-
-    return helpers.graphqlRequest(currentRecipe.buildLoadRecipeQuery(recipeId))
-            .then(json => dispatch(importRecipe(mapJsonToRecipe(json))));
   };
 }

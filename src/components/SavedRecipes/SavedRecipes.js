@@ -25,7 +25,6 @@ class SavedRecipes extends React.Component {
                 <Recipe
                   key={recipe.id}
                   recipe={recipe}
-                  loadRecipe={this.props.loadRecipe}
                 />
               </div>
             </div>

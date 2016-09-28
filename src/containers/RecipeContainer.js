@@ -12,7 +12,9 @@ import {
   saveCurrentRecipe
 } from '../actions/recipes';
 
-const mapStateToProps = (state) => ({ recipe: state.currentRecipe });
+const mapStateToProps = (state, props) => ({
+  recipe: (props.recipe && !state.loaded) ? Object.assign({}, state.currentRecipe, props.recipe) : state.currentRecipe
+});
 
 const mapDispatchToProps = (dispatch) => {
   return {

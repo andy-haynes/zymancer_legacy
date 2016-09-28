@@ -16,7 +16,6 @@ import {
   SetGrainGravity,
   SetGrainLovibond,
 // recipe
-  ImportRecipe,
   SetRecipeName,
   SetRecipeStyle,
   SetBoilTime,
@@ -80,6 +79,7 @@ import _ from 'lodash'
 const initialState = {
   name: 'My Awesome Mixed Beer #6',
   style: 'American Pale Ale',
+  loaded: false,
   originalGravity: 1.0,
   finalGravity: 1.0,
   IBU: 0,
@@ -158,15 +158,11 @@ const recipe = (state = initialState, action) => {
   const updateRecipe = (changed, refresh = true) => {
     let r = Object.assign({}, state, refresh ? recalculate(state, changed) : changed);
     r.exportToGraphql = exportToGraphql.bind(r);
+    r.loaded = true;
     return r;
   };
 
   switch (action.type) {
-    case ImportRecipe:
-      return Object.assign({}, updateRecipe(action.recipe), {
-        name: action.recipe.name,
-        style: action.recipe.style
-      });
     case SetRecipeName:
       return updateRecipe({ name: action.name }, false);
     case SetRecipeStyle:
