@@ -7,13 +7,12 @@ import {
   ReceiveSharedRecipes,
   InvalidatePublicRecipes,
   RequestPublicRecipes,
-  ReceivePublicRecipes,
-  LoadSavedRecipe
+  ReceivePublicRecipes
 } from '../constants/ServerActionTypes';
 import {
   SaveRecipe,
   RecipeSaved,
-  ImportRecipe
+  LoadSavedRecipe
 } from '../constants/RecipeActionTypes';
 import {
   RecipeType
@@ -64,6 +63,12 @@ export function invalidateSharedRecipes() {
 
 export function invalidatePublicRecipes() {
   return { type: InvalidatePublicRecipes };
+}
+
+export function loadSavedRecipe(recipe) {
+  return {
+    type: LoadSavedRecipe, recipe
+  };
 }
 
 export function recipeSaved(recipeId) {

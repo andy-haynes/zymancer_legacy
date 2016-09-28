@@ -16,6 +16,7 @@ import {
   SetGrainGravity,
   SetGrainLovibond,
 // recipe
+  LoadSavedRecipe,
   SetRecipeName,
   SetRecipeStyle,
   SetBoilTime,
@@ -40,7 +41,7 @@ import {
   SetYeastQuantity,
   AddStarterStep,
   RemoveStarterStep
-} from '../constants/RecipeActionTypes';//region imports
+} from '../constants/RecipeActionTypes';
 import {
   FilterHopResults,
   ClearHopSearch,
@@ -95,7 +96,7 @@ const initialState = {
 };
 
 function recalculate(state, changed) {
-  let { grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed);
+  let { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed);
 
   const thicknessUnit = mashSchedule.thickness.consequent;
   const grainWeight = { value: _.sumBy(grains, g => convertToUnit(g.weight, thicknessUnit)), unit: thicknessUnit };
@@ -114,7 +115,7 @@ function recalculate(state, changed) {
   finalGravity = calculateFinalGravity(originalGravity, attenuation);
   ABV = calculateABV(originalGravity, finalGravity);
 
-  return { grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV };
+  return { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV };
 }
 
 const recipe = (state = initialState, action) => {
@@ -126,6 +127,8 @@ const recipe = (state = initialState, action) => {
   );
 
   switch (action.type) {
+    case LoadSavedRecipe:
+      return updateRecipe(action.recipe);
     case SetRecipeName:
       return updateRecipe({ name: action.name }, false);
     case SetRecipeStyle:

@@ -25,6 +25,7 @@ export const SetMashoutTemp = 'SetMashoutTemp';
 export const SetGrainTemp = 'SetGrainTemp';
 
 // recipe actions
+export const LoadSavedRecipe = 'LoadSavedRecipe';
 export const SaveRecipe = 'SaveRecipe';
 export const RecipeSaved = 'RecipeSaved';
 export const SetRecipeName = 'SetRecipeName';

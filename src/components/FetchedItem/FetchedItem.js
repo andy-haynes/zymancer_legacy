@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './FetchedItem.css';
+import CircularProgress from 'material-ui/CircularProgress';
 
 class FetchedItem extends React.Component {
   constructor(props) {
@@ -14,9 +15,9 @@ class FetchedItem extends React.Component {
   render() {
     return (
       <div className={s.fetchedItem}>
-        {this.props.isFetching && 'looking for your objects'}
         {!this.props.isFetching && !this.props.children && `you fucked up! null? ${this.props.children == null}`}
         {!this.props.isFetching && this.props.children}
+        {this.props.isFetching && <CircularProgress />}
       </div>
     );
   }
