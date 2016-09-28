@@ -24,7 +24,7 @@ const loadRecipe = {
         model: Yeast,
         as: 'yeast'
       }, {
-        attributes: ['thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'],
+        attributes: ['style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'],
         model: MashSchedule,
         as: 'mashSchedule'
       }, {
@@ -77,6 +77,7 @@ const loadRecipe = {
       })),
       fermentation: _.pick(recipe.fermentation, 'pitchRateMillionsMLP'),
       mashSchedule: {
+        style: recipe.mashSchedule.style,
         thickness: JSON.parse(recipe.mashSchedule.thickness),
         absorption: JSON.parse(recipe.mashSchedule.absorption),
         boilOff: JSON.parse(recipe.mashSchedule.boilOff),

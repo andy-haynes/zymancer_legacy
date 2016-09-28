@@ -43,6 +43,7 @@ export const MashScheduleType = new GraphQLObjectType({
   name: 'MashScheduleType',
   fields: {
     recipeId: { type: new GraphQLNonNull(GraphQLInt) },
+    style: { type: GraphQLString },
     thickness: { type: RatioType },
     absorption: { type: RatioType },
     boilOff: { type: RatioType },
@@ -55,6 +56,7 @@ export const MashScheduleType = new GraphQLObjectType({
 export const MashScheduleInputType = new GraphQLInputObjectType({
   name: 'MashScheduleInputType',
   fields: {
+    style: { type: GraphQLString },
     thickness: { type: RatioInputType },
     absorption: { type: RatioInputType },
     boilOff: { type: RatioInputType },

@@ -24,6 +24,7 @@ import {
   SetTargetVolume,
   SetEfficiency,
 // mash
+  SetMashStyle,
   SetMashThickness,
   SetBoilOff,
   SetGrainAbsorption,
@@ -105,7 +106,9 @@ function exportToGraphql() {
     attenuation: roundTo(y.attenuation / 100, 2)
   })));
 
-  const mashSchedule = jsonToGraphql(_.pick(this.mashSchedule, 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'));
+  const mashSchedule = jsonToGraphql(
+    _.pick(this.mashSchedule, 'style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp')
+  );
 
   const fermentation = jsonToGraphql({
     pitchRateMillionsMLP: this.fermentation.pitchRate
@@ -193,6 +196,7 @@ const recipe = (state = initialState, action) => {
     case SetGrainGravity:
     case SetGrainLovibond:
       return updateRecipe({ grains: state.grains.map(g => g.id === action.grain.id ? grain(g, action) : g) });
+    case SetMashStyle:
     case SetMashThickness:
     case SetBoilOff:
     case SetGrainAbsorption:
@@ -260,6 +264,7 @@ recipe.buildLoadRecipeQuery = function(recipeId) {
         pitchRateMillionsMLP
       },
       mashSchedule {
+        style,
         thickness { value, antecedent, consequent },
         absorption { value, antecedent, consequent },
         boilOff { value, antecedent, consequent },

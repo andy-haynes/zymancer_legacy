@@ -5,9 +5,12 @@ import SliderInput from '../SliderInput';
 import Measurement from '../Measurement';
 import Ratio from '../Ratio';
 import Paper from 'material-ui/Paper';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import { GrainWeight, RecipeVolume, BoilOffTime, TemperatureOptions } from '../../constants/MeasurementUnits';
 
 const MashSchedule = ({
+  style,
   thickness,
   boilOff,
   absorption,
@@ -18,6 +21,7 @@ const MashSchedule = ({
   spargeTemp,
   strikeVolume,
   spargeVolume,
+  setStyle,
   setThickness,
   setBoilOff,
   setAbsorption,
@@ -127,12 +131,21 @@ const MashSchedule = ({
       <div className="pure-u-1-2">
         <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
+            <div className="pure-u-14-24">
+              <div className={s.mashLabel}>
+                <SelectField value={style} onChange={(e, i, v) => setStyle(v)}>
+                  <MenuItem value="Infusion Sparge" primaryText="Infusion Sparge" />
+                  <MenuItem value="Brew in a Bag" primaryText="Brew in a Bag" />
+                  <MenuItem value="Decoction" primaryText="Decoction" />
+                </SelectField>
+              </div>
+            </div>
             <div className="pure-u-4-24">
               <div className={s.mashLabel}>
                 Grain Temp
               </div>
             </div>
-            <div className="pure-u-8-24">
+            <div className="pure-u-6-24">
               <Measurement measurement={grainTemp} update={setGrainTemp} options={TemperatureOptions} />
             </div>
           </div>

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import {
+  setMashStyle,
   setMashThickness,
   setBoilOff,
   setGrainAbsorption,
@@ -13,6 +14,7 @@ const mapStateToProps = (state) => ({ ...state.currentRecipe.mashSchedule });
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setStyle: (style) => dispatch(setMashStyle(style)),
     setThickness: (thickness) => dispatch(setMashThickness(thickness)),
     setBoilOff: (boilOff) => dispatch(setBoilOff(boilOff)),
     setAbsorption: (absorption) => dispatch(setGrainAbsorption(absorption)),

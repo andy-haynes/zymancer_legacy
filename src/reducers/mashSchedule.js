@@ -1,4 +1,5 @@
 import {
+  SetMashStyle,
   SetMashThickness,
   SetBoilOff,
   SetGrainAbsorption,
@@ -20,6 +21,7 @@ import { Quart, Fahrenheit } from '../constants/Units';
 
 const emptyVolume = { value: 0, unit: Quart };
 const initialState = {
+  style: 'Infusion Sparge',
   thickness: DefaultMashThickness,
   boilOff: DefaultBoilOffRate,
   absorption: DefaultGrainAbsorptionLoss,
@@ -38,6 +40,10 @@ const convertRatioDelta = (ratio, delta) => {
 
 const mashSchedule = (state = initialState, action) => {
   switch (action.type) {
+    case SetMashStyle:
+      return Object.assign({}, state, {
+        style: action.style
+      });
     case SetMashThickness:
       return Object.assign({}, state, {
         thickness: convertRatioDelta(state.thickness, action.thickness)

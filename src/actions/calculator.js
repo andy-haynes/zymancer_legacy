@@ -17,6 +17,7 @@ import {
   SetHopAlpha,
   SetHopBeta,
   // mash
+  SetMashStyle,
   SetMashThickness,
   SetBoilOff,
   SetGrainAbsorption,
@@ -89,6 +90,7 @@ export const setHopAlpha = createAction(SetHopAlpha, ['hop', 'alpha']);
 export const setHopBeta = createAction(SetHopBeta, ['hop', 'beta']);
 
 // ************************* mash schedule ************************
+export const setMashStyle = createAction(SetMashStyle, ['style']);
 export const setMashThickness = createAction(SetMashThickness, ['thickness']);
 export const setBoilOff = createAction(SetBoilOff, ['boilOff']);
 export const setGrainAbsorption = createAction(SetGrainAbsorption, ['absorption']);

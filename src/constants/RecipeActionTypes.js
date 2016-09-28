@@ -16,6 +16,7 @@ export const SetHopAdditionWeight = 'SetHopAdditionWeight';
 export const RemoveHopAddition = 'RemoveHopAddition';
 
 // mash action types
+export const SetMashStyle = 'SetMashStyle';
 export const SetMashThickness = 'SetMashThickness';
 export const SetBoilOff = 'SetBoilOff';
 export const SetGrainAbsorption = 'SetGrainAbsorption';

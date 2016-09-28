@@ -67,7 +67,7 @@ const saveRecipe = {
       return recipe;
     }).then(recipe => {
       MashSchedule.create(Object.assign(
-        _.pick(mashSchedule, 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'),
+        _.pick(mashSchedule, 'style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'),
         { recipeId: recipe.id }
       ));
 
