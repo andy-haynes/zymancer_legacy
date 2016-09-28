@@ -19,7 +19,7 @@ class SavedRecipes extends React.Component {
       return (
         <FetchedItem isFetching={isFetching} load={() => this.props.retrieveRecipes(recipeType)}>
           {!isFetching && recipes && recipes.map(recipe => (
-            <div className="pure-g">
+            <div key={`recipe-container-${recipe.id}`} className="pure-g">
               <div className="pure-u-1-4"></div>
               <div className="pure-u-1-2">
                 <Recipe

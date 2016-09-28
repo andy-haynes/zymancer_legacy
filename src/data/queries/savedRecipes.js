@@ -6,7 +6,7 @@ const savedRecipes = {
   type: new GraphQLList(RecipeType),
   async resolve({ request }) {
     return await Recipe.findAll({
-      attributes: ['id', 'name', 'IBU', 'ABV', 'OG', 'FG'],
+      attributes: ['id', 'name', 'style', 'IBU', 'ABV', 'OG', 'FG'],
       where: { ownerId: request.user.id }
     });
   }

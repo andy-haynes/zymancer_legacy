@@ -91,7 +91,7 @@ const recipeFetchMap = {
 function fetchRecipes(recipeType) {
   return (dispatch, getState, helpers) => {
     const { query, action } = recipeFetchMap[recipeType];
-    return helpers.graphqlRequest(`{${query}{ id, name, ABV, IBU, OG, FG }}`)
+    return helpers.graphqlRequest(`{${query}{ id, name, style, ABV, IBU, OG, FG }}`)
             .then(json => dispatch(action(json)));
   };
 }
