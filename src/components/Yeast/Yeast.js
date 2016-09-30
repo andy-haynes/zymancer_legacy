@@ -18,8 +18,9 @@ import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 const Yeast = ({ yeast, removeYeast, setMfgDate, setAttenuation, setViability, setQuantity, addStarterStep, removeStarterStep }) => (
   <Paper className={s.yeast} zDepth={2}>
     <div className="pure-g">
-      <div className="pure-u-18-24">
+      <div className="pure-u-11-24">
         <span className={s.yeastName}>{yeast.name}</span>
+        <br/>
         <span className={s.yeastMfg}>
           <a href={yeast.url} target="_blank">
             {yeast.mfg} {yeast.code}
@@ -27,11 +28,58 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setAttenuation, setViability, s
         </span>
       </div>
       <div className="pure-u-4-24">
+        <div className="pure-g">
+          <div className="pure-u-1-1">
+            <div className={s.yeastLabel}>Manufactured</div>
+            <DatePicker
+              id="yeast-mfg-date"
+              value={yeast.mfgDate}
+              onChange={(e, date) => setMfgDate(date)}
+              hintText="Mfg Date"
+              textFieldStyle={{width: '90px'}}
+              /*minDate={subtractMonthsFromNow(YeastViabilityMonths)}*/
+              maxDate={new Date()}
+              formatDate={(d) => dateFormat(d, 'd mmm yy')}
+              autoOk
+              disableYearSelection
+            />
+          </div>
+        </div>
+      </div>
+      <div className="pure-u-3-24">
+        <div className="pure-g">
+          <div className="pure-u-1-1">
+            <div className={s.yeastLabel}>Viability</div>
+            <TextField
+              id="yeast-viability"
+              value={yeast.viability}
+              onChange={(e) => setViability(e.target.value)}
+              style={{width: '36px'}}
+            />%
+          </div>
+        </div>
+      </div>
+      <div className="pure-u-2-24">
+        <div className="pure-g">
+          <div className="pure-u-1-1">
+            <div className={s.yeastLabel}>Quantity</div>
+            <TextField
+              id="yeast-quantity"
+              type="number"
+              value={yeast.quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              style={{width: '24px', marginLeft: '12px'}}
+            />
+          </div>
+        </div>
+      </div>
+      <div className="pure-u-2-24"></div>
+      <div className="pure-u-1-24">
         <IconButton>
           <NavigationExpandLess />
         </IconButton>
       </div>
-      <div className="pure-u-2-24">
+      <div className="pure-u-1-24">
         <IconButton onClick={removeYeast}>
           <ContentRemoveCircle />
         </IconButton>
@@ -39,110 +87,61 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setAttenuation, setViability, s
     </div>
     <hr/>
     <div className="pure-g">
-      <div className="pure-u-1-12"></div>
-      <div className="pure-u-1-6">
-        <span className={s.yeastLabel}>Temperature</span>
-      </div>
-      <div className="pure-u-1-6"></div>
-      <div className="pure-u-1-6">
-        <span className={s.yeastLabel}>Flocculation</span>
-      </div>
-      <div className="pure-u-1-6"></div>
-      <div className="pure-u-1-6">
-        <span className={s.yeastLabel}>Tolerance</span>
-      </div>
-    </div>
-    <div className="pure-g">
-      <div className="pure-u-1-12"></div>
-      <div className="pure-u-1-6">
-        <span className={s.yeastValue}>
-          {yeast.tempLowF} &ndash; {yeast.tempHighF} °F
-        </span>
-      </div>
-      <div className="pure-u-1-6"></div>
-      <div className="pure-u-1-6">
-        <span className={s.yeastValue}>
-          {yeast.flocculation}
-        </span>
-      </div>
-      <div className="pure-u-1-6"></div>
-      <div className="pure-u-1-6">
-        <span className={s.yeastValue}>
-          {yeast.tolerance}
-        </span>
-      </div>
-    </div>
-    <div className="pure-g">
       <div className="pure-u-1-1">
         <div className={s.yeastDescription}>
           {yeast.description}
         </div>
         <div className={s.yeastStyles}>
-          <b>Styles</b> {yeast.styles}
+          {!!yeast.styles.length && <b>Styles</b>} {yeast.styles}
         </div>
       </div>
     </div>
     <hr/>
     <div className="pure-g">
-      <div className="pure-u-1-12"></div>
-      <div className="pure-u-1-6">
-        <span className={s.yeastLabel}>Manufactured</span>
-      </div>
-      <div className="pure-u-1-24"></div>
-      <div className="pure-u-1-8">
-        <span className={s.yeastLabel}>Viability</span>
-      </div>
-      <div className="pure-u-1-12">
-        <span className={s.yeastLabel}>Quantity</span>
-      </div>
-      <div className="pure-u-1-24"></div>
       <div className="pure-u-1-3">
         <span className={s.yeastLabel}>Attenuation</span>
       </div>
-    </div>
-    <div className="pure-g">
       <div className="pure-u-1-12"></div>
       <div className="pure-u-1-6">
-        <DatePicker
-          id="yeast-mfg-date"
-          value={yeast.mfgDate}
-          onChange={(e, date) => setMfgDate(date)}
-          hintText="Mfg Date"
-          textFieldStyle={{width: '90px'}}
-          /*minDate={subtractMonthsFromNow(YeastViabilityMonths)}*/
-          maxDate={new Date()}
-          formatDate={(d) => dateFormat(d, 'd mmm yy')}
-          autoOk
-          disableYearSelection
-        />
+        <div className={s.yeastLabel}>Temperature</div>
       </div>
       <div className="pure-u-1-24"></div>
-      <div className="pure-u-1-8">
-        <TextField
-          id="yeast-viability"
-          value={yeast.viability}
-          onChange={(e) => setViability(e.target.value)}
-          style={{width: '36px'}}
-        />%
-      </div>
-      <div className="pure-u-1-12">
-        <TextField
-          id="yeast-quantity"
-          type="number"
-          value={yeast.quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-          style={{width: '24px'}}
-        />
+      <div className="pure-u-1-6">
+        <div className={s.yeastLabel}>Flocculation</div>
       </div>
       <div className="pure-u-1-24"></div>
-      <div className="pure-u-1-3">
+      <div className="pure-u-1-6">
+        <div className={s.yeastLabel}>Tolerance</div>
+      </div>
+    </div>
+    <div className="pure-g">
+      <div className="pure-u-8-24">
         <SliderInput
           value={yeast.attenuation}
           update={setAttenuation}
           min={yeast.attenuationLow}
           max={yeast.attenuationHigh}
           step={0.1}
+          style={{paddingBottom: '16px', height: '40px'}}
         />
+      </div>
+      <div className="pure-u-2-24"></div>
+      <div className="pure-u-4-24">
+        <div className={s.yeastValue}>
+          {yeast.tempLowF} &ndash; {yeast.tempHighF} °F
+        </div>
+      </div>
+      <div className="pure-u-1-24"></div>
+      <div className="pure-u-4-24">
+        <div className={s.yeastValue}>
+          {yeast.flocculation}
+        </div>
+      </div>
+      <div className="pure-u-1-24"></div>
+      <div className="pure-u-4-24">
+        <div className={s.yeastValue}>
+          {yeast.tolerance}
+        </div>
       </div>
     </div>
   </Paper>

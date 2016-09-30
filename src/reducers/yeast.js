@@ -39,7 +39,7 @@ const yeast = (state = {}, action) => {
         tempLowC: tempC.low,
         viability: calculateYeastViability(mfgDate),
         flocculation: action.yeast.flocculation,
-        tolerance: parseFloat(action.yeast.tolerance),
+        tolerance: action.yeast.tolerance,
         styles: action.yeast.styles.join(', '),
         starterSteps: []
       };
