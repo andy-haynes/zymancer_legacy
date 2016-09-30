@@ -18,4 +18,5 @@ export const IngredientType = {
   Yeast
 };
 
-export const MinSearchQueryLength = 3;
+export const MinSearchQueryLength = 2;
+export const MaxSearchResults = 10;
