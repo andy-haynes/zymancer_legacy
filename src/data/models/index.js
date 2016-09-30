@@ -98,7 +98,7 @@ function sync(...args) {
           { aroma: hop.aroma.join(','), categories: hop.categories.join(',') }
         )))).then(() => Yeast.bulkCreate(Ingredients.filter(i => i.ingredientType === 3).map(yeast => Object.assign(
           _.pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'rangeF', 'rangeC', 'tolerance', 'attenuation', 'mfg'),
-          { styles: yeast.styles.join(',') }
+          { styles: yeast.styles ? yeast.styles.join(',') : null }
         )))).then(() => BJCPCategory.bulkCreate(Object.keys(styles).map(k => ({
           id: parseInt(k),
           name: styles[k].name,

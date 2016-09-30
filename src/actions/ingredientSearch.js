@@ -55,7 +55,7 @@ export function updateYeastResults({ data }) {
   return {
     type: UpdateYeastResults,
     results: data.searchYeast.map(yeast => Object.assign({}, yeast, {
-      styles: yeast.styles.split(',')
+      styles: yeast.styles ? yeast.styles.split(',') : []
     }))
   };
 }
