@@ -12,7 +12,14 @@
 }
 
 .grainDetail {
-  padding: 12px 10px 6px 10px;
+  font-size: 14px;
+  padding: 6px 10px 4px 10px;
+}
+
+.grainSubtext {
+  font-size: 10px;
+  color: #666;
+  padding: 0 22px 3px 3px;
 }
 
 .grainColor {

@@ -19,17 +19,14 @@ const GrainSearch = ({ query, results, loading, error, addGrain, searchGrains })
         {results.length === 0 ? '' : (
           <div className={s.resultsHeader}>
             <div className="pure-g">
-              <div className="pure-u-12-24">
-                <span>Name</span>
+              <div className="pure-u-15-24">
+                Name
               </div>
-              <div className="pure-u-4-24">
-                <span>Gravity</span>
+              <div className="pure-u-6-24">
+                Maltster
               </div>
-              <div className="pure-u-4-24">
-                <span>Lovibond</span>
-              </div>
-              <div className="pure-u-4-24">
-                <span>Color</span>
+              <div className="pure-u-3-24">
+                Color
               </div>
             </div>
           </div>
@@ -38,7 +35,7 @@ const GrainSearch = ({ query, results, loading, error, addGrain, searchGrains })
           <GrainSearchOption
             key={grain.id}
             addGrain={() => addGrain(Object.assign({}, grain))}
-            {...grain}
+            grain={grain}
           />
         ))}
       </div>

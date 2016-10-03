@@ -20,6 +20,7 @@ import _ from 'lodash';
 
 import Ingredients from '../../constants/TestIngredients';
 import styles from '../../constants/BJCP_JSON';
+import { DBFGtoGravity } from '../../utils/BrewMath';
 
 User.hasMany(UserLogin, {
   foreignKey: 'userId',
@@ -92,8 +93,16 @@ function sync(...args) {
           type: 'urn:google:access_token',
           value: 'ya29.CjBoA4VfDDBaobEg88kaAsLu_i8GxedUA7rRLn5zZoU6XB2CDcwAWrrMji7mHm9WmXM',
           userId: 'c17bd4a0-8288-11e6-9448-dd60cdc5f340'
-        })).then(() => Grain.bulkCreate(Ingredients.filter(i => i.ingredientType === 1).map(grain => _.pick(grain, 'name', 'category', 'gravity', 'lovibond', 'description')))
-        ).then(() => Hop.bulkCreate(Ingredients.filter(i => i.ingredientType === 2).map(hop => Object.assign(
+        })).then(() => Grain.bulkCreate(Ingredients.filter(i => i.ingredientType === 1).map(grain => Object.assign(
+            _.pick(grain, 'name', 'category', 'description', 'characteristics', 'flavor', 'mfg'), {
+              DBFG: isNaN(parseFloat(grain.DBFG)) ? null : parseFloat(grain.DBFG),
+              DBCG: isNaN(parseFloat(grain.DBCG)) ? null : parseFloat(grain.DBCG),
+              gravity: isNaN(parseFloat(grain.DBCG || grain.DBFG)) ? null : DBFGtoGravity(parseFloat(grain.DBCG || grain.DBFG)),
+              lovibond: isNaN(parseFloat(grain.lovibond)) ? null : parseFloat(grain.lovibond),
+              isExtract: grain.pdfUrl && (grain.pdfUrl.indexOf('LME') + grain.pdfUrl.indexOf('DME') > -2),
+              url: grain.pdfUrl || grain.url
+            }
+        )))).then(() => Hop.bulkCreate(Ingredients.filter(i => i.ingredientType === 2).map(hop => Object.assign(
           _.pick(hop, 'name', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'),
           { aroma: hop.aroma.join(','), categories: hop.categories.join(',') }
         )))).then(() => Yeast.bulkCreate(Ingredients.filter(i => i.ingredientType === 3).map(yeast => Object.assign(

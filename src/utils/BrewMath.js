@@ -20,11 +20,11 @@ import { roundTo, convertToUnit, monthsSinceDate } from './core';
 
 // gravity
 export const gravityToPoints = (gravity) => {
-  return (parseFloat(gravity) - 1) * 1000;
+  return !isNaN(gravity) ? (parseFloat(gravity) - 1) * 1000 : 0;
 };
 
 export const pointsToGravity = (points) => {
-  return roundTo(1 + (parseInt(points) / 1000), 3);
+  return !isNaN(points) ? roundTo(1 + (parseInt(points) / 1000), 3) : 1;
 };
 
 export const gravityToPlato = (gravity) => {
@@ -50,6 +50,17 @@ export const SRMtoRGB = (srm) => {
   return SRMColors[isNaN(srm) ? 0 : srm];
 };
 
+export const calculateGravity = (efficiencyPercentage, grains, targetVolume) => {
+  const efficiency = efficiencyPercentage / 100;
+  const points = _.sumBy(grains, grain => gravityToPoints(grain.gravity) * convertToUnit(grain.weight, Pound));
+  return pointsToGravity((efficiency * points) / convertToUnit(targetVolume, Gallon));
+};
+
+/* http://byo.com/mead/item/1544-understanding-malt-spec-sheets-advanced-brewing */
+export function DBFGtoGravity(dbfg) {
+  return roundTo(1 + ((dbfg / 100) * 0.04621), 3);
+}
+
 // hops
 export const calculateUtilization = (minutes, gravity) => {
   const fG = 1.65 * Math.pow(0.000125, gravity - 1);
@@ -71,12 +82,6 @@ export const calculateTotalIBU = (boilVolume, originalGravity, hops) => {
   return _.sumBy(hops, hop => {
     return _.sumBy(hop.additions, addition => calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume));
   });
-};
-
-export const calculateGravity = (efficiencyPercentage, grains, targetVolume) => {
-  const efficiency = efficiencyPercentage / 100;
-  const points = _.sumBy(grains, grain => gravityToPoints(grain.gravity) * convertToUnit(grain.weight, Pound));
-  return pointsToGravity((efficiency * points) / convertToUnit(targetVolume, Gallon));
 };
 
 // mash

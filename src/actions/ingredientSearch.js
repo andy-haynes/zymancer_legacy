@@ -68,7 +68,7 @@ const ingredientTypeMap = {
   [IngredientType.Grain]: {
     filter: filterGrainResults,
     update: updateGrainResults,
-    buildQuery: q => `{searchGrains(query:"${q}"){id,name,gravity,lovibond}}`
+    buildQuery: q => `{searchGrains(query:"${q}"){id,name,gravity,lovibond,flavor,characteristics,mfg}}`
   },
   [IngredientType.Hop]: {
     filter: filterHopResults,

@@ -6,8 +6,15 @@ const Grain = Model.define('Grains', {
   name: { type: DataType.STRING, allowNull: false },
   category: { type: DataType.STRING, allowNull: true },
   lovibond: { type: DataType.STRING, allowNull: true },
-  gravity: { type: DataType.DECIMAL, allowNull: false },
-  description: { type: DataType.STRING, allowNull: false }
+  flavor: { type: DataType.STRING, allowNull: true },
+  characteristics: { type: DataType.STRING, allowNull: true },
+  gravity: { type: DataType.DECIMAL, allowNull: true },
+  DBFG: { type: DataType.DECIMAL, allowNull: true },
+  DBCG: { type: DataType.DECIMAL, allowNull: true },
+  description: { type: DataType.STRING, allowNull: true },
+  mfg: { type: DataType.STRING, allowNull: false },
+  isExtract: { type: DataType.BOOLEAN, allowNull: false, defaultValue: false },
+  url: { type: DataType.STRING, allowNull: true }
 });
 
 export default Grain;

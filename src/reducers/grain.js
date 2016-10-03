@@ -13,7 +13,9 @@ const grain = (state = {}, action) => {
         gravity: action.grain.gravity,
         lovibond: parseFloat(action.grain.lovibond),
         category: action.grain.category,
-        description: action.grain.description
+        description: action.grain.description,
+        characteristics: action.grain.characteristics,
+        flavor: action.grain.flavor
       };
     case SetGrainWeight:
       return Object.assign({}, state, { weight: measurement(state.weight, action) });
