@@ -14,8 +14,8 @@ const searchHops = {
       attributes: Object.keys(YeastSearchType._fields),
       where: {
         $or: [
-          { name: { $like: `%${query}%` } },
-          { code: { $like: `%${query}%` } }
+          { name: { $iLike: `%${query}%` } },
+          { code: { $iLike: `%${query}%` } }
         ]
       }
     });

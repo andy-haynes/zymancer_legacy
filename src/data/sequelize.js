@@ -10,10 +10,14 @@
 import Sequelize from 'sequelize';
 import { databaseUrl } from '../config';
 
-const sequelize = new Sequelize(databaseUrl, {
+const sequelize = new Sequelize('Zymancer', 'postgres', 'autobot', {
+  dialect: 'postgres',
+  port: 5432,
   define: {
     freezeTableName: true,
-  },
+    charset: 'utf8',
+    collate: 'utf8_general_ci'
+  }
 });
 
 export default sequelize;

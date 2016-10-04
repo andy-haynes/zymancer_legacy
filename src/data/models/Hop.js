@@ -2,7 +2,7 @@ import DataType from 'sequelize';
 import Model from '../sequelize';
 
 const Hop = Model.define('Hops', {
-  id: { type: DataType.INTEGER, primaryKey: true },
+  id: { type: DataType.INTEGER, primaryKey: true, autoIncrement: true },
   name: { type: DataType.STRING, allowNull: false },
   categories: { type: DataType.STRING, allowNull: true },
   url: { type: DataType.STRING, allowNull: true },

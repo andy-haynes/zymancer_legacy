@@ -12,7 +12,7 @@ const searchGrains = {
     return await Grain.findAll({
       limit: MaxSearchResults,
       attributes: ['id', 'name', 'gravity', 'lovibond', 'flavor', 'characteristics', 'mfg'],
-      where: { name: { $like: `%${query}%` } }
+      where: { name: { $iLike: `%${query}%` } }
     });
   }
 };

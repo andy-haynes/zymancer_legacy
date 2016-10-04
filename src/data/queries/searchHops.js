@@ -12,7 +12,7 @@ const searchHops = {
     return await Hop.findAll({
       limit: MaxSearchResults,
       attributes: Object.keys(HopType._fields),
-      where: { name: { $like: `%${query}%` } }
+      where: { name: { $iLike: `%${query}%` } }
     });
   }
 };
