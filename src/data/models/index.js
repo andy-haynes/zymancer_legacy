@@ -80,48 +80,71 @@ function sync(...args) {
     if (!clean) {
       return sequelize.sync(...args);
     } else {
-      return sequelize.sync(Object.assign({}, args, { force: true }))
-        .then(() =>  User.create({
-          id: 'c17bd4a0-8288-11e6-9448-dd60cdc5f340',
-          email: 'andyghaynes@gmail.com',
-          emailConfirmed: true
-        })).then(() => UserLogin.create({
+      const users = [{
+        id: 'c17bd4a0-8288-11e6-9448-dd60cdc5f340',
+        email: 'andyghaynes@gmail.com',
+        claims: [{
           name: 'google',
-          key: '112708624366974007964',
-          userId: 'c17bd4a0-8288-11e6-9448-dd60cdc5f340'
-        })).then(() => UserClaim.create({
+          key: '112708624366974007964'
+        }],
+        logins: [{
           type: 'urn:google:access_token',
-          value: 'ya29.CjBoA4VfDDBaobEg88kaAsLu_i8GxedUA7rRLn5zZoU6XB2CDcwAWrrMji7mHm9WmXM',
-          userId: 'c17bd4a0-8288-11e6-9448-dd60cdc5f340'
-        })).then(() => Grain.bulkCreate(Ingredients.filter(i => i.ingredientType === 1).map(grain => Object.assign(
-            _.pick(grain, 'name', 'category', 'description', 'characteristics', 'flavor', 'mfg'), {
-              DBFG: isNaN(parseFloat(grain.DBFG)) ? null : parseFloat(grain.DBFG),
-              DBCG: isNaN(parseFloat(grain.DBCG)) ? null : parseFloat(grain.DBCG),
-              gravity: isNaN(parseFloat(grain.DBCG || grain.DBFG)) ? null : DBFGtoGravity(parseFloat(grain.DBCG || grain.DBFG)),
-              lovibond: isNaN(parseFloat(grain.lovibond)) ? null : parseFloat(grain.lovibond),
-              isExtract: grain.pdfUrl && (grain.pdfUrl.indexOf('LME') + grain.pdfUrl.indexOf('DME') > -2),
-              url: grain.pdfUrl || grain.url
-            }
-        )))).then(() => Hop.bulkCreate(Ingredients.filter(i => i.ingredientType === 2).map(hop => Object.assign(
-          _.pick(hop, 'name', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'),
-          { aroma: hop.aroma.join(','), categories: hop.categories.join(',') }
-        )))).then(() => Yeast.bulkCreate(Ingredients.filter(i => i.ingredientType === 3).map(yeast => Object.assign(
-          _.pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'rangeF', 'rangeC', 'tolerance', 'attenuation', 'mfg'),
-          { styles: yeast.styles ? yeast.styles.join(',') : null }
-        )))).then(() => BJCPCategory.bulkCreate(Object.keys(styles).map(k => ({
-          id: parseInt(k),
-          name: styles[k].name,
-          description: styles[k].description
-        })))).then(() => BJCPStyle.bulkCreate(
-          Object.keys(styles)
-            .map(k => styles[k].styles)
-            .reduce((prev, next) => prev.concat(next), [])
-            .map(style => Object.assign({}, style, {
-              categoryId: style.code ? parseInt(style.code) : (style.name.indexOf('IPA') > -1 ? 22 : 27),
-              commercialExamples: style.commercialExamples && style.commercialExamples.length ? style.commercialExamples.join(', ') : '',
-              tags: style.tags && style.tags.length ? style.tags.join(', ') : ''
-            }))
-        ));
+          value: 'ya29.CjBoA4VfDDBaobEg88kaAsLu_i8GxedUA7rRLn5zZoU6XB2CDcwAWrrMji7mHm9WmXM'
+        }]
+      }];
+
+      const logins = _.flatten(users.map(user => user.logins.map(login => ({ userId: user.id, ...login }))));
+      const claims = _.flatten(users.map(user => user.claims.map(claim => ({ userId: user.id, ...claim }))));
+
+      //region ingredients
+      const grains = Ingredients.filter(i => i.ingredientType === 1).map(grain => Object.assign(
+        _.pick(grain, 'name', 'category', 'description', 'characteristics', 'flavor', 'mfg', 'lovibond'), {
+          DBFG: isNaN(parseFloat(grain.DBFG)) ? null : parseFloat(grain.DBFG),
+          DBCG: isNaN(parseFloat(grain.DBCG)) ? null : parseFloat(grain.DBCG),
+          gravity: isNaN(parseFloat(grain.DBCG || grain.DBFG)) ? null : DBFGtoGravity(parseFloat(grain.DBCG || grain.DBFG)),
+          isExtract: grain.pdfUrl && (grain.pdfUrl.indexOf('LME') + grain.pdfUrl.indexOf('DME') > -2),
+          url: grain.pdfUrl || grain.url
+        }
+      ));
+
+      const hops = Ingredients.filter(i => i.ingredientType === 2).map(hop => Object.assign(
+        _.pick(hop, 'name', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
+          aroma: hop.aroma.join(','),
+          categories: hop.categories.join(',')
+        }
+      ));
+
+      const yeasts = Ingredients.filter(i => i.ingredientType === 3).map(yeast => Object.assign(
+        _.pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'rangeF', 'rangeC', 'tolerance', 'attenuation', 'mfg'), {
+          styles: yeast.styles ? yeast.styles.join(',') : null
+        }
+      ));
+
+      const categories = Object.keys(styles).map(k => ({
+        id: parseInt(k),
+        name: styles[k].name,
+        description: styles[k].description
+      }));
+
+      const bjcpStyles = Object.keys(styles)
+        .map(k => styles[k].styles)
+        .reduce((prev, next) => prev.concat(next), [])
+        .map(style => Object.assign({}, style, {
+          categoryId: style.code ? parseInt(style.code) : (style.name.indexOf('IPA') > -1 ? 21 : 27),
+          commercialExamples: style.commercialExamples && style.commercialExamples.length ? style.commercialExamples.join(', ') : '',
+          tags: style.tags && style.tags.length ? style.tags.join(', ') : ''
+        }));
+      //endregion
+
+      return sequelize.sync(Object.assign({}, args, { force: true }))
+        .then(() =>  User.bulkCreate(users.map(user => ({ emailConfirmed: true, ...user }))))
+        .then(() => UserClaim.bulkCreate(logins))
+        .then(() => UserLogin.bulkCreate(claims))
+        .then(() => Grain.bulkCreate(grains))
+        .then(() => Hop.bulkCreate(hops))
+        .then(() => Yeast.bulkCreate(yeasts))
+        .then(() => BJCPCategory.bulkCreate(categories))
+        .then(() => BJCPStyle.bulkCreate(bjcpStyles));
     }
   } else {
     return sequelize.sync(...args);
