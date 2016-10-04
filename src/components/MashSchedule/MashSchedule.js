@@ -131,14 +131,17 @@ const MashSchedule = ({
       <div className="pure-u-1-2">
         <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
-            <div className="pure-u-14-24">
+            <div className="pure-u-4-24">
               <div className={s.mashLabel}>
-                <SelectField value={style} onChange={(e, i, v) => setStyle(v)}>
-                  <MenuItem value="Infusion Sparge" primaryText="Infusion Sparge" />
-                  <MenuItem value="Brew in a Bag" primaryText="Brew in a Bag" />
-                  <MenuItem value="Decoction" primaryText="Decoction" />
-                </SelectField>
+                Mash Style
               </div>
+            </div>
+            <div className="pure-u-10-24">
+              <SelectField value={style} onChange={(e, i, v) => setStyle(v)} style={{position: 'relative', top: '4px'}}>
+                <MenuItem value="Infusion Sparge" primaryText="Infusion Sparge" />
+                <MenuItem value="Brew in a Bag" primaryText="Brew in a Bag" />
+                <MenuItem value="Decoction" primaryText="Decoction" />
+              </SelectField>
             </div>
             <div className="pure-u-4-24">
               <div className={s.mashLabel}>
