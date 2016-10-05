@@ -14,7 +14,7 @@ const hop = (state = {}, action) => {
   switch (action.type) {
     case AddHop:
       return {
-        id: action.hopId,
+        id: action.hop.id,
         alpha: roundTo(action.hop.alphaRange.avg, 1),
         beta: roundTo(action.hop.betaRange.avg, 1),
         alphaRange: action.hop.alphaRange,

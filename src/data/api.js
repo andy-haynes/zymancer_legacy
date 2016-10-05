@@ -102,10 +102,10 @@ export async function getRecipe(recipeId) {
 
 export async function saveRecipe(recipe) {
   const grains = recipe.grains.map(g => jsonToGraphql(_.pick(g, 'id', 'weight', 'lovibond', 'gravity')));
-  const hops = recipe.hops.map(h => h.additions.map(a => jsonToGraphql(Object.assign(
-    _.pick(a, 'alpha', 'beta', 'minutes', 'weight'),
-    { id: a.hop.id }
-  )))).reduce((prev, next) => prev.concat(next), []);
+  const hops = _.flatten(recipe.hops.map(h => h.additions.map(a => jsonToGraphql(Object.assign(
+    _.pick(h, 'id', 'alpha', 'beta'),
+    _.pick(a, 'minutes', 'weight')
+  )))));
 
   const yeast = recipe.fermentation.yeasts.map(y => jsonToGraphql(Object.assign(_.pick(y, 'id', 'quantity'), {
     mfgDate: y.mfgDate.toString(),
