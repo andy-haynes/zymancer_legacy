@@ -22,17 +22,23 @@ const GrainSearchOption = ({ grain, addGrain }) => (
       </div>
       <div
         className="pure-u-3-24"
-        style={{ backgroundColor: calculateGrainRGB({ value: 1, unit: Gallon }, Object.assign({}, grain, { weight: { value: 1, unit: Pound } })) }}
+        style={{
+          backgroundColor: calculateGrainRGB({
+              value: 1,
+              unit: Gallon
+            }, Object.assign({}, grain, {
+              weight: { value: 1, unit: Pound }
+            })
+          )
+        }}
       />
     </div>
   </div>
 );
 
+/*
 GrainSearchOption.propTypes = {
-  name:     PropTypes.string.isRequired,
-  gravity:  PropTypes.number.isRequired,
-  color: PropTypes.string.isRequired,
-  addGrain: PropTypes.func.isRequired
 };
+*/
 
 export default withStyles(s)(GrainSearchOption);
