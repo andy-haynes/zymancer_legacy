@@ -24,7 +24,6 @@ export const WeightInputType = new GraphQLInputObjectType({
 
 const _grainFields ={
   id: { type: new GraphQLNonNull(GraphQLInt) },
-  mfg: { type: new GraphQLNonNull(GraphQLString) },
   gravity: { type: GraphQLFloat },
   lovibond: { type: GraphQLString }
 };
@@ -37,7 +36,9 @@ const _grainViewFields = Object.assign({}, _grainFields, {
 
 export const GrainSearchType = new GraphQLObjectType({
   name: 'GrainSearchType',
-  fields: _grainViewFields
+  fields: Object.assign({}, _grainViewFields, {
+    mfg: { type: new GraphQLNonNull(GraphQLString) }
+  })
 });
 
 export const GrainType = new GraphQLObjectType({
