@@ -93,7 +93,6 @@ const recipeActions = {
   [RecipeType.PublicRecipes]: receivePublicRecipes
 };
 
-// why does the async have to be nested in the closure here but saveCurrentRecipe can be an async action?
 export function fetchRecipesIfNeeded(recipeType) {
   return async (dispatch, getState) => {
     if (shouldFetchRecipes(recipeType, getState())) {
@@ -104,7 +103,9 @@ export function fetchRecipesIfNeeded(recipeType) {
 }
 
 // save recipe
-export async function saveCurrentRecipe(recipe) {
-  const recipeId = await saveRecipe(recipe);
-  return (dispatch, getState, helpers) => dispatch(recipeSaved(recipeId));
+export function saveCurrentRecipe(recipe) {
+  return async (dispatch) => {
+    const recipeId = await saveRecipe(recipe);
+    return dispatch(recipeSaved(recipeId));
+  };
 }
