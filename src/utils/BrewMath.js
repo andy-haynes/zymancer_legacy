@@ -146,9 +146,9 @@ export const calculateMashoutWaterTemp = (strikeVolume, spargeVolume, grainWeigh
 };
 
 // yeast
-export const calculateFinalGravity = (originalGravity, attenuation) => {
+export const calculateFinalGravity = (originalGravity, apparentAttenuation) => {
   const ogPoints = gravityToPoints(originalGravity);
-  return pointsToGravity(ogPoints - (ogPoints * attenuation));
+  return pointsToGravity(ogPoints - (ogPoints * apparentAttenuation));
 };
 
 export const calculateABV = (originalGravity, finalGravity) => {

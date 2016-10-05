@@ -11,7 +11,7 @@ const Yeast = Model.define('Yeast', {
   rangeF: { type: DataType.STRING, allowNull: true },
   rangeC: { type: DataType.STRING, allowNull: true },
   tolerance: { type: DataType.STRING, allowNull: true },
-  attenuation: { type: DataType.STRING, allowNull: true },
+  attenuationRange: { type: DataType.STRING, allowNull: true },
   mfg: { type: DataType.STRING, allowNull: true },
   styles: { type: DataType.STRING(1024), allowNull: true }
 });

@@ -7,7 +7,7 @@ import Paper from 'material-ui/Paper';
 import s from './Fermentation.css';
 import YeastSearchContainer from '../../containers/YeastSearchContainer';
 
-const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setPitchRate, setMfgDate, setAttenuation, setViability, setQuantity, removeYeast, addStarterStep, removeStarterStep }) => (
+const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setPitchRate, setMfgDate, setApparentAttenuation, setViability, setQuantity, removeYeast, addStarterStep, removeStarterStep }) => (
   <div className={s.fermentation}>
     <div className="pure-g">
       <div className="pure-u-1-2">
@@ -70,7 +70,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setP
             key={yeast.id}
             yeast={yeast}
             setMfgDate={(date) => setMfgDate(yeast, date)}
-            setAttenuation={(attenuation) => setAttenuation(yeast, attenuation)}
+            setApparentAttenuation={(attenuation) => setApparentAttenuation(yeast, attenuation)}
             setViability={(viability) => setViability(yeast, viability)}
             setQuantity={(quantity) => setQuantity(yeast, quantity)}
             removeYeast={() => removeYeast(yeast)}

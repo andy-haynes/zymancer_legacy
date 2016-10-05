@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch) => {
     setPitchRate: (rate) => dispatch(setPitchRate(rate)),
     removeYeast: (yeast) => dispatch(removeYeast(yeast)),
     setMfgDate: (yeast, date) => dispatch(setYeastMfgDate(yeast, date)),
-    setAttenuation: (yeast, attenuation) => dispatch(setYeastAttenuation(yeast, attenuation)),
+    setApparentAttenuation: (yeast, attenuation) => dispatch(setYeastAttenuation(yeast, attenuation)),
     setViability: (yeast, viability) => dispatch(setYeastViability(yeast, viability)),
     setQuantity: (yeast, quantity) => dispatch(setYeastQuantity(yeast, quantity)),
     addStarterStep: (yeast, gravity, hours) => dispatch(addStarterStep(yeast, gravity, hours)),

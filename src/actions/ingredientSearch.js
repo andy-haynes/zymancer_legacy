@@ -78,7 +78,7 @@ const ingredientTypeMap = {
   [IngredientType.Yeast]: {
     filter: filterYeastResults,
     update: updateYeastResults,
-    buildQuery: q => `{searchYeast(query:"${q}"){id,name,url,code,attenuation,description,flocculation,rangeF,rangeC,tolerance,mfg,styles}}`
+    buildQuery: q => `{searchYeast(query:"${q}"){id,name,url,code,attenuationRange,description,flocculation,rangeF,rangeC,tolerance,mfg,styles}}`
   }
 };
 

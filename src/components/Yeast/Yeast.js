@@ -15,7 +15,7 @@ import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 
-const Yeast = ({ yeast, removeYeast, setMfgDate, setAttenuation, setViability, setQuantity, addStarterStep, removeStarterStep }) => (
+const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViability, setQuantity, addStarterStep, removeStarterStep }) => (
   <Paper className={s.yeast} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-11-24">
@@ -117,10 +117,10 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setAttenuation, setViability, s
     <div className="pure-g">
       <div className="pure-u-8-24">
         <SliderInput
-          value={yeast.attenuation}
-          update={setAttenuation}
-          min={yeast.attenuationLow}
-          max={yeast.attenuationHigh}
+          value={yeast.apparentAttenuation}
+          update={setApparentAttenuation}
+          min={yeast.attenuationRange.low}
+          max={yeast.attenuationRange.high}
           step={0.1}
           style={{paddingBottom: '16px', height: '40px'}}
         />

@@ -72,7 +72,8 @@ const loadRecipe = {
         rangeF: yeast.rangeF,
         tolerance: yeast.tolerance,
         mfgDate: yeast.RecipeYeast.mfgDate,
-        attenuation: yeast.RecipeYeast.attenuation,
+        attenuationRange: yeast.attenuationRange,
+        apparentAttenuation: yeast.RecipeYeast.apparentAttenuation,
         quantity: yeast.RecipeYeast.quantity
       })),
       fermentation: _.pick(recipe.fermentation, 'pitchRateMillionsMLP'),

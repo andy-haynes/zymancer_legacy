@@ -115,7 +115,7 @@ function sync(...args) {
       ));
 
       const yeasts = Ingredients.filter(i => i.ingredientType === 3).map(yeast => Object.assign(
-        _.pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'rangeF', 'rangeC', 'tolerance', 'attenuation', 'mfg'), {
+        _.pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'rangeF', 'rangeC', 'tolerance', 'attenuationRange', 'mfg'), {
           styles: yeast.styles ? yeast.styles.join(',') : null
         }
       ));

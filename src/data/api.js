@@ -59,7 +59,8 @@ export async function getRecipe(recipeId) {
         rangeF,
         rangeC,
         mfgDate,
-        attenuation,
+        attenuationRange,
+        apparentAttenuation,
         quantity
       },
       fermentation {
@@ -108,7 +109,7 @@ export async function saveRecipe(recipe) {
 
   const yeast = recipe.fermentation.yeasts.map(y => jsonToGraphql(Object.assign(_.pick(y, 'id', 'quantity'), {
     mfgDate: y.mfgDate.toString(),
-    attenuation: roundTo(y.attenuation / 100, 2)
+    apparentAttenuation: roundTo(y.apparentAttenuation / 100, 2)
   })));
 
   const mashSchedule = jsonToGraphql(

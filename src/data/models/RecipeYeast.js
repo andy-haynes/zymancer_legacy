@@ -7,7 +7,7 @@ const RecipeYeast = Model.define('RecipeYeast', {
   yeastId: { type: DataType.INTEGER, allowNull: false },
   mfgDate: { type: DataType.DATE, allowNull: true },
   quantity: { type: DataType.DECIMAL, allowNull: false },
-  attenuation: { type: DataType.DECIMAL, allowNull: false }
+  apparentAttenuation: { type: DataType.DECIMAL, allowNull: false }
 });
 
 export default RecipeYeast;

@@ -111,8 +111,8 @@ function recalculate(state, changed) {
   IBU = calculateTotalIBU(boilVolume, originalGravity, hops);
 
   fermentation.recommendedCellCount = calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume);
-  const attenuation = (_.sumBy(fermentation.yeasts, yeast => yeast.attenuation / 100) / fermentation.yeasts.length) || DefaultYeastAttenuation;
-  finalGravity = calculateFinalGravity(originalGravity, attenuation);
+  const apparentAttenuation = (_.sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || DefaultYeastAttenuation;
+  finalGravity = calculateFinalGravity(originalGravity, apparentAttenuation);
   ABV = calculateABV(originalGravity, finalGravity);
 
   return { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV };

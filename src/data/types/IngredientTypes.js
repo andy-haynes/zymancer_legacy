@@ -91,14 +91,13 @@ export const HopInputType = new GraphQLInputObjectType({
 });
 
 const _yeastFields = {
-  id: { type: new GraphQLNonNull(GraphQLInt) },
-  attenuation: { type: GraphQLString }
+  id: { type: new GraphQLNonNull(GraphQLInt) }
 };
 
 const _yeastRecipeFields = {
   mfgDate: { type: GraphQLString },
   quantity: {type: GraphQLInt },
-  attenuation: {type: GraphQLFloat }
+  apparentAttenuation: {type: GraphQLFloat }
 };
 
 const _yeastFieldsDetailed = Object.assign({}, _yeastFields, {
@@ -106,6 +105,7 @@ const _yeastFieldsDetailed = Object.assign({}, _yeastFields, {
   url: { type: new GraphQLNonNull(GraphQLString) },
   code: { type: GraphQLString },
   description: { type: GraphQLString },
+  attenuationRange: { type: GraphQLString },
   flocculation: { type: GraphQLString },
   rangeF: { type: GraphQLString },
   rangeC: { type: GraphQLString },

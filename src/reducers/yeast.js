@@ -54,7 +54,7 @@ const yeast = (state = {}, action) => {
       });
     case SetYeastAttenuation:
       return Object.assign({}, state, {
-        attenuation: action.attenuation
+        apparentAttenuation: action.attenuation
       });
     case SetYeastQuantity:
       return Object.assign({}, state, {

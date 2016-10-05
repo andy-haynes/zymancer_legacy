@@ -22,7 +22,7 @@ const YeastSearchOption = ({ yeast, addYeast }) => (
       </div>
       <div className="pure-u-4-24">
         <div className={s.yeastDetail}>
-          {yeast.attenuation}
+          {yeast.attenuationRange}
         </div>
       </div>
       <div className="pure-u-4-24">
