@@ -51,7 +51,7 @@ const loadRecipe = {
         name: grain.name,
         gravity: grain.RecipeGrains.gravity,
         lovibond: grain.RecipeGrains.lovibond,
-        weight: JSON.parse(grain.RecipeGrains.weight)
+        weight: grain.RecipeGrains.weight
       })),
       hops: recipe.hopAdditions.map(hop => ({
         id: hop.id,
@@ -60,7 +60,7 @@ const loadRecipe = {
         beta: hop.RecipeHops.beta,
         categories: hop.categories,
         minutes: hop.RecipeHops.minutes,
-        weight: JSON.parse(hop.RecipeHops.weight)
+        weight: hop.RecipeHops.weight
       })),
       yeast: recipe.yeast.map(yeast => ({
         id: yeast.id,
@@ -79,12 +79,12 @@ const loadRecipe = {
       fermentation: _.pick(recipe.fermentation, 'pitchRateMillionsMLP'),
       mashSchedule: {
         style: recipe.mashSchedule.style,
-        thickness: JSON.parse(recipe.mashSchedule.thickness),
-        absorption: JSON.parse(recipe.mashSchedule.absorption),
-        boilOff: JSON.parse(recipe.mashSchedule.boilOff),
-        grainTemp: JSON.parse(recipe.mashSchedule.grainTemp),
-        infusionTemp: JSON.parse(recipe.mashSchedule.infusionTemp),
-        mashoutTemp: JSON.parse(recipe.mashSchedule.mashoutTemp)
+        thickness: recipe.mashSchedule.thickness,
+        absorption: recipe.mashSchedule.absorption,
+        boilOff: recipe.mashSchedule.boilOff,
+        grainTemp: recipe.mashSchedule.grainTemp,
+        infusionTemp: recipe.mashSchedule.infusionTemp,
+        mashoutTemp: recipe.mashSchedule.mashoutTemp
       }
     }));
   }
