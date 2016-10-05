@@ -1,0 +1,6 @@
+{
+  "name": "GrainChart",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./GrainChart.js"
+}

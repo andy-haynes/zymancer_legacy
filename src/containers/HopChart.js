@@ -1,60 +1,42 @@
 import { connect } from 'react-redux';
-import { Radar } from 'react-chartjs';
+import HopChart from '../components/HopChart';
 import _ from 'lodash';
 
-//const categories = [
-//  'Citrus',
-//  'Herbal',
-//  'Earthy',
-//  'Floral',
-//  'Spicy',
-//  'Green',
-//  'Grassy',
-//  'Stone Fruit',
-//  'Tropical Fruit',
-//  'Fruity',
-//  'Pine',
-//  'Cedar'
-//];
-
 const datasetOptionDefaults = {
-  backgroundColor: 'rgba(179,181,198,0.2)',
-  borderColor: 'rgba(179,181,198,1)',
-  pointBackgroundColor: 'rgba(179,181,198,1)',
-  pointBorderColor: '#fff',
-  pointHoverBackgroundColor: '#fff',
-  pointHoverBorderColor: 'rgba(179,181,198,1)'
+  pointStrokeColor: "#fff",
+  pointHighlightFill: "rgba(8, 19, 7, 1)",
+  pointHighlightStroke: "rgba(220,220,220,1)"
 };
 
-const chartWidth = '350px';
-const chartHeight = '350px';
-
-const getChartItems = (hops, categories) => hops.map((hop, i) => {
-  const score = hop.beta * _.sumBy(hop.additions, addition => addition.weight.value);
+const getChartItems = (hopData, categories) => hopData.map((hop, i) => {
+  const green = Math.round(Math.abs(200 - Math.pow(2, hop.alpha / 2))) % 255;
   return Object.assign({}, datasetOptionDefaults, {
+    pointColor: `rgba(26,${green},18,1)`,
+    strokeColor: `rgba(26,${green},18,0.7)`,
+    fillColor: `rgba(26,${green},18,0.2)`,
     label: hop.name,
-    data: categories.map(c => hop.categories.includes(c) ? score : 0)
-  })
+    data: categories.map(c => hop.categories.includes(c) ? hop.chartValue : null)
+  });
 });
 
 const mapStateToProps = (state) => {
-  const currentCategories = state.currentRecipe.hops
-                              .map(hop => hop.categories)
-                              .reduce((prev, next) => prev.concat(next), [])
-                              .filter((v, i, a) => a.indexOf(v) === i);
+  const hopData = state.currentRecipe.hops.map(hop => Object.assign({}, hop, {
+    chartValue: hop.beta * _.sumBy(hop.additions, addition => addition.weight.value)
+  }));
+  const currentCategories = _.flatten(state.currentRecipe.hops.map(hop => hop.categories))
+                             .filter((v, i, a) => a.indexOf(v) === i);
+
   return {
-    redraw: true,
-    width: chartWidth,
-    height: chartHeight,
+    hops: hopData,
     data: {
       labels: currentCategories,
-      datasets: getChartItems(state.currentRecipe.hops, currentCategories)
+      datasets: getChartItems(hopData, currentCategories)
     }
   };
 };
 
-const HopChart = connect(
+const HopChartContainer = connect(
   mapStateToProps
-)(Radar);
+)(HopChart);
 
-export default HopChart;
+export default HopChartContainer;
