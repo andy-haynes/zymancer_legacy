@@ -59,7 +59,8 @@ import {
   calculateRecommendedCellCount,
   calculateABV,
   calculateFinalGravity,
-  calculateMashoutWaterTemp
+  calculateMashoutWaterTemp,
+  calculateSRM
 } from '../utils/BrewMath';
 import { convertToUnit, jsonToGraphql, roundTo } from '../utils/core';
 import {
@@ -85,6 +86,7 @@ const initialState = {
   finalGravity: 1.0,
   IBU: 0,
   ABV: 0,
+  SRM: 0,
   targetVolume: DefaultTargetVolume,
   boilVolume: DefaultBoilVolume,
   boilMinutes: DefaultBoilMinutes,
@@ -96,7 +98,7 @@ const initialState = {
 };
 
 function recalculate(state, changed) {
-  let { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV } = Object.assign({}, state, changed);
+  let { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
 
   const thicknessUnit = mashSchedule.thickness.consequent;
   const grainWeight = { value: _.sumBy(grains, g => convertToUnit(g.weight, thicknessUnit)), unit: thicknessUnit };
@@ -114,8 +116,9 @@ function recalculate(state, changed) {
   const apparentAttenuation = (_.sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || DefaultYeastAttenuation;
   finalGravity = calculateFinalGravity(originalGravity, apparentAttenuation);
   ABV = calculateABV(originalGravity, finalGravity);
+  SRM = calculateSRM(targetVolume, grains);
 
-  return { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV };
+  return { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM };
 }
 
 const recipe = (state = initialState, action) => {

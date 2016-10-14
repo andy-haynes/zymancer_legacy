@@ -25,6 +25,8 @@ import {
 // mash
 export const DefaultBoilMinutes = 60;
 export const DefaultEfficiencyPercentage = 75;
+export const MaxEfficiencyPercentage = 100;
+export const MinEfficiencyPercentage = 25;
 export const DefaultGrainWeight = { value: 1, unit: Pound };
 export const DefaultMashThickness = { value: 1.25, antecedent: Quart, consequent: Pound };
 export const DefaultGrainTemp = { value: 68, unit: Fahrenheit };
