@@ -23,7 +23,7 @@ const RecipeType = new GraphQLObjectType({
     FG: { type: new GraphQLNonNull(GraphQLFloat) },
     grains: { type: new GraphQLList(GrainType) },
     hops: { type: new GraphQLList(HopAdditionType) },
-    yeast: { type: new GraphQLList(YeastType) },
+    yeasts: { type: new GraphQLList(YeastType) },
     mashSchedule: { type: MashScheduleType },
     fermentation: { type: FermentationType }
   }

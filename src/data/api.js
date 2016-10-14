@@ -1,6 +1,7 @@
 import { RecipeType } from '../constants/AppConstants';
 import fetch from '../core/fetch';
 import { jsonToGraphql, roundTo } from '../utils/core';
+import yeast from '../reducers/yeast';
 import _ from 'lodash';
 
 async function _graphqlFetch(query) {
@@ -49,11 +50,12 @@ export async function getRecipe(recipeId) {
           unit
         }
       },
-      yeast {
+      yeasts {
         id,
         name,
         mfg,
         code,
+        styles,
         description,
         tolerance,
         rangeF,
@@ -61,7 +63,8 @@ export async function getRecipe(recipeId) {
         mfgDate,
         attenuationRange,
         apparentAttenuation,
-        quantity
+        quantity,
+        flocculation
       },
       fermentation {
         pitchRateMillionsMLP
@@ -79,7 +82,7 @@ export async function getRecipe(recipeId) {
   }`.replace(/\s/g, '');
 
   const { data } = await _graphqlFetch(query);
-  let { hops, yeast, fermentation } = data.loadRecipe;
+  let { hops, yeasts, fermentation } = data.loadRecipe;
   hops = hops && hops.length ? _.groupBy(hops, h => h.id) : [];
 
   return Object.assign({}, data.loadRecipe, {
@@ -93,9 +96,10 @@ export async function getRecipe(recipeId) {
     })),
     fermentation: {
       pitchRate: fermentation.pitchRateMillionsMLP,
-      yeasts: yeast.map(y => Object.assign({}, y, {
+      yeasts: yeasts.map(y => yeast.create(Object.assign({}, y, {
+        styles: y.styles.split(','),
         mfgDate: new Date(y.mfgDate)
-      }))
+      })))
     }
   });
 }
@@ -130,7 +134,7 @@ export async function saveRecipe(recipe) {
       FG:${parseFloat(recipe.finalGravity)},
       grains:[${grains.join(',')}],
       hops:[${hops.join(',')}],
-      yeast:[${yeast.join(',')}],
+      yeasts:[${yeast.join(',')}],
       mashSchedule:${mashSchedule},
       fermentation:${fermentation}
     ) { id }

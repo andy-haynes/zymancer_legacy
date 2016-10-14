@@ -24,11 +24,11 @@ const saveRecipe = {
     FG: { type: GraphQLFloat },
     grains: { type: new GraphQLList(GrainInputType) },
     hops: { type: new GraphQLList(HopInputType) },
-    yeast: { type: new GraphQLList(YeastInputType) },
+    yeasts: { type: new GraphQLList(YeastInputType) },
     mashSchedule: { type: MashScheduleInputType },
     fermentation: { type: FermentationInputType }
   },
-  async resolve({ request }, { name, style, ABV, IBU, OG, FG, grains, hops, yeast, mashSchedule, fermentation }) {
+  async resolve({ request }, { name, style, ABV, IBU, OG, FG, grains, hops, yeasts, mashSchedule, fermentation }) {
     return await Recipe.create({
       ownerId: request.user.id,
       style,
@@ -52,7 +52,7 @@ const saveRecipe = {
 
       return recipe;
     }).then(recipe => {
-      RecipeYeast.bulkCreate(yeast.map(y => Object.assign(_.pick(y, 'mfgDate', 'attenuation', 'quantity'), {
+      RecipeYeast.bulkCreate(yeasts.map(y => Object.assign(_.pick(y, 'mfgDate', 'apparentAttenuation', 'quantity'), {
         recipeId: recipe.id,
         yeastId: y.id
       })));

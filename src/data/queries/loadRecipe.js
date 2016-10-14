@@ -20,7 +20,7 @@ const loadRecipe = {
         model: Hop,
         as: 'hopAdditions'
       }, {
-        attributes: ['id', 'name', 'description', 'mfg', 'code', 'rangeC', 'rangeF', 'tolerance'],
+        attributes: ['id', 'name', 'styles', 'description', 'mfg', 'code', 'rangeC', 'rangeF', 'tolerance', 'flocculation', 'attenuationRange'],
         model: Yeast,
         as: 'yeast'
       }, {
@@ -62,10 +62,11 @@ const loadRecipe = {
         minutes: hop.RecipeHops.minutes,
         weight: hop.RecipeHops.weight
       })),
-      yeast: recipe.yeast.map(yeast => ({
+      yeasts: recipe.yeast.map(yeast => ({
         id: yeast.id,
         name: yeast.name,
         description: yeast.description,
+        styles: yeast.styles,
         mfg: yeast.mfg,
         code: yeast.code,
         rangeC: yeast.rangeC,
