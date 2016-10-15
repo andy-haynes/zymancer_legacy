@@ -19,6 +19,10 @@ import {
 import { roundTo, convertToUnit, monthsSinceDate } from './core';
 
 // gravity
+export function formatGravity(gravity) {
+  return gravity === 1 ? '1.000' : `${gravity.toString()}000`.substring(0, 5);
+}
+
 export const gravityToPoints = (gravity) => {
   return !isNaN(gravity) ? (parseFloat(gravity) - 1) * 1000 : 0;
 };

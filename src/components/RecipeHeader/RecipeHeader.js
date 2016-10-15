@@ -5,7 +5,7 @@ import { RecipeVolume } from '../../constants/MeasurementUnits';
 import { MaxEfficiencyPercentage, MinEfficiencyPercentage } from '../../constants/Defaults';
 import Measurement from '../Measurement';
 import { roundTo } from '../../utils/core';
-import { SRMtoRGB } from '../../utils/BrewMath';
+import { SRMtoRGB, formatGravity } from '../../utils/BrewMath';
 import SliderInput from '../SliderInput';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
@@ -40,7 +40,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
       </div>
       <div className="pure-u-1-24">
         <div className={s.calculatedValue}>
-          {recipe.originalGravity === 1 ? '1.000' : `${recipe.originalGravity.toString()}000`.substring(0, 5)}
+          {formatGravity(recipe.originalGravity)}
         </div>
       </div>
       <div className="pure-u-1-24">
@@ -124,7 +124,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
       </div>
       <div className="pure-u-1-24">
         <div className={s.calculatedValue}>
-          {recipe.finalGravity === 1 ? '1.000' : `${recipe.finalGravity.toString()}000`.substring(0, 5)}
+          {formatGravity(recipe.finalGravity)}
         </div>
       </div>
       <div className="pure-u-1-24">
