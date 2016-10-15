@@ -8,8 +8,9 @@ function createGrain(grain) {
   return {
     id: grain.id,
     name: grain.name,
+    mfg: grain.mfg,
     weight: grain.weight || DefaultGrainWeight,
-    gravity: grain.gravity,
+    gravity: grain.gravity || 1,
     lovibond: parseFloat(grain.lovibond),
     category: grain.category,
     description: grain.description,
