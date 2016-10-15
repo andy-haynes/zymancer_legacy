@@ -31,6 +31,10 @@ const mapStateToProps = (state) => {
     data: {
       labels: currentCategories,
       datasets: getChartItems(hopData, currentCategories)
+    },
+    options: {
+      scaleShowLine : false,
+      angleShowLineOut : false
     }
   };
 };
