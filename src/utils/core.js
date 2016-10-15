@@ -30,15 +30,19 @@ export const convertToUnit = (measurement, unit, precision = undefined) => {
   return precision ? roundTo(converted, precision) : converted;
 };
 
-export const extractRange = (raw) => {
+export function extractRange(raw) {
   const comp = (raw || '').split('-').map(r => parseFloat(r));
   const low = !isNaN(comp[0]) ? comp[0] : 0;
-  return comp.length === 2 && low !== comp[1] && !isNaN(comp[1]) ? {
-    low,
+  let ret = comp.length === 2 && low !== comp[1] && !isNaN(comp[1]) ? {
     high: comp[1],
     avg: (low + comp[1]) / 2
-  } : { low, avg: low };
-};
+  } : { avg: low };
+
+  return Object.assign(ret, {
+    low,
+    toString: () => ret.low ? `${ret.low}` + (ret.high && `–${ret.high}`) : undefined
+  });
+}
 
 const _msMonths = 1000 * 60 * 60 * 24 * 30;
 

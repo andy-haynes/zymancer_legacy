@@ -22,12 +22,12 @@ const YeastSearchOption = ({ yeast, addYeast }) => (
       </div>
       <div className="pure-u-4-24">
         <div className={s.yeastDetail}>
-          {yeast.attenuationRange}
+          {yeast.attenuationRange.toString()}%
         </div>
       </div>
       <div className="pure-u-4-24">
         <div className={s.yeastDetail}>
-          {yeast.rangeF}
+          {yeast.rangeF.toString()} °F
         </div>
       </div>
     </div>

@@ -12,37 +12,39 @@ import { calculateYeastViability } from '../utils/BrewMath';
 import { extractRange } from '../utils/core';
 import measurement from './measurement';
 
-const yeast = (state = {}, action) => {
+function createYeast(yeast) {
+  const now = new Date();
+  const mfgDate = typeof yeast.mfgDate === 'string' ? new Date(yeast.mfgDate) : new Date(now.getFullYear(), now.getMonth(), -7);
+  const attenuationRange = typeof yeast.attenuationRange === 'string' ? extractRange(yeast.attenuationRange) : yeast.attenuationRange;
+  const apparentAttenuation = yeast.apparentAttenuation || attenuationRange.avg;
+  const rangeF = typeof yeast.rangeF === 'string' ? extractRange(yeast.rangeF) : yeast.rangeF;
+  const rangeC = typeof yeast.rangeC === 'string' ? extractRange(yeast.rangeC) : yeast.rangeC;
+
+  return {
+    id: yeast.id,
+    name: yeast.name,
+    code: yeast.code,
+    mfg: yeast.mfg,
+    mfgDate,
+    url: yeast.url,
+    description: yeast.description,
+    quantity: 1,
+    viability: calculateYeastViability(mfgDate),
+    flocculation: yeast.flocculation,
+    tolerance: yeast.tolerance,
+    styles: yeast.styles || [],
+    starterSteps: [],
+    apparentAttenuation,
+    attenuationRange,
+    rangeF,
+    rangeC
+  };
+}
+
+function yeast(state = {}, action) {
   switch (action.type) {
     case AddYeast:
-      const now = new Date();
-      const mfgDate = new Date(now.getFullYear(), now.getMonth(), -7);
-      const attenuation = extractRange(action.yeast.attenuation);
-      const tempF = extractRange(action.yeast.rangeF);
-      const tempC = extractRange(action.yeast.rangeC);
-
-      return {
-        id: action.yeast.id,
-        name: action.yeast.name,
-        code: action.yeast.code,
-        mfg: action.yeast.mfg,
-        mfgDate,
-        url: action.yeast.url,
-        description: action.yeast.description,
-        quantity: 1,
-        attenuation: attenuation.avg,
-        attenuationLow: attenuation.low,
-        attenuationHigh: attenuation.high,
-        tempHighF: tempF.high,
-        tempLowF: tempF.low,
-        tempHighC: tempC.high,
-        tempLowC: tempC.low,
-        viability: calculateYeastViability(mfgDate),
-        flocculation: action.yeast.flocculation,
-        tolerance: action.yeast.tolerance,
-        styles: action.yeast.styles.join(', '),
-        starterSteps: []
-      };
+      return createYeast(action.yeast);
     case SetYeastMfgDate:
       return Object.assign({}, state, {
         mfgDate: action.date,
@@ -65,6 +67,8 @@ const yeast = (state = {}, action) => {
     default:
       return state;
   }
-};
+}
+
+yeast.create = createYeast;
 
 export default yeast;

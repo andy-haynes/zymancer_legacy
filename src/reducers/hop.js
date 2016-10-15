@@ -8,21 +8,29 @@ import {
   RemoveHopAddition
 } from '../constants/RecipeActionTypes';
 import hopAddition from './hopAddition';
-import { roundTo } from '../utils/core';
+import { roundTo, extractRange } from '../utils/core';
+
+function createHop(hop) {
+  const alphaRange = hop.alphaRange || extractRange(hop.alpha);
+  const betaRange = hop.betaRange || extractRange(hop.beta);
+
+  return {
+    id: hop.id,
+    name: hop.name,
+    alpha: isNaN(hop.alpha) ? roundTo(alphaRange.avg, 1) : hop.alpha,
+    beta: isNaN(hop.beta) ? roundTo(betaRange.avg, 1) : hop.beta,
+    additions: (hop.additions || [undefined]).map(a => hopAddition.create(a)),
+    categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories,
+    alphaRange,
+    betaRange
+  };
+}
 
 const hop = (state = {}, action) => {
   switch (action.type) {
     case AddHop:
-      return {
-        id: action.hop.id,
-        alpha: roundTo(action.hop.alphaRange.avg, 1),
-        beta: roundTo(action.hop.betaRange.avg, 1),
-        alphaRange: action.hop.alphaRange,
-        betaRange: action.hop.betaRange,
-        name: action.hop.name,
-        categories: action.hop.categories,
-        additions: [hopAddition(undefined, action)]
-      };
+      // TODO: add boil time to action to always set new hops at max time
+      return createHop(action.hop);
     case SetHopAlpha:
       return Object.assign({}, state, { alpha: action.alpha });
     case SetHopBeta:
@@ -33,11 +41,14 @@ const hop = (state = {}, action) => {
       return Object.assign({}, state, { additions: state.additions.filter(a => a.id !== action.addition.id) });
     case SetHopAdditionTime:
     case SetHopAdditionWeight:
-      const additions = state.additions.map(a => a.id === action.addition.id ? hopAddition(a, action) : a);
-      return Object.assign({}, state, { additions });
+      return Object.assign({}, state, {
+        additions: state.additions.map(a => a.id === action.addition.id ? hopAddition(a, action) : a)
+      });
     default:
       return state;
   }
 };
+
+hop.create = createHop;
 
 export default hop;

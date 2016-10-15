@@ -2,29 +2,36 @@ import { AddHop, AddHopAddition, SetHopAdditionTime, SetHopAdditionWeight } from
 import { DefaultHopAdditionWeight } from '../constants/Defaults';
 import measurement from './measurement';
 
+let additionId = 0;
+
+function createHopAddition(addition = {}) {
+  return {
+    id: additionId++,
+    minutes: isNaN(addition.minutes) ? 60 : addition.minutes,
+    weight: addition.weight || DefaultHopAdditionWeight
+  };
+}
+
 const hopAddition = (state = {}, action) => {
   switch (action.type) {
     case AddHop:
     case AddHopAddition:
-      return {
-        id: action.additionId,
-        hop: action.hop,
-        minutes: 60,
-        weight: DefaultHopAdditionWeight
-      };
+      return createHopAddition(action.addition);
     case SetHopAdditionTime:
       return {
-        ...state,
-        minutes: action.minutes
+        minutes: action.minutes,
+        ...state
       };
     case SetHopAdditionWeight:
       return {
-        ...state,
-        weight: measurement(state.weight, action)
+        weight: measurement(state.weight, action),
+        ...state
       };
     default:
       return state;
   }
 };
+
+hopAddition.create = createHopAddition;
 
 export default hopAddition;

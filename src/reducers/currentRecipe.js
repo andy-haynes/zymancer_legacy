@@ -121,7 +121,7 @@ function recalculate(state, changed) {
   return { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM };
 }
 
-const recipe = (state = initialState, action) => {
+const currentRecipe = (state = initialState, action) => {
   const updateRecipe = (changed, refresh = true) => Object.assign(
     {},
     state,
@@ -184,4 +184,4 @@ const recipe = (state = initialState, action) => {
   }
 };
 
-export default recipe;
+export default currentRecipe;

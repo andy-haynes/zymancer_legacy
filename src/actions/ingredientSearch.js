@@ -14,14 +14,19 @@ import {
   MinSearchQueryLength
 } from '../constants/AppConstants';
 import fetch from '../core/fetch';
-import { extractRange } from '../utils/core';
+import grain from '../reducers/grain';
+import hop from '../reducers/hop';
+import yeast from '../reducers/yeast';
 
 export function filterGrainResults(query) {
   return { type: FilterGrainResults, query };
 }
 
 export function updateGrainResults({ data }) {
-  return { type: UpdateGrainResults, results: data.searchGrains };
+  return {
+    type: UpdateGrainResults,
+    results: data.searchGrains.map(g => grain.create(g))
+  };
 }
 
 export function clearGrainSearch() {
@@ -35,11 +40,7 @@ export function filterHopResults(query) {
 export function updateHopResults({ data }) {
   return {
     type: UpdateHopResults,
-    results: data.searchHops.map(hop => Object.assign({}, hop, {
-      categories: hop.categories.split(','),
-      alphaRange: extractRange(hop.alpha),
-      betaRange: extractRange(hop.beta)
-    }))
+    results: data.searchHops.map(h => hop.create(h))
   };
 }
 
@@ -54,9 +55,7 @@ export function filterYeastResults(query) {
 export function updateYeastResults({ data }) {
   return {
     type: UpdateYeastResults,
-    results: data.searchYeast.map(yeast => Object.assign({}, yeast, {
-      styles: yeast.styles ? yeast.styles.split(',') : []
-    }))
+    results: data.searchYeast.map(y => yeast.create(y))
   };
 }
 

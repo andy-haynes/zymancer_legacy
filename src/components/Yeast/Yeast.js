@@ -128,7 +128,7 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViab
       <div className="pure-u-2-24"></div>
       <div className="pure-u-4-24">
         <div className={s.yeastValue}>
-          {yeast.tempLowF} &ndash; {yeast.tempHighF} °F
+          {yeast.rangeF.toString()} °F
         </div>
       </div>
       <div className="pure-u-1-24"></div>

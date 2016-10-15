@@ -1,6 +1,8 @@
 import { RecipeType } from '../constants/AppConstants';
 import fetch from '../core/fetch';
 import { jsonToGraphql, roundTo } from '../utils/core';
+import grain from '../reducers/grain';
+import hop from '../reducers/hop';
 import yeast from '../reducers/yeast';
 import _ from 'lodash';
 
@@ -82,24 +84,22 @@ export async function getRecipe(recipeId) {
   }`.replace(/\s/g, '');
 
   const { data } = await _graphqlFetch(query);
-  let { hops, yeasts, fermentation } = data.loadRecipe;
+  let { grains, hops, yeasts, fermentation } = data.loadRecipe;
+
+  // group hops by id to get additions as separate property
+  // TODO: group by RecipeHopId instead to get hops of the same type with different alpha/beta
   hops = hops && hops.length ? _.groupBy(hops, h => h.id) : [];
+  hops = Object.keys(hops).map(k => ({
+    additions: hops[k].map(a => _.pick(a, 'minutes', 'weight')),
+    ...hops[k][0]
+  }));
 
   return Object.assign({}, data.loadRecipe, {
-    hops: Object.keys(hops).map(k => ({
-      id: k,
-      name: hops[k][0].name,
-      alpha: hops[k][0].alpha,
-      beta: hops[k][0].beta,
-      categories: hops[k][0].categories,
-      additions: hops[k].map(a => ({minutes: a.minutes, weight: a.weight}))
-    })),
+    grains: grains.map(g => grain.create(g)),
+    hops: hops.map(h => hop.create(h)),
     fermentation: {
       pitchRate: fermentation.pitchRateMillionsMLP,
-      yeasts: yeasts.map(y => yeast.create(Object.assign({}, y, {
-        styles: y.styles.split(','),
-        mfgDate: new Date(y.mfgDate)
-      })))
+      yeasts: yeasts.map(y => yeast.create(y))
     }
   });
 }
