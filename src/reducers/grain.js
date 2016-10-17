@@ -4,7 +4,6 @@ import { calculateSRM, SRMtoRGB } from '../utils/BrewMath';
 import measurement from './measurement';
 
 function createGrain(grain) {
-  console.log(grain.characteristics)
   return {
     id: grain.id,
     name: grain.name,
