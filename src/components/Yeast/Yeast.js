@@ -65,7 +65,6 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViab
             <div className={s.yeastLabel}>Quantity</div>
             <TextField
               id="yeast-quantity"
-              type="number"
               value={yeast.quantity}
               onChange={(e) => setQuantity(e.target.value)}
               style={{width: '24px', marginLeft: '12px'}}

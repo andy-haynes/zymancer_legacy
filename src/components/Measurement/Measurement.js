@@ -10,7 +10,6 @@ const Measurement = ({ measurement, update, options }) => (
     <TextField
       name="measurement-value"
       className={s.measurementValue}
-      type="number"
       value={measurement.value === 0 ? '' : measurement.value}
       onChange={e => update({ value: e.target.value, unit: measurement.unit })}
       style={{width: "45px"}}
