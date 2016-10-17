@@ -19,7 +19,6 @@ function createYeast(yeast) {
   const apparentAttenuation = yeast.apparentAttenuation || attenuationRange.avg;
   const rangeF = typeof yeast.rangeF === 'string' ? extractRange(yeast.rangeF) : yeast.rangeF;
   const rangeC = typeof yeast.rangeC === 'string' ? extractRange(yeast.rangeC) : yeast.rangeC;
-
   return {
     id: yeast.id,
     name: yeast.name,
@@ -32,7 +31,7 @@ function createYeast(yeast) {
     viability: calculateYeastViability(mfgDate),
     flocculation: yeast.flocculation,
     tolerance: yeast.tolerance,
-    styles: yeast.styles || [],
+    styles: typeof yeast.styles === 'string' ? yeast.styles.split(',').join(', ') : [],
     starterSteps: [],
     apparentAttenuation,
     attenuationRange,

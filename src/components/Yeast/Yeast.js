@@ -91,8 +91,9 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViab
         <div className={s.yeastDescription}>
           {yeast.description}
         </div>
+        {!!yeast.styles.length && (<div className={s.styleHeader}>Styles</div>)}
         <div className={s.yeastStyles}>
-          {!!yeast.styles.length && <b>Styles</b>} {yeast.styles}
+          {yeast.styles}
         </div>
       </div>
     </div>
