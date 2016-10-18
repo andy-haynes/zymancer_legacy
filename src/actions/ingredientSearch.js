@@ -6,32 +6,35 @@ import grain from '../reducers/grain';
 import hop from '../reducers/hop';
 import yeast from '../reducers/yeast';
 
-export const filterGrainResults = helpers.createAction(SearchActions.FilterGrainResults, 'query');
-export const updateGrainResults = helpers.createAction(SearchActions.UpdateGrainResults, 'results');
+function _filterAction(type) {
+  return helpers.createAction(type, 'query');
+}
+
+function _updateAction(type, reducer, resultsKey) {
+  return ({ data }) => ({
+    results: data[resultsKey].map(r => reducer.create(r)),
+    type
+  });
+}
+
 export const clearGrainSearch = helpers.createAction(SearchActions.ClearGrainSearch);
-
-export const filterHopResults = helpers.createAction(SearchActions.FilterHopResults, 'query');
-export const updateHopResults = helpers.createAction(SearchActions.UpdateHopResults, 'results');
 export const clearHopSearch = helpers.createAction(SearchActions.ClearHopSearch);
-
-export const filterYeastResults = helpers.createAction(SearchActions.FilterYeastResults, 'query');
-export const updateYeastResults = helpers.createAction(SearchActions.UpdateYeastResults, 'results');
 export const clearYeastSearch = helpers.createAction(SearchActions.ClearYeastSearch);
 
 const ingredientTypeMap = {
   [IngredientType.Grain]: {
-    filter: filterGrainResults,
-    update: updateGrainResults,
+    filter: _filterAction(SearchActions.FilterGrainResults),
+    update: _updateAction(SearchActions.UpdateGrainResults, grain, 'searchGrains'),
     buildQuery: q => `{searchGrains(query:"${q}"){id,name,gravity,lovibond,flavor,characteristics,mfg}}`
   },
   [IngredientType.Hop]: {
-    filter: filterHopResults,
-    update: updateHopResults,
+    filter: _filterAction(SearchActions.FilterHopResults),
+    update: _updateAction(SearchActions.UpdateHopResults, hop, 'searchHops'),
     buildQuery: q => `{searchHops(query:"${q}"){id,name,url,aroma,categories,alpha,beta}}`
   },
   [IngredientType.Yeast]: {
-    filter: filterYeastResults,
-    update: updateYeastResults,
+    filter: _filterAction(SearchActions.FilterYeastResults),
+    update: _updateAction(SearchActions.UpdateYeastResults, yeast, 'searchYeast'),
     buildQuery: q => `{searchYeast(query:"${q}"){id,name,url,code,attenuationRange,description,flocculation,rangeF,rangeC,tolerance,mfg,styles}}`
   }
 };
