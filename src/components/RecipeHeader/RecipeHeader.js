@@ -25,157 +25,171 @@ import BJCPStyles from '../../constants/BJCPStyles';
 const RecipeHeader = ({ recipe, actions }) => (
   <div className={s.recipeHeader}>
     <div className="pure-g">
-      <div className="pure-u-6-24">
-        <TextField
-          id="recipe-name"
-          className={s.longInput}
-          placeholder="Recipe Name"
-          value={recipe.name}
-          onChange={e => actions.setRecipeName(e.target.value)}
-        />
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.headerLabel}>
-          OG
-        </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.calculatedValue}>
-          {zymath.formatGravity(recipe.originalGravity)}
-        </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.headerLabel}>
-          IBU
-        </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.calculatedValue}>
-          {_.round(recipe.IBU, 1)}
-        </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.headerLabel}>
-          Target
-        </div>
-      </div>
-      <div className="pure-u-3-24">
-        <Measurement
-          measurement={recipe.targetVolume}
-          update={actions.setTargetVolume}
-          options={MeasurementUnits.RecipeVolume}
-        />
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.headerLabel}>
-          Time
-        </div>
-      </div>
-      <div className="pure-u-2-24">
-        <TextField
-          id="boil-minutes"
-          className={s.recipeInput}
-          value={recipe.boilMinutes}
-          onChange={e => actions.setBoilTime(e.target.value)}
-          style={{width: "40px"}}
-        />
-      </div>
-      <div className="pure-u-2-24">
-        <div className={s.headerLabel}>
-          Method
-        </div>
-      </div>
-      <div className="pure-u-4-24">
-        <SelectField value={recipe.method} onChange={(e, k, v) => actions.setRecipeMethod(v)} style={{width: "90%"}}>
-          <MenuItem value={BrewMethod.AllGrain} primaryText="All Grain" />
-          <MenuItem value={BrewMethod.BIAB} primaryText="Brew in a Bag" />
-          <MenuItem value={BrewMethod.Extract} primaryText="Extract" />
-          <MenuItem value={BrewMethod.PartialMash} primaryText="Partial Mash" />
-        </SelectField>
-      </div>
-      <div className="pure-u-1-24">
-        <IconMenu
-          iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-          anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-          targetOrigin={{horizontal: 'right', vertical: 'top'}}
-        >
-          <MenuItem onClick={() => actions.saveRecipe(recipe)} primaryText="Save" leftIcon={<SaveIcon />} />
-          <MenuItem primaryText="Share" leftIcon={<ShareIcon />} />
-          <Divider />
-          <MenuItem primaryText="Reset" leftIcon={<ClearIcon />} />
-        </IconMenu>
-      </div>
-    </div>
-    <div className="pure-g">
-      <div className="pure-u-6-24">
-        <SelectField
-          value={recipe.style}
-          onChange={(e, i, v) => actions.setRecipeStyle(v)}
-          className={s.longInput}
-        >
-          {BJCPStyles.map((style, i) => (
-            <MenuItem
-              key={i}
-              value={style.name}
-              primaryText={style.code ? `${style.code} - ${style.name}` : style.name}
+      <div className="pure-u-1-1">
+        <div className={s.inputBlock}>
+          <div>
+            <TextField
+              id="recipe-name"
+              className={s.longInput}
+              placeholder="Recipe Name"
+              value={recipe.name}
+              onChange={e => actions.setRecipeName(e.target.value)}
             />
-          ))}
-        </SelectField>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.headerLabel}>
-          FG
+          </div>
+          <div>
+            <SelectField
+              value={recipe.style}
+              onChange={(e, i, v) => actions.setRecipeStyle(v)}
+              className={s.longInput}
+            >
+              {BJCPStyles.map((style, i) => (
+                <MenuItem
+                  key={i}
+                  value={style.name}
+                  primaryText={style.code ? `${style.code} - ${style.name}` : style.name}
+                />
+              ))}
+            </SelectField>
+          </div>
         </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.calculatedValue}>
-          {zymath.formatGravity(recipe.finalGravity)}
+        <div className={s.inputBlock}>
+          <div className="pure-g">
+            <div className="pure-u-1-6">
+              <div className={s.headerLabel}>
+                OG
+              </div>
+            </div>
+            <div className="pure-u-1-3">
+              <div className={s.calculatedValue}>
+                {zymath.formatGravity(recipe.originalGravity)}
+              </div>
+            </div>
+            <div className="pure-u-1-6">
+              <div className={s.headerLabel}>
+                IBU
+              </div>
+            </div>
+            <div className="pure-u-1-3">
+              <div className={s.calculatedValue}>
+                {_.round(recipe.IBU, 1)}
+              </div>
+            </div>
+            <div className="pure-u-1-6">
+              <div className={s.headerLabel}>
+                FG
+              </div>
+            </div>
+            <div className="pure-u-1-3">
+              <div className={s.calculatedValue}>
+                {zymath.formatGravity(recipe.finalGravity)}
+              </div>
+            </div>
+            <div className="pure-u-1-6">
+              <div className={s.headerLabel}>
+                ABV
+              </div>
+            </div>
+            <div className="pure-u-1-3">
+              <div className={s.calculatedValue}>
+                {recipe.ABV}%
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.headerLabel}>
-          ABV
+        <div className={s.inputBlock}>
+          <div className="pure-g">
+            <div className="pure-u-5-24">
+              <div className={s.headerLabel}>
+                Target
+              </div>
+            </div>
+            <div className="pure-u-12-24" style={{marginRight: '-3em'}}>
+              <Measurement
+                measurement={recipe.targetVolume}
+                update={actions.setTargetVolume}
+                options={MeasurementUnits.RecipeVolume}
+              />
+            </div>
+            <div className="pure-u-4-24">
+              <div className={s.headerLabel}>
+                Color
+              </div>
+            </div>
+            <div className="pure-u-4-24">
+              <div className={s.beerColor} style={{backgroundColor: zymath.SRMtoRGB(recipe.SRM)}}></div>
+            </div>
+            <div className="pure-u-5-24">
+              <div className={s.headerLabel}>
+                Boil
+              </div>
+            </div>
+            <div className="pure-u-12-24" style={{marginRight: '-3em'}}>
+              <Measurement
+                measurement={recipe.boilVolume}
+                update={actions.setBoilVolume}
+                options={MeasurementUnits.RecipeVolume}
+              />
+            </div>
+            <div className="pure-u-4-24">
+              <div className={s.headerLabel}>
+                Time
+              </div>
+            </div>
+            <div className="pure-u-4-24">
+              <TextField
+                id="boil-minutes"
+                className={s.recipeInput}
+                value={recipe.boilMinutes}
+                onChange={e => actions.setBoilTime(e.target.value)}
+                style={{width: "3em"}}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.calculatedValue}>
-          {recipe.ABV}%
+        <div className={s.inputBlock}>
+          <div className="pure-g">
+            <div className="pure-u-6-24">
+              <div className={s.headerLabel}>
+                Method
+              </div>
+            </div>
+            <div className="pure-u-16-24">
+              <SelectField value={recipe.method} onChange={(e, k, v) => actions.setRecipeMethod(v)} style={{width: "90%"}}>
+                <MenuItem value={BrewMethod.AllGrain} primaryText="All Grain" />
+                <MenuItem value={BrewMethod.BIAB} primaryText="Brew in a Bag" />
+                <MenuItem value={BrewMethod.Extract} primaryText="Extract" />
+                <MenuItem value={BrewMethod.PartialMash} primaryText="Partial Mash" />
+              </SelectField>
+            </div>
+            <div className="pure-u-2-24">
+              <IconMenu
+                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
+                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
+                targetOrigin={{horizontal: 'right', vertical: 'top'}}
+              >
+                <MenuItem onClick={() => actions.saveRecipe(recipe)} primaryText="Save" leftIcon={<SaveIcon />} />
+                <MenuItem primaryText="Share" leftIcon={<ShareIcon />} />
+                <Divider />
+                <MenuItem primaryText="Reset" leftIcon={<ClearIcon />} />
+              </IconMenu>
+            </div>
+            <div className="pure-u-1-4">
+              <div className={s.headerLabel}>
+                Efficiency
+              </div>
+            </div>
+            <div className="pure-u-3-4">
+              <SliderInput
+                value={recipe.efficiency}
+                min={Defaults.MinEfficiencyPercentage}
+                max={Defaults.MaxEfficiencyPercentage}
+                update={actions.setEfficiency}
+                sliderWidth={'3-4'}
+                inputWidth={'1-4'}
+              />
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.headerLabel}>
-          Boil
-        </div>
-      </div>
-      <div className="pure-u-3-24">
-        <Measurement
-          measurement={recipe.boilVolume}
-          update={actions.setBoilVolume}
-          options={MeasurementUnits.RecipeVolume}
-        />
-      </div>
-      <div className="pure-u-1-24">
-        <div className={s.headerLabel}>
-          Color
-        </div>
-      </div>
-      <div className="pure-u-2-24" style={{paddingBottom:"8px"}}>
-        <div style={{height: "90%", width: "60%", backgroundColor: zymath.SRMtoRGB(recipe.SRM)}}></div>
-      </div>
-      <div className="pure-u-2-24">
-        <div className={s.headerLabel}>
-          Efficiency
-        </div>
-      </div>
-      <div className="pure-u-5-24">
-        <SliderInput
-          value={recipe.efficiency}
-          min={Defaults.MinEfficiencyPercentage}
-          max={Defaults.MaxEfficiencyPercentage}
-          update={actions.setEfficiency}
-          sliderWidth={'3-4'}
-          inputWidth={'1-4'}
-        />
       </div>
     </div>
   </div>

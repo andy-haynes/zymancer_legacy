@@ -12,13 +12,13 @@ const Measurement = ({ measurement, update, options }) => (
       className={s.measurementValue}
       value={measurement.value === 0 ? '' : measurement.value}
       onChange={e => update({ value: e.target.value, unit: measurement.unit })}
-      style={{width: "45px"}}
+      style={{width: "3em"}}
     />
     <SelectField
       className={s.measurementUnit}
       value={measurement.unit}
       onChange={(e, i, v) => update({ value: measurement.value, unit: v })}
-      style={{width: "70px"}}
+      style={{width: "4em"}}
     >
       {options.map(option => (
         <MenuItem key={option.order} value={option.value} primaryText={option.name} />
