@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import SliderInput from '../SliderInput';
 import Yeast from '../Yeast';
-import { roundTo } from '../../utils/core';
+import _ from 'lodash';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Paper from 'material-ui/Paper';
 import s from './Fermentation.css';
@@ -20,7 +20,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setP
                 </div>
                 <div className="pure-u-3-8">
                   <span>
-                    {roundTo(cellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
+                    {_.round(cellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
                   </span>
                 </div>
               </div>
@@ -34,7 +34,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setP
                 </div>
                 <div className="pure-u-3-8">
                   <span>
-                    {roundTo(recommendedCellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
+                    {_.round(recommendedCellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
                   </span>
                 </div>
               </div>

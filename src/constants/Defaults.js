@@ -8,52 +8,62 @@ import {
   SetInfusionTemp,
   SetGrainTemp
 } from './RecipeActionTypes';
-import {
-  Gallon,
-  Quart,
-  Liter,
-  Pound,
-  Ounce,
-  Kilogram,
-  Gram,
-  Fahrenheit,
-  Celsius,
-  Hour,
-  Minute
-} from './Units';
+import Units from './Units';
 
 // mash
-export const DefaultBoilMinutes = 60;
-export const DefaultEfficiencyPercentage = 75;
-export const MaxEfficiencyPercentage = 100;
-export const MinEfficiencyPercentage = 25;
-export const DefaultGrainWeight = { value: 1, unit: Pound };
-export const DefaultMashThickness = { value: 1.25, antecedent: Quart, consequent: Pound };
-export const DefaultGrainTemp = { value: 68, unit: Fahrenheit };
-export const DefaultInfusionTemp = { value: 152, unit: Fahrenheit };
-export const DefaultMashoutTemp = { value: 170, unit: Fahrenheit };
-export const DefaultGrainAbsorptionLoss = { value: 0.1, antecedent: Gallon, consequent: Pound };
-export const DefaultBoilOffRate = { value: 1, antecedent: Gallon, consequent: Hour };
+const BoilMinutes = 60;
+const EfficiencyPercentage = 75;
+const MaxEfficiencyPercentage = 100;
+const MinEfficiencyPercentage = 25;
+const GrainWeight = { value: 1, unit: Units.Pound };
+const MashThickness = { value: 1.25, antecedent: Units.Quart, consequent: Units.Pound };
+const GrainTemp = { value: 68, unit: Units.Fahrenheit };
+const InfusionTemp = { value: 152, unit: Units.Fahrenheit };
+const MashoutTemp = { value: 170, unit: Units.Fahrenheit };
+const GrainAbsorptionLoss = { value: 0.1, antecedent: Units.Gallon, consequent: Units.Pound };
+const BoilOffRate = { value: 1, antecedent: Units.Gallon, consequent: Units.Hour };
 
 // hops
-export const DefaultHopAdditionWeight = { value: 1, unit: Ounce };
+const HopAdditionWeight = { value: 1, unit: Units.Ounce };
 
 // boil
-export const DefaultBoilVolume = { value: 4, unit: Gallon };
-export const DefaultTargetVolume = { value: 3, unit: Gallon };
+const BoilVolume = { value: 7, unit: Units.Gallon };
+const TargetVolume = { value: 5.5, unit: Units.Gallon };
 
 // fermentation
-export const YeastViabilityMonths = 4.47;
-export const DefaultYeastAttenuation = 0.75;
-export const DefaultPitchRate = 0.75;
-export const DefaultCellCount = Math.pow(10, 11);
+const YeastViabilityMonths = 4.47;
+const YeastAttenuation = 0.75;
+const PitchRate = 0.75;
+const CellCount = Math.pow(10, 11);
 
 // precision
-export const MeasurementPrecision = {
+const MeasurementPrecision = {
   SetGrainWeight: 2,
   SetBoilVolume: 1,
   SetTargetVolume: 1,
   SetHopAdditionWeight: 2,
   SetInfusionTemp: 1,
   SetGrainTemp: 1
+};
+
+export default {
+  BoilMinutes,
+  EfficiencyPercentage,
+  MaxEfficiencyPercentage,
+  MinEfficiencyPercentage,
+  GrainWeight,
+  MashThickness,
+  GrainTemp,
+  InfusionTemp,
+  MashoutTemp,
+  GrainAbsorptionLoss,
+  BoilOffRate,
+  HopAdditionWeight,
+  BoilVolume,
+  TargetVolume,
+  YeastViabilityMonths,
+  YeastAttenuation,
+  PitchRate,
+  CellCount,
+  MeasurementPrecision
 };

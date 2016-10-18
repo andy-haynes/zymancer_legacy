@@ -10,7 +10,6 @@ import HopSearchContainer from '../../containers/HopSearchContainer';
 import MashScheduleContainer from '../../containers/MashScheduleContainer';
 import FermentationContainer from '../../containers/FermentationContainer';
 import YeastSearchContainer from '../../containers/YeastSearchContainer';
-import { RecipeVolume } from '../../constants/MeasurementUnits';
 import RecipeHeader from '../RecipeHeader';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';

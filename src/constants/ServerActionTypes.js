@@ -1,9 +1,13 @@
-export const InvalidateSavedRecipes = 'InvalidateSavedRecipes';
-export const RequestSavedRecipes = 'RequestSavedRecipes';
-export const ReceiveSavedRecipes = 'ReceiveSavedRecipes';
-export const InvalidateSharedRecipes = 'InvalidateSharedRecipes';
-export const RequestSharedRecipes = 'RequestSharedRecipes';
-export const ReceiveSharedRecipes = 'ReceiveSharedRecipes';
-export const InvalidatePublicRecipes = 'InvalidatePublicRecipes';
-export const RequestPublicRecipes = 'RequestPublicRecipes';
-export const ReceivePublicRecipes = 'ReceivePublicRecipes';
+import keyMirror from 'fbjs/lib/keyMirror';
+
+export default keyMirror({
+  InvalidateSavedRecipes: null,
+  RequestSavedRecipes: null,
+  ReceiveSavedRecipes: null,
+  InvalidateSharedRecipes: null,
+  RequestSharedRecipes: null,
+  ReceiveSharedRecipes: null,
+  InvalidatePublicRecipes: null,
+  RequestPublicRecipes: null,
+  ReceivePublicRecipes: null
+});

@@ -1,82 +1,13 @@
-//region imports
-import {
-// hops
-  AddHop,
-  RemoveHop,
-  SetHopAlpha,
-  SetHopBeta,
-  AddHopAddition,
-  RemoveHopAddition,
-  SetHopAdditionTime,
-  SetHopAdditionWeight,
-// grains
-  AddGrain,
-  RemoveGrain,
-  SetGrainWeight,
-  SetGrainGravity,
-  SetGrainLovibond,
-// recipe
-  LoadSavedRecipe,
-  SetRecipeName,
-  SetRecipeStyle,
-  SetBoilTime,
-  SetBoilVolume,
-  SetTargetVolume,
-  SetEfficiency,
-// mash
-  SetMashStyle,
-  SetMashThickness,
-  SetBoilOff,
-  SetGrainAbsorption,
-  SetInfusionTemp,
-  SetMashoutTemp,
-  SetGrainTemp,
-// fermentation
-  SetPitchRate,
-  AddYeast,
-  RemoveYeast,
-  SetYeastMfgDate,
-  SetYeastAttenuation,
-  SetYeastViability,
-  SetYeastQuantity,
-  AddStarterStep,
-  RemoveStarterStep
-} from '../constants/RecipeActionTypes';
-import {
-  FilterHopResults,
-  ClearHopSearch,
-  FilterYeastResults,
-  ClearYeastSearch
-} from '../constants/SearchActionTypes';
-import {
-  calculateGravity,
-  calculateTotalIBU,
-  calculateBoilVolume,
-  calculateStrikeVolume,
-  calculateSpargeVolume,
-  calculateVolumeDiff,
-  calculateStrikeWaterTemp,
-  calculateRecommendedCellCount,
-  calculateABV,
-  calculateFinalGravity,
-  calculateMashoutWaterTemp,
-  calculateSRM
-} from '../utils/BrewMath';
-import { convertToUnit, jsonToGraphql, roundTo } from '../utils/core';
-import {
-  DefaultBoilVolume,
-  DefaultTargetVolume,
-  DefaultBoilMinutes,
-  DefaultEfficiencyPercentage,
-  DefaultYeastAttenuation
-} from '../constants/Defaults';
+import RecipeActions from '../constants/RecipeActionTypes';
+import zymath from '../utils/zymath';
+import helpers from '../utils/helpers';
+import Defaults from '../constants/Defaults';
 import grain from './grain';
 import hop from './hop';
 import fermentation from './fermentation';
 import mashSchedule from './mashSchedule';
 import measurement from './measurement';
 import _ from 'lodash'
-//endregion
 
 const initialState = {
   name: 'My Awesome Mixed Beer #6',
@@ -87,10 +18,10 @@ const initialState = {
   IBU: 0,
   ABV: 0,
   SRM: 0,
-  targetVolume: DefaultTargetVolume,
-  boilVolume: DefaultBoilVolume,
-  boilMinutes: DefaultBoilMinutes,
-  efficiency: DefaultEfficiencyPercentage,
+  targetVolume: Defaults.TargetVolume,
+  boilVolume: Defaults.BoilVolume,
+  boilMinutes: Defaults.BoilMinutes,
+  efficiency: Defaults.EfficiencyPercentage,
   grains: [],
   hops: [],
   mashSchedule: mashSchedule(undefined, {}),
@@ -101,22 +32,22 @@ function recalculate(state, changed) {
   let { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
 
   const thicknessUnit = mashSchedule.thickness.consequent;
-  const grainWeight = { value: _.sumBy(grains, g => convertToUnit(g.weight, thicknessUnit)), unit: thicknessUnit };
-  boilVolume = calculateBoilVolume(targetVolume, mashSchedule.boilOff, mashSchedule.thickness, mashSchedule.absorption, boilMinutes, grainWeight);
+  const grainWeight = { value: _.sumBy(grains, g => helpers.convertToUnit(g.weight, thicknessUnit)), unit: thicknessUnit };
+  boilVolume = zymath.calculateBoilVolume(targetVolume, mashSchedule.boilOff, mashSchedule.thickness, mashSchedule.absorption, boilMinutes, grainWeight);
 
-  mashSchedule.strikeVolume = calculateStrikeVolume(grainWeight, mashSchedule.thickness);
-  mashSchedule.spargeVolume = calculateSpargeVolume(boilVolume, mashSchedule.strikeVolume);
-  mashSchedule.strikeTemp = calculateStrikeWaterTemp(mashSchedule.thickness, mashSchedule.grainTemp, mashSchedule.infusionTemp);
-  mashSchedule.spargeTemp = calculateMashoutWaterTemp(mashSchedule.strikeVolume, mashSchedule.spargeVolume, grainWeight, mashSchedule.infusionTemp, mashSchedule.mashoutTemp);
+  mashSchedule.strikeVolume = zymath.calculateStrikeVolume(grainWeight, mashSchedule.thickness);
+  mashSchedule.spargeVolume = zymath.calculateSpargeVolume(boilVolume, mashSchedule.strikeVolume);
+  mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(mashSchedule.thickness, mashSchedule.grainTemp, mashSchedule.infusionTemp);
+  mashSchedule.spargeTemp = zymath.calculateMashoutWaterTemp(mashSchedule.strikeVolume, mashSchedule.spargeVolume, grainWeight, mashSchedule.infusionTemp, mashSchedule.mashoutTemp);
 
-  originalGravity = calculateGravity(efficiency, grains, targetVolume);
-  IBU = calculateTotalIBU(boilVolume, originalGravity, hops);
+  originalGravity = zymath.calculateGravity(efficiency, grains, targetVolume);
+  IBU = zymath.calculateTotalIBU(boilVolume, originalGravity, hops);
 
-  fermentation.recommendedCellCount = calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume);
-  const apparentAttenuation = (_.sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || DefaultYeastAttenuation;
-  finalGravity = calculateFinalGravity(originalGravity, apparentAttenuation);
-  ABV = calculateABV(originalGravity, finalGravity);
-  SRM = calculateSRM(targetVolume, grains);
+  fermentation.recommendedCellCount = zymath.calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume);
+  const apparentAttenuation = (_.sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || Defaults.YeastAttenuation;
+  finalGravity = zymath.calculateFinalGravity(originalGravity, apparentAttenuation);
+  ABV = zymath.calculateABV(originalGravity, finalGravity);
+  SRM = zymath.calculateSRM(targetVolume, grains);
 
   return { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM };
 }
@@ -130,54 +61,54 @@ const currentRecipe = (state = initialState, action) => {
   );
 
   switch (action.type) {
-    case LoadSavedRecipe:
+    case RecipeActions.LoadSavedRecipe:
       return updateRecipe(action.recipe);
-    case SetRecipeName:
+    case RecipeActions.SetRecipeName:
       return updateRecipe({ name: action.name }, false);
-    case SetRecipeStyle:
+    case RecipeActions.SetRecipeStyle:
       return updateRecipe({ style: action.style }, false);
-    case SetTargetVolume:
+    case RecipeActions.SetTargetVolume:
       return updateRecipe({ targetVolume: measurement(state.targetVolume, action) });
-    case SetBoilVolume:
+    case RecipeActions.SetBoilVolume:
       return updateRecipe({ boilVolume: measurement(state.boilVolume, action) });
-    case SetEfficiency:
+    case RecipeActions.SetEfficiency:
       return updateRecipe({ efficiency: action.efficiency });
-    case AddHop:
+    case RecipeActions.AddHop:
       return updateRecipe({ hops: state.hops.concat(hop(undefined, action)) });
-    case RemoveHop:
+    case RecipeActions.RemoveHop:
       return updateRecipe({ hops: state.hops.filter(h => h.id !== action.hop.id) });
-    case SetHopAlpha:
-    case SetHopBeta:
-    case AddHopAddition:
-    case RemoveHopAddition:
-    case SetHopAdditionTime:
-    case SetHopAdditionWeight:
+    case RecipeActions.SetHopAlpha:
+    case RecipeActions.SetHopBeta:
+    case RecipeActions.AddHopAddition:
+    case RecipeActions.RemoveHopAddition:
+    case RecipeActions.SetHopAdditionTime:
+    case RecipeActions.SetHopAdditionWeight:
       return updateRecipe({ hops: state.hops.map(h => h.id === action.hop.id ? hop(h, action) : h) });
-    case AddGrain:
+    case RecipeActions.AddGrain:
       return updateRecipe({ grains: state.grains.concat(grain(undefined, action)) });
-    case RemoveGrain:
+    case RecipeActions.RemoveGrain:
       return updateRecipe({ grains: state.grains.filter(g => g.id !== action.grain.id) });
-    case SetGrainWeight:
-    case SetGrainGravity:
-    case SetGrainLovibond:
+    case RecipeActions.SetGrainWeight:
+    case RecipeActions.SetGrainGravity:
+    case RecipeActions.SetGrainLovibond:
       return updateRecipe({ grains: state.grains.map(g => g.id === action.grain.id ? grain(g, action) : g) });
-    case SetMashStyle:
-    case SetMashThickness:
-    case SetBoilOff:
-    case SetGrainAbsorption:
-    case SetInfusionTemp:
-    case SetMashoutTemp:
-    case SetGrainTemp:
+    case RecipeActions.SetMashStyle:
+    case RecipeActions.SetMashThickness:
+    case RecipeActions.SetBoilOff:
+    case RecipeActions.SetGrainAbsorption:
+    case RecipeActions.SetInfusionTemp:
+    case RecipeActions.SetMashoutTemp:
+    case RecipeActions.SetGrainTemp:
       return updateRecipe({ mashSchedule: mashSchedule(state.mashSchedule, action) });
-    case SetPitchRate:
-    case AddYeast:
-    case RemoveYeast:
-    case SetYeastMfgDate:
-    case SetYeastAttenuation:
-    case SetYeastViability:
-    case SetYeastQuantity:
-    case AddStarterStep:
-    case RemoveStarterStep:
+    case RecipeActions.SetPitchRate:
+    case RecipeActions.AddYeast:
+    case RecipeActions.RemoveYeast:
+    case RecipeActions.SetYeastMfgDate:
+    case RecipeActions.SetYeastAttenuation:
+    case RecipeActions.SetYeastViability:
+    case RecipeActions.SetYeastQuantity:
+    case RecipeActions.AddStarterStep:
+    case RecipeActions.RemoveStarterStep:
       return updateRecipe({ fermentation: fermentation(state.fermentation, action) });
     default:
       return state;

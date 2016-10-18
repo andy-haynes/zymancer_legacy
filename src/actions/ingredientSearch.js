@@ -1,66 +1,53 @@
-import {
-  FilterGrainResults,
-  UpdateGrainResults,
-  ClearGrainSearch,
-  FilterHopResults,
-  UpdateHopResults,
-  ClearHopSearch,
-  FilterYeastResults,
-  UpdateYeastResults,
-  ClearYeastSearch
-} from '../constants/SearchActionTypes';
-import {
-  IngredientType,
-  MinSearchQueryLength
-} from '../constants/AppConstants';
+import SearchActions from '../constants/SearchActionTypes';
+import { IngredientType, MinSearchQueryLength } from '../constants/AppConstants';
 import fetch from '../core/fetch';
 import grain from '../reducers/grain';
 import hop from '../reducers/hop';
 import yeast from '../reducers/yeast';
 
 export function filterGrainResults(query) {
-  return { type: FilterGrainResults, query };
+  return { type: SearchActions.FilterGrainResults, query };
 }
 
 export function updateGrainResults({ data }) {
   return {
-    type: UpdateGrainResults,
+    type: SearchActions.UpdateGrainResults,
     results: data.searchGrains.map(g => grain.create(g))
   };
 }
 
 export function clearGrainSearch() {
-  return { type: ClearGrainSearch };
+  return { type: SearchActions.ClearGrainSearch };
 }
 
 export function filterHopResults(query) {
-  return { type: FilterHopResults, query };
+  return { type: SearchActions.FilterHopResults, query };
 }
 
 export function updateHopResults({ data }) {
   return {
-    type: UpdateHopResults,
+    type: SearchActions.UpdateHopResults,
     results: data.searchHops.map(h => hop.create(h))
   };
 }
 
 export function clearHopSearch() {
-  return { type: ClearHopSearch };
+  return { type: SearchActions.ClearHopSearch };
 }
 
 export function filterYeastResults(query) {
-  return { type: FilterYeastResults, query };
+  return { type: SearchActions.FilterYeastResults, query };
 }
 
 export function updateYeastResults({ data }) {
   return {
-    type: UpdateYeastResults,
+    type: SearchActions.UpdateYeastResults,
     results: data.searchYeast.map(y => yeast.create(y))
   };
 }
 
 export function clearYeastSearch() {
-  return { type: ClearYeastSearch };
+  return { type: SearchActions.ClearYeastSearch };
 }
 
 const ingredientTypeMap = {

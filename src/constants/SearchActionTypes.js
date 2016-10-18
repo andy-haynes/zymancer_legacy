@@ -1,11 +1,13 @@
-export const FilterGrainResults = 'FilterGrainResults';
-export const UpdateGrainResults = 'UpdateGrainResults';
-export const ClearGrainSearch = 'ClearGrainSearch';
+import keyMirror from 'fbjs/lib/keyMirror';
 
-export const FilterHopResults = 'FilterHopResults';
-export const ClearHopSearch = 'ClearHopSearch';
-export const UpdateHopResults = 'UpdateHopResults';
-
-export const FilterYeastResults = 'FilterYeastResults';
-export const UpdateYeastResults = 'UpdateYeastResults';
-export const ClearYeastSearch = 'ClearYeastSearch';
+export default keyMirror({
+  FilterGrainResults: null,
+  UpdateGrainResults: null,
+  ClearGrainSearch: null,
+  FilterHopResults: null,
+  ClearHopSearch: null,
+  UpdateHopResults: null,
+  FilterYeastResults: null,
+  UpdateYeastResults: null,
+  ClearYeastSearch: null
+});

@@ -1,70 +1,56 @@
-import {
-  SetMashStyle,
-  SetMashThickness,
-  SetBoilOff,
-  SetGrainAbsorption,
-  SetInfusionTemp,
-  SetGrainTemp,
-  SetMashoutTemp
-} from '../constants/RecipeActionTypes';
-import {
-  DefaultMashThickness,
-  DefaultBoilOffRate,
-  DefaultGrainAbsorptionLoss,
-  DefaultGrainTemp,
-  DefaultInfusionTemp,
-  DefaultMashoutTemp
-} from '../constants/Defaults';
-import { convertRatio, calculateBoilVolume, calculateStrikeWaterTemp } from '../utils/BrewMath';
+import RecipeActions from '../constants/RecipeActionTypes';
+import zymath from '../utils/zymath';
+import helpers from '../utils/helpers';
+import Defaults from '../constants/Defaults';
 import measurement from './measurement';
-import { Quart, Fahrenheit } from '../constants/Units';
+import Units from '../constants/Units';
 
-const emptyVolume = { value: 0, unit: Quart };
+const emptyVolume = { value: 0, unit: Units.Quart };
 const initialState = {
   style: 'Infusion Sparge',
-  thickness: DefaultMashThickness,
-  boilOff: DefaultBoilOffRate,
-  absorption: DefaultGrainAbsorptionLoss,
-  grainTemp: DefaultGrainTemp,
-  infusionTemp: DefaultInfusionTemp,
-  mashoutTemp: DefaultMashoutTemp,
-  strikeTemp: calculateStrikeWaterTemp(DefaultMashThickness, DefaultGrainTemp, DefaultInfusionTemp),
-  spargeTemp: { value: 0, unit: Fahrenheit },
+  thickness: Defaults.MashThickness,
+  boilOff: Defaults.BoilOffRate,
+  absorption: Defaults.GrainAbsorptionLoss,
+  grainTemp: Defaults.GrainTemp,
+  infusionTemp: Defaults.InfusionTemp,
+  mashoutTemp: Defaults.MashoutTemp,
+  strikeTemp: zymath.calculateStrikeWaterTemp(Defaults.MashThickness, Defaults.GrainTemp, Defaults.InfusionTemp),
+  spargeTemp: { value: 0, unit: Units.Fahrenheit },
   strikeVolume: emptyVolume,
   spargeVolume: emptyVolume
 };
 
 const convertRatioDelta = (ratio, delta) => {
-  return convertRatio(ratio, Object.assign({}, ratio, delta), 2);
+  return helpers.convertRatio(ratio, Object.assign({}, ratio, delta), 2);
 };
 
 const mashSchedule = (state = initialState, action) => {
   switch (action.type) {
-    case SetMashStyle:
+    case RecipeActions.SetMashStyle:
       return Object.assign({}, state, {
         style: action.style
       });
-    case SetMashThickness:
+    case RecipeActions.SetMashThickness:
       return Object.assign({}, state, {
         thickness: convertRatioDelta(state.thickness, action.thickness)
       });
-    case SetBoilOff:
+    case RecipeActions.SetBoilOff:
       return Object.assign({}, state, {
         boilOff: convertRatioDelta(state.boilOff, action.boilOff)
       });
-    case SetGrainAbsorption:
+    case RecipeActions.SetGrainAbsorption:
       return Object.assign({}, state, {
         absorption: convertRatioDelta(state.absorption, action.absorption)
       });
-    case SetInfusionTemp:
+    case RecipeActions.SetInfusionTemp:
       return Object.assign({}, state, {
         infusionTemp: measurement(state.infusionTemp, action)
       });
-    case SetMashoutTemp:
+    case RecipeActions.SetMashoutTemp:
       return Object.assign({}, state, {
         mashoutTemp: measurement(state.mashoutTemp, action)
       });
-    case SetGrainTemp:
+    case RecipeActions.SetGrainTemp:
       return Object.assign({}, state, {
         grainTemp: measurement(state.grainTemp, action)
       });

@@ -2,8 +2,6 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Recipe.css';
 import Measurement from '../Measurement';
-import { GrainWeight } from '../../constants/MeasurementUnits';
-import { calculateGrainRGB, calculateSRM } from '../../utils/BrewMath';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import Link from '../Link';

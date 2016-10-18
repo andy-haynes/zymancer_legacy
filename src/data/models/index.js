@@ -20,7 +20,7 @@ import _ from 'lodash';
 
 import Ingredients from '../../constants/TestIngredients';
 import styles from '../../constants/BJCP_JSON';
-import { DBFGtoGravity } from '../../utils/BrewMath';
+import zymath from '../../utils/zymath';
 
 User.hasMany(UserLogin, {
   foreignKey: 'userId',
@@ -101,7 +101,7 @@ function sync(...args) {
         _.pick(grain, 'name', 'category', 'description', 'characteristics', 'flavor', 'mfg', 'lovibond'), {
           DBFG: isNaN(parseFloat(grain.DBFG)) ? null : parseFloat(grain.DBFG),
           DBCG: isNaN(parseFloat(grain.DBCG)) ? null : parseFloat(grain.DBCG),
-          gravity: isNaN(parseFloat(grain.DBCG || grain.DBFG)) ? null : DBFGtoGravity(parseFloat(grain.DBCG || grain.DBFG)),
+          gravity: isNaN(parseFloat(grain.DBCG || grain.DBFG)) ? null : zymath.DBFGtoGravity(parseFloat(grain.DBCG || grain.DBFG)),
           isExtract: grain.pdfUrl && (grain.pdfUrl.indexOf('LME') + grain.pdfUrl.indexOf('DME') > -2),
           url: grain.pdfUrl || grain.url
         }

@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
 import { addGrain } from '../actions/calculator';
 import { queryIngredients, clearGrainSearch } from '../actions/ingredientSearch';
-import { SRMtoRGB } from '../utils/BrewMath';
 import GrainSearch from '../components/GrainSearch';
 import { IngredientType } from '../constants/AppConstants';
 

@@ -1,26 +1,13 @@
-import {
-  InvalidateSavedRecipes,
-  RequestSavedRecipes,
-  ReceiveSavedRecipes,
-  InvalidateSharedRecipes,
-  RequestSharedRecipes,
-  ReceiveSharedRecipes,
-  InvalidatePublicRecipes,
-  RequestPublicRecipes,
-  ReceivePublicRecipes
-} from '../constants/ServerActionTypes';
-import {
-  RecipeType
-} from '../constants/AppConstants';
-
-const recipeTypeMap = {
-  [RecipeType.SavedRecipes]: { invalidate: InvalidateSavedRecipes, request: RequestSavedRecipes, receive: ReceiveSavedRecipes },
-  [RecipeType.SharedRecipes]: { invalidate: InvalidateSharedRecipes, request: RequestSharedRecipes, receive: ReceiveSharedRecipes },
-  [RecipeType.PublicRecipes]: { invalidate: InvalidatePublicRecipes, request: RequestPublicRecipes, receive: ReceivePublicRecipes }
-};
+import ServerActions from '../constants/ServerActionTypes';
+import { RecipeType } from '../constants/AppConstants';
 
 function createRecipeFetchReducer(recipeType) {
-  const { invalidate, request, receive } = recipeTypeMap[recipeType];
+  const { invalidate, request, receive } = {
+    [RecipeType.SavedRecipes]:  { invalidate: ServerActions.InvalidateSavedRecipes,  request: ServerActions.RequestSavedRecipes,  receive: ServerActions.ReceiveSavedRecipes },
+    [RecipeType.PublicRecipes]: { invalidate: ServerActions.InvalidatePublicRecipes, request: ServerActions.RequestPublicRecipes, receive: ServerActions.ReceivePublicRecipes },
+    [RecipeType.SharedRecipes]: { invalidate: ServerActions.InvalidateSharedRecipes, request: ServerActions.RequestSharedRecipes, receive: ServerActions.ReceiveSharedRecipes }
+  }[recipeType];
+
   const initialState = {
     isFetching: false,
     didInvalidate: true,
@@ -58,21 +45,21 @@ const initialState = {
 
 function recipes(state = initialState, action) {
   switch (action.type) {
-    case InvalidateSavedRecipes:
-    case RequestSavedRecipes:
-    case ReceiveSavedRecipes:
+    case ServerActions.InvalidateSavedRecipes:
+    case ServerActions.RequestSavedRecipes:
+    case ServerActions.ReceiveSavedRecipes:
       return Object.assign({}, state, {
         [RecipeType.SavedRecipes]: createRecipeFetchReducer(RecipeType.SavedRecipes)(state[RecipeType.SavedRecipes], action)
       });
-    case InvalidateSharedRecipes:
-    case RequestSharedRecipes:
-    case ReceiveSharedRecipes:
+    case ServerActions.InvalidateSharedRecipes:
+    case ServerActions.RequestSharedRecipes:
+    case ServerActions.ReceiveSharedRecipes:
       return Object.assign({}, state, {
         [RecipeType.SharedRecipes]: createRecipeFetchReducer(RecipeType.SharedRecipes)(state[RecipeType.SharedRecipes], action)
       });
-    case InvalidatePublicRecipes:
-    case RequestPublicRecipes:
-    case ReceivePublicRecipes:
+    case ServerActions.InvalidatePublicRecipes:
+    case ServerActions.RequestPublicRecipes:
+    case ServerActions.ReceivePublicRecipes:
       return Object.assign({}, state, {
         [RecipeType.PublicRecipes]: createRecipeFetchReducer(RecipeType.PublicRecipes)(state[RecipeType.PublicRecipes], action)
       });

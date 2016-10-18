@@ -1,47 +1,42 @@
-// grain action types
-export const AddGrain = 'AddGrain';
-export const RemoveGrain = 'RemoveGrain';
-export const SetGrainWeight = 'SetGrainWeight';
-export const SetGrainGravity = 'SetGrainGravity';
-export const SetGrainLovibond = 'SetGrainLovibond';
+import keyMirror from 'fbjs/lib/keyMirror';
 
-// hop action types
-export const AddHop = 'AddHop';
-export const RemoveHop = 'RemoveHop';
-export const SetHopAlpha = 'SetHopAlpha';
-export const SetHopBeta = 'SetHopBeta';
-export const AddHopAddition = 'AddHopAddition';
-export const SetHopAdditionTime = 'SetHopAdditionTime';
-export const SetHopAdditionWeight = 'SetHopAdditionWeight';
-export const RemoveHopAddition = 'RemoveHopAddition';
-
-// mash action types
-export const SetMashStyle = 'SetMashStyle';
-export const SetMashThickness = 'SetMashThickness';
-export const SetBoilOff = 'SetBoilOff';
-export const SetGrainAbsorption = 'SetGrainAbsorption';
-export const SetInfusionTemp = 'SetInfusionTemp';
-export const SetMashoutTemp = 'SetMashoutTemp';
-export const SetGrainTemp = 'SetGrainTemp';
-
-// recipe actions
-export const LoadSavedRecipe = 'LoadSavedRecipe';
-export const SaveRecipe = 'SaveRecipe';
-export const RecipeSaved = 'RecipeSaved';
-export const SetRecipeName = 'SetRecipeName';
-export const SetRecipeStyle = 'SetRecipeStyle';
-export const SetBoilVolume = 'SetBoilVolume';
-export const SetTargetVolume = 'SetTargetVolume';
-export const SetBoilTime = 'SetBoilTime';
-export const SetEfficiency = 'SetEfficiency';
-
-// fermentation options
-export const SetPitchRate = 'SetPitchRate';
-export const AddYeast = 'AddYeast';
-export const RemoveYeast = 'RemoveYeast';
-export const AddStarterStep = 'AddStarterStep';
-export const RemoveStarterStep = 'RemoveStarterStep';
-export const SetYeastMfgDate = 'SetYeastMfgDate';
-export const SetYeastAttenuation = 'SetYeastAttenuation';
-export const SetYeastViability = 'SetYeastViability';
-export const SetYeastQuantity = 'SetYeastQuantity';
+export default keyMirror({
+  AddGrain: null,
+  RemoveGrain: null,
+  SetGrainWeight: null,
+  SetGrainGravity: null,
+  SetGrainLovibond: null,
+  AddHop: null,
+  RemoveHop: null,
+  SetHopAlpha: null,
+  SetHopBeta: null,
+  AddHopAddition: null,
+  SetHopAdditionTime: null,
+  SetHopAdditionWeight: null,
+  RemoveHopAddition: null,
+  SetMashStyle: null,
+  SetMashThickness: null,
+  SetBoilOff: null,
+  SetGrainAbsorption: null,
+  SetInfusionTemp: null,
+  SetMashoutTemp: null,
+  SetGrainTemp: null,
+  LoadSavedRecipe: null,
+  SaveRecipe: null,
+  RecipeSaved: null,
+  SetRecipeName: null,
+  SetRecipeStyle: null,
+  SetBoilVolume: null,
+  SetTargetVolume: null,
+  SetBoilTime: null,
+  SetEfficiency: null,
+  SetPitchRate: null,
+  AddYeast: null,
+  RemoveYeast: null,
+  AddStarterStep: null,
+  RemoveStarterStep: null,
+  SetYeastMfgDate: null,
+  SetYeastAttenuation: null,
+  SetYeastViability: null,
+  SetYeastQuantity: null
+});

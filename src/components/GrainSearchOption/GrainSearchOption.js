@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './GrainSearchOption.css';
-import { calculateGrainRGB } from '../../utils/BrewMath';
-import { Pound, Gallon } from '../../constants/Units';
+import zymath from '../../utils/zymath';
+import Units from '../../constants/Units';
 
 const GrainSearchOption = ({ grain, addGrain }) => (
   <div className={s.grainSearchOption} onClick={addGrain}>
@@ -23,11 +23,11 @@ const GrainSearchOption = ({ grain, addGrain }) => (
       <div
         className="pure-u-3-24"
         style={{
-          backgroundColor: calculateGrainRGB({
+          backgroundColor: zymath.calculateGrainRGB({
               value: 1,
-              unit: Gallon
+              unit: Units.Gallon
             }, Object.assign({}, grain, {
-              weight: { value: 1, unit: Pound }
+              weight: { value: 1, unit: Units.Pound }
             })
           )
         }}

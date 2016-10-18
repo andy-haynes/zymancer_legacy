@@ -2,9 +2,9 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './HopAddition.css';
 import Measurement from '../Measurement';
-import { HopAdditionWeight } from '../../constants/MeasurementUnits';
-import { roundTo } from '../../utils/core';
-import { calculateUtilization, calculateIBU } from '../../utils/BrewMath';
+import _ from 'lodash';
+import MeasurementUnits from '../../constants/MeasurementUnits';
+import zymath from '../../utils/zymath';
 import SliderInput from '../SliderInput';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
@@ -31,7 +31,7 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTi
           <Measurement
             measurement={addition.weight}
             update={(weight) => setAdditionWeight(addition, hop, weight)}
-            options={HopAdditionWeight}
+            options={MeasurementUnits.HopAdditionWeight}
           />
         </div>
       </div>
@@ -40,13 +40,13 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTi
           <div className="pure-u-1-2">
             <div className={s.additionDetail}>
               <div className={s.detailLabel}>IBU</div>
-              {roundTo(calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume), 1)}
+              {_.round(zymath.calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume), 1)}
             </div>
           </div>
           <div className="pure-u-1-2">
             <div className={s.additionDetail}>
               <div className={s.detailLabel}>Util</div>
-              {roundTo(calculateUtilization(addition.minutes, originalGravity), 2)}
+              {_.round(zymath.calculateUtilization(addition.minutes, originalGravity), 2)}
             </div>
           </div>
         </div>

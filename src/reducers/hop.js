@@ -1,24 +1,17 @@
-import {
-  AddHop,
-  SetHopAlpha,
-  SetHopBeta,
-  AddHopAddition,
-  SetHopAdditionTime,
-  SetHopAdditionWeight,
-  RemoveHopAddition
-} from '../constants/RecipeActionTypes';
+import RecipeActions from '../constants/RecipeActionTypes';
 import hopAddition from './hopAddition';
-import { roundTo, extractRange } from '../utils/core';
+import helpers from '../utils/helpers';
+import _ from 'lodash';
 
 function createHop(hop) {
-  const alphaRange = hop.alphaRange || extractRange(hop.alpha);
-  const betaRange = hop.betaRange || extractRange(hop.beta);
+  const alphaRange = hop.alphaRange || helpers.extractRange(hop.alpha);
+  const betaRange = hop.betaRange || helpers.extractRange(hop.beta);
 
   return {
     id: hop.id,
     name: hop.name,
-    alpha: isNaN(hop.alpha) ? roundTo(alphaRange.avg, 1) : hop.alpha,
-    beta: isNaN(hop.beta) ? roundTo(betaRange.avg, 1) : hop.beta,
+    alpha: isNaN(hop.alpha) ? _.round(alphaRange.avg, 1) : hop.alpha,
+    beta: isNaN(hop.beta) ? _.round(betaRange.avg, 1) : hop.beta,
     additions: (hop.additions || [undefined]).map(a => hopAddition.create(a)),
     categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories,
     alphaRange,
@@ -28,19 +21,19 @@ function createHop(hop) {
 
 const hop = (state = {}, action) => {
   switch (action.type) {
-    case AddHop:
+    case RecipeActions.AddHop:
       // TODO: add boil time to action to always set new hops at max time
       return createHop(action.hop);
-    case SetHopAlpha:
+    case RecipeActions.SetHopAlpha:
       return Object.assign({}, state, { alpha: action.alpha });
-    case SetHopBeta:
+    case RecipeActions.SetHopBeta:
       return Object.assign({}, state, { beta: action.beta });
-    case AddHopAddition:
+    case RecipeActions.AddHopAddition:
       return Object.assign({}, state, { additions: state.additions.concat(hopAddition(undefined, action)) });
-    case RemoveHopAddition:
+    case RecipeActions.RemoveHopAddition:
       return Object.assign({}, state, { additions: state.additions.filter(a => a.id !== action.addition.id) });
-    case SetHopAdditionTime:
-    case SetHopAdditionWeight:
+    case RecipeActions.SetHopAdditionTime:
+    case RecipeActions.SetHopAdditionWeight:
       return Object.assign({}, state, {
         additions: state.additions.map(a => a.id === action.addition.id ? hopAddition(a, action) : a)
       });

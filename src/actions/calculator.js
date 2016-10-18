@@ -1,48 +1,4 @@
-import {
-  // grains
-  AddGrain,
-  RemoveGrain,
-  FilterGrainResults,
-  ClearGrainSearch,
-  SetGrainWeight,
-  SetGrainGravity,
-  SetGrainLovibond,
-  // hops
-  AddHop,
-  RemoveHop,
-  AddHopAddition,
-  SetHopAdditionTime,
-  SetHopAdditionWeight,
-  RemoveHopAddition,
-  SetHopAlpha,
-  SetHopBeta,
-  // mash
-  SetMashStyle,
-  SetMashThickness,
-  SetBoilOff,
-  SetGrainAbsorption,
-  SetInfusionTemp,
-  SetMashoutTemp,
-  SetGrainTemp,
-  // recipe
-  SaveRecipe,
-  SetRecipeName,
-  SetRecipeStyle,
-  SetBoilVolume,
-  SetTargetVolume,
-  SetBoilTime,
-  SetEfficiency,
-  // Fermentation
-  SetPitchRate,
-  SetYeastAttenuation,
-  SetYeastViability,
-  SetYeastQuantity,
-  AddStarterStep,
-  RemoveStarterStep,
-  SetYeastMfgDate,
-  AddYeast,
-  RemoveYeast
-} from '../constants/RecipeActionTypes';
+import RecipeActions from '../constants/RecipeActionTypes';
 
 function createAction(type, argNames, setters) {
   return function(...args) {
@@ -73,46 +29,46 @@ let additionId = 0;
 let yeastId = 0;
 
 // ***************************** grains ***************************
-export const addGrain = createAction(AddGrain, ['grain'], { grainId: () => grainId++ });
-export const removeGrain = createAction(RemoveGrain, ['grain']);
-export const setGrainWeight = createAction(SetGrainWeight, ['grain', 'measurement']);
-export const setGrainGravity = createAction(SetGrainGravity, ['grain', 'gravity']);
-export const setGrainLovibond = createAction(SetGrainLovibond, ['grain', 'lovibond']);
+export const addGrain = createAction(RecipeActions.AddGrain, ['grain'], { grainId: () => grainId++ });
+export const removeGrain = createAction(RecipeActions.RemoveGrain, ['grain']);
+export const setGrainWeight = createAction(RecipeActions.SetGrainWeight, ['grain', 'measurement']);
+export const setGrainGravity = createAction(RecipeActions.SetGrainGravity, ['grain', 'gravity']);
+export const setGrainLovibond = createAction(RecipeActions.SetGrainLovibond, ['grain', 'lovibond']);
 
 // ***************************** hops *****************************
-export const addHop = createAction(AddHop, ['hop'], { hopId: () => hopId++, additionId: () => additionId++ });
-export const removeHop = createAction(RemoveHop, ['hop']);
-export const addAddition = createAction(AddHopAddition, ['hop'], { additionId: () => additionId++ });
-export const setAdditionTime = createAction(SetHopAdditionTime, ['addition', 'hop', 'minutes']);
-export const setAdditionWeight = createAction(SetHopAdditionWeight, ['addition', 'hop', 'measurement']);
-export const removeAddition = createAction(RemoveHopAddition, ['addition', 'hop']);
-export const setHopAlpha = createAction(SetHopAlpha, ['hop', 'alpha']);
-export const setHopBeta = createAction(SetHopBeta, ['hop', 'beta']);
+export const addHop = createAction(RecipeActions.AddHop, ['hop'], { hopId: () => hopId++, additionId: () => additionId++ });
+export const removeHop = createAction(RecipeActions.RemoveHop, ['hop']);
+export const addAddition = createAction(RecipeActions.AddHopAddition, ['hop'], { additionId: () => additionId++ });
+export const setAdditionTime = createAction(RecipeActions.SetHopAdditionTime, ['addition', 'hop', 'minutes']);
+export const setAdditionWeight = createAction(RecipeActions.SetHopAdditionWeight, ['addition', 'hop', 'measurement']);
+export const removeAddition = createAction(RecipeActions.RemoveHopAddition, ['addition', 'hop']);
+export const setHopAlpha = createAction(RecipeActions.SetHopAlpha, ['hop', 'alpha']);
+export const setHopBeta = createAction(RecipeActions.SetHopBeta, ['hop', 'beta']);
 
 // ************************* mash schedule ************************
-export const setMashStyle = createAction(SetMashStyle, ['style']);
-export const setMashThickness = createAction(SetMashThickness, ['thickness']);
-export const setBoilOff = createAction(SetBoilOff, ['boilOff']);
-export const setGrainAbsorption = createAction(SetGrainAbsorption, ['absorption']);
-export const setInfusionTemp = createAction(SetInfusionTemp, ['measurement']);
-export const setMashoutTemp = createAction(SetMashoutTemp, ['measurement']);
-export const setGrainTemp = createAction(SetGrainTemp, ['measurement']);
+export const setMashStyle = createAction(RecipeActions.SetMashStyle, ['style']);
+export const setMashThickness = createAction(RecipeActions.SetMashThickness, ['thickness']);
+export const setBoilOff = createAction(RecipeActions.SetBoilOff, ['boilOff']);
+export const setGrainAbsorption = createAction(RecipeActions.SetGrainAbsorption, ['absorption']);
+export const setInfusionTemp = createAction(RecipeActions.SetInfusionTemp, ['measurement']);
+export const setMashoutTemp = createAction(RecipeActions.SetMashoutTemp, ['measurement']);
+export const setGrainTemp = createAction(RecipeActions.SetGrainTemp, ['measurement']);
 
 // *************************** recipe *****************************
-export const setRecipeName = createAction(SetRecipeName, ['name']);
-export const setRecipeStyle = createAction(SetRecipeStyle, ['style']);
-export const setBoilVolume = createAction(SetBoilVolume, ['measurement']);
-export const setTargetVolume = createAction(SetTargetVolume, ['measurement']);
-export const setBoilTime = createAction(SetBoilTime, ['minutes']);
-export const setEfficiency = createAction(SetEfficiency, ['efficiency']);
+export const setRecipeName = createAction(RecipeActions.SetRecipeName, ['name']);
+export const setRecipeStyle = createAction(RecipeActions.SetRecipeStyle, ['style']);
+export const setBoilVolume = createAction(RecipeActions.SetBoilVolume, ['measurement']);
+export const setTargetVolume = createAction(RecipeActions.SetTargetVolume, ['measurement']);
+export const setBoilTime = createAction(RecipeActions.SetBoilTime, ['minutes']);
+export const setEfficiency = createAction(RecipeActions.SetEfficiency, ['efficiency']);
 
 // ************************* fermentation *************************
-export const addYeast = createAction(AddYeast, ['yeast'], { yeastId: () => yeastId++ });
-export const removeYeast = createAction(RemoveYeast, ['yeast']);
-export const setPitchRate = createAction(SetPitchRate, ['rate']);
-export const setYeastMfgDate = createAction(SetYeastMfgDate, ['yeast', 'date']);
-export const setYeastAttenuation = createAction(SetYeastAttenuation, ['yeast', 'attenuation']);
-export const setYeastViability = createAction(SetYeastViability, ['yeast', 'viability']);
-export const setYeastQuantity = createAction(SetYeastQuantity, ['yeast', 'quantity']);
-export const addStarterStep = createAction(AddStarterStep, ['yeast', 'gravity', 'hours']);
-export const removeStarterStep = createAction(RemoveStarterStep, ['yeast']);
+export const addYeast = createAction(RecipeActions.AddYeast, ['yeast'], { yeastId: () => yeastId++ });
+export const removeYeast = createAction(RecipeActions.RemoveYeast, ['yeast']);
+export const setPitchRate = createAction(RecipeActions.SetPitchRate, ['rate']);
+export const setYeastMfgDate = createAction(RecipeActions.SetYeastMfgDate, ['yeast', 'date']);
+export const setYeastAttenuation = createAction(RecipeActions.SetYeastAttenuation, ['yeast', 'attenuation']);
+export const setYeastViability = createAction(RecipeActions.SetYeastViability, ['yeast', 'viability']);
+export const setYeastQuantity = createAction(RecipeActions.SetYeastQuantity, ['yeast', 'quantity']);
+export const addStarterStep = createAction(RecipeActions.AddStarterStep, ['yeast', 'gravity', 'hours']);
+export const removeStarterStep = createAction(RecipeActions.RemoveStarterStep, ['yeast']);

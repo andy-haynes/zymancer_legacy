@@ -7,7 +7,7 @@ import Ratio from '../Ratio';
 import Paper from 'material-ui/Paper';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import { GrainWeight, RecipeVolume, BoilOffTime, TemperatureOptions } from '../../constants/MeasurementUnits';
+import MeasurementUnits from '../../constants/MeasurementUnits';
 
 const MashSchedule = ({
   style,
@@ -40,7 +40,7 @@ const MashSchedule = ({
               </div>
             </div>
             <div className="pure-u-1-3">
-              <Measurement measurement={strikeVolume} options={RecipeVolume} />
+              <Measurement measurement={strikeVolume} options={MeasurementUnits.RecipeVolume} />
             </div>
             <div className="pure-u-1-6">
               <div className={s.mashLabel}>
@@ -48,7 +48,7 @@ const MashSchedule = ({
               </div>
             </div>
             <div className="pure-u-1-3">
-              <Measurement measurement={spargeVolume} options={RecipeVolume} />
+              <Measurement measurement={spargeVolume} options={MeasurementUnits.RecipeVolume} />
             </div>
           </div>
         </Paper>
@@ -69,8 +69,8 @@ const MashSchedule = ({
               >
                 <Ratio
                   ratio={thickness}
-                  antecedentOptions={RecipeVolume}
-                  consequentOptions={GrainWeight}
+                  antecedentOptions={MeasurementUnits.RecipeVolume}
+                  consequentOptions={MeasurementUnits.GrainWeight}
                   update={setThickness}
                 />
               </SliderInput>
@@ -94,8 +94,8 @@ const MashSchedule = ({
               >
                 <Ratio
                   ratio={absorption}
-                  antecedentOptions={RecipeVolume}
-                  consequentOptions={GrainWeight}
+                  antecedentOptions={MeasurementUnits.RecipeVolume}
+                  consequentOptions={MeasurementUnits.GrainWeight}
                   update={setAbsorption}
                 />
               </SliderInput>
@@ -119,8 +119,8 @@ const MashSchedule = ({
               >
                 <Ratio
                   ratio={boilOff}
-                  antecedentOptions={RecipeVolume}
-                  consequentOptions={BoilOffTime}
+                  antecedentOptions={MeasurementUnits.RecipeVolume}
+                  consequentOptions={MeasurementUnits.BoilOffTime}
                   update={setBoilOff}
                 />
               </SliderInput>
@@ -149,7 +149,7 @@ const MashSchedule = ({
               </div>
             </div>
             <div className="pure-u-6-24">
-              <Measurement measurement={grainTemp} update={setGrainTemp} options={TemperatureOptions} />
+              <Measurement measurement={grainTemp} update={setGrainTemp} options={MeasurementUnits.TemperatureOptions} />
             </div>
           </div>
         </Paper>
@@ -168,11 +168,11 @@ const MashSchedule = ({
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
-                <Measurement measurement={infusionTemp} update={setInfusionTemp} options={TemperatureOptions} />
+                <Measurement measurement={infusionTemp} update={setInfusionTemp} options={MeasurementUnits.TemperatureOptions} />
               </SliderInput>
             </div>
             <div className="pure-u-6-24">
-              <Measurement measurement={strikeTemp} options={TemperatureOptions} />
+              <Measurement measurement={strikeTemp} options={MeasurementUnits.TemperatureOptions} />
             </div>
           </div>
         </Paper>
@@ -191,11 +191,18 @@ const MashSchedule = ({
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
-                <Measurement measurement={mashoutTemp} update={setMashoutTemp} options={TemperatureOptions} />
+                <Measurement
+                  measurement={mashoutTemp}
+                  update={setMashoutTemp}
+                  options={MeasurementUnits.TemperatureOptions}
+                />
               </SliderInput>
             </div>
             <div className="pure-u-6-24">
-              <Measurement measurement={spargeTemp} options={TemperatureOptions} />
+              <Measurement
+                measurement={spargeTemp}
+                options={MeasurementUnits.TemperatureOptions}
+              />
             </div>
           </div>
         </Paper>

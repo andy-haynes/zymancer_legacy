@@ -1,78 +1,62 @@
-import {
-  InvalidateSavedRecipes,
-  RequestSavedRecipes,
-  ReceiveSavedRecipes,
-  InvalidateSharedRecipes,
-  RequestSharedRecipes,
-  ReceiveSharedRecipes,
-  InvalidatePublicRecipes,
-  RequestPublicRecipes,
-  ReceivePublicRecipes
-} from '../constants/ServerActionTypes';
-import {
-  SaveRecipe,
-  RecipeSaved,
-  LoadSavedRecipe
-} from '../constants/RecipeActionTypes';
-import {
-  RecipeType
-} from '../constants/AppConstants';
+import ServerActions from '../constants/ServerActionTypes';
+import RecipeActions from '../constants/RecipeActionTypes';
+import { RecipeType } from '../constants/AppConstants';
 import fetch from '../core/fetch';
 import { saveRecipe, getSavedRecipes } from '../data/api';
 
 export function requestSavedRecipes() {
-  return { type: RequestSavedRecipes };
+  return { type: ServerActions.RequestSavedRecipes };
 }
 
 export function requestSharedRecipes() {
-  return { type: RequestSharedRecipes };
+  return { type: ServerActions.RequestSharedRecipes };
 }
 
 export function requestPublicRecipes() {
-  return { type: RequestPublicRecipes };
+  return { type: ServerActions.RequestPublicRecipes };
 }
 
 export function receiveSavedRecipes(recipes) {
   return {
-    type: ReceiveSavedRecipes,
+    type: ServerActions.ReceiveSavedRecipes,
     recipes
   };
 }
 
 export function receiveSharedRecipes(recipes) {
   return {
-    type: ReceiveSharedRecipes,
+    type: ServerActions.ReceiveSharedRecipes,
     recipes
   };
 }
 
 export function receivePublicRecipes(recipes) {
   return {
-    type: ReceivePublicRecipes,
+    type: ServerActions.ReceivePublicRecipes,
     recipes
   };
 }
 
 export function invalidateSavedRecipes() {
-  return { type: InvalidateSavedRecipes };
+  return { type: ServerActions.InvalidateSavedRecipes };
 }
 
 export function invalidateSharedRecipes() {
-  return { type: InvalidateSharedRecipes };
+  return { type: ServerActions.InvalidateSharedRecipes };
 }
 
 export function invalidatePublicRecipes() {
-  return { type: InvalidatePublicRecipes };
+  return { type: ServerActions.InvalidatePublicRecipes };
 }
 
 export function loadSavedRecipe(recipe) {
   return {
-    type: LoadSavedRecipe, recipe
+    type: RecipeActions.LoadSavedRecipe, recipe
   };
 }
 
 export function recipeSaved(recipeId) {
-  return { type: RecipeSaved };
+  return { type: RecipeActions.RecipeSaved };
 }
 
 // retrieve saved recipes

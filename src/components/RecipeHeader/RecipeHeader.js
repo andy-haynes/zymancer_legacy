@@ -1,11 +1,11 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './RecipeHeader.css';
-import { RecipeVolume } from '../../constants/MeasurementUnits';
-import { MaxEfficiencyPercentage, MinEfficiencyPercentage } from '../../constants/Defaults';
+import MeasurementUnits from '../../constants/MeasurementUnits';
+import Defaults from '../../constants/Defaults';
 import Measurement from '../Measurement';
-import { roundTo } from '../../utils/core';
-import { SRMtoRGB, formatGravity } from '../../utils/BrewMath';
+import _ from 'lodash';
+import zymath from '../../utils/zymath';
 import SliderInput from '../SliderInput';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
@@ -40,7 +40,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
       </div>
       <div className="pure-u-1-24">
         <div className={s.calculatedValue}>
-          {formatGravity(recipe.originalGravity)}
+          {zymath.formatGravity(recipe.originalGravity)}
         </div>
       </div>
       <div className="pure-u-1-24">
@@ -50,7 +50,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
       </div>
       <div className="pure-u-1-24">
         <div className={s.calculatedValue}>
-          {roundTo(recipe.IBU, 1)}
+          {_.round(recipe.IBU, 1)}
         </div>
       </div>
       <div className="pure-u-1-24">
@@ -59,7 +59,11 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
         </div>
       </div>
       <div className="pure-u-3-24">
-        <Measurement measurement={recipe.targetVolume} update={setTargetVolume} options={RecipeVolume} />
+        <Measurement
+          measurement={recipe.targetVolume}
+          update={setTargetVolume}
+          options={MeasurementUnits.RecipeVolume}
+        />
       </div>
       <div className="pure-u-1-24">
         <div className={s.headerLabel}>
@@ -124,7 +128,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
       </div>
       <div className="pure-u-1-24">
         <div className={s.calculatedValue}>
-          {formatGravity(recipe.finalGravity)}
+          {zymath.formatGravity(recipe.finalGravity)}
         </div>
       </div>
       <div className="pure-u-1-24">
@@ -143,7 +147,11 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
         </div>
       </div>
       <div className="pure-u-3-24">
-        <Measurement measurement={recipe.boilVolume} update={setBoilVolume} options={RecipeVolume} />
+        <Measurement
+          measurement={recipe.boilVolume}
+          update={setBoilVolume}
+          options={MeasurementUnits.RecipeVolume}
+        />
       </div>
       <div className="pure-u-1-24">
         <div className={s.headerLabel}>
@@ -151,7 +159,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
         </div>
       </div>
       <div className="pure-u-2-24" style={{paddingBottom:"8px"}}>
-        <div style={{height:"90%", width:"60%", backgroundColor:SRMtoRGB(recipe.SRM)}}></div>
+        <div style={{height: "90%", width: "60%", backgroundColor: zymath.SRMtoRGB(recipe.SRM)}}></div>
       </div>
       <div className="pure-u-2-24">
         <div className={s.headerLabel}>
@@ -161,8 +169,8 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
       <div className="pure-u-5-24">
         <SliderInput
           value={recipe.efficiency}
-          min={MinEfficiencyPercentage}
-          max={MaxEfficiencyPercentage}
+          min={Defaults.MinEfficiencyPercentage}
+          max={Defaults.MaxEfficiencyPercentage}
           update={setEfficiency}
           sliderWidth={'3-4'}
           inputWidth={'1-4'}

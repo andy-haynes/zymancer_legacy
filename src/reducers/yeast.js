@@ -1,24 +1,16 @@
-import {
-  AddYeast,
-  SetYeastMfgDate,
-  SetYeastAttenuation,
-  SetYeastViability,
-  SetYeastQuantity,
-  AddStarterStep,
-  RemoveStarterStep
-} from '../constants/RecipeActionTypes';
-import { DefaultGrainWeight } from '../constants/Defaults';
-import { calculateYeastViability } from '../utils/BrewMath';
-import { extractRange } from '../utils/core';
+import RecipeActions from '../constants/RecipeActionTypes';
+import Defaults from '../constants/Defaults';
+import helpers from '../utils/helpers';
+import zymath from '../utils/zymath';
 import measurement from './measurement';
 
 function createYeast(yeast) {
   const now = new Date();
   const mfgDate = typeof yeast.mfgDate === 'string' ? new Date(yeast.mfgDate) : new Date(now.getFullYear(), now.getMonth(), -7);
-  const attenuationRange = typeof yeast.attenuationRange === 'string' ? extractRange(yeast.attenuationRange) : yeast.attenuationRange;
+  const attenuationRange = typeof yeast.attenuationRange === 'string' ? helpers.extractRange(yeast.attenuationRange) : yeast.attenuationRange;
   const apparentAttenuation = yeast.apparentAttenuation || attenuationRange.avg;
-  const rangeF = typeof yeast.rangeF === 'string' ? extractRange(yeast.rangeF) : yeast.rangeF;
-  const rangeC = typeof yeast.rangeC === 'string' ? extractRange(yeast.rangeC) : yeast.rangeC;
+  const rangeF = typeof yeast.rangeF === 'string' ? helpers.extractRange(yeast.rangeF) : yeast.rangeF;
+  const rangeC = typeof yeast.rangeC === 'string' ? helpers.extractRange(yeast.rangeC) : yeast.rangeC;
   return {
     id: yeast.id,
     name: yeast.name,
@@ -28,7 +20,7 @@ function createYeast(yeast) {
     url: yeast.url,
     description: yeast.description,
     quantity: 1,
-    viability: calculateYeastViability(mfgDate),
+    viability: zymath.calculateYeastViability(mfgDate),
     flocculation: yeast.flocculation,
     tolerance: yeast.tolerance,
     styles: typeof yeast.styles === 'string' ? yeast.styles.split(',').join(', ') : [],
@@ -42,27 +34,27 @@ function createYeast(yeast) {
 
 function yeast(state = {}, action) {
   switch (action.type) {
-    case AddYeast:
+    case RecipeActions.AddYeast:
       return createYeast(action.yeast);
-    case SetYeastMfgDate:
+    case RecipeActions.SetYeastMfgDate:
       return Object.assign({}, state, {
         mfgDate: action.date,
-        viability: calculateYeastViability(action.date)
+        viability: zymath.calculateYeastViability(action.date)
       });
-    case SetYeastViability:
+    case RecipeActions.SetYeastViability:
       return Object.assign({}, state, {
         viability: action.viability
       });
-    case SetYeastAttenuation:
+    case RecipeActions.SetYeastAttenuation:
       return Object.assign({}, state, {
         apparentAttenuation: action.attenuation
       });
-    case SetYeastQuantity:
+    case RecipeActions.SetYeastQuantity:
       return Object.assign({}, state, {
         quantity: action.quantity
       });
-    case AddStarterStep:
-    case RemoveStarterStep:
+    case RecipeActions.AddStarterStep:
+    case RecipeActions.RemoveStarterStep:
     default:
       return state;
   }

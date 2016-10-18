@@ -1,6 +1,6 @@
 import { RecipeType } from '../constants/AppConstants';
 import fetch from '../core/fetch';
-import { jsonToGraphql, roundTo } from '../utils/core';
+import helpers from '../utils/helpers';
 import grain from '../reducers/grain';
 import hop from '../reducers/hop';
 import yeast from '../reducers/yeast';
@@ -105,22 +105,22 @@ export async function getRecipe(recipeId) {
 }
 
 export async function saveRecipe(recipe) {
-  const grains = recipe.grains.map(g => jsonToGraphql(_.pick(g, 'id', 'weight', 'lovibond', 'gravity')));
-  const hops = _.flatten(recipe.hops.map(h => h.additions.map(a => jsonToGraphql(Object.assign(
+  const grains = recipe.grains.map(g => helpers.jsonToGraphql(_.pick(g, 'id', 'weight', 'lovibond', 'gravity')));
+  const hops = _.flatten(recipe.hops.map(h => h.additions.map(a => helpers.jsonToGraphql(Object.assign(
     _.pick(h, 'id', 'alpha', 'beta'),
     _.pick(a, 'minutes', 'weight')
   )))));
 
-  const yeast = recipe.fermentation.yeasts.map(y => jsonToGraphql(Object.assign(_.pick(y, 'id', 'quantity'), {
+  const yeast = recipe.fermentation.yeasts.map(y => helpers.jsonToGraphql(Object.assign(_.pick(y, 'id', 'quantity'), {
     mfgDate: y.mfgDate.toString(),
-    apparentAttenuation: roundTo(y.apparentAttenuation / 100, 2)
+    apparentAttenuation: _.round(y.apparentAttenuation / 100, 2)
   })));
 
-  const mashSchedule = jsonToGraphql(
+  const mashSchedule = helpers.jsonToGraphql(
     _.pick(recipe.mashSchedule, 'style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp')
   );
 
-  const fermentation = jsonToGraphql({
+  const fermentation = helpers.jsonToGraphql({
     pitchRateMillionsMLP: recipe.fermentation.pitchRate
   });
 
@@ -128,8 +128,8 @@ export async function saveRecipe(recipe) {
     saveRecipe(
       name:"${recipe.name}",
       style:"${recipe.style}",
-      ABV:${roundTo(parseFloat(recipe.ABV), 2)},
-      IBU:${roundTo(parseFloat(recipe.IBU), 2)},
+      ABV:${_.round(parseFloat(recipe.ABV), 2)},
+      IBU:${_.round(parseFloat(recipe.IBU), 2)},
       OG:${parseFloat(recipe.originalGravity)},
       FG:${parseFloat(recipe.finalGravity)},
       grains:[${grains.join(',')}],

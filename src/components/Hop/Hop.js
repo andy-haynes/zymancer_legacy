@@ -3,8 +3,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Hop.css';
 import Measurement from '../Measurement';
 import HopAddition from '../HopAddition';
-import { roundTo } from '../../utils/core';
-import { calculateTotalIBU, calculateTotalUtilization } from '../../utils/BrewMath';
+import _ from 'lodash';
+import zymath from '../../utils/zymath';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
@@ -49,13 +49,13 @@ const Hop = ({ hop, originalGravity, boilVolume, setAlpha, setBeta, removeHop, a
             <div className="pure-u-1-2">
               <div className={s.hopDetail}>
                 <div className={s.detailLabel}>IBU</div>
-                {roundTo(calculateTotalIBU(boilVolume, originalGravity, [hop]), 1)}
+                {_.round(zymath.calculateTotalIBU(boilVolume, originalGravity, [hop]), 1)}
               </div>
             </div>
             <div className="pure-u-1-2">
               <div className={s.hopDetail}>
                 <div className={s.detailLabel}>Util</div>
-                {roundTo(calculateTotalUtilization(hop.additions, originalGravity), 2)}
+                {_.round(zymath.calculateTotalUtilization(hop.additions, originalGravity), 2)}
               </div>
             </div>
           </div>

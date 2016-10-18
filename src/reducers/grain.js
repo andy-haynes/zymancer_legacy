@@ -1,6 +1,5 @@
-import { AddGrain, SetGrainWeight, SetGrainGravity, SetGrainLovibond } from '../constants/RecipeActionTypes';
-import { DefaultGrainWeight } from '../constants/Defaults';
-import { calculateSRM, SRMtoRGB } from '../utils/BrewMath';
+import RecipeActions from '../constants/RecipeActionTypes';
+import Defaults from '../constants/Defaults';
 import measurement from './measurement';
 
 function createGrain(grain) {
@@ -8,7 +7,7 @@ function createGrain(grain) {
     id: grain.id,
     name: grain.name,
     mfg: grain.mfg,
-    weight: grain.weight || DefaultGrainWeight,
+    weight: grain.weight || Defaults.GrainWeight,
     gravity: grain.gravity || 1,
     lovibond: parseFloat(grain.lovibond),
     category: grain.category,
@@ -20,13 +19,13 @@ function createGrain(grain) {
 
 const grain = (state = {}, action) => {
   switch (action.type) {
-    case AddGrain:
+    case RecipeActions.AddGrain:
       return createGrain(action.grain);
-    case SetGrainWeight:
+    case RecipeActions.SetGrainWeight:
       return Object.assign({}, state, { weight: measurement(state.weight, action) });
-    case SetGrainGravity:
+    case RecipeActions.SetGrainGravity:
       return Object.assign({}, state, { gravity: action.gravity });
-    case SetGrainLovibond:
+    case RecipeActions.SetGrainLovibond:
       return Object.assign({}, state, { lovibond: action.lovibond });
     default:
       return state;

@@ -1,27 +1,14 @@
-import {
-  FilterGrainResults,
-  UpdateGrainResults,
-  ClearGrainSearch,
-  FilterHopResults,
-  UpdateHopResults,
-  ClearHopSearch,
-  FilterYeastResults,
-  UpdateYeastResults,
-  ClearYeastSearch,
-  MinSearchQueryLength
-} from '../constants/SearchActionTypes';
-import {
-  IngredientType
-} from '../constants/AppConstants';
-
-const searchTypeMap = {
-  [IngredientType.Grain]: { filter: FilterGrainResults, update: UpdateGrainResults, clear: ClearGrainSearch },
-  [IngredientType.Hop]: { filter: FilterHopResults, update: UpdateHopResults, clear: ClearHopSearch },
-  [IngredientType.Yeast]: { filter: FilterYeastResults, update: UpdateYeastResults, clear: ClearYeastSearch }
-};
+import SearchActions from '../constants/SearchActionTypes';
+import Defaults from '../constants/Defaults';
+import { IngredientType } from '../constants/AppConstants';
 
 function createIngredientSearchReducer(ingredientType) {
-  const { filter, update, clear } = searchTypeMap[ingredientType];
+  const { filter, update, clear } = {
+    [IngredientType.Grain]: { filter: SearchActions.FilterGrainResults, update: SearchActions.UpdateGrainResults, clear: SearchActions.ClearGrainSearch },
+    [IngredientType.Hop]:   { filter: SearchActions.FilterHopResults,   update: SearchActions.UpdateHopResults,   clear: SearchActions.ClearHopSearch },
+    [IngredientType.Yeast]: { filter: SearchActions.FilterYeastResults, update: SearchActions.UpdateYeastResults, clear: SearchActions.ClearYeastSearch }
+  }[ingredientType];
+
   const initialState = {
     query: '',
     results: [],
@@ -35,7 +22,7 @@ function createIngredientSearchReducer(ingredientType) {
         return Object.assign({}, state, {
           query: action.query,
           results: action.query.length ? state.results : [],
-          loading: action.query.length >= MinSearchQueryLength,
+          loading: action.query.length >= Defaults.MinSearchQueryLength,
           error: null
         });
       case update:
@@ -60,21 +47,21 @@ const initialState = {
 
 function recipes(state = initialState, action) {
   switch (action.type) {
-    case FilterGrainResults:
-    case UpdateGrainResults:
-    case ClearGrainSearch:
+    case SearchActions.FilterGrainResults:
+    case SearchActions.UpdateGrainResults:
+    case SearchActions.ClearGrainSearch:
       return Object.assign({}, state, {
         [IngredientType.Grain]: createIngredientSearchReducer(IngredientType.Grain)(state[IngredientType.Grain], action)
       });
-    case FilterHopResults:
-    case UpdateHopResults:
-    case ClearHopSearch:
+    case SearchActions.FilterHopResults:
+    case SearchActions.UpdateHopResults:
+    case SearchActions.ClearHopSearch:
       return Object.assign({}, state, {
         [IngredientType.Hop]: createIngredientSearchReducer(IngredientType.Hop)(state[IngredientType.Hop], action)
       });
-    case FilterYeastResults:
-    case UpdateYeastResults:
-    case ClearYeastSearch:
+    case SearchActions.FilterYeastResults:
+    case SearchActions.UpdateYeastResults:
+    case SearchActions.ClearYeastSearch:
       return Object.assign({}, state, {
         [IngredientType.Yeast]: createIngredientSearchReducer(IngredientType.Yeast)(state[IngredientType.Yeast], action)
       });

@@ -1,36 +1,54 @@
-import { Fahrenheit, Celsius } from '../constants/Units';
+import Units from '../constants/Units';
 import conversionTable from '../constants/ConversionTable';
+import _ from 'lodash';
 
-const convertTemp = (temp, unit) => {
+function convertTemp(temp, unit) {
   if (temp.unit === unit) {
     return temp.value;
-  } else if (temp.unit === Fahrenheit && unit === Celsius) {
+  } else if (temp.unit === Units.Fahrenheit && unit === Units.Celsius) {
     return (temp.value - 32) * 5/9;
-  } else if (temp.unit === Celsius && unit === Fahrenheit) {
+  } else if (temp.unit === Units.Celsius && unit === Units.Fahrenheit) {
     return (temp.value * 9/5) + 32
   }
   return 0;
-};
+}
 
-export const roundTo = (value, precision) => {
-  const factor = Math.pow(10, precision);
-  return Math.round(value * factor) / factor;
-};
-
-export const convertToUnit = (measurement, unit, precision = undefined) => {
+function convertToUnit(measurement, unit, precision = undefined) {
   let converted = parseFloat(measurement.value);
   if (measurement.unit !== unit) {
-    if (unit === Fahrenheit || unit === Celsius) {
+    if (unit === Units.Fahrenheit || unit === Units.Celsius) {
       converted = convertTemp(measurement, unit);
     } else {
       converted *= conversionTable[measurement.unit][unit];
     }
   }
   
-  return precision ? roundTo(converted, precision) : converted;
-};
+  return precision ? _.round(converted, precision) : converted;
+}
 
-export function extractRange(raw) {
+function convertRatio(oldRatio, newRatio, precision = undefined) {
+  let value = parseFloat(newRatio.value || oldRatio.value) || 0;
+  let multiplier = 1;
+  let divisor = 1;
+
+  if (oldRatio.antecedent !== newRatio.antecedent) {
+    multiplier = convertToUnit({ value: 1, unit: oldRatio.antecedent }, newRatio.antecedent);
+  }
+
+  if (oldRatio.consequent !== newRatio.consequent) {
+    divisor = convertToUnit({ value: 1, unit: oldRatio.consequent }, newRatio.consequent);
+  }
+
+  value = (multiplier * value) / divisor;
+  if (precision) {
+    value = _.round(value, precision);
+  }
+
+  return Object.assign({}, newRatio, { value });
+}
+
+
+function extractRange(raw) {
   const comp = (raw || '').split('-').map(r => parseFloat(r));
   const low = !isNaN(comp[0]) ? comp[0] : 0;
   let ret = comp.length === 2 && low !== comp[1] && !isNaN(comp[1]) ? {
@@ -46,11 +64,15 @@ export function extractRange(raw) {
 
 const _msMonths = 1000 * 60 * 60 * 24 * 30;
 
-export const monthsSinceDate = (date) => (new Date() - date) / _msMonths;
-export const subtractMonthsFromNow = (months) => new Date(new Date() - (months * _msMonths));
+function monthsSinceDate(date) {
+  return (new Date() - date) / _msMonths;
+}
+function subtractMonthsFromNow(months) {
+  return new Date(new Date() - (months * _msMonths));
+}
 
 // recursively stringify json without quoting keys
-export function jsonToGraphql(obj) {
+function jsonToGraphql(obj) {
   function parseKeys (o, str) {
     Object.keys(o).forEach(k => {
       if (typeof o[k] === 'object') {
@@ -77,3 +99,13 @@ export function jsonToGraphql(obj) {
 
   return `{${parseKeys(obj, '')}}`;
 }
+
+export default {
+  convertTemp,
+  convertRatio,
+  convertToUnit,
+  extractRange,
+  monthsSinceDate,
+  subtractMonthsFromNow,
+  jsonToGraphql
+};
