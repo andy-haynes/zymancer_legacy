@@ -4,7 +4,7 @@ import helpers from '../utils/helpers';
 const measurement = (state = {}, action) => {
   let quantity = Object.assign({}, action.measurement);
   if (quantity.value === null || isNaN(quantity.value)) {
-    quantity.value = 0;
+    quantity.value = state.value;
   } else if (state.unit !== quantity.unit) {
     quantity.value = helpers.convertToUnit(state, quantity.unit, Defaults.MeasurementPrecision[action.type] || 1);
   }
