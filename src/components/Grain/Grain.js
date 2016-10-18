@@ -23,7 +23,7 @@ const Grain = ({ grain, targetVolume, removeGrain, setWeight, setGravity, setLov
         <TextField id="lovibond-input" className={s.lovibondInput} value={grain.lovibond} onChange={(e) => setLovibond(e.target.value)} />
       </div>
       <div className="pure-u-4-24">
-        <TextField id="gravity-input" className={s.gravityInput} value={grain.gravity} onChange={(e) => setGravity(e.target.value)} />
+        <TextField id="gravity-input" className={s.gravityInput} value={zymath.formatGravity(grain.gravity)} onChange={(e) => setGravity(e.target.value)} />
       </div>
       <div className="pure-u-5-24">
         <Measurement measurement={grain.weight} update={setWeight} options={MeasurementUnits.GrainWeight} />
