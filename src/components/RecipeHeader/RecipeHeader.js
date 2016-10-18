@@ -22,7 +22,7 @@ import ContentSave from 'material-ui/svg-icons/content/save';
 import { grey200 } from 'material-ui/styles/colors';
 import BJCPStyles from '../../constants/BJCPStyles';
 
-const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, saveRecipe }) => (
+const RecipeHeader = ({ recipe, actions }) => (
   <div className={s.recipeHeader}>
     <div className="pure-g">
       <div className="pure-u-6-24">
@@ -31,7 +31,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, 
           className={s.longInput}
           placeholder="Recipe Name"
           value={recipe.name}
-          onChange={e => setRecipeName(e.target.value)}
+          onChange={e => actions.setRecipeName(e.target.value)}
         />
       </div>
       <div className="pure-u-1-24">
@@ -62,7 +62,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, 
       <div className="pure-u-3-24">
         <Measurement
           measurement={recipe.targetVolume}
-          update={setTargetVolume}
+          update={actions.setTargetVolume}
           options={MeasurementUnits.RecipeVolume}
         />
       </div>
@@ -76,7 +76,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, 
           id="boil-minutes"
           className={s.recipeInput}
           value={recipe.boilMinutes}
-          onChange={e => setBoilTime(e.target.value)}
+          onChange={e => actions.setBoilTime(e.target.value)}
           style={{width: "40px"}}
         />
       </div>
@@ -86,7 +86,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, 
         </div>
       </div>
       <div className="pure-u-4-24">
-        <SelectField value={recipe.method} onChange={(e, k, v) => setRecipeMethod(v)} style={{width: "90%"}}>
+        <SelectField value={recipe.method} onChange={(e, k, v) => actions.setRecipeMethod(v)} style={{width: "90%"}}>
           <MenuItem value={BrewMethod.AllGrain} primaryText="All Grain" />
           <MenuItem value={BrewMethod.BIAB} primaryText="Brew in a Bag" />
           <MenuItem value={BrewMethod.Extract} primaryText="Extract" />
@@ -99,7 +99,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, 
           anchorOrigin={{horizontal: 'right', vertical: 'top'}}
           targetOrigin={{horizontal: 'right', vertical: 'top'}}
         >
-          <MenuItem onClick={saveRecipe} primaryText="Save" leftIcon={<SaveIcon />} />
+          <MenuItem onClick={() => actions.saveRecipe(recipe)} primaryText="Save" leftIcon={<SaveIcon />} />
           <MenuItem primaryText="Share" leftIcon={<ShareIcon />} />
           <Divider />
           <MenuItem primaryText="Reset" leftIcon={<ClearIcon />} />
@@ -110,7 +110,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, 
       <div className="pure-u-6-24">
         <SelectField
           value={recipe.style}
-          onChange={(e, i, v) => setRecipeStyle(v)}
+          onChange={(e, i, v) => actions.setRecipeStyle(v)}
           className={s.longInput}
         >
           {BJCPStyles.map((style, i) => (
@@ -150,7 +150,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, 
       <div className="pure-u-3-24">
         <Measurement
           measurement={recipe.boilVolume}
-          update={setBoilVolume}
+          update={actions.setBoilVolume}
           options={MeasurementUnits.RecipeVolume}
         />
       </div>
@@ -172,7 +172,7 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, 
           value={recipe.efficiency}
           min={Defaults.MinEfficiencyPercentage}
           max={Defaults.MaxEfficiencyPercentage}
-          update={setEfficiency}
+          update={actions.setEfficiency}
           sliderWidth={'3-4'}
           inputWidth={'1-4'}
         />

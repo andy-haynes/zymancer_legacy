@@ -13,7 +13,7 @@ import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 
-const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViability, setQuantity, addStarterStep, removeStarterStep }) => (
+const Yeast = ({ yeast, actions }) => (
   <Paper className={s.yeast} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-11-24">
@@ -32,7 +32,7 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViab
             <DatePicker
               id="yeast-mfg-date"
               value={yeast.mfgDate}
-              onChange={(e, date) => setMfgDate(date)}
+              onChange={(e, date) => actions.setMfgDate(date)}
               hintText="Mfg Date"
               textFieldStyle={{width: '90px'}}
               /*minDate={subtractMonthsFromNow(YeastViabilityMonths)}*/
@@ -51,7 +51,7 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViab
             <TextField
               id="yeast-viability"
               value={yeast.viability}
-              onChange={(e) => setViability(e.target.value)}
+              onChange={(e) => actions.setViability(e.target.value)}
               style={{width: '36px'}}
             />%
           </div>
@@ -64,7 +64,7 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViab
             <TextField
               id="yeast-quantity"
               value={yeast.quantity}
-              onChange={(e) => setQuantity(e.target.value)}
+              onChange={(e) => actions.setQuantity(e.target.value)}
               style={{width: '24px', marginLeft: '12px'}}
             />
           </div>
@@ -77,7 +77,7 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViab
         </IconButton>
       </div>
       <div className="pure-u-1-24">
-        <IconButton onClick={removeYeast}>
+        <IconButton onClick={actions.removeYeast}>
           <ContentRemoveCircle />
         </IconButton>
       </div>
@@ -116,7 +116,7 @@ const Yeast = ({ yeast, removeYeast, setMfgDate, setApparentAttenuation, setViab
       <div className="pure-u-8-24">
         <SliderInput
           value={yeast.apparentAttenuation}
-          update={setApparentAttenuation}
+          update={actions.setApparentAttenuation}
           min={yeast.attenuationRange.low}
           max={yeast.attenuationRange.high}
           step={0.1}

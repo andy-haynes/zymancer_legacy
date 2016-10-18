@@ -10,15 +10,15 @@ const mapStateToProps = (state) => ({
   ...state.ingredientSearch[IngredientType.Hop]
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
+  actions: {
     addHop: (hop) => {
       dispatch(addHop(hop));
       dispatch(clearHopSearch());
     },
     searchHops: (query) => dispatch(queryIngredients(IngredientType.Hop, query))
-  };
-};
+  }
+});
 
 const HopSearchContainer = connect(
   mapStateToProps,

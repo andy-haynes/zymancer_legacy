@@ -6,15 +6,15 @@ import { IngredientType } from '../constants/AppConstants';
 
 const mapStateToProps = (state) => ({ ...state.ingredientSearch[IngredientType.Yeast] });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
+  actions: {
     addYeast: (yeast) => {
       dispatch(addYeast(yeast));
       dispatch(clearYeastSearch());
     },
     searchYeast: (query) => dispatch(queryIngredients(IngredientType.Yeast, query))
-  };
-};
+  }
+});
 
 const YeastSearchContainer = connect(
   mapStateToProps,

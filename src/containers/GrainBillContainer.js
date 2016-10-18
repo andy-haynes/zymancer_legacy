@@ -7,14 +7,14 @@ const mapStateToProps = (state) => ({
   targetVolume: state.currentRecipe.targetVolume
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
+  actions: {
     removeGrain: (grain) => dispatch(removeGrain(grain)),
     setWeight: (grain, weight) => dispatch(setGrainWeight(grain, weight)),
     setGravity: (grain, gravity) => dispatch(setGrainGravity(grain, gravity)),
     setLovibond: (grain, lovibond) => dispatch(setGrainLovibond(grain, lovibond))
-  };
-};
+  }
+});
 
 const GrainBillContainer = connect(
   mapStateToProps,

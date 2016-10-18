@@ -12,7 +12,7 @@ import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 
-const Hop = ({ hop, originalGravity, boilVolume, setAlpha, setBeta, removeHop, addAddition, setAdditionTime, setAdditionWeight, removeAddition }) => (
+const Hop = ({ hop, originalGravity, boilVolume, actions }) => (
   <Paper className={s.hop} zDepth={2}>
     <div className={s.hopDetailRow}>
       <div className="pure-g">
@@ -32,7 +32,7 @@ const Hop = ({ hop, originalGravity, boilVolume, setAlpha, setBeta, removeHop, a
             id="hop-alpha"
             className={s.hopInput}
             value={hop.alpha}
-            onChange={e => setAlpha(hop, e.target.value)}
+            onChange={e => actions.setAlpha(hop, e.target.value)}
           />
         </div>
         <div className="pure-u-4-24">
@@ -41,7 +41,7 @@ const Hop = ({ hop, originalGravity, boilVolume, setAlpha, setBeta, removeHop, a
             id="hop-beta"
             className={s.hopInput}
             value={hop.beta}
-            onChange={e => setBeta(hop, e.target.value)}
+            onChange={e => actions.setBeta(hop, e.target.value)}
           />
         </div>
         <div className="pure-u-4-24">
@@ -62,8 +62,8 @@ const Hop = ({ hop, originalGravity, boilVolume, setAlpha, setBeta, removeHop, a
         </div>
         <div className="pure-u-3-24">
           <div className={s.addRemoveHop}>
-            <ContentAddCircle className={s.addAddition} onClick={addAddition} />
-            <ContentRemoveCircle className={s.removeHop} onClick={removeHop} />
+            <ContentAddCircle className={s.addAddition} onClick={actions.addAddition} />
+            <ContentRemoveCircle className={s.removeHop} onClick={actions.removeHop} />
           </div>
         </div>
       </div>
@@ -75,9 +75,7 @@ const Hop = ({ hop, originalGravity, boilVolume, setAlpha, setBeta, removeHop, a
         originalGravity={originalGravity}
         boilVolume={boilVolume}
         addition={addition}
-        setAdditionTime={setAdditionTime}
-        setAdditionWeight={setAdditionWeight}
-        removeAddition={removeAddition}
+        actions={_.pick(actions, 'setAdditionTime', 'setAdditionWeight', 'removeAddition')}
       />
     ))}
   </Paper>

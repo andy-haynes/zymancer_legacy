@@ -9,26 +9,7 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import MeasurementUnits from '../../constants/MeasurementUnits';
 
-const MashSchedule = ({
-  style,
-  thickness,
-  boilOff,
-  absorption,
-  grainTemp,
-  infusionTemp,
-  mashoutTemp,
-  strikeTemp,
-  spargeTemp,
-  strikeVolume,
-  spargeVolume,
-  setStyle,
-  setThickness,
-  setBoilOff,
-  setAbsorption,
-  setInfusionTemp,
-  setMashoutTemp,
-  setGrainTemp
-}) => (
+const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infusionTemp, mashoutTemp, strikeTemp, spargeTemp, strikeVolume, spargeVolume, actions }) => (
   <div className={s.mashSchedule}>
     <div className="pure-g">
       <div className="pure-u-1-2">
@@ -40,7 +21,10 @@ const MashSchedule = ({
               </div>
             </div>
             <div className="pure-u-1-3">
-              <Measurement measurement={strikeVolume} options={MeasurementUnits.RecipeVolume} />
+              <Measurement
+                measurement={strikeVolume}
+                options={MeasurementUnits.RecipeVolume}
+              />
             </div>
             <div className="pure-u-1-6">
               <div className={s.mashLabel}>
@@ -48,7 +32,10 @@ const MashSchedule = ({
               </div>
             </div>
             <div className="pure-u-1-3">
-              <Measurement measurement={spargeVolume} options={MeasurementUnits.RecipeVolume} />
+              <Measurement
+                measurement={spargeVolume}
+                options={MeasurementUnits.RecipeVolume}
+              />
             </div>
           </div>
         </Paper>
@@ -63,7 +50,7 @@ const MashSchedule = ({
               <SliderInput
                 value={thickness.value}
                 min={0.5} max={3} step={0.05}
-                update={(value) => setThickness({ value })}
+                update={(value) => actions.setThickness({ value })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
@@ -71,7 +58,7 @@ const MashSchedule = ({
                   ratio={thickness}
                   antecedentOptions={MeasurementUnits.RecipeVolume}
                   consequentOptions={MeasurementUnits.GrainWeight}
-                  update={setThickness}
+                  update={actions.setThickness}
                 />
               </SliderInput>
             </div>
@@ -88,7 +75,7 @@ const MashSchedule = ({
               <SliderInput
                 value={absorption.value}
                 min={0.05} max={0.3} step={0.01}
-                update={(value) => setAbsorption({ value })}
+                update={(value) => actions.setAbsorption({ value })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
@@ -96,7 +83,7 @@ const MashSchedule = ({
                   ratio={absorption}
                   antecedentOptions={MeasurementUnits.RecipeVolume}
                   consequentOptions={MeasurementUnits.GrainWeight}
-                  update={setAbsorption}
+                  update={actions.setAbsorption}
                 />
               </SliderInput>
             </div>
@@ -113,7 +100,7 @@ const MashSchedule = ({
               <SliderInput
                 value={boilOff.value}
                 min={0.1} max={5} step={0.1}
-                update={(value) => setBoilOff({ value })}
+                update={(value) => actions.setBoilOff({ value })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
@@ -121,7 +108,7 @@ const MashSchedule = ({
                   ratio={boilOff}
                   antecedentOptions={MeasurementUnits.RecipeVolume}
                   consequentOptions={MeasurementUnits.BoilOffTime}
-                  update={setBoilOff}
+                  update={actions.setBoilOff}
                 />
               </SliderInput>
             </div>
@@ -137,7 +124,7 @@ const MashSchedule = ({
               </div>
             </div>
             <div className="pure-u-10-24">
-              <SelectField value={style} onChange={(e, i, v) => setStyle(v)} style={{position: 'relative', top: '4px'}}>
+              <SelectField value={style} onChange={(e, i, v) => actions.setStyle(v)} style={{position: 'relative', top: '4px'}}>
                 <MenuItem value="Infusion Sparge" primaryText="Infusion Sparge" />
                 <MenuItem value="Brew in a Bag" primaryText="Brew in a Bag" />
                 <MenuItem value="Decoction" primaryText="Decoction" />
@@ -149,7 +136,11 @@ const MashSchedule = ({
               </div>
             </div>
             <div className="pure-u-6-24">
-              <Measurement measurement={grainTemp} update={setGrainTemp} options={MeasurementUnits.TemperatureOptions} />
+              <Measurement
+                measurement={grainTemp}
+                update={actions.setGrainTemp}
+                options={MeasurementUnits.TemperatureOptions}
+              />
             </div>
           </div>
         </Paper>
@@ -164,15 +155,22 @@ const MashSchedule = ({
               <SliderInput
                 value={infusionTemp.value}
                 min={110} max={190} step={1}
-                update={(value) => setInfusionTemp({ value, unit: infusionTemp.unit })}
+                update={(value) => actions.setInfusionTemp({ value, unit: infusionTemp.unit })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
-                <Measurement measurement={infusionTemp} update={setInfusionTemp} options={MeasurementUnits.TemperatureOptions} />
+                <Measurement
+                  measurement={infusionTemp}
+                  update={actions.setInfusionTemp}
+                  options={MeasurementUnits.TemperatureOptions}
+                />
               </SliderInput>
             </div>
             <div className="pure-u-6-24">
-              <Measurement measurement={strikeTemp} options={MeasurementUnits.TemperatureOptions} />
+              <Measurement
+                measurement={strikeTemp}
+                options={MeasurementUnits.TemperatureOptions}
+              />
             </div>
           </div>
         </Paper>
@@ -187,13 +185,13 @@ const MashSchedule = ({
               <SliderInput
                 value={mashoutTemp.value}
                 min={150} max={212} step={1}
-                update={(value) => setMashoutTemp({ value, unit: mashoutTemp.unit })}
+                update={(value) => actions.setMashoutTemp({ value, unit: mashoutTemp.unit })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
                 <Measurement
                   measurement={mashoutTemp}
-                  update={setMashoutTemp}
+                  update={actions.setMashoutTemp}
                   options={MeasurementUnits.TemperatureOptions}
                 />
               </SliderInput>

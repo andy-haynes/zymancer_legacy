@@ -10,7 +10,7 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-circle-outline';
 
-const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTime, setAdditionWeight, removeAddition }) => (
+const HopAddition = ({ addition, hop, originalGravity, boilVolume, actions }) => (
   <Paper className={s.hopAddition} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-11-24">
@@ -19,7 +19,7 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTi
             value={addition.minutes}
             min={0}
             max={60}
-            update={(minutes) => setAdditionTime(addition, hop, minutes)}
+            update={(minutes) => actions.setAdditionTime(addition, hop, minutes)}
           />
         </div>
       </div>
@@ -30,7 +30,7 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTi
         <div className={s.additionWeight}>
           <Measurement
             measurement={addition.weight}
-            update={(weight) => setAdditionWeight(addition, hop, weight)}
+            update={(weight) => actions.setAdditionWeight(addition, hop, weight)}
             options={MeasurementUnits.HopAdditionWeight}
           />
         </div>
@@ -54,7 +54,7 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, setAdditionTi
       <div className="pure-u-1-24">
         <ContentRemoveCircleOutline
           className={s.removeAddition}
-          onClick={() => removeAddition(addition, hop)}
+          onClick={() => actions.removeAddition(addition, hop)}
         />
       </div>
     </div>

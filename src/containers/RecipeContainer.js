@@ -17,8 +17,8 @@ const mapStateToProps = (state) => ({
   recipe: state.currentRecipe
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
+  actions: {
     saveRecipe: (recipe) => dispatch(saveCurrentRecipe(recipe)),
     setRecipeName: (name) => dispatch(setRecipeName(name)),
     setRecipeStyle: (style) => dispatch(setRecipeStyle(style)),
@@ -27,8 +27,8 @@ const mapDispatchToProps = (dispatch) => {
     setBoilVolume: (volume) => dispatch(setBoilVolume(volume)),
     setBoilTime: (minutes) => dispatch(setBoilTime(parseInt(minutes))),
     setEfficiency: (efficiency) => dispatch(setEfficiency(parseFloat(efficiency)))
-  };
-};
+  }
+});
 
 const RecipeContainer = connect(
   mapStateToProps,

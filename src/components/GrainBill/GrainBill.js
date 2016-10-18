@@ -3,7 +3,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Grain from '../Grain';
 import s from './GrainBill.css';
 
-const GrainBill = ({ grains, targetVolume, removeGrain, setWeight, setGravity, setLovibond }) => (
+const GrainBill = ({ grains, targetVolume, actions }) => (
   <div className={s.grainBill}>
     <div className={s.grainHeaders}>
       <div className="pure-g">
@@ -30,10 +30,12 @@ const GrainBill = ({ grains, targetVolume, removeGrain, setWeight, setGravity, s
         key={grain.id}
         grain={grain}
         targetVolume={targetVolume}
-        removeGrain={() => removeGrain(grain)}
-        setWeight={(weight) => setWeight(grain, weight)}
-        setGravity={(gravity) => setGravity(grain, gravity)}
-        setLovibond={(lovibond) => setLovibond(grain, lovibond)}
+        actions={{
+          removeGrain: () => actions.removeGrain(grain),
+          setWeight: (weight) => actions.setWeight(grain, weight),
+          setGravity: (gravity) => actions.setGravity(grain, gravity),
+          setLovibond: (lovibond) => actions.setLovibond(grain, lovibond)
+        }}
       />
     ))}
   </div>

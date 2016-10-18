@@ -7,7 +7,7 @@ import Paper from 'material-ui/Paper';
 import s from './Fermentation.css';
 import YeastSearchContainer from '../../containers/YeastSearchContainer';
 
-const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setPitchRate, setMfgDate, setApparentAttenuation, setViability, setQuantity, removeYeast, addStarterStep, removeStarterStep }) => (
+const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, actions }) => (
   <div className={s.fermentation}>
     <div className="pure-g">
       <div className="pure-u-1-2">
@@ -51,7 +51,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setP
                   </div>
                 </div>
                 <div className="pure-u-14-24">
-                  <SliderInput value={pitchRate} min={0.1} max={2} step={0.05} update={setPitchRate} />
+                  <SliderInput value={pitchRate} min={0.1} max={2} step={0.05} update={actions.setPitchRate} />
                 </div>
                 <div className="pure-u-6-24">
                   <span className={s.pitchUnits}>
@@ -69,13 +69,15 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, setP
           <Yeast
             key={yeast.id}
             yeast={yeast}
-            setMfgDate={(date) => setMfgDate(yeast, date)}
-            setApparentAttenuation={(attenuation) => setApparentAttenuation(yeast, attenuation)}
-            setViability={(viability) => setViability(yeast, viability)}
-            setQuantity={(quantity) => setQuantity(yeast, quantity)}
-            removeYeast={() => removeYeast(yeast)}
-            addStarterStep={(gravity, hours) => addStarterStep(yeast, gravity, hours)}
-            removeStarterStep={(step) => removeStarterStep(yeast, step)}
+            actions={{
+              setMfgDate: (date) => actions.setMfgDate(yeast, date),
+              setApparentAttenuation: (attenuation) => actions.setApparentAttenuation(yeast, attenuation),
+              setViability: (viability) => actions.setViability(yeast, viability),
+              setQuantity: (quantity) => actions.setQuantity(yeast, quantity),
+              removeYeast: () => actions.removeYeast(yeast),
+              addStarterStep: (gravity, hours) => actions.addStarterStep(yeast, gravity, hours),
+              removeStarterStep: (step) => actions.removeStarterStep(yeast, step),
+            }}
           />
         ))}
       </div>

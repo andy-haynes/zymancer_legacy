@@ -16,8 +16,8 @@ const mapStateToProps = (state) => ({
   boilVolume: state.currentRecipe.boilVolume
 });
 
-const mapDispatchToProps = (dispatch) => {
-  return {
+const mapDispatchToProps = (dispatch) => ({
+  actions: {
     removeHop: (hop) => dispatch(removeHop(hop)),
     addAddition: (hop) => dispatch(addAddition(hop)),
     setAdditionTime: (addition, hop, minutes) => dispatch(setAdditionTime(addition, hop, minutes)),
@@ -25,8 +25,8 @@ const mapDispatchToProps = (dispatch) => {
     removeAddition: (addition, hop) => dispatch(removeAddition(addition, hop)),
     setAlpha: (hop, alpha) => dispatch(setHopAlpha(hop, alpha)),
     setBeta: (hop, beta) => dispatch(setHopBeta(hop, beta))
-  };
-};
+  }
+});
 
 const HopScheduleContainer = connect(
   mapStateToProps,

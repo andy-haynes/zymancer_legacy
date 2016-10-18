@@ -8,7 +8,7 @@ import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 
-const Grain = ({ grain, targetVolume, removeGrain, setWeight, setGravity, setLovibond }) => (
+const Grain = ({ grain, targetVolume, actions }) => (
   <Paper className={s.grain} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-1-24">
@@ -20,16 +20,33 @@ const Grain = ({ grain, targetVolume, removeGrain, setWeight, setGravity, setLov
         </div>
       </div>
       <div className="pure-u-4-24">
-        <TextField id="lovibond-input" className={s.lovibondInput} value={grain.lovibond} onChange={(e) => setLovibond(e.target.value)} />
+        <TextField
+          id="lovibond-input"
+          className={s.lovibondInput}
+          value={grain.lovibond}
+          onChange={(e) => actions.setLovibond(e.target.value)}
+        />
       </div>
       <div className="pure-u-4-24">
-        <TextField id="gravity-input" className={s.gravityInput} value={zymath.formatGravity(grain.gravity)} onChange={(e) => setGravity(e.target.value)} />
+        <TextField
+          id="gravity-input"
+          className={s.gravityInput}
+          value={zymath.formatGravity(grain.gravity)}
+          onChange={(e) => actions.setGravity(e.target.value)}
+        />
       </div>
       <div className="pure-u-5-24">
-        <Measurement measurement={grain.weight} update={setWeight} options={MeasurementUnits.GrainWeight} />
+        <Measurement
+          measurement={grain.weight}
+          update={actions.setWeight}
+          options={MeasurementUnits.GrainWeight}
+        />
       </div>
       <div className="pure-u-1-24">
-        <ContentRemoveCircle className={s.removeGrain} onClick={removeGrain} />
+        <ContentRemoveCircle
+          className={s.removeGrain}
+          onClick={actions.removeGrain}
+        />
       </div>
     </div>
   </Paper>
