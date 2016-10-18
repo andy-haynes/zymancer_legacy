@@ -2,6 +2,7 @@ import Units from '../constants/Units';
 import conversionTable from '../constants/ConversionTable';
 import _ from 'lodash';
 
+//region unit conversion
 function convertTemp(temp, unit) {
   if (temp.unit === unit) {
     return temp.value;
@@ -46,8 +47,9 @@ function convertRatio(oldRatio, newRatio, precision = undefined) {
 
   return Object.assign({}, newRatio, { value });
 }
+//endregion
 
-
+//region strings
 function extractRange(raw) {
   const comp = (raw || '').split('-').map(r => parseFloat(r));
   const low = !isNaN(comp[0]) ? comp[0] : 0;
@@ -61,7 +63,9 @@ function extractRange(raw) {
     toString: () => ret.low ? `${ret.low}` + (ret.high && `–${ret.high}`) : undefined
   });
 }
+//endregion
 
+//region dates
 const _msMonths = 1000 * 60 * 60 * 24 * 30;
 
 function monthsSinceDate(date) {
@@ -70,7 +74,9 @@ function monthsSinceDate(date) {
 function subtractMonthsFromNow(months) {
   return new Date(new Date() - (months * _msMonths));
 }
+//endregion
 
+//region api
 // recursively stringify json without quoting keys
 function jsonToGraphql(obj) {
   function parseKeys (o, str) {
@@ -99,6 +105,23 @@ function jsonToGraphql(obj) {
 
   return `{${parseKeys(obj, '')}}`;
 }
+//endregion
+
+//region redux
+function createAction(type, ...argNames) {
+  return function(...args) {
+    let action = { type };
+
+    if (argNames && argNames.length) {
+      argNames.forEach((arg, index) => {
+        action[argNames[index]] = args[index];
+      });
+    }
+
+    return action;
+  }
+}
+//endregion
 
 export default {
   convertTemp,
@@ -107,5 +130,6 @@ export default {
   extractRange,
   monthsSinceDate,
   subtractMonthsFromNow,
-  jsonToGraphql
+  jsonToGraphql,
+  createAction
 };

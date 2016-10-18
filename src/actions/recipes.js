@@ -1,63 +1,24 @@
 import ServerActions from '../constants/ServerActionTypes';
 import RecipeActions from '../constants/RecipeActionTypes';
+import helpers from '../utils/helpers';
 import { RecipeType } from '../constants/AppConstants';
 import fetch from '../core/fetch';
 import { saveRecipe, getSavedRecipes } from '../data/api';
 
-export function requestSavedRecipes() {
-  return { type: ServerActions.RequestSavedRecipes };
-}
+export const requestSavedRecipes = helpers.createAction(ServerActions.RequestSavedRecipes);
+export const receiveSavedRecipes = helpers.createAction(ServerActions.ReceiveSavedRecipes, 'recipes');
+export const invalidateSavedRecipes = helpers.createAction(ServerActions.InvalidateSavedRecipes);
 
-export function requestSharedRecipes() {
-  return { type: ServerActions.RequestSharedRecipes };
-}
+export const requestSharedRecipes = helpers.createAction(ServerActions.RequestSharedRecipes);
+export const receiveSharedRecipes = helpers.createAction(ServerActions.ReceiveSharedRecipes, 'recipes');
+export const invalidateSharedRecipes = helpers.createAction(ServerActions.InvalidateSharedRecipes);
 
-export function requestPublicRecipes() {
-  return { type: ServerActions.RequestPublicRecipes };
-}
+export const requestPublicRecipes = helpers.createAction(ServerActions.RequestPublicRecipes);
+export const receivePublicRecipes = helpers.createAction(ServerActions.ReceivePublicRecipes, 'recipes');
+export const invalidatePublicRecipes = helpers.createAction(ServerActions.InvalidatePublicRecipes);
 
-export function receiveSavedRecipes(recipes) {
-  return {
-    type: ServerActions.ReceiveSavedRecipes,
-    recipes
-  };
-}
-
-export function receiveSharedRecipes(recipes) {
-  return {
-    type: ServerActions.ReceiveSharedRecipes,
-    recipes
-  };
-}
-
-export function receivePublicRecipes(recipes) {
-  return {
-    type: ServerActions.ReceivePublicRecipes,
-    recipes
-  };
-}
-
-export function invalidateSavedRecipes() {
-  return { type: ServerActions.InvalidateSavedRecipes };
-}
-
-export function invalidateSharedRecipes() {
-  return { type: ServerActions.InvalidateSharedRecipes };
-}
-
-export function invalidatePublicRecipes() {
-  return { type: ServerActions.InvalidatePublicRecipes };
-}
-
-export function loadSavedRecipe(recipe) {
-  return {
-    type: RecipeActions.LoadSavedRecipe, recipe
-  };
-}
-
-export function recipeSaved(recipeId) {
-  return { type: RecipeActions.RecipeSaved };
-}
+export const loadSavedRecipe = helpers.createAction(RecipeActions.LoadSavedRecipe, 'recipe');
+export const recipeSaved = helpers.createAction(RecipeActions.RecipeSaved);
 
 // retrieve saved recipes
 function shouldFetchRecipes(recipeType, state) {
@@ -71,17 +32,15 @@ function shouldFetchRecipes(recipeType, state) {
   }
 }
 
-const recipeActions = {
-  [RecipeType.SavedRecipes]: receiveSavedRecipes,
-  [RecipeType.SharedRecipes]: receiveSharedRecipes,
-  [RecipeType.PublicRecipes]: receivePublicRecipes
-};
-
 export function fetchRecipesIfNeeded(recipeType) {
   return async (dispatch, getState) => {
     if (shouldFetchRecipes(recipeType, getState())) {
       const recipes = await getSavedRecipes(recipeType);
-      return dispatch(recipeActions[recipeType](recipes));
+      return dispatch({
+        [RecipeType.SavedRecipes]: receiveSavedRecipes,
+        [RecipeType.SharedRecipes]: receiveSharedRecipes,
+        [RecipeType.PublicRecipes]: receivePublicRecipes
+      }[recipeType](recipes));
     }
   };
 }
