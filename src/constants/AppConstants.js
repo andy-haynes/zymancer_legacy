@@ -1,22 +1,23 @@
-const SavedRecipes = 'SavedRecipes';
-const SharedRecipes = 'SharedRecipes';
-const PublicRecipes = 'PublicRecipes';
+import keyMirror from 'fbjs/lib/keyMirror';
 
-export const RecipeType = {
-  SavedRecipes,
-  SharedRecipes,
-  PublicRecipes
-};
+export const RecipeType = keyMirror({
+  SavedRecipes: null,
+  SharedRecipes: null,
+  PublicRecipes: null
+});
 
-const Grain = 'Grain';
-const Hop = 'Hop';
-const Yeast = 'Yeast';
+export const IngredientType = keyMirror({
+  Grain: null,
+  Hop: null,
+  Yeast: null
+});
 
-export const IngredientType = {
-  Grain,
-  Hop,
-  Yeast
-};
+export const BrewMethod = keyMirror({
+  Extract: null,
+  AllGrain: null,
+  BIAB: null,
+  PartialMash: null
+});
 
 export const MinSearchQueryLength = 1;
 export const MaxSearchResults = 10;

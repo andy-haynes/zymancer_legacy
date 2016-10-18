@@ -17,6 +17,7 @@ const RecipeType = new GraphQLObjectType({
     id: { type: new GraphQLNonNull(GraphQLInt) },
     name: { type: new GraphQLNonNull(GraphQLString) },
     style: { type: GraphQLString },
+    method: { type: GraphQLString },
     ABV: { type: new GraphQLNonNull(GraphQLFloat) },
     IBU: { type: new GraphQLNonNull(GraphQLFloat) },
     OG: { type: new GraphQLNonNull(GraphQLFloat) },

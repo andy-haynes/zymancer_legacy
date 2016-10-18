@@ -2,6 +2,7 @@ import RecipeActions from '../constants/RecipeActionTypes';
 import zymath from '../utils/zymath';
 import helpers from '../utils/helpers';
 import Defaults from '../constants/Defaults';
+import { BrewMethod } from '../constants/AppConstants';
 import grain from './grain';
 import hop from './hop';
 import fermentation from './fermentation';
@@ -12,6 +13,7 @@ import _ from 'lodash'
 const initialState = {
   name: 'My Awesome Mixed Beer #6',
   style: 'American Pale Ale',
+  method: BrewMethod.AllGrain,
   loaded: false,
   originalGravity: 1.0,
   finalGravity: 1.0,
@@ -29,7 +31,7 @@ const initialState = {
 };
 
 function recalculate(state, changed) {
-  let { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
+  let { name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
 
   const thicknessUnit = mashSchedule.thickness.consequent;
   const grainWeight = { value: _.sumBy(grains, g => helpers.convertToUnit(g.weight, thicknessUnit)), unit: thicknessUnit };
@@ -49,7 +51,7 @@ function recalculate(state, changed) {
   ABV = zymath.calculateABV(originalGravity, finalGravity);
   SRM = zymath.calculateSRM(targetVolume, grains);
 
-  return { name, style, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM };
+  return { name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM };
 }
 
 const currentRecipe = (state = initialState, action) => {
@@ -67,6 +69,8 @@ const currentRecipe = (state = initialState, action) => {
       return updateRecipe({ name: action.name }, false);
     case RecipeActions.SetRecipeStyle:
       return updateRecipe({ style: action.style }, false);
+    case RecipeActions.SetRecipeMethod:
+      return updateRecipe({ method: action.method }, false);
     case RecipeActions.SetTargetVolume:
       return updateRecipe({ targetVolume: measurement(state.targetVolume, action) });
     case RecipeActions.SetBoilVolume:

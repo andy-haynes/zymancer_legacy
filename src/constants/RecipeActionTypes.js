@@ -1,11 +1,13 @@
 import keyMirror from 'fbjs/lib/keyMirror';
 
 export default keyMirror({
+  /* grain */
   AddGrain: null,
   RemoveGrain: null,
   SetGrainWeight: null,
   SetGrainGravity: null,
   SetGrainLovibond: null,
+  /* hops */
   AddHop: null,
   RemoveHop: null,
   SetHopAlpha: null,
@@ -14,6 +16,7 @@ export default keyMirror({
   SetHopAdditionTime: null,
   SetHopAdditionWeight: null,
   RemoveHopAddition: null,
+  /* mash */
   SetMashStyle: null,
   SetMashThickness: null,
   SetBoilOff: null,
@@ -21,15 +24,18 @@ export default keyMirror({
   SetInfusionTemp: null,
   SetMashoutTemp: null,
   SetGrainTemp: null,
+  SetBoilVolume: null,
+  SetTargetVolume: null,
+  SetBoilTime: null,
+  SetEfficiency: null,
+  /* recipe */
   LoadSavedRecipe: null,
   SaveRecipe: null,
   RecipeSaved: null,
   SetRecipeName: null,
   SetRecipeStyle: null,
-  SetBoilVolume: null,
-  SetTargetVolume: null,
-  SetBoilTime: null,
-  SetEfficiency: null,
+  SetRecipeMethod: null,
+  /* yeast */
   SetPitchRate: null,
   AddYeast: null,
   RemoveYeast: null,

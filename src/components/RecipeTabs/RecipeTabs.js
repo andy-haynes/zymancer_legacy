@@ -14,12 +14,13 @@ import RecipeHeader from '../RecipeHeader';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 
-const RecipeTabs = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, saveRecipe }) => (
+const RecipeTabs = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, saveRecipe }) => (
   <div className={s.recipeTabs}>
     <RecipeHeader
       recipe={recipe}
       setRecipeName={setRecipeName}
       setRecipeStyle={setRecipeStyle}
+      setRecipeMethod={setRecipeMethod}
       setTargetVolume={setTargetVolume}
       setBoilVolume={setBoilVolume}
       setBoilTime={setBoilTime}

@@ -3,6 +3,7 @@ import RecipeTabs from '../components/RecipeTabs';
 import {
   setRecipeName,
   setRecipeStyle,
+  setRecipeMethod,
   setTargetVolume,
   setBoilVolume,
   setBoilTime,
@@ -21,6 +22,7 @@ const mapDispatchToProps = (dispatch) => {
     saveRecipe: (recipe) => dispatch(saveCurrentRecipe(recipe)),
     setRecipeName: (name) => dispatch(setRecipeName(name)),
     setRecipeStyle: (style) => dispatch(setRecipeStyle(style)),
+    setRecipeMethod: (method) => dispatch(setRecipeMethod(method)),
     setTargetVolume: (volume) => dispatch(setTargetVolume(volume)),
     setBoilVolume: (volume) => dispatch(setBoilVolume(volume)),
     setBoilTime: (minutes) => dispatch(setBoilTime(parseInt(minutes))),

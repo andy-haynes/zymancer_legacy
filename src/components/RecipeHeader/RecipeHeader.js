@@ -3,6 +3,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './RecipeHeader.css';
 import MeasurementUnits from '../../constants/MeasurementUnits';
 import Defaults from '../../constants/Defaults';
+import { BrewMethod } from '../../constants/AppConstants';
 import Measurement from '../Measurement';
 import _ from 'lodash';
 import zymath from '../../utils/zymath';
@@ -21,7 +22,7 @@ import ContentSave from 'material-ui/svg-icons/content/save';
 import { grey200 } from 'material-ui/styles/colors';
 import BJCPStyles from '../../constants/BJCPStyles';
 
-const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, saveRecipe }) => (
+const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setRecipeMethod, setTargetVolume, setBoilVolume, setBoilTime, setEfficiency, saveRecipe }) => (
   <div className={s.recipeHeader}>
     <div className="pure-g">
       <div className="pure-u-6-24">
@@ -85,11 +86,11 @@ const RecipeHeader = ({ recipe, setRecipeName, setRecipeStyle, setTargetVolume, 
         </div>
       </div>
       <div className="pure-u-4-24">
-        <SelectField value={1} style={{width:"90%"}}>
-          <MenuItem value={1} primaryText="All Grain" />
-          <MenuItem value={2} primaryText="BiaB" />
-          <MenuItem value={3} primaryText="Extract" />
-          <MenuItem value={4} primaryText="Partial Mash" />
+        <SelectField value={recipe.method} onChange={(e, k, v) => setRecipeMethod(v)} style={{width: "90%"}}>
+          <MenuItem value={BrewMethod.AllGrain} primaryText="All Grain" />
+          <MenuItem value={BrewMethod.BIAB} primaryText="Brew in a Bag" />
+          <MenuItem value={BrewMethod.Extract} primaryText="Extract" />
+          <MenuItem value={BrewMethod.PartialMash} primaryText="Partial Mash" />
         </SelectField>
       </div>
       <div className="pure-u-1-24">

@@ -7,6 +7,7 @@ const Recipe = Model.define('Recipes', {
   isPublic: { type: DataType.BOOLEAN, defaultValue: false },
   name: { type: DataType.STRING, allowNull: false },
   style: { type: DataType.STRING, allowNull: true },
+  method: { type: DataType.STRING, allowNull: false },
   ABV: { type: DataType.DECIMAL },
   IBU: { type: DataType.DECIMAL },
   OG: { type: DataType.DECIMAL },

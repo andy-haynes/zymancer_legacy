@@ -30,6 +30,7 @@ export async function getRecipe(recipeId) {
       id,
       name,
       style,
+      method,
       grains {
         id,
         name,
@@ -128,6 +129,7 @@ export async function saveRecipe(recipe) {
     saveRecipe(
       name:"${recipe.name}",
       style:"${recipe.style}",
+      method:"${recipe.method}",
       ABV:${_.round(parseFloat(recipe.ABV), 2)},
       IBU:${_.round(parseFloat(recipe.IBU), 2)},
       OG:${parseFloat(recipe.originalGravity)},

@@ -30,6 +30,7 @@ export const setGrainTemp = helpers.createAction(RecipeActions.SetGrainTemp, 'me
 /*************************** recipe *****************************/
 export const setRecipeName = helpers.createAction(RecipeActions.SetRecipeName, 'name');
 export const setRecipeStyle = helpers.createAction(RecipeActions.SetRecipeStyle, 'style');
+export const setRecipeMethod = helpers.createAction(RecipeActions.SetRecipeMethod, 'method');
 export const setBoilVolume = helpers.createAction(RecipeActions.SetBoilVolume, 'measurement');
 export const setTargetVolume = helpers.createAction(RecipeActions.SetTargetVolume, 'measurement');
 export const setBoilTime = helpers.createAction(RecipeActions.SetBoilTime, 'minutes');
