@@ -8,7 +8,7 @@ function createYeast(yeast) {
   const now = new Date();
   const mfgDate = typeof yeast.mfgDate === 'string' ? new Date(yeast.mfgDate) : new Date(now.getFullYear(), now.getMonth(), -7);
   const attenuationRange = typeof yeast.attenuationRange === 'string' ? helpers.extractRange(yeast.attenuationRange) : yeast.attenuationRange;
-  const apparentAttenuation = yeast.apparentAttenuation || attenuationRange.avg;
+  const apparentAttenuation = (yeast.apparentAttenuation * (yeast.apparentAttenuation < 1 ? 100 : 1)) || attenuationRange.avg;
   const rangeF = typeof yeast.rangeF === 'string' ? helpers.extractRange(yeast.rangeF) : yeast.rangeF;
   const rangeC = typeof yeast.rangeC === 'string' ? helpers.extractRange(yeast.rangeC) : yeast.rangeC;
   return {
