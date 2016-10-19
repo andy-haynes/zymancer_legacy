@@ -27,7 +27,7 @@ const BoilOffRate = { value: 1, antecedent: Units.Gallon, consequent: Units.Hour
 const HopAdditionWeight = { value: 1, unit: Units.Ounce };
 
 // boil
-const BoilVolume = { value: 7, unit: Units.Gallon };
+const BoilVolume = { value: 6.5, unit: Units.Gallon };
 const TargetVolume = { value: 5.5, unit: Units.Gallon };
 
 // fermentation
