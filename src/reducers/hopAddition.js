@@ -18,15 +18,13 @@ const hopAddition = (state = {}, action) => {
     case RecipeActions.AddHopAddition:
       return createHopAddition(action.addition);
     case RecipeActions.SetHopAdditionTime:
-      return {
-        minutes: action.minutes,
-        ...state
-      };
+      return Object.assign({}, state, {
+        minutes: action.minutes
+      });
     case RecipeActions.SetHopAdditionWeight:
-      return {
-        weight: measurement(state.weight, action),
-        ...state
-      };
+      return Object.assign({}, state, {
+        weight: measurement(state.weight, action)
+      });
     default:
       return state;
   }
