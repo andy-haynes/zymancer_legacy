@@ -154,11 +154,10 @@ const RecipeHeader = ({ recipe, actions }) => (
               </div>
             </div>
             <div className="pure-u-16-24">
-              <SelectField value={recipe.method} onChange={(e, k, v) => actions.setRecipeMethod(v)} style={{width: "90%"}}>
+              <SelectField value={recipe.method} onChange={(e, k, v) => actions.setRecipeMethod(v)} style={{width: '85%'}}>
                 <MenuItem value={BrewMethod.AllGrain} primaryText="All Grain" />
-                <MenuItem value={BrewMethod.BIAB} primaryText="Brew in a Bag" />
-                <MenuItem value={BrewMethod.Extract} primaryText="Extract" />
                 <MenuItem value={BrewMethod.PartialMash} primaryText="Partial Mash" />
+                <MenuItem value={BrewMethod.Extract} primaryText="Extract" />
               </SelectField>
             </div>
             <div className="pure-u-2-24">

@@ -15,7 +15,6 @@ export const IngredientType = keyMirror({
 export const BrewMethod = keyMirror({
   Extract: null,
   AllGrain: null,
-  BIAB: null,
   PartialMash: null
 });
 
