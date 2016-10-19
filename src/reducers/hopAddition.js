@@ -14,7 +14,6 @@ function createHopAddition(addition = {}) {
 
 const hopAddition = (state = {}, action) => {
   switch (action.type) {
-    case RecipeActions.AddHop:
     case RecipeActions.AddHopAddition:
       return createHopAddition(action.addition);
     case RecipeActions.SetHopAdditionTime:

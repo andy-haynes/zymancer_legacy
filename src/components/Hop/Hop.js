@@ -62,8 +62,8 @@ const Hop = ({ hop, originalGravity, boilVolume, actions }) => (
         </div>
         <div className="pure-u-3-24">
           <div className={s.addRemoveHop}>
-            <ContentAddCircle className={s.addAddition} onClick={actions.addAddition} />
-            <ContentRemoveCircle className={s.removeHop} onClick={actions.removeHop} />
+            <ContentAddCircle className={s.addAddition} onClick={() => actions.addAddition(hop)} />
+            <ContentRemoveCircle className={s.removeHop} onClick={() => actions.removeHop(hop)} />
           </div>
         </div>
       </div>
