@@ -54,42 +54,42 @@ const RecipeHeader = ({ recipe, actions }) => (
         </div>
         <div className={s.inputBlock}>
           <div className="pure-g">
-            <div className="pure-u-1-6">
+            <div className="pure-u-1-4">
               <div className={s.headerLabel}>
                 OG
               </div>
             </div>
-            <div className="pure-u-1-3">
+            <div className="pure-u-1-4">
               <div className={s.calculatedValue}>
                 {zymath.formatGravity(recipe.originalGravity)}
               </div>
             </div>
-            <div className="pure-u-1-6">
+            <div className="pure-u-1-4">
               <div className={s.headerLabel}>
                 IBU
               </div>
             </div>
-            <div className="pure-u-1-3">
+            <div className="pure-u-1-4">
               <div className={s.calculatedValue}>
                 {_.round(recipe.IBU, 1)}
               </div>
             </div>
-            <div className="pure-u-1-6">
+            <div className="pure-u-1-4">
               <div className={s.headerLabel}>
                 FG
               </div>
             </div>
-            <div className="pure-u-1-3">
+            <div className="pure-u-1-4">
               <div className={s.calculatedValue}>
                 {zymath.formatGravity(recipe.finalGravity)}
               </div>
             </div>
-            <div className="pure-u-1-6">
+            <div className="pure-u-1-4">
               <div className={s.headerLabel}>
                 ABV
               </div>
             </div>
-            <div className="pure-u-1-3">
+            <div className="pure-u-1-4">
               <div className={s.calculatedValue}>
                 {recipe.ABV}%
               </div>

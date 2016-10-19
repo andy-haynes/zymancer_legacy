@@ -46,5 +46,8 @@ svg {
 
 .inputBlock {
   float: left;
-  padding-left: 1em;
+}
+
+.inputBlock:first-child {
+  padding-left: 0.5em;
 }
