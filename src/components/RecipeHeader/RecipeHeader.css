@@ -6,8 +6,8 @@
 
 .headerLabel {
   text-align: right;
-  padding: 18px 16px 0 0;
-  font-size: 12px;
+  padding: 2em 2em 0 0;
+  font-size: 0.6em;
   color: #777;
   text-transform: uppercase;
 }
@@ -33,15 +33,16 @@ svg {
 }
 
 .calculatedValue {
-  padding-top: 14px;
+  min-width: 2.5em;
+  padding-top: 0.6em;
   font-size: 20px;
   color: #555;
 }
 
 .beerColor {
   width: 80%;
-  height: 60%;
-  margin-top: 13%;
+  height: 80%;
+  margin-top: 15%;
 }
 
 .inputBlock {

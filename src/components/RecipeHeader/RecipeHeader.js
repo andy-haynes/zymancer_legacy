@@ -52,90 +52,98 @@ const RecipeHeader = ({ recipe, actions }) => (
             </SelectField>
           </div>
         </div>
-        <div className={s.inputBlock}>
+        <div className={s.inputBlock} style={{marginRight: '-2em'}}>
           <div className="pure-g">
-            <div className="pure-u-1-4">
+            <div className="pure-u-1-2">
               <div className={s.headerLabel}>
                 OG
               </div>
             </div>
-            <div className="pure-u-1-4">
+            <div className="pure-u-1-2">
               <div className={s.calculatedValue}>
                 {zymath.formatGravity(recipe.originalGravity)}
               </div>
             </div>
-            <div className="pure-u-1-4">
-              <div className={s.headerLabel}>
-                IBU
-              </div>
-            </div>
-            <div className="pure-u-1-4">
-              <div className={s.calculatedValue}>
-                {_.round(recipe.IBU, 1)}
-              </div>
-            </div>
-            <div className="pure-u-1-4">
-              <div className={s.headerLabel}>
+            <div className="pure-u-1-2">
+              <div className={s.headerLabel} style={{marginTop: '0.3em'}}>
                 FG
               </div>
             </div>
-            <div className="pure-u-1-4">
+            <div className="pure-u-1-2">
               <div className={s.calculatedValue}>
                 {zymath.formatGravity(recipe.finalGravity)}
               </div>
             </div>
-            <div className="pure-u-1-4">
+          </div>
+        </div>
+        <div className={s.inputBlock} style={{marginRight: '-4em'}}>
+          <div className="pure-g">
+            <div className="pure-u-1-2">
               <div className={s.headerLabel}>
+                IBU
+              </div>
+            </div>
+            <div className="pure-u-1-2">
+              <div className={s.calculatedValue}>
+                {_.round(recipe.IBU, 1)}
+              </div>
+            </div>
+            <div className="pure-u-1-2">
+              <div className={s.headerLabel} style={{marginTop: '0.3em'}}>
                 ABV
               </div>
             </div>
-            <div className="pure-u-1-4">
+            <div className="pure-u-1-2">
               <div className={s.calculatedValue}>
                 {recipe.ABV}%
               </div>
             </div>
           </div>
         </div>
-        <div className={s.inputBlock}>
+        <div className={s.inputBlock} style={{marginRight: '-5em'}}>
           <div className="pure-g">
-            <div className="pure-u-5-24">
+            <div className="pure-u-1-3">
               <div className={s.headerLabel}>
                 Target
               </div>
             </div>
-            <div className="pure-u-12-24" style={{marginRight: '-3em'}}>
+            <div className="pure-u-2-3" style={{marginBottom: '-0.6em'}}>
               <Measurement
                 measurement={recipe.targetVolume}
                 update={actions.setTargetVolume}
                 options={MeasurementUnits.RecipeVolume}
               />
             </div>
-            <div className="pure-u-4-24">
-              <div className={s.headerLabel}>
-                Color
-              </div>
-            </div>
-            <div className="pure-u-4-24">
-              <div className={s.beerColor} style={{backgroundColor: zymath.SRMtoRGB(recipe.SRM)}}></div>
-            </div>
-            <div className="pure-u-5-24">
+            <div className="pure-u-1-3">
               <div className={s.headerLabel}>
                 Boil
               </div>
             </div>
-            <div className="pure-u-12-24" style={{marginRight: '-3em'}}>
+            <div className="pure-u-2-3">
               <Measurement
                 measurement={recipe.boilVolume}
                 update={actions.setBoilVolume}
                 options={MeasurementUnits.RecipeVolume}
               />
             </div>
-            <div className="pure-u-4-24">
+          </div>
+        </div>
+        <div className={s.inputBlock}>
+          <div className="pure-g">
+            <div className="pure-u-1-2">
+              <div className={s.headerLabel}>
+                Color
+              </div>
+            </div>
+            <div className="pure-u-1-2">
+              <div className={s.beerColor} style={{backgroundColor: zymath.SRMtoRGB(recipe.SRM)}}></div>
+            </div>
+            <div className="pure-u-1-2" style={{marginTop: '0.6em'}}>
               <div className={s.headerLabel}>
                 Time
               </div>
             </div>
-            <div className="pure-u-4-24">
+            <div className="pure-u-1-2" style={{marginTop: '0.6em'}}>
               <TextField
                 id="boil-minutes"
                 className={s.recipeInput}
@@ -146,7 +154,7 @@ const RecipeHeader = ({ recipe, actions }) => (
             </div>
           </div>
         </div>
-        <div className={s.inputBlock}>
+        <div className={s.inputBlock} style={{width: '23em'}}>
           <div className="pure-g">
             <div className="pure-u-6-24">
               <div className={s.headerLabel}>
@@ -154,10 +162,15 @@ const RecipeHeader = ({ recipe, actions }) => (
               </div>
             </div>
             <div className="pure-u-16-24">
-              <SelectField value={recipe.method} onChange={(e, k, v) => actions.setRecipeMethod(v)} style={{width: '85%'}}>
-                <MenuItem value={BrewMethod.AllGrain} primaryText="All Grain" />
+              <SelectField
+                value={recipe.method}
+                onChange={(e, k, v) => actions.setRecipeMethod(v)}
+                style={{width: '80%', marginRight: '-1.5em'}}
+                fullWidth
+              >
+                <MenuItem value={BrewMethod.AllGrain}    primaryText="All Grain   " />
                 <MenuItem value={BrewMethod.PartialMash} primaryText="Partial Mash" />
-                <MenuItem value={BrewMethod.Extract} primaryText="Extract" />
+                <MenuItem value={BrewMethod.Extract}     primaryText="Extract     " />
               </SelectField>
             </div>
             <div className="pure-u-2-24">
@@ -173,11 +186,11 @@ const RecipeHeader = ({ recipe, actions }) => (
               </IconMenu>
             </div>
             <div className="pure-u-1-4">
-              <div className={s.headerLabel}>
+              <div className={s.headerLabel} style={{marginTop: '-0.5em'}}>
                 Efficiency
               </div>
             </div>
-            <div className="pure-u-3-4">
+            <div className="pure-u-3-4" style={{marginTop: '-0.6em'}}>
               <SliderInput
                 value={recipe.efficiency}
                 min={Defaults.MinEfficiencyPercentage}
