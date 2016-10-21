@@ -28,6 +28,9 @@ export default keyMirror({
   SetTargetVolume: null,
   SetBoilTime: null,
   SetEfficiency: null,
+  AddRest: null,
+  RemoveRest: null,
+  SetRestTemperature: null,
   /* recipe */
   LoadSavedRecipe: null,
   SaveRecipe: null,

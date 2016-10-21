@@ -47,6 +47,14 @@ function convertRatio(oldRatio, newRatio, precision = undefined) {
 
   return Object.assign({}, newRatio, { value });
 }
+
+function createRatio(numerator, denominator) {
+  return {
+    value: numerator.value / denominator.value,
+    antecedent: numerator.unit,
+    consequent: denominator.unit
+  };
+}
 //endregion
 
 //region strings
@@ -126,6 +134,7 @@ function createAction(type, ...argNames) {
 export default {
   convertTemp,
   convertRatio,
+  createRatio,
   convertToUnit,
   extractRange,
   monthsSinceDate,

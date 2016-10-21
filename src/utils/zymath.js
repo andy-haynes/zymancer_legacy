@@ -41,8 +41,10 @@ function SRMtoRGB(srm) {
 
 function calculateGravity(efficiencyPercentage, grains, targetVolume) {
   const efficiency = efficiencyPercentage / 100;
-  const points = _.sumBy(grains, grain => gravityToPoints(grain.gravity) * helpers.convertToUnit(grain.weight, Units.Pound));
-  return pointsToGravity((efficiency * points) / helpers.convertToUnit(targetVolume, Units.Gallon));
+  const points = _.sumBy(grains, grain => {
+    return (grain.isExtract ? 1 : efficiency) * grain.gravity * helpers.convertToUnit(grain.weight, Units.Pound)
+  });
+  return pointsToGravity(points / helpers.convertToUnit(targetVolume, Units.Gallon));
 }
 
 /* http://byo.com/mead/item/1544-understanding-malt-spec-sheets-advanced-brewing */

@@ -2,7 +2,7 @@ import RecipeActions from '../constants/RecipeActionTypes';
 import zymath from '../utils/zymath';
 import helpers from '../utils/helpers';
 import Defaults from '../constants/Defaults';
-import { BrewMethod } from '../constants/AppConstants';
+import { BrewMethod, MashMethod } from '../constants/AppConstants';
 import grain from './grain';
 import hop from './hop';
 import fermentation from './fermentation';
@@ -30,6 +30,30 @@ const initialState = {
   fermentation: fermentation(undefined, {})
 };
 
+function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, boilVolume) {
+  switch (mashSchedule.style) {
+    case MashMethod.SingleInfusion:
+      mashSchedule.strikeVolume = zymath.calculateStrikeVolume(grainWeight, mashSchedule.thickness);
+      mashSchedule.spargeVolume = zymath.calculateSpargeVolume(boilVolume, mashSchedule.strikeVolume);
+      mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(mashSchedule.thickness, mashSchedule.grainTemp, mashSchedule.infusionTemp);
+      mashSchedule.spargeTemp = zymath.calculateMashoutWaterTemp(mashSchedule.strikeVolume, mashSchedule.spargeVolume, grainWeight, mashSchedule.infusionTemp, mashSchedule.mashoutTemp);
+      break;
+    case MashMethod.BIAB:
+      const biabThickness = helpers.createRatio(boilVolume, grainWeight);
+      mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(biabThickness, mashSchedule.grainTemp, mashSchedule.infusionTemp);
+      mashSchedule.strikeVolume = {
+        value: helpers.convertToUnit(boilVolume, mashSchedule.strikeVolume.unit, 1),
+        unit: mashSchedule.strikeVolume.unit
+      };
+      break;
+    case MashMethod.MultipleRest:
+    case MashMethod.Decoction:
+      break;
+  }
+
+  return mashSchedule;
+}
+
 function recalculate(state, changed) {
   let { name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
 
@@ -37,12 +61,17 @@ function recalculate(state, changed) {
   const grainWeight = { value: _.sumBy(grains, g => helpers.convertToUnit(g.weight, thicknessUnit)), unit: thicknessUnit };
   boilVolume = zymath.calculateBoilVolume(targetVolume, mashSchedule.boilOff, mashSchedule.thickness, mashSchedule.absorption, boilMinutes, grainWeight);
 
-  mashSchedule.strikeVolume = zymath.calculateStrikeVolume(grainWeight, mashSchedule.thickness);
-  mashSchedule.spargeVolume = zymath.calculateSpargeVolume(boilVolume, mashSchedule.strikeVolume);
-  mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(mashSchedule.thickness, mashSchedule.grainTemp, mashSchedule.infusionTemp);
-  mashSchedule.spargeTemp = zymath.calculateMashoutWaterTemp(mashSchedule.strikeVolume, mashSchedule.spargeVolume, grainWeight, mashSchedule.infusionTemp, mashSchedule.mashoutTemp);
+  switch (method) {
+    case BrewMethod.AllGrain:
+    case BrewMethod.PartialMash:
+      originalGravity = zymath.calculateGravity(efficiency, grains, targetVolume);
+      mashSchedule = calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, boilVolume);
+      break;
+    case BrewMethod.Extract:
+      originalGravity = zymath.calculateGravity(100, grains.filter(g => g.isExtract), targetVolume);
+      break;
+  }
 
-  originalGravity = zymath.calculateGravity(efficiency, grains, targetVolume);
   IBU = zymath.calculateTotalIBU(boilVolume, originalGravity, hops);
 
   fermentation.recommendedCellCount = zymath.calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume);

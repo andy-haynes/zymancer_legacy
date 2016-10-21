@@ -8,12 +8,118 @@ import Paper from 'material-ui/Paper';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import MeasurementUnits from '../../constants/MeasurementUnits';
+import { MashMethod } from '../../constants/AppConstants';
 
 const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infusionTemp, mashoutTemp, strikeTemp, spargeTemp, strikeVolume, spargeVolume, actions }) => (
   <div className={s.mashSchedule}>
     <div className="pure-g">
       <div className="pure-u-1-2">
         <Paper className={s.mashControl} zDepth={2}>
+          <div className="pure-g">
+            <div className="pure-u-4-24">
+              <div className={s.mashLabel}>
+                Mash Style
+              </div>
+            </div>
+            <div className="pure-u-10-24">
+              <SelectField
+                value={style}
+                onChange={(e, i, v) => actions.setStyle(v)}
+                style={{position: 'relative', top: '4px'}}
+              >
+                <MenuItem value={MashMethod.SingleInfusion} primaryText="Single Infusion" />
+                <MenuItem value={MashMethod.BIAB} primaryText="Brew in a Bag" />
+                <MenuItem value={MashMethod.Decoction} primaryText="Decoction" />
+                <MenuItem value={MashMethod.MultipleRest} primaryText="Multi-Rest" />
+              </SelectField>
+            </div>
+            <div className="pure-u-4-24">
+              <div className={s.mashLabel}>
+                Grain Temp
+              </div>
+            </div>
+            <div className="pure-u-6-24">
+              <Measurement
+                measurement={grainTemp}
+                update={actions.setGrainTemp}
+                options={MeasurementUnits.TemperatureOptions}
+              />
+            </div>
+          </div>
+        </Paper>
+        <Paper
+          className={s.mashControl}
+          zDepth={2}
+        >
+          <div className="pure-g">
+            <div className="pure-u-6-24">
+              <div className={s.mashLabel}>
+                Strike Water
+              </div>
+            </div>
+            <div className="pure-u-12-24">
+              <SliderInput
+                value={infusionTemp.value}
+                min={110} max={190} step={1}
+                update={(value) => actions.setInfusionTemp({ value, unit: infusionTemp.unit })}
+                sliderWidth="1-2"
+                inputWidth="1-2"
+              >
+                <Measurement
+                  measurement={infusionTemp}
+                  update={actions.setInfusionTemp}
+                  options={MeasurementUnits.TemperatureOptions}
+                />
+              </SliderInput>
+            </div>
+            <div className="pure-u-6-24">
+              <Measurement
+                measurement={strikeTemp}
+                options={MeasurementUnits.TemperatureOptions}
+              />
+            </div>
+          </div>
+        </Paper>
+        <Paper
+          className={s.mashControl}
+          zDepth={2}
+          style={{display: (style !== MashMethod.BIAB) ? 'block' : 'none'}}
+        >
+          <div className="pure-g">
+            <div className="pure-u-6-24">
+              <div className={s.mashLabel}>
+                Mash Out Temp
+              </div>
+            </div>
+            <div className="pure-u-12-24">
+              <SliderInput
+                value={mashoutTemp.value}
+                min={150} max={212} step={1}
+                update={(value) => actions.setMashoutTemp({ value, unit: mashoutTemp.unit })}
+                sliderWidth="1-2"
+                inputWidth="1-2"
+              >
+                <Measurement
+                  measurement={mashoutTemp}
+                  update={actions.setMashoutTemp}
+                  options={MeasurementUnits.TemperatureOptions}
+                />
+              </SliderInput>
+            </div>
+            <div className="pure-u-6-24">
+              <Measurement
+                measurement={spargeTemp}
+                options={MeasurementUnits.TemperatureOptions}
+              />
+            </div>
+          </div>
+        </Paper>
+      </div>
+      <div className="pure-u-1-2">
+        <Paper
+          className={s.mashControl}
+          zDepth={2}
+        >
           <div className="pure-g">
             <div className="pure-u-1-6">
               <div className={s.mashLabel}>
@@ -26,12 +132,12 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
                 options={MeasurementUnits.RecipeVolume}
               />
             </div>
-            <div className="pure-u-1-6">
+            <div className="pure-u-1-6" style={{display: (style !== MashMethod.BIAB) ? 'block' : 'none'}}>
               <div className={s.mashLabel}>
                 Sparge
               </div>
             </div>
-            <div className="pure-u-1-3">
+            <div className="pure-u-1-3" style={{display: (style !== MashMethod.BIAB) ? 'block' : 'none'}}>
               <Measurement
                 measurement={spargeVolume}
                 options={MeasurementUnits.RecipeVolume}
@@ -39,7 +145,11 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
           </div>
         </Paper>
-        <Paper className={s.mashControl} zDepth={2}>
+        <Paper
+          className={s.mashControl}
+          zDepth={2}
+          style={{display: (style !== MashMethod.BIAB) ? 'block' : 'none'}}
+        >
           <div className="pure-g">
             <div className="pure-u-1-4">
               <div className={s.mashLabel}>
@@ -111,96 +221,6 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
                   update={actions.setBoilOff}
                 />
               </SliderInput>
-            </div>
-          </div>
-        </Paper>
-      </div>
-      <div className="pure-u-1-2">
-        <Paper className={s.mashControl} zDepth={2}>
-          <div className="pure-g">
-            <div className="pure-u-4-24">
-              <div className={s.mashLabel}>
-                Mash Style
-              </div>
-            </div>
-            <div className="pure-u-10-24">
-              <SelectField value={style} onChange={(e, i, v) => actions.setStyle(v)} style={{position: 'relative', top: '4px'}}>
-                <MenuItem value="Infusion Sparge" primaryText="Infusion Sparge" />
-                <MenuItem value="Brew in a Bag" primaryText="Brew in a Bag" />
-                <MenuItem value="Decoction" primaryText="Decoction" />
-              </SelectField>
-            </div>
-            <div className="pure-u-4-24">
-              <div className={s.mashLabel}>
-                Grain Temp
-              </div>
-            </div>
-            <div className="pure-u-6-24">
-              <Measurement
-                measurement={grainTemp}
-                update={actions.setGrainTemp}
-                options={MeasurementUnits.TemperatureOptions}
-              />
-            </div>
-          </div>
-        </Paper>
-        <Paper className={s.mashControl} zDepth={2}>
-          <div className="pure-g">
-            <div className="pure-u-6-24">
-              <div className={s.mashLabel}>
-                Strike Water
-              </div>
-            </div>
-            <div className="pure-u-12-24">
-              <SliderInput
-                value={infusionTemp.value}
-                min={110} max={190} step={1}
-                update={(value) => actions.setInfusionTemp({ value, unit: infusionTemp.unit })}
-                sliderWidth="1-2"
-                inputWidth="1-2"
-              >
-                <Measurement
-                  measurement={infusionTemp}
-                  update={actions.setInfusionTemp}
-                  options={MeasurementUnits.TemperatureOptions}
-                />
-              </SliderInput>
-            </div>
-            <div className="pure-u-6-24">
-              <Measurement
-                measurement={strikeTemp}
-                options={MeasurementUnits.TemperatureOptions}
-              />
-            </div>
-          </div>
-        </Paper>
-        <Paper className={s.mashControl} zDepth={2}>
-          <div className="pure-g">
-            <div className="pure-u-6-24">
-              <div className={s.mashLabel}>
-                Mash Out Temp
-              </div>
-            </div>
-            <div className="pure-u-12-24">
-              <SliderInput
-                value={mashoutTemp.value}
-                min={150} max={212} step={1}
-                update={(value) => actions.setMashoutTemp({ value, unit: mashoutTemp.unit })}
-                sliderWidth="1-2"
-                inputWidth="1-2"
-              >
-                <Measurement
-                  measurement={mashoutTemp}
-                  update={actions.setMashoutTemp}
-                  options={MeasurementUnits.TemperatureOptions}
-                />
-              </SliderInput>
-            </div>
-            <div className="pure-u-6-24">
-              <Measurement
-                measurement={spargeTemp}
-                options={MeasurementUnits.TemperatureOptions}
-              />
             </div>
           </div>
         </Paper>

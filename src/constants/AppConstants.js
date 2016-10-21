@@ -18,5 +18,22 @@ export const BrewMethod = keyMirror({
   PartialMash: null
 });
 
+export const MashMethod = keyMirror({
+  SingleInfusion: null,
+  MultipleRest: null,
+  BIAB: null,
+  Decoction: null
+});
+
+export const ExtractType = keyMirror({
+  Liquid: null,
+  Dry: null
+});
+
+export const ExtractGravity = {
+  [ExtractType.Liquid]: 1.037,
+  [ExtractType.Dry]: 1.044
+};
+
 export const MinSearchQueryLength = 1;
 export const MaxSearchResults = 10;

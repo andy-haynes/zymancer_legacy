@@ -192,12 +192,13 @@ const RecipeHeader = ({ recipe, actions }) => (
             </div>
             <div className="pure-u-3-4" style={{marginTop: '-0.6em'}}>
               <SliderInput
-                value={recipe.efficiency}
+                value={recipe.method === BrewMethod.Extract ? 100 : recipe.efficiency}
                 min={Defaults.MinEfficiencyPercentage}
                 max={Defaults.MaxEfficiencyPercentage}
                 update={actions.setEfficiency}
                 sliderWidth={'3-4'}
                 inputWidth={'1-4'}
+                disabled={recipe.method === BrewMethod.Extract}
               />
             </div>
           </div>

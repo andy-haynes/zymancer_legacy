@@ -4,7 +4,7 @@ import Slider from 'material-ui/Slider';
 import TextField from 'material-ui/TextField';
 import s from './SliderInput.css';
 
-const SliderInput = ({ value, min, max, update, children, sliderWidth = '7-8', inputWidth = '1-8', step = 1 }) => {
+const SliderInput = ({ value, min, max, update, children, sliderWidth = '7-8', inputWidth = '1-8', step = 1, disabled = false }) => {
   const sliderContainer = `pure-u-${sliderWidth}`;
   const inputContainer = `pure-u-${inputWidth}`;
   const input = children ? children : (
@@ -25,6 +25,7 @@ const SliderInput = ({ value, min, max, update, children, sliderWidth = '7-8', i
             value={value}
             min={min} max={max} step={step}
             onChange={(e, v) => update(v)}
+            disabled={disabled}
           />
         </div>
         <div className={inputContainer}>

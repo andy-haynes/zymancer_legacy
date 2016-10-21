@@ -11,6 +11,7 @@ import MashScheduleContainer from '../../containers/MashScheduleContainer';
 import FermentationContainer from '../../containers/FermentationContainer';
 import YeastSearchContainer from '../../containers/YeastSearchContainer';
 import RecipeHeader from '../RecipeHeader';
+import { BrewMethod } from '../../constants/AppConstants';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 
@@ -47,7 +48,7 @@ const RecipeTabs = ({ recipe, actions }) => (
           </div>
         </div>
       </Tab>
-      <Tab className={s.recipeTab} label="Mash">
+      <Tab className={s.recipeTab} label="Mash" disabled={recipe.method === BrewMethod.BIAB}>
         <MashScheduleContainer />
       </Tab>
       <Tab className={s.recipeTab} label="Fermentation">

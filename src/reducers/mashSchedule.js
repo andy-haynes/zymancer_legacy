@@ -2,12 +2,13 @@ import RecipeActions from '../constants/RecipeActionTypes';
 import zymath from '../utils/zymath';
 import helpers from '../utils/helpers';
 import Defaults from '../constants/Defaults';
+import { MashMethod } from '../constants/AppConstants';
 import measurement from './measurement';
 import Units from '../constants/Units';
 
 const emptyVolume = { value: 0, unit: Units.Quart };
 const initialState = {
-  style: 'Infusion Sparge',
+  style: MashMethod.SingleInfusion,
   thickness: Defaults.MashThickness,
   boilOff: Defaults.BoilOffRate,
   absorption: Defaults.GrainAbsorptionLoss,
@@ -16,6 +17,9 @@ const initialState = {
   mashoutTemp: Defaults.MashoutTemp,
   strikeTemp: zymath.calculateStrikeWaterTemp(Defaults.MashThickness, Defaults.GrainTemp, Defaults.InfusionTemp),
   spargeTemp: { value: 0, unit: Units.Fahrenheit },
+  rests: [],
+  decoctions: [],
+  infusionVolume: emptyVolume,
   strikeVolume: emptyVolume,
   spargeVolume: emptyVolume
 };
@@ -53,6 +57,20 @@ const mashSchedule = (state = initialState, action) => {
     case RecipeActions.SetGrainTemp:
       return Object.assign({}, state, {
         grainTemp: measurement(state.grainTemp, action)
+      });
+    case RecipeActions.AddRest:
+      return Object.assign({}, state, {
+        rests: state.rests.push(action.rest)
+      });
+    case RecipeActions.RemoveRest:
+      return Object.assign({}, state, {
+        rests: state.rests.filter(r => r.id !== action.rest.id)
+      });
+    case RecipeActions.SetRestTemperature:
+      return Object.assign({}, state, {
+        rests: state.rests.map(r => r.id !== action.rest.id ? r : Object.assign({}, r, {
+          temperature: action.rest.temperature
+        }))
       });
     default:
       return state;
