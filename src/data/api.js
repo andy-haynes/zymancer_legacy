@@ -36,6 +36,10 @@ export async function getRecipe(recipeId) {
         name,
         gravity,
         lovibond,
+        lintner,
+        isExtract,
+        DBCG,
+        DBFG,
         weight {
           value,
           unit
@@ -106,7 +110,7 @@ export async function getRecipe(recipeId) {
 }
 
 export async function saveRecipe(recipe) {
-  const grains = recipe.grains.map(g => helpers.jsonToGraphql(_.pick(g, 'id', 'weight', 'lovibond', 'gravity')));
+  const grains = recipe.grains.map(g => helpers.jsonToGraphql(_.pick(g, 'id', 'weight', 'lovibond', 'lintner', 'gravity')));
   const hops = _.flatten(recipe.hops.map(h => h.additions.map(a => helpers.jsonToGraphql(Object.assign(
     _.pick(h, 'id', 'alpha', 'beta'),
     _.pick(a, 'minutes', 'weight')

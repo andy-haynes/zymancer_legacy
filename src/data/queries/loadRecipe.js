@@ -12,7 +12,7 @@ const loadRecipe = {
     return await Recipe.findOne({
       attributes: ['id', 'name', 'style', 'method'],
       include: [{
-        attributes: ['id', 'name'],
+        attributes: ['id', 'name', 'isExtract', 'DBFG', 'DBCG'],
         model: Grain,
         as: 'grains'
       }, {
@@ -50,8 +50,12 @@ const loadRecipe = {
       grains: recipe.grains.map(grain => ({
         id: grain.id,
         name: grain.name,
+        isExtract: grain.isExtract,
+        DBCG: grain.DBCG,
+        DBFG: grain.DBFG,
         gravity: grain.RecipeGrains.gravity,
         lovibond: grain.RecipeGrains.lovibond,
+        lintner: grain.RecipeGrains.lintner,
         weight: grain.RecipeGrains.weight
       })),
       hops: recipe.hopAdditions.map(hop => ({

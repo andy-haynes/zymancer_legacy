@@ -34,7 +34,7 @@ const GrainSearch = ({ query, results, loading, error, actions }) => (
         {results.map(grain => (
           <GrainSearchOption
             key={grain.id}
-            addGrain={() => actions.addGrain(Object.assign({}, grain))}
+            addGrain={() => actions.addGrain(grain)}
             grain={grain}
           />
         ))}

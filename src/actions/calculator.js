@@ -7,6 +7,8 @@ export const removeGrain = helpers.createAction(RecipeActions.RemoveGrain, 'grai
 export const setGrainWeight = helpers.createAction(RecipeActions.SetGrainWeight, 'grain', 'measurement');
 export const setGrainGravity = helpers.createAction(RecipeActions.SetGrainGravity, 'grain', 'gravity');
 export const setGrainLovibond = helpers.createAction(RecipeActions.SetGrainLovibond, 'grain', 'lovibond');
+export const setGrainLintner = helpers.createAction(RecipeActions.SetGrainLintner, 'grain', 'lintner');
+export const setGrainExtractType = helpers.createAction(RecipeActions.SetGrainExtractType, 'grain', 'extractType');
 
 /***************************** hops *****************************/
 export const addHop = helpers.createAction(RecipeActions.AddHop, 'hop');

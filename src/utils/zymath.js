@@ -2,6 +2,7 @@ import SRMColors from '../constants/SRMColors';
 import _ from 'lodash';
 import Units from '../constants/Units';
 import helpers from './helpers';
+import { ExtractGravity } from '../constants/AppConstants';
 
 // gravity
 function formatGravity(gravity) {
@@ -42,7 +43,8 @@ function SRMtoRGB(srm) {
 function calculateGravity(efficiencyPercentage, grains, targetVolume) {
   const efficiency = efficiencyPercentage / 100;
   const points = _.sumBy(grains, grain => {
-    return (grain.isExtract ? 1 : efficiency) * grain.gravity * helpers.convertToUnit(grain.weight, Units.Pound)
+    const points = gravityToPoints(grain.isExtract ? ExtractGravity[grain.extractType] : grain.gravity);
+    return (grain.isExtract ? 1 : efficiency) * points * helpers.convertToUnit(grain.weight, Units.Pound)
   });
   return pointsToGravity(points / helpers.convertToUnit(targetVolume, Units.Gallon));
 }

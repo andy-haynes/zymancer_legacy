@@ -9,6 +9,7 @@ const Grain = Model.define('Grains', {
   flavor: { type: DataType.STRING, allowNull: true },
   characteristics: { type: DataType.STRING(512), allowNull: true },
   gravity: { type: DataType.DECIMAL, allowNull: true },
+  lintner: { type: DataType.DECIMAL, allowNull: true },
   DBFG: { type: DataType.DECIMAL, allowNull: true },
   DBCG: { type: DataType.DECIMAL, allowNull: true },
   description: { type: DataType.STRING(512), allowNull: true },

@@ -3,8 +3,11 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Grain.css';
 import Measurement from '../Measurement';
 import MeasurementUnits from '../../constants/MeasurementUnits';
+import { ExtractType } from '../../constants/AppConstants';
 import zymath from '../../utils/zymath';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 
@@ -14,38 +17,60 @@ const Grain = ({ grain, targetVolume, actions }) => (
       <div className="pure-u-1-24">
         <div className={s.grainColor} style={{backgroundColor: zymath.calculateGrainRGB(targetVolume, grain)}}></div>
       </div>
-      <div className="pure-u-9-24">
+      <div className="pure-u-10-24">
         <div className={s.grainName}>
           {grain.name}
         </div>
       </div>
-      <div className="pure-u-4-24">
-        <TextField
-          id="lovibond-input"
-          className={s.lovibondInput}
-          value={grain.lovibond}
-          onChange={(e) => actions.setLovibond(e.target.value)}
-        />
-      </div>
-      <div className="pure-u-4-24">
-        <TextField
-          id="gravity-input"
-          className={s.gravityInput}
-          value={zymath.formatGravity(grain.gravity)}
-          onChange={(e) => actions.setGravity(e.target.value)}
-        />
-      </div>
-      <div className="pure-u-5-24">
-        <Measurement
-          measurement={grain.weight}
-          update={actions.setWeight}
-          options={MeasurementUnits.GrainWeight}
-        />
+      <div className="pure-u-12-24">
+        <div className="pure-g">
+          <div className="pure-u-1-2">
+            <Measurement
+              measurement={grain.weight}
+              update={(weight) => actions.setWeight(grain, weight)}
+              options={MeasurementUnits.GrainWeight}
+            />
+          </div>
+          <div className="pure-u-1-2" style={{display: grain.extractType !== null ? 'block' : 'none'}}>
+            <SelectField
+              value={grain.extractType}
+              onChange={(e, k, v) => actions.setExtractType(grain, v)}
+              style={{width: '6em'}}
+            >
+              <MenuItem value={ExtractType.Dry} primaryText="Dry" />
+              <MenuItem value={ExtractType.Liquid} primaryText="Liquid" />
+            </SelectField>
+          </div>
+          <div className="pure-u-1-2" style={{display: grain.extractType !== null ? 'none' : 'block'}}>
+            <TextField
+              id="gravity-input"
+              className={s.gravityInput}
+              value={grain.lintner}
+              onChange={(e) => actions.setLintner(grain, e.target.value)}
+            />&deg;L
+          </div>
+          <div className="pure-u-1-2">
+            <TextField
+              id="gravity-input"
+              className={s.gravityInput}
+              value={zymath.formatGravity(grain.gravity)}
+              onChange={(e) => actions.setGravity(grain, e.target.value)}
+            />
+          </div>
+          <div className="pure-u-1-2">
+            <TextField
+              id="lovibond-input"
+              className={s.lovibondInput}
+              value={grain.lovibond}
+              onChange={(e) => actions.setLovibond(grain, e.target.value)}
+            />&deg;Lov
+          </div>
+        </div>
       </div>
       <div className="pure-u-1-24">
         <ContentRemoveCircle
           className={s.removeGrain}
-          onClick={actions.removeGrain}
+          onClick={() => actions.removeGrain(grain)}
         />
       </div>
     </div>

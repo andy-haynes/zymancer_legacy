@@ -7,6 +7,8 @@ export default keyMirror({
   SetGrainWeight: null,
   SetGrainGravity: null,
   SetGrainLovibond: null,
+  SetGrainLintner: null,
+  SetGrainExtractType: null,
   /* hops */
   AddHop: null,
   RemoveHop: null,

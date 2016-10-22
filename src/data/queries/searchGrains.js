@@ -11,7 +11,7 @@ const searchGrains = {
   async resolve({ request }, { query }) {
     return await Grain.findAll({
       limit: MaxSearchResults,
-      attributes: ['id', 'name', 'gravity', 'lovibond', 'flavor', 'characteristics', 'mfg'],
+      attributes: ['id', 'name', 'gravity', 'isExtract', 'DBFG', 'DBCG', 'lovibond', 'lintner', 'flavor', 'characteristics', 'mfg'],
       where: { name: { $iLike: `%${query}%` } }
     });
   }

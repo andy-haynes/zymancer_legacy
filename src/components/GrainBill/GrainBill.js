@@ -5,37 +5,12 @@ import s from './GrainBill.css';
 
 const GrainBill = ({ grains, targetVolume, actions }) => (
   <div className={s.grainBill}>
-    <div className={s.grainHeaders}>
-      <div className="pure-g">
-        <div className="pure-u-2-24">
-        </div>
-        <div className="pure-u-8-24">
-          Name
-        </div>
-        <div className="pure-u-4-24">
-          &deg;L
-        </div>
-        <div className="pure-u-4-24">
-          SG
-        </div>
-        <div className="pure-u-5-24">
-          Weight
-        </div>
-        <div className="pure-u-1-24">
-        </div>
-      </div>
-    </div>
     {grains.map(grain => (
       <Grain
         key={grain.id}
         grain={grain}
         targetVolume={targetVolume}
-        actions={{
-          removeGrain: () => actions.removeGrain(grain),
-          setWeight: (weight) => actions.setWeight(grain, weight),
-          setGravity: (gravity) => actions.setGravity(grain, gravity),
-          setLovibond: (lovibond) => actions.setLovibond(grain, lovibond)
-        }}
+        actions={actions}
       />
     ))}
   </div>

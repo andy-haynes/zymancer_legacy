@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { removeGrain, setGrainWeight, setGrainGravity, setGrainLovibond } from '../actions/calculator';
+import { removeGrain, setGrainWeight, setGrainGravity, setGrainLovibond, setGrainLintner, setGrainExtractType } from '../actions/calculator';
 import GrainBill from '../components/GrainBill';
 
 const mapStateToProps = (state) => ({
@@ -12,7 +12,9 @@ const mapDispatchToProps = (dispatch) => ({
     removeGrain: (grain) => dispatch(removeGrain(grain)),
     setWeight: (grain, weight) => dispatch(setGrainWeight(grain, weight)),
     setGravity: (grain, gravity) => dispatch(setGrainGravity(grain, gravity)),
-    setLovibond: (grain, lovibond) => dispatch(setGrainLovibond(grain, lovibond))
+    setLovibond: (grain, lovibond) => dispatch(setGrainLovibond(grain, lovibond)),
+    setLintner: (grain, lintner) => dispatch(setGrainLintner(grain, lintner)),
+    setExtractType: (grain, extractType) => dispatch(setGrainExtractType(grain, extractType))
   }
 });
 

@@ -4,7 +4,8 @@ import {
   GraphQLString,
   GraphQLInt,
   GraphQLFloat,
-  GraphQLNonNull
+  GraphQLNonNull,
+  GraphQLBoolean
 } from 'graphql';
 
 const _weightFields = {
@@ -25,13 +26,17 @@ export const WeightInputType = new GraphQLInputObjectType({
 const _grainFields ={
   id: { type: new GraphQLNonNull(GraphQLInt) },
   gravity: { type: GraphQLFloat },
-  lovibond: { type: GraphQLString }
+  lovibond: { type: GraphQLString },
+  lintner: { type: GraphQLFloat }
 };
 
 const _grainViewFields = Object.assign({}, _grainFields, {
   name: { type: new GraphQLNonNull(GraphQLString) },
   characteristics: { type: GraphQLString },
-  flavor: { type: GraphQLString }
+  flavor: { type: GraphQLString },
+  DBCG: { type: GraphQLFloat },
+  DBFG: { type: GraphQLFloat },
+  isExtract: { type: GraphQLBoolean }
 });
 
 export const GrainSearchType = new GraphQLObjectType({

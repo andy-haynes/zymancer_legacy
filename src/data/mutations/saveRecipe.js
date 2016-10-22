@@ -40,7 +40,7 @@ const saveRecipe = {
       OG,
       FG
     }).then(recipe => {
-      RecipeGrain.bulkCreate(grains.map(g => Object.assign(_.pick(g, 'lovibond', 'gravity', 'weight'), {
+      RecipeGrain.bulkCreate(grains.map(g => Object.assign(_.pick(g, 'lovibond', 'lintner', 'gravity', 'weight'), {
         recipeId: recipe.id,
         grainId: g.id
       })));

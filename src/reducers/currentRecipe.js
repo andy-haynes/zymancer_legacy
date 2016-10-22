@@ -99,7 +99,7 @@ const currentRecipe = (state = initialState, action) => {
     case RecipeActions.SetRecipeStyle:
       return updateRecipe({ style: action.style }, false);
     case RecipeActions.SetRecipeMethod:
-      return updateRecipe({ method: action.method }, false);
+      return updateRecipe({ method: action.method });
     case RecipeActions.SetTargetVolume:
       return updateRecipe({ targetVolume: measurement(state.targetVolume, action) });
     case RecipeActions.SetBoilVolume:
@@ -124,6 +124,8 @@ const currentRecipe = (state = initialState, action) => {
     case RecipeActions.SetGrainWeight:
     case RecipeActions.SetGrainGravity:
     case RecipeActions.SetGrainLovibond:
+    case RecipeActions.SetGrainLintner:
+    case RecipeActions.SetGrainExtractType:
       return updateRecipe({ grains: state.grains.map(g => g.id === action.grain.id ? grain(g, action) : g) });
     case RecipeActions.SetMashStyle:
     case RecipeActions.SetMashThickness:

@@ -101,6 +101,7 @@ function sync(...args) {
         _.pick(grain, 'name', 'category', 'description', 'characteristics', 'flavor', 'mfg', 'lovibond'), {
           DBFG: isNaN(parseFloat(grain.DBFG)) ? null : parseFloat(grain.DBFG),
           DBCG: isNaN(parseFloat(grain.DBCG)) ? null : parseFloat(grain.DBCG),
+          lintner: isNaN(parseFloat(grain.lintner)) ? null : parseFloat(grain.lintner),
           gravity: isNaN(parseFloat(grain.DBCG || grain.DBFG)) ? null : zymath.DBFGtoGravity(parseFloat(grain.DBCG || grain.DBFG)),
           isExtract: grain.pdfUrl && (grain.pdfUrl.indexOf('LME') + grain.pdfUrl.indexOf('DME') > -2),
           url: grain.pdfUrl || grain.url

@@ -7,6 +7,7 @@ const RecipeGrain = Model.define('RecipeGrains', {
   grainId: { type: DataType.INTEGER, allowNull: false },
   weight: { type: DataType.JSON, allowNull: false },
   lovibond: { type: DataType.DECIMAL, allowNull: true },
+  lintner: { type: DataType.DECIMAL, allowNull: true },
   gravity: { type: DataType.DECIMAL, allowNull: true }
 });
 
