@@ -5,9 +5,9 @@ import _ from 'lodash';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Paper from 'material-ui/Paper';
 import s from './Fermentation.css';
-import YeastSearchContainer from '../../containers/YeastSearchContainer';
+import YeastSearchContainer from '../../containers/YeastSearch';
 
-const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, actions }) => (
+const Fermentation = ({ fermentation, actions }) => (
   <div className={s.fermentation}>
     <div className="pure-g">
       <div className="pure-u-1-2">
@@ -20,7 +20,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, acti
                 </div>
                 <div className="pure-u-3-8">
                   <span>
-                    {_.round(cellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
+                    {_.round(fermentation.cellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
                   </span>
                 </div>
               </div>
@@ -34,7 +34,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, acti
                 </div>
                 <div className="pure-u-3-8">
                   <span>
-                    {_.round(recommendedCellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
+                    {_.round(fermentation.recommendedCellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
                   </span>
                 </div>
               </div>
@@ -51,7 +51,11 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, acti
                   </div>
                 </div>
                 <div className="pure-u-14-24">
-                  <SliderInput value={pitchRate} min={0.1} max={2} step={0.05} update={actions.setPitchRate} />
+                  <SliderInput
+                    value={fermentation.pitchRate}
+                    min={0.1} max={2} step={0.05}
+                    update={actions.setPitchRate}
+                  />
                 </div>
                 <div className="pure-u-6-24">
                   <span className={s.pitchUnits}>
@@ -65,7 +69,7 @@ const Fermentation = ({ pitchRate, cellCount, recommendedCellCount, yeasts, acti
       </div>
       <div className="pure-u-1-2">
         <YeastSearchContainer />
-        {yeasts.map(yeast => (
+        {fermentation.yeasts.map(yeast => (
           <Yeast
             key={yeast.id}
             yeast={yeast}

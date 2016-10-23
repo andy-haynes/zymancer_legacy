@@ -10,7 +10,7 @@ import MenuItem from 'material-ui/MenuItem';
 import MeasurementUnits from '../../constants/MeasurementUnits';
 import { MashMethod } from '../../constants/AppConstants';
 
-const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infusionTemp, mashoutTemp, strikeTemp, spargeTemp, strikeVolume, spargeVolume, actions }) => (
+const MashSchedule = ({ mashSchedule, actions }) => (
   <div className={s.mashSchedule}>
     <div className="pure-g">
       <div className="pure-u-1-2">
@@ -23,7 +23,7 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-10-24">
               <SelectField
-                value={style}
+                value={mashSchedule.style}
                 onChange={(e, i, v) => actions.setStyle(v)}
                 style={{position: 'relative', top: '4px'}}
               >
@@ -40,7 +40,7 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-6-24">
               <Measurement
-                measurement={grainTemp}
+                measurement={mashSchedule.grainTemp}
                 update={actions.setGrainTemp}
                 options={MeasurementUnits.TemperatureOptions}
               />
@@ -59,14 +59,14 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-12-24">
               <SliderInput
-                value={infusionTemp.value}
+                value={mashSchedule.infusionTemp.value}
                 min={110} max={190} step={1}
-                update={(value) => actions.setInfusionTemp({ value, unit: infusionTemp.unit })}
+                update={(value) => actions.setInfusionTemp({ value, unit: mashSchedule.infusionTemp.unit })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
                 <Measurement
-                  measurement={infusionTemp}
+                  measurement={mashSchedule.infusionTemp}
                   update={actions.setInfusionTemp}
                   options={MeasurementUnits.TemperatureOptions}
                 />
@@ -74,7 +74,7 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-6-24">
               <Measurement
-                measurement={strikeTemp}
+                measurement={mashSchedule.strikeTemp}
                 options={MeasurementUnits.TemperatureOptions}
               />
             </div>
@@ -83,7 +83,7 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
         <Paper
           className={s.mashControl}
           zDepth={2}
-          style={{display: (style !== MashMethod.BIAB) ? 'block' : 'none'}}
+          style={{display: (mashSchedule.style !== MashMethod.BIAB) ? 'block' : 'none'}}
         >
           <div className="pure-g">
             <div className="pure-u-6-24">
@@ -93,14 +93,14 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-12-24">
               <SliderInput
-                value={mashoutTemp.value}
+                value={mashSchedule.mashoutTemp.value}
                 min={150} max={212} step={1}
                 update={(value) => actions.setMashoutTemp({ value, unit: mashoutTemp.unit })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
                 <Measurement
-                  measurement={mashoutTemp}
+                  measurement={mashSchedule.mashoutTemp}
                   update={actions.setMashoutTemp}
                   options={MeasurementUnits.TemperatureOptions}
                 />
@@ -108,7 +108,7 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-6-24">
               <Measurement
-                measurement={spargeTemp}
+                measurement={mashSchedule.spargeTemp}
                 options={MeasurementUnits.TemperatureOptions}
               />
             </div>
@@ -128,18 +128,24 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-1-3">
               <Measurement
-                measurement={strikeVolume}
+                measurement={mashSchedule.strikeVolume}
                 options={MeasurementUnits.RecipeVolume}
               />
             </div>
-            <div className="pure-u-1-6" style={{display: (style !== MashMethod.BIAB) ? 'block' : 'none'}}>
+            <div
+              className="pure-u-1-6"
+              style={{display: (mashSchedule.style !== MashMethod.BIAB) ? 'block' : 'none'}}
+            >
               <div className={s.mashLabel}>
                 Sparge
               </div>
             </div>
-            <div className="pure-u-1-3" style={{display: (style !== MashMethod.BIAB) ? 'block' : 'none'}}>
+            <div
+              className="pure-u-1-3"
+              style={{display: (mashSchedule.style !== MashMethod.BIAB) ? 'block' : 'none'}}
+            >
               <Measurement
-                measurement={spargeVolume}
+                measurement={mashSchedule.spargeVolume}
                 options={MeasurementUnits.RecipeVolume}
               />
             </div>
@@ -148,7 +154,7 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
         <Paper
           className={s.mashControl}
           zDepth={2}
-          style={{display: (style !== MashMethod.BIAB) ? 'block' : 'none'}}
+          style={{display: (mashSchedule.style !== MashMethod.BIAB) ? 'block' : 'none'}}
         >
           <div className="pure-g">
             <div className="pure-u-1-4">
@@ -158,14 +164,14 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-3-4">
               <SliderInput
-                value={thickness.value}
+                value={mashSchedule.thickness.value}
                 min={0.5} max={3} step={0.05}
                 update={(value) => actions.setThickness({ value })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
                 <Ratio
-                  ratio={thickness}
+                  ratio={mashSchedule.thickness}
                   antecedentOptions={MeasurementUnits.RecipeVolume}
                   consequentOptions={MeasurementUnits.GrainWeight}
                   update={actions.setThickness}
@@ -183,14 +189,14 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-3-4">
               <SliderInput
-                value={absorption.value}
+                value={mashSchedule.absorption.value}
                 min={0.05} max={0.3} step={0.01}
                 update={(value) => actions.setAbsorption({ value })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
                 <Ratio
-                  ratio={absorption}
+                  ratio={mashSchedule.absorption}
                   antecedentOptions={MeasurementUnits.RecipeVolume}
                   consequentOptions={MeasurementUnits.GrainWeight}
                   update={actions.setAbsorption}
@@ -208,14 +214,14 @@ const MashSchedule = ({ style,  thickness, boilOff, absorption, grainTemp, infus
             </div>
             <div className="pure-u-3-4">
               <SliderInput
-                value={boilOff.value}
+                value={mashSchedule.boilOff.value}
                 min={0.1} max={5} step={0.1}
                 update={(value) => actions.setBoilOff({ value })}
                 sliderWidth="1-2"
                 inputWidth="1-2"
               >
                 <Ratio
-                  ratio={boilOff}
+                  ratio={mashSchedule.boilOff}
                   antecedentOptions={MeasurementUnits.RecipeVolume}
                   consequentOptions={MeasurementUnits.BoilOffTime}
                   update={actions.setBoilOff}

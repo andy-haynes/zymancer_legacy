@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import RecipeContainer from '../../containers/RecipeContainer';
+import RecipeContainer from '../../containers/Recipe';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Calculator.css';
 

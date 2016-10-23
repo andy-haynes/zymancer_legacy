@@ -8,18 +8,20 @@ const datasetOptionDefaults = {
   pointHighlightStroke: "rgba(220,220,220,1)"
 };
 
-const getChartItems = (hopData, categories) => hopData.map((hop, i) => {
-  const green = Math.round(Math.abs(200 - Math.pow(2, hop.alpha / 2))) % 255;
-  return Object.assign({}, datasetOptionDefaults, {
-    pointColor: `rgba(26,${green},18,1)`,
-    strokeColor: `rgba(26,${green},18,0.7)`,
-    fillColor: `rgba(26,${green},18,0.2)`,
-    label: hop.name,
-    data: categories.map(c => hop.categories.includes(c) ? hop.chartValue : null)
+function getChartItems(hopData, categories) {
+  return hopData.map((hop, i) => {
+    const green = Math.round(Math.abs(200 - Math.pow(2, hop.alpha / 2))) % 255;
+    return Object.assign({}, datasetOptionDefaults, {
+      pointColor: `rgba(26,${green},18,1)`,
+      strokeColor: `rgba(26,${green},18,0.7)`,
+      fillColor: `rgba(26,${green},18,0.2)`,
+      label: hop.name,
+      data: categories.map(c => hop.categories.includes(c) ? hop.chartValue : null)
+    });
   });
-});
+}
 
-const mapStateToProps = (state) => {
+function mapState(state) {
   const hopData = state.currentRecipe.hops.map(hop => Object.assign({}, hop, {
     chartValue: hop.beta * _.sumBy(hop.additions, addition => addition.weight.value)
   }));
@@ -37,10 +39,6 @@ const mapStateToProps = (state) => {
       angleShowLineOut : false
     }
   };
-};
+}
 
-const HopChartContainer = connect(
-  mapStateToProps
-)(HopChart);
-
-export default HopChartContainer;
+export default connect(mapState)(HopChart);

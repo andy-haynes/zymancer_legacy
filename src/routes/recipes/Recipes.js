@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Recipes.css';
-import SavedRecipesContainer from '../../containers/SavedRecipesContainer';
+import SavedRecipesContainer from '../../containers/SavedRecipes';
 
 function Recipes(props, context) {
   context.setTitle('Saved Recipes');

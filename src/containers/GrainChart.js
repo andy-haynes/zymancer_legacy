@@ -4,10 +4,7 @@ import helpers from '../utils/helpers';
 import Units from '../constants/Units';
 import GrainChart from '../components/GrainChart';
 
-const chartWidth = '350px';
-const chartHeight = '350px';
-
-function mapStateToProps(state) {
+function mapState(state) {
   return {
     grains: state.currentRecipe.grains.map(grain => Object.assign({}, grain, {
       color: zymath.calculateGrainRGB(state.currentRecipe.targetVolume, grain),
@@ -16,8 +13,4 @@ function mapStateToProps(state) {
   };
 }
 
-const GrainChartContainer = connect(
-  mapStateToProps
-)(GrainChart);
-
-export default GrainChartContainer;
+export default connect(mapState)(GrainChart);
