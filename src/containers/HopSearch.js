@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { addHop } from '../actions/calculator';
-import { queryIngredients, filterHopSearch, clearHopSearch } from '../actions/ingredientSearch';
+import actions from '../actions';
 import HopSearch from '../components/HopSearch';
 import { IngredientType } from '../constants/AppConstants';
 import _ from 'lodash';
@@ -16,10 +15,10 @@ function mapDispatch(dispatch) {
   return {
     actions: {
       addHop: (hop) => {
-        dispatch(addHop(hop));
-        dispatch(clearHopSearch());
+        dispatch(actions.recipe.addHop(hop));
+        dispatch(actions.search.clearHopSearch());
       },
-      searchHops: (query) => dispatch(queryIngredients(IngredientType.Hop, query))
+      searchHops: (query) => dispatch(actions.search.queryIngredients(IngredientType.Hop, query))
     }
   };
 }

@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { addYeast } from '../actions/calculator';
-import { queryIngredients, filterYeastResults, clearYeastSearch } from '../actions/ingredientSearch';
+import actions from '../actions';
 import YeastSearch from '../components/YeastSearch';
 import { IngredientType } from '../constants/AppConstants';
 
@@ -12,10 +11,10 @@ function mapDispatch(dispatch) {
   return {
     actions: {
       addYeast: (yeast) => {
-        dispatch(addYeast(yeast));
-        dispatch(clearYeastSearch());
+        dispatch(actions.recipe.addYeast(yeast));
+        dispatch(actions.search.clearYeastSearch());
       },
-      searchYeast: (query) => dispatch(queryIngredients(IngredientType.Yeast, query))
+      searchYeast: (query) => dispatch(actions.search.queryIngredients(IngredientType.Yeast, query))
     }
   };
 }

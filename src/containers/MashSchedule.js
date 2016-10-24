@@ -1,15 +1,9 @@
 import { connect } from 'react-redux';
-import {
-  setMashStyle,
-  setMashThickness,
-  setBoilOff,
-  setGrainAbsorption,
-  setInfusionTemp,
-  setMashoutTemp,
-  setGrainTemp
-} from '../actions/calculator';
+import actions from '../actions';
 import MashSchedule from '../components/MashSchedule'
 import _ from 'lodash';
+
+const { recipe } = actions;
 
 function mapState(state) {
   return _.pick(state.currentRecipe, 'mashSchedule');
@@ -18,13 +12,13 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     actions: {
-      setStyle: (style) => dispatch(setMashStyle(style)),
-      setThickness: (thickness) => dispatch(setMashThickness(thickness)),
-      setBoilOff: (boilOff) => dispatch(setBoilOff(boilOff)),
-      setAbsorption: (absorption) => dispatch(setGrainAbsorption(absorption)),
-      setInfusionTemp: (temp) => dispatch(setInfusionTemp(temp)),
-      setMashoutTemp: (temp) => dispatch(setMashoutTemp(temp)),
-      setGrainTemp: (temp) => dispatch(setGrainTemp(temp))
+      setStyle: (style) => dispatch(recipe.setMashStyle(style)),
+      setThickness: (thickness) => dispatch(recipe.setMashThickness(thickness)),
+      setBoilOff: (boilOff) => dispatch(recipe.setBoilOff(boilOff)),
+      setAbsorption: (absorption) => dispatch(recipe.setGrainAbsorption(absorption)),
+      setInfusionTemp: (temp) => dispatch(recipe.setInfusionTemp(temp)),
+      setMashoutTemp: (temp) => dispatch(recipe.setMashoutTemp(temp)),
+      setGrainTemp: (temp) => dispatch(recipe.setGrainTemp(temp))
     }
   };
 }

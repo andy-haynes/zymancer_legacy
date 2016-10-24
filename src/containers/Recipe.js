@@ -1,17 +1,8 @@
 import { connect } from 'react-redux';
 import RecipeTabs from '../components/RecipeTabs';
-import {
-  setRecipeName,
-  setRecipeStyle,
-  setRecipeMethod,
-  setTargetVolume,
-  setBoilVolume,
-  setBoilTime,
-  setEfficiency
-} from '../actions/calculator';
-import {
-  saveCurrentRecipe
-} from '../actions/recipes';
+import actions from '../actions';
+
+const { recipe: recipeActions } = actions;
 
 function mapState(state) {
   return { recipe: state.currentRecipe };
@@ -20,14 +11,14 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     actions: {
-      saveRecipe: (recipe) => dispatch(saveCurrentRecipe(recipe)),
-      setRecipeName: (name) => dispatch(setRecipeName(name)),
-      setRecipeStyle: (style) => dispatch(setRecipeStyle(style)),
-      setRecipeMethod: (method) => dispatch(setRecipeMethod(method)),
-      setTargetVolume: (volume) => dispatch(setTargetVolume(volume)),
-      setBoilVolume: (volume) => dispatch(setBoilVolume(volume)),
-      setBoilTime: (minutes) => dispatch(setBoilTime(parseInt(minutes))),
-      setEfficiency: (efficiency) => dispatch(setEfficiency(parseFloat(efficiency)))
+      saveRecipe: (recipe) => dispatch(recipeActions.saveCurrentRecipe(recipe)),
+      setRecipeName: (name) => dispatch(recipeActions.setRecipeName(name)),
+      setRecipeStyle: (style) => dispatch(recipeActions.setRecipeStyle(style)),
+      setRecipeMethod: (method) => dispatch(recipeActions.setRecipeMethod(method)),
+      setTargetVolume: (volume) => dispatch(recipeActions.setTargetVolume(volume)),
+      setBoilVolume: (volume) => dispatch(recipeActions.setBoilVolume(volume)),
+      setBoilTime: (minutes) => dispatch(recipeActions.setBoilTime(parseInt(minutes))),
+      setEfficiency: (efficiency) => dispatch(recipeActions.setEfficiency(parseFloat(efficiency)))
     }
   };
 }

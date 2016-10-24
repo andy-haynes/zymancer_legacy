@@ -1,6 +1,5 @@
 import { connect } from 'react-redux';
-import { addGrain } from '../actions/calculator';
-import { queryIngredients, clearGrainSearch } from '../actions/ingredientSearch';
+import actions from '../actions';
 import GrainSearch from '../components/GrainSearch';
 import { IngredientType } from '../constants/AppConstants';
 
@@ -12,10 +11,10 @@ function mapDispatch(dispatch) {
   return {
     actions: {
       addGrain: (grain) => {
-        dispatch(addGrain(grain));
-        dispatch(clearGrainSearch());
+        dispatch(actions.recipe.addGrain(grain));
+        dispatch(actions.search.clearGrainSearch());
       },
-      searchGrains: (query) => dispatch(queryIngredients(IngredientType.Grain, query))
+      searchGrains: (query) => dispatch(actions.search.queryIngredients(IngredientType.Grain, query))
     }
   };
 }

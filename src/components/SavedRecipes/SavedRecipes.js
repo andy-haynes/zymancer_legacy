@@ -2,7 +2,6 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SavedRecipes.css';
 import Recipe from '../Recipe';
-import { fetchRecipesIfNeeded, invalidateSavedRecipes } from '../../actions/recipes';
 import { RecipeType } from '../../constants/AppConstants';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';

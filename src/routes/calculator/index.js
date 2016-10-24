@@ -1,6 +1,6 @@
 import React from 'react';
 import Calculator from './Calculator';
-import { loadSavedRecipe } from '../../actions/recipes';
+import actions from '../../actions';
 import { getRecipe } from '../../data/api';
 
 
@@ -21,7 +21,7 @@ export default {
     async action({ context }, { id }) {
       const recipe = process.env.BROWSER && await getRecipe(id);
       if (recipe) {
-        context.store.dispatch(loadSavedRecipe(recipe));
+        context.store.dispatch(actions.saved.loadSavedRecipe(recipe));
       }
       return <Calculator />
     }

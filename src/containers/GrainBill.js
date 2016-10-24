@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
-import { removeGrain, setGrainWeight, setGrainGravity, setGrainLovibond, setGrainLintner, setGrainExtractType } from '../actions/calculator';
+import actions from '../actions';
 import GrainBill from '../components/GrainBill';
 import _ from 'lodash';
+
+const { recipe } = actions;
 
 function mapState(state) {
   return _.pick(state.currentRecipe, 'grains', 'targetVolume');
@@ -10,12 +12,12 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     actions: {
-      removeGrain: (grain) => dispatch(removeGrain(grain)),
-      setWeight: (grain, weight) => dispatch(setGrainWeight(grain, weight)),
-      setGravity: (grain, gravity) => dispatch(setGrainGravity(grain, gravity)),
-      setLovibond: (grain, lovibond) => dispatch(setGrainLovibond(grain, lovibond)),
-      setLintner: (grain, lintner) => dispatch(setGrainLintner(grain, lintner)),
-      setExtractType: (grain, extractType) => dispatch(setGrainExtractType(grain, extractType))
+      removeGrain: (grain) => dispatch(recipe.removeGrain(grain)),
+      setWeight: (grain, weight) => dispatch(recipe.setGrainWeight(grain, weight)),
+      setGravity: (grain, gravity) => dispatch(recipe.setGrainGravity(grain, gravity)),
+      setLovibond: (grain, lovibond) => dispatch(recipe.setGrainLovibond(grain, lovibond)),
+      setLintner: (grain, lintner) => dispatch(recipe.setGrainLintner(grain, lintner)),
+      setExtractType: (grain, extractType) => dispatch(recipe.setGrainExtractType(grain, extractType))
     }
   };
 }

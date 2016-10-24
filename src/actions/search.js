@@ -17,10 +17,6 @@ function _updateAction(type, reducer, resultsKey) {
   });
 }
 
-export const clearGrainSearch = helpers.createAction(SearchActions.ClearGrainSearch);
-export const clearHopSearch = helpers.createAction(SearchActions.ClearHopSearch);
-export const clearYeastSearch = helpers.createAction(SearchActions.ClearYeastSearch);
-
 const ingredientTypeMap = {
   [IngredientType.Grain]: {
     filter: _filterAction(SearchActions.FilterGrainResults),
@@ -39,7 +35,7 @@ const ingredientTypeMap = {
   }
 };
 
-export function queryIngredients(ingredientType, query) {
+function queryIngredients(ingredientType, query) {
   return (dispatch, getState, helpers) => {
     const { filter, update, buildQuery } = ingredientTypeMap[ingredientType];
     dispatch(filter(query));
@@ -48,3 +44,10 @@ export function queryIngredients(ingredientType, query) {
               .then(json => dispatch(update(json)));
   };
 }
+
+export default {
+  clearGrainSearch: helpers.createAction(SearchActions.ClearGrainSearch),
+  clearHopSearch: helpers.createAction(SearchActions.ClearHopSearch),
+  clearYeastSearch: helpers.createAction(SearchActions.ClearYeastSearch),
+  queryIngredients
+};

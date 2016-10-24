@@ -1,16 +1,9 @@
 import { connect } from 'react-redux';
-import {
-  setPitchRate,
-  removeYeast,
-  setYeastMfgDate,
-  setYeastAttenuation,
-  setYeastViability,
-  setYeastQuantity,
-  addStarterStep,
-  removeStarterStep
-} from '../actions/calculator';
+import actions from '../actions';
 import Fermentation from '../components/Fermentation';
 import _ from 'lodash';
+
+const { recipe } = actions;
 
 function mapState(state) {
   return _.pick(state.currentRecipe, 'fermentation');
@@ -19,14 +12,14 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     actions: {
-      setPitchRate: (rate) => dispatch(setPitchRate(rate)),
-      removeYeast: (yeast) => dispatch(removeYeast(yeast)),
-      setMfgDate: (yeast, date) => dispatch(setYeastMfgDate(yeast, date)),
-      setApparentAttenuation: (yeast, attenuation) => dispatch(setYeastAttenuation(yeast, attenuation)),
-      setViability: (yeast, viability) => dispatch(setYeastViability(yeast, viability)),
-      setQuantity: (yeast, quantity) => dispatch(setYeastQuantity(yeast, quantity)),
-      addStarterStep: (yeast, gravity, hours) => dispatch(addStarterStep(yeast, gravity, hours)),
-      removeStarterStep: (yeast, step) => dispatch(removeStarterStep(yeast, step))
+      setPitchRate: (rate) => dispatch(recipe.setPitchRate(rate)),
+      removeYeast: (yeast) => dispatch(recipe.removeYeast(yeast)),
+      setMfgDate: (yeast, date) => dispatch(recipe.setYeastMfgDate(yeast, date)),
+      setApparentAttenuation: (yeast, attenuation) => dispatch(recipe.setYeastAttenuation(yeast, attenuation)),
+      setViability: (yeast, viability) => dispatch(recipe.setYeastViability(yeast, viability)),
+      setQuantity: (yeast, quantity) => dispatch(recipe.setYeastQuantity(yeast, quantity)),
+      addStarterStep: (yeast, gravity, hours) => dispatch(recipe.addStarterStep(yeast, gravity, hours)),
+      removeStarterStep: (yeast, step) => dispatch(recipe.removeStarterStep(yeast, step))
     }
   }
 }

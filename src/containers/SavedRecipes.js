@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import SavedRecipes from '../components/SavedRecipes';
 import { RecipeType } from '../constants/AppConstants';
-import { fetchRecipesIfNeeded } from '../actions/recipes';
+import actions from '../actions';
 import _ from 'lodash';
 
 function mapState(state) {
@@ -10,7 +10,7 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
   return {
-    retrieveRecipes: (recipeType) => dispatch(fetchRecipesIfNeeded(recipeType))
+    retrieveRecipes: (recipeType) => dispatch(actions.saved.fetchRecipesIfNeeded(recipeType))
   };
 }
 
