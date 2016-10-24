@@ -4,6 +4,7 @@ import helpers from '../utils/helpers';
 import Defaults from '../constants/Defaults';
 import { MashMethod } from '../constants/AppConstants';
 import measurement from './measurement';
+import ratio from './ratio';
 import Units from '../constants/Units';
 
 const emptyVolume = { value: 0, unit: Units.Quart };
@@ -24,10 +25,6 @@ const initialState = {
   spargeVolume: emptyVolume
 };
 
-const convertRatioDelta = (ratio, delta) => {
-  return helpers.convertRatio(ratio, Object.assign({}, ratio, delta), 2);
-};
-
 const mashSchedule = (state = initialState, action) => {
   switch (action.type) {
     case RecipeActions.SetMashStyle:
@@ -36,15 +33,15 @@ const mashSchedule = (state = initialState, action) => {
       });
     case RecipeActions.SetMashThickness:
       return Object.assign({}, state, {
-        thickness: convertRatioDelta(state.thickness, action.thickness)
+        thickness: ratio(state.thickness, action)
       });
     case RecipeActions.SetBoilOff:
       return Object.assign({}, state, {
-        boilOff: convertRatioDelta(state.boilOff, action.boilOff)
+        boilOff: ratio(state.boilOff, action)
       });
     case RecipeActions.SetGrainAbsorption:
       return Object.assign({}, state, {
-        absorption: convertRatioDelta(state.absorption, action.absorption)
+        absorption: ratio(state.absorption, action)
       });
     case RecipeActions.SetInfusionTemp:
       return Object.assign({}, state, {

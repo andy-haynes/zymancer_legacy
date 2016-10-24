@@ -32,9 +32,9 @@ export default {
   
   /************************* mash schedule ************************/
   setMashStyle: helpers.createAction(RecipeActions.SetMashStyle, 'style'),
-  setMashThickness: helpers.createAction(RecipeActions.SetMashThickness, 'thickness'),
-  setBoilOff: helpers.createAction(RecipeActions.SetBoilOff, 'boilOff'),
-  setGrainAbsorption: helpers.createAction(RecipeActions.SetGrainAbsorption, 'absorption'),
+  setMashThickness: helpers.createAction(RecipeActions.SetMashThickness, 'ratio'),
+  setBoilOff: helpers.createAction(RecipeActions.SetBoilOff, 'ratio'),
+  setGrainAbsorption: helpers.createAction(RecipeActions.SetGrainAbsorption, 'ratio'),
   setInfusionTemp: helpers.createAction(RecipeActions.SetInfusionTemp, 'measurement'),
   setMashoutTemp: helpers.createAction(RecipeActions.SetMashoutTemp, 'measurement'),
   setGrainTemp: helpers.createAction(RecipeActions.SetGrainTemp, 'measurement'),

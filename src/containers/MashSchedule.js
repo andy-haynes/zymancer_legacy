@@ -13,9 +13,9 @@ function mapDispatch(dispatch) {
   return {
     actions: {
       setStyle: (style) => dispatch(recipe.setMashStyle(style)),
-      setThickness: (thickness) => dispatch(recipe.setMashThickness(thickness)),
-      setBoilOff: (boilOff) => dispatch(recipe.setBoilOff(boilOff)),
-      setAbsorption: (absorption) => dispatch(recipe.setGrainAbsorption(absorption)),
+      setThickness: (ratio) => dispatch(recipe.setMashThickness(ratio)),
+      setBoilOff: (ratio) => dispatch(recipe.setBoilOff(ratio)),
+      setAbsorption: (ratio) => dispatch(recipe.setGrainAbsorption(ratio)),
       setInfusionTemp: (temp) => dispatch(recipe.setInfusionTemp(temp)),
       setMashoutTemp: (temp) => dispatch(recipe.setMashoutTemp(temp)),
       setGrainTemp: (temp) => dispatch(recipe.setGrainTemp(temp))
