@@ -61,8 +61,8 @@ const MashSchedule = ({ mashSchedule, actions }) => (
                   value={mashSchedule.infusionTemp.value}
                   min={110} max={190} step={1}
                   update={(value) => actions.setInfusionTemp({ value, unit: mashSchedule.infusionTemp.unit })}
-                  sliderWidth="1-2"
-                  inputWidth="1-2"
+                  sliderWidth="2-3"
+                  inputWidth="1-3"
                 >
                   <Measurement
                     measurement={mashSchedule.infusionTemp}
@@ -100,8 +100,8 @@ const MashSchedule = ({ mashSchedule, actions }) => (
                   value={mashSchedule.mashoutTemp.value}
                   min={150} max={212} step={1}
                   update={(value) => actions.setMashoutTemp({ value, unit: mashoutTemp.unit })}
-                  sliderWidth="1-2"
-                  inputWidth="1-2"
+                  sliderWidth="2-3"
+                  inputWidth="1-3"
                 >
                   <Measurement
                     measurement={mashSchedule.mashoutTemp}
