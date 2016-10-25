@@ -16,7 +16,7 @@ const initialState = {
   grainTemp: Defaults.GrainTemp,
   infusionTemp: Defaults.InfusionTemp,
   mashoutTemp: Defaults.MashoutTemp,
-  strikeTemp: zymath.calculateStrikeWaterTemp(Defaults.MashThickness, Defaults.GrainTemp, Defaults.InfusionTemp),
+  strikeTemp: { value: 0, unit: Units.Fahrenheit },
   spargeTemp: { value: 0, unit: Units.Fahrenheit },
   rests: [],
   decoctions: [],

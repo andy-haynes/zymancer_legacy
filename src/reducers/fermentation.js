@@ -4,8 +4,8 @@ import yeast from './yeast';
 
 const initialState = {
   pitchRate: Defaults.PitchRate,
-  cellCount: Defaults.CellCount,
-  recommendedCellCount: Defaults.CellCount,
+  cellCount: 0,
+  recommendedCellCount: 0,
   yeasts: []
 };
 
