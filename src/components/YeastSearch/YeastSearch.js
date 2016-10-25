@@ -19,16 +19,13 @@ const YeastSearch = ({ query, results, loading, error, actions }) => (
       {results.length === 0 ? '' : (
         <div className={s.resultsHeader}>
           <div className="pure-g">
-            <div className="pure-u-9-24">
+            <div className="pure-u-12-24">
               <span>Name</span>
             </div>
-            <div className="pure-u-7-24">
-              <span>Mfg</span>
-            </div>
-            <div className="pure-u-4-24">
+            <div className="pure-u-6-24">
               <span>Attenuation</span>
             </div>
-            <div className="pure-u-4-24">
+            <div className="pure-u-6-24">
               <span>Temp</span>
             </div>
           </div>

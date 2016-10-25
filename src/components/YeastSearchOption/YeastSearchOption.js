@@ -5,29 +5,22 @@ import s from './YeastSearchOption.css';
 const YeastSearchOption = ({ yeast, addYeast }) => (
   <div className={s.yeastSearchOption} onClick={() => addYeast(yeast)}>
     <div className="pure-g">
-      <div className="pure-u-9-24">
+      <div className="pure-u-12-24">
         <div className={s.yeastDetail}>
-          {yeast.code} &ndash; {yeast.name}
+          {yeast.name}
+        </div>
+        <div className={s.subtext}>
+          {yeast.mfg} {yeast.code}
         </div>
       </div>
-      <div className="pure-u-4-24">
-        <div className={s.yeastDetail}>
-          {yeast.mfg}
-        </div>
-      </div>
-      <div className="pure-u-3-24">
+      <div className="pure-u-6-24">
         <div className={s.yeastDetail}>
           {yeast.tolerance}
         </div>
       </div>
-      <div className="pure-u-4-24">
+      <div className="pure-u-6-24">
         <div className={s.yeastDetail}>
           {yeast.attenuationRange.toString()}%
-        </div>
-      </div>
-      <div className="pure-u-4-24">
-        <div className={s.yeastDetail}>
-          {yeast.rangeF.toString()} °F
         </div>
       </div>
     </div>

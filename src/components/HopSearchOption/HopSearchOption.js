@@ -2,27 +2,27 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './HopSearchOption.css';
 
-const HopSearchOption = ({ name, categoryDetails, alphaRange, betaRange, addHop }) => (
+const HopSearchOption = ({ hop, addHop }) => (
   <div className={s.hopSearchOption} onClick={addHop}>
     <div className="pure-g">
       <div className="pure-u-12-24">
         <div className={s.hopDetail}>
-          {name}
+          {hop.name}
           <div className={s.hopCategories}>
-            {categoryDetails}
+            {hop.categories.join(', ')}
           </div>
         </div>
       </div>
       <div className="pure-u-6-24">
         <div className={s.hopDetail}>
-          {alphaRange.low}
-          {alphaRange.high ? (` - ${alphaRange.high}`) : ''}
+          {hop.alphaRange.low}
+          {hop.alphaRange.high ? (` - ${hop.alphaRange.high}`) : ''}
         </div>
       </div>
       <div className="pure-u-6-24">
         <div className={s.hopDetail}>
-          {betaRange.low}
-          {betaRange.high ? (` - ${betaRange.high}`) : ''}
+          {hop.betaRange.low}
+          {hop.betaRange.high ? (` - ${hop.betaRange.high}`) : ''}
         </div>
       </div>
     </div>

@@ -3,8 +3,25 @@
 }
 
 .fermentationLabel {
-  padding: 20% 0 0 5%;
-  text-align: center;
+  font-size: 0.6em;
+  color: #777;
+  text-transform: uppercase;
+  padding: 0.3em 0 0 0.2em;
+}
+
+.cellCount {
+  float: right;
+  padding: 0.2em 0.8em 0.3em 0.5em;
+}
+
+.cellCountValue {
+  font-size: 1.8em;
+  font-weight: 300;
+}
+
+sup {
+  font-size: 0.7em;
+  top: -0.7em;
 }
 
 .fermentationControl {

@@ -15,13 +15,16 @@ const Fermentation = ({ fermentation, actions }) => (
           <div className="pure-u-1-2">
             <Paper className={s.fermentationControl} zDepth={2}>
               <div className="pure-g">
-                <div className="pure-u-5-8">
-                  Cell Count
-                </div>
-                <div className="pure-u-3-8">
-                  <span>
-                    {_.round(fermentation.cellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
-                  </span>
+                <div className="pure-u-1-1">
+                  <div className={s.fermentationLabel}>
+                    Cell Count
+                  </div>
+                  <div className={s.cellCount}>
+                    <span className={s.cellCountValue}>
+                      {_.round(fermentation.cellCount / Math.pow(10, 9), 1)}
+                    </span>
+                    &nbsp;&times; 10<sup>9</sup>
+                  </div>
                 </div>
               </div>
             </Paper>
@@ -29,13 +32,16 @@ const Fermentation = ({ fermentation, actions }) => (
           <div className="pure-u-1-2">
             <Paper className={s.fermentationControl} zDepth={2}>
               <div className="pure-g">
-                <div className="pure-u-5-8">
-                  Recommended
-                </div>
-                <div className="pure-u-3-8">
-                  <span>
-                    {_.round(fermentation.recommendedCellCount / Math.pow(10, 9), 1)} x 10<sup>9</sup>
-                  </span>
+                <div className="pure-u-1-1">
+                  <div className={s.fermentationLabel}>
+                    Recommended
+                  </div>
+                  <div className={s.cellCount}>
+                    <span className={s.cellCountValue}>
+                      {_.round(fermentation.recommendedCellCount / Math.pow(10, 9), 1)}
+                    </span>
+                    &nbsp;&times; 10<sup>9</sup>
+                  </div>
                 </div>
               </div>
             </Paper>

@@ -65,7 +65,7 @@ const Yeast = ({ yeast, actions }) => (
               id="yeast-quantity"
               value={yeast.quantity}
               onChange={(e) => actions.setQuantity(e.target.value)}
-              style={{width: '24px', marginLeft: '12px'}}
+              style={{width: '2em', marginLeft: '1em'}}
             />
           </div>
         </div>
@@ -112,7 +112,7 @@ const Yeast = ({ yeast, actions }) => (
         <div className={s.yeastLabel}>Tolerance</div>
       </div>
     </div>
-    <div className="pure-g">
+    <div className="pure-g" style={{marginTop: '-1em'}}>
       <div className="pure-u-8-24">
         <SliderInput
           value={yeast.apparentAttenuation}
