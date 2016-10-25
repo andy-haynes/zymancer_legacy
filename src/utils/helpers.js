@@ -86,7 +86,7 @@ function extractRange(raw) {
 
   return Object.assign(ret, {
     low,
-    toString: () => ret.low ? `${ret.low}` + (ret.high && `–${ret.high}`) : undefined
+    toString: () => ret.low ? `${ret.low}` + (typeof ret.high !== 'undefined' ? `–${ret.high}` : '') : ''
   });
 }
 //endregion
