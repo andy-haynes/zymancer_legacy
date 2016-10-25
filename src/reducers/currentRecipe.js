@@ -62,7 +62,7 @@ function recalculate(state, changed) {
     case BrewMethod.AllGrain:
     case BrewMethod.PartialMash:
       originalGravity = zymath.calculateGravity(efficiency, grains, targetVolume);
-      mashSchedule = calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, boilVolume);
+      mashSchedule = calculateMashSchedule(Object.assign({}, mashSchedule), grains, grainWeight, efficiency, boilVolume);
       break;
     case BrewMethod.Extract:
       originalGravity = zymath.calculateGravity(100, grains.filter(g => g.isExtract), targetVolume);
@@ -71,7 +71,10 @@ function recalculate(state, changed) {
 
   IBU = zymath.calculateTotalIBU(boilVolume, originalGravity, hops);
 
-  fermentation.recommendedCellCount = zymath.calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume);
+  fermentation = Object.assign({}, fermentation, {
+    cellCount: zymath.calculateCellCount(Defaults.CellCount * fermentation.yeasts.length),
+    recommendedCellCount: zymath.calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume)
+  });
   const apparentAttenuation = (_.sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || Defaults.YeastAttenuation;
   finalGravity = zymath.calculateFinalGravity(originalGravity, apparentAttenuation);
   ABV = zymath.calculateABV(originalGravity, finalGravity);
