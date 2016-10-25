@@ -30,8 +30,12 @@ sup {
 }
 
 .pitchUnits {
-  font-size: 11px;
-  text-align: left;
-  position: relative;
-  top: 16px;
+  padding: 0.5em 0.8em 0 0;
+  float: right;
+  font-weight: 400;
+}
+
+.division {
+  width: 3.8em;
+  margin: 0.1em 0;
 }

@@ -56,17 +56,19 @@ const Fermentation = ({ fermentation, actions }) => (
                     Pitch Rate
                   </div>
                 </div>
-                <div className="pure-u-14-24">
+                <div className="pure-u-16-24">
                   <SliderInput
                     value={fermentation.pitchRate}
                     min={0.1} max={2} step={0.05}
                     update={actions.setPitchRate}
                   />
                 </div>
-                <div className="pure-u-6-24">
-                  <span className={s.pitchUnits}>
-                    10<sup>6</sup> cells / mL / °P
-                  </span>
+                <div className="pure-u-4-24">
+                  <div className={s.pitchUnits}>
+                    10<sup>6</sup> cells
+                    <hr className={s.division} />
+                    mL / °P
+                  </div>
                 </div>
               </div>
             </Paper>
