@@ -3,6 +3,7 @@ import _ from 'lodash';
 import Units from '../constants/Units';
 import helpers from './helpers';
 import { ExtractGravity } from '../constants/AppConstants';
+import Defaults from '../constants/Defaults';
 
 // gravity
 function formatGravity(gravity) {
@@ -29,7 +30,13 @@ function calculateGrainRGB(targetVolume, grain) {
 function calculateSRM(targetVolume, grains) {
   let mcu = _.sumBy(grains, grain => {
     const lovibond = parseFloat(grain.lovibond);
-    return isNaN(lovibond) ? 0 : helpers.convertToUnit(grain.weight, Units.Pound) * (lovibond / helpers.convertToUnit(targetVolume, Units.Gallon));
+    if (!isNaN(lovibond)) {
+      const weight = helpers.convertToUnit(grain.weight, Units.Pound);
+      const volume = helpers.convertToUnit(targetVolume, Units.Gallon);
+      return weight.value * (lovibond / volume.value);
+    }
+
+    return 0;
   });
 
   return 1.4922 * Math.pow(mcu, 0.6859);
@@ -44,9 +51,9 @@ function calculateGravity(efficiencyPercentage, grains, targetVolume) {
   const efficiency = efficiencyPercentage / 100;
   const points = _.sumBy(grains, grain => {
     const points = gravityToPoints(grain.isExtract ? ExtractGravity[grain.extractType] : grain.gravity);
-    return (grain.isExtract ? 1 : efficiency) * points * helpers.convertToUnit(grain.weight, Units.Pound)
+    return (grain.isExtract ? 1 : efficiency) * points * helpers.convertToUnit(grain.weight, Units.Pound).value
   });
-  return pointsToGravity(points / helpers.convertToUnit(targetVolume, Units.Gallon));
+  return pointsToGravity(points / helpers.convertToUnit(targetVolume, Units.Gallon).value);
 }
 
 /* http://byo.com/mead/item/1544-understanding-malt-spec-sheets-advanced-brewing */
@@ -62,9 +69,9 @@ function calculateUtilization(minutes, gravity) {
 }
 
 function calculateIBU(weight, minutes, alpha, originalGravity, boilVolume) {
-  const aau = parseFloat(alpha) * helpers.convertToUnit(weight, Units.Ounce);
+  const aau = parseFloat(alpha) * helpers.convertToUnit(weight, Units.Ounce).value;
   const utilization = calculateUtilization(minutes, originalGravity);
-  return (aau * utilization * 75) / helpers.convertToUnit(boilVolume, Units.Gallon);
+  return (aau * utilization * 75) / helpers.convertToUnit(boilVolume, Units.Gallon).value;
 }
 
 function calculateTotalUtilization(additions, originalGravity) {
@@ -87,34 +94,58 @@ function calculateBoilVolume(targetVolume, boilOffRatio, mashThicknessRatio, abs
   const convertedBoilOff = helpers.convertRatio(boilOffRatio, { antecedent: volumeUnit, consequent: Units.Minute });
 
   const boilLoss = boilMinutes * convertedBoilOff.value;
-  const absorptionLoss = convertedWeight * convertedAbsorption.value;
+  const absorptionLoss = convertedWeight.value * convertedAbsorption.value;
 
-  return { value: _.round(parseFloat(targetVolume.value) + boilLoss + absorptionLoss, 1), unit: volumeUnit };
+  return {
+    value: _.round(parseFloat(targetVolume.value) + boilLoss + absorptionLoss, 1),
+    unit: volumeUnit
+  };
 }
 
 function calculateStrikeVolume(grainWeight, mashThickness) {
   const weight = helpers.convertToUnit(grainWeight, mashThickness.consequent);
-  return { value: _.round(weight * mashThickness.value, 1), unit: mashThickness.antecedent }
+  return { value: _.round(weight.value * mashThickness.value, 1), unit: mashThickness.antecedent }
 }
 
 function calculateSpargeVolume(boilVolume, strikeVolume) {
-  return { value: _.round(helpers.convertToUnit(boilVolume, strikeVolume.unit, 1) - strikeVolume.value, 1), unit: strikeVolume.unit }
+  return {
+    value: _.round(helpers.convertToUnit(boilVolume, strikeVolume.unit, 1).value - strikeVolume.value, 1),
+    unit: strikeVolume.unit
+  };
 }
 
 // TODO: metric
+function setTempRange(defaultTemp, measurement) {
+  return Object.assign(_.pick(defaultTemp, 'min', 'max'), measurement);
+}
+
 function calculateStrikeWaterTemp(mashThickness, sourceTemp, targetTemp) {
   const source = helpers.convertToUnit(sourceTemp, Units.Fahrenheit);
   const target = helpers.convertToUnit(targetTemp, Units.Fahrenheit);
-  const convertedRatio = helpers.convertRatio(mashThickness, { antecedent: Units.Quart, consequent: Units.Pound }).value;
-  const deltaT = ((0.2 / convertedRatio) * (target - source)) + target;
-  return { value: _.round(deltaT, 1), unit: Units.Fahrenheit };
+  const convertedRatio = helpers.convertRatio(mashThickness, {
+    antecedent: Units.Quart,
+    consequent: Units.Pound
+  }).value;
+  const deltaT = ((0.2 / convertedRatio) * (target.value - source.value)) + target.value;
+
+  return setTempRange(Defaults.InfusionTemp, {
+    value: _.round(deltaT, 1),
+    unit: Units.Fahrenheit
+  });
 }
 
 function calculateMashoutWaterTemp(strikeVolume, spargeVolume, grainWeight, infusionTemp, mashoutTemp) {
-  const mashoutF = helpers.convertToUnit(mashoutTemp, Units.Fahrenheit);
-  const deltaT = mashoutF - helpers.convertToUnit(infusionTemp, Units.Fahrenheit);
-  const volumeQuotient = (0.2 * helpers.convertToUnit(grainWeight, Units.Pound) * helpers.convertToUnit(strikeVolume, Units.Quart)) / helpers.convertToUnit(spargeVolume, Units.Quart);
-  return { value: _.round((deltaT * volumeQuotient) + mashoutF, 1), unit: Units.Fahrenheit };
+  const mashoutF = helpers.convertToUnit(mashoutTemp, Units.Fahrenheit).value;
+  const deltaT = mashoutF - helpers.convertToUnit(infusionTemp, Units.Fahrenheit).value;
+
+  const weight = helpers.convertToUnit(grainWeight, Units.Pound).value;
+  const strike = helpers.convertToUnit(strikeVolume, Units.Quart).value;
+  const sparge = helpers.convertToUnit(spargeVolume, Units.Quart).value;
+
+  return setTempRange(Defaults.MashoutTemp, {
+    value: _.round((deltaT * ((0.2 * weight * strike) / sparge)) + mashoutF, 1),
+    unit: Units.Fahrenheit
+  });
 }
 
 // yeast
@@ -137,7 +168,7 @@ function calculateCellCount(startingCount, mfgDate, starterSteps) {
 }
 
 function calculateRecommendedCellCount(pitchRate, originalGravity, targetVolume) {
-  return Math.pow(10, 6) * pitchRate * helpers.convertToUnit(targetVolume, Units.Milliliter) * gravityToPlato(originalGravity);
+  return Math.pow(10, 6) * pitchRate * helpers.convertToUnit(targetVolume, Units.Milliliter).value * gravityToPlato(originalGravity);
 }
 
 export default {

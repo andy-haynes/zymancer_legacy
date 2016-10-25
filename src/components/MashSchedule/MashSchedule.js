@@ -58,9 +58,9 @@ const MashSchedule = ({ mashSchedule, actions }) => (
               </div>
               <div className={s.mashValue}>
                 <SliderInput
-                  value={mashSchedule.infusionTemp.value}
-                  min={110} max={190} step={1}
-                  update={(value) => actions.setInfusionTemp({ value, unit: mashSchedule.infusionTemp.unit })}
+                  {...mashSchedule.infusionTemp}
+                  step={1}
+                  update={(value) => actions.setInfusionTemp(Object.assign({}, mashSchedule.infusionTemp, { value }))}
                   sliderWidth="2-3"
                   inputWidth="1-3"
                 >
@@ -97,9 +97,9 @@ const MashSchedule = ({ mashSchedule, actions }) => (
               </div>
               <div className={s.mashValue}>
                 <SliderInput
-                  value={mashSchedule.mashoutTemp.value}
-                  min={150} max={212} step={1}
-                  update={(value) => actions.setMashoutTemp({ value, unit: mashoutTemp.unit })}
+                  {...mashSchedule.mashoutTemp}
+                  step={1}
+                  update={(value) => actions.setMashoutTemp(Object.assign({}, mashSchedule.mashoutTemp, { value }))}
                   sliderWidth="2-3"
                   inputWidth="1-3"
                 >
@@ -168,8 +168,8 @@ const MashSchedule = ({ mashSchedule, actions }) => (
           </div>
           <div className={s.mashValue}>
             <SliderInput
-              value={mashSchedule.thickness.value}
-              min={0.5} max={3} step={0.05}
+              {...mashSchedule.thickness}
+              step={0.05}
               update={(value) => actions.setThickness({ value })}
               sliderWidth="1-2"
               inputWidth="1-2"
@@ -189,8 +189,8 @@ const MashSchedule = ({ mashSchedule, actions }) => (
           </div>
           <div className={s.mashValue}>
             <SliderInput
-              value={mashSchedule.absorption.value}
-              min={0.05} max={0.3} step={0.01}
+              {...mashSchedule.absorption}
+              step={0.01}
               update={(value) => actions.setAbsorption({ value })}
               sliderWidth="1-2"
               inputWidth="1-2"
@@ -210,8 +210,8 @@ const MashSchedule = ({ mashSchedule, actions }) => (
           </div>
           <div className={s.mashValue}>
             <SliderInput
-              value={mashSchedule.boilOff.value}
-              min={0.1} max={5} step={0.1}
+              {...mashSchedule.boilOff}
+              step={0.1}
               update={(value) => actions.setBoilOff({ value })}
               sliderWidth="1-2"
               inputWidth="1-2"

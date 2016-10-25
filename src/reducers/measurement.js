@@ -2,13 +2,14 @@ import Defaults from '../constants/Defaults';
 import helpers from '../utils/helpers';
 
 const measurement = (state = {}, action) => {
-  let quantity = Object.assign({}, action.measurement);
-  if (quantity.value === null || isNaN(quantity.value)) {
-    quantity.value = state.value;
-  } else if (state.unit !== quantity.unit) {
-    quantity.value = helpers.convertToUnit(state, quantity.unit, Defaults.MeasurementPrecision[action.type] || 1);
+  const m = action.measurement;
+  if (m.value === null || isNaN(m.value)) {
+    return Object.assign(m, { value:  state.value });
+  } else if (state.unit !== m.unit) {
+    return helpers.convertToUnit(state, m.unit, Defaults.MeasurementPrecision[action.type] || 1);
   }
-  return quantity;
+
+  return Object.assign({}, state, action.measurement);
 };
 
 export default measurement;

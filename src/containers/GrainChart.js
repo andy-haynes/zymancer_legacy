@@ -8,7 +8,7 @@ function mapState(state) {
   return {
     grains: state.currentRecipe.grains.map(grain => Object.assign({}, grain, {
       color: zymath.calculateGrainRGB(state.currentRecipe.targetVolume, grain),
-      chartValue: helpers.convertToUnit(grain.weight, Units.Pound, 2)
+      chartValue: helpers.convertToUnit(grain.weight, Units.Pound, 2).value
     }))
   };
 }

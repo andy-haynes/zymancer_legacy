@@ -5,54 +5,72 @@ import _ from 'lodash';
 //region unit conversion
 function convertTemp(temp, unit) {
   if (temp.unit === unit) {
-    return temp.value;
-  } else if (temp.unit === Units.Fahrenheit && unit === Units.Celsius) {
-    return (temp.value - 32) * 5/9;
-  } else if (temp.unit === Units.Celsius && unit === Units.Fahrenheit) {
-    return (temp.value * 9/5) + 32
+    return temp;
+  } else if (temp.unit !== unit) {
+    const convert = temp.unit === Units.Fahrenheit ? t => (t - 32) * 5/9 : t => (t * 9/5) + 32;
+    return {
+      value: _.round(convert(temp.value), 1),
+      min: _.round(convert(temp.min), 0),
+      max: _.round(convert(temp.max), 0),
+      unit
+    };
   }
-  return 0;
+  return { value: 0, unit };
 }
 
 function convertToUnit(measurement, unit, precision = undefined) {
-  let converted = parseFloat(measurement.value);
   if (measurement.unit !== unit) {
     if (unit === Units.Fahrenheit || unit === Units.Celsius) {
-      converted = convertTemp(measurement, unit);
+      return convertTemp(measurement, unit);
     } else {
-      converted *= conversionTable[measurement.unit][unit];
+      const factor = conversionTable[measurement.unit][unit];
+      const converted = parseFloat(measurement.value) * factor;
+
+      return {
+        value: precision ? _.round(converted, precision) : converted,
+        min: _.round(measurement.min * factor, 0),
+        max: _.round(measurement.max * factor, 0),
+        unit
+      };
     }
   }
-  
-  return precision ? _.round(converted, precision) : converted;
+
+  return measurement;
 }
 
 function convertRatio(oldRatio, newRatio, precision = undefined) {
   let value = parseFloat(newRatio.value || oldRatio.value) || 0;
+  let { min, max } = oldRatio;
   let multiplier = 1;
   let divisor = 1;
 
   if (oldRatio.antecedent !== newRatio.antecedent) {
-    multiplier = convertToUnit({ value: 1, unit: oldRatio.antecedent }, newRatio.antecedent);
+    multiplier = convertToUnit({ value: 1, unit: oldRatio.antecedent }, newRatio.antecedent).value;
   }
 
   if (oldRatio.consequent !== newRatio.consequent) {
-    divisor = convertToUnit({ value: 1, unit: oldRatio.consequent }, newRatio.consequent);
+    divisor = convertToUnit({ value: 1, unit: oldRatio.consequent }, newRatio.consequent).value;
   }
 
-  value = (multiplier * value) / divisor;
+  const factor = multiplier / divisor;
+  value *= factor;
+  min = (min || 0) * factor;
+  max = (max || 0) * factor;
+
   if (precision) {
     value = _.round(value, precision);
   }
 
-  return Object.assign({}, newRatio, { value });
+  return Object.assign({}, newRatio, { value, min, max });
 }
 
-function createRatio(numerator, denominator) {
+function createRatio(numerator, denominator, min, max) {
   return {
     value: numerator.value / denominator.value,
     antecedent: numerator.unit,
-    consequent: denominator.unit
+    consequent: denominator.unit,
+    min: min || 0,
+    max: max || 0
   };
 }
 //endregion

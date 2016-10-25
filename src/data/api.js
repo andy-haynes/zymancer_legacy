@@ -1,4 +1,5 @@
 import { RecipeType } from '../constants/AppConstants';
+import Defaults from '../constants/Defaults';
 import fetch from '../core/fetch';
 import helpers from '../utils/helpers';
 import grain from '../reducers/grain';
@@ -89,7 +90,7 @@ export async function getRecipe(recipeId) {
   }`.replace(/\s/g, '');
 
   const { data } = await _graphqlFetch(query);
-  let { grains, hops, yeasts, fermentation } = data.loadRecipe;
+  let { grains, hops, yeasts, fermentation, mashSchedule } = data.loadRecipe;
 
   // group hops by id to get additions as separate property
   // TODO: group by RecipeHopId instead to get hops of the same type with different alpha/beta
@@ -99,13 +100,25 @@ export async function getRecipe(recipeId) {
     ...hops[k][0]
   }));
 
+  function setMeasurementRanges(measurement, defaultMeasurement) {
+    // TODO: convert ratio to handle different saved units
+    return Object.assign(measurement, _.pick(defaultMeasurement, 'min', 'max'));
+  }
+
   return Object.assign({}, data.loadRecipe, {
     grains: grains.map(g => grain.create(g)),
     hops: hops.map(h => hop.create(h)),
     fermentation: {
       pitchRate: fermentation.pitchRateMillionsMLP,
       yeasts: yeasts.map(y => yeast.create(y))
-    }
+    },
+    mashSchedule: Object.assign({}, mashSchedule, {
+      thickness: setMeasurementRanges(mashSchedule.thickness, Defaults.MashThickness),
+      boilOff: setMeasurementRanges(mashSchedule.boilOff, Defaults.BoilOffRate),
+      absorption: setMeasurementRanges(mashSchedule.absorption, Defaults.GrainAbsorptionLoss),
+      infusionTemp: setMeasurementRanges(mashSchedule.infusionTemp, Defaults.InfusionTemp),
+      mashoutTemp: setMeasurementRanges(mashSchedule.mashoutTemp, Defaults.MashoutTemp)
+    })
   });
 }
 

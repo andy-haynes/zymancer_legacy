@@ -1,4 +1,3 @@
-import Defaults from '../constants/Defaults';
 import helpers from '../utils/helpers';
 
 const ratio = (state = {}, action) => {

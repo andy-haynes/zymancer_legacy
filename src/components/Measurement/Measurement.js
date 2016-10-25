@@ -11,13 +11,13 @@ const Measurement = ({ measurement, update, options }) => (
       name="measurement-value"
       className={s.measurementValue}
       value={measurement.value === 0 ? '' : measurement.value}
-      onChange={e => update({ value: e.target.value, unit: measurement.unit })}
+      onChange={e => update(Object.assign({}, measurement, { value: e.target.value }))}
       style={{width: "3em"}}
     />
     <SelectField
       className={s.measurementUnit}
       value={measurement.unit}
-      onChange={(e, i, v) => update({ value: measurement.value, unit: v })}
+      onChange={(e, i, v) => update(Object.assign({}, measurement, { unit: v }))}
       style={{width: "4em"}}
     >
       {options.map(option => (
