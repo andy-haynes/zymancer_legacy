@@ -19,12 +19,14 @@ function convertTemp(temp, unit) {
 }
 
 function convertToUnit(measurement, unit, precision = undefined) {
+  const value = parseFloat(measurement.value) || 0;
+
   if (measurement.unit !== unit) {
     if (unit === Units.Fahrenheit || unit === Units.Celsius) {
       return convertTemp(measurement, unit);
     } else {
       const factor = conversionTable[measurement.unit][unit];
-      const converted = parseFloat(measurement.value) * factor;
+      const converted = value * factor;
 
       return {
         value: precision ? _.round(converted, precision) : converted,
@@ -35,7 +37,7 @@ function convertToUnit(measurement, unit, precision = undefined) {
     }
   }
 
-  return measurement;
+  return Object.assign({}, measurement, { value });
 }
 
 function convertRatio(oldRatio, newRatio, precision = undefined) {

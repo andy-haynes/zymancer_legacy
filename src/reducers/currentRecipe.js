@@ -55,7 +55,10 @@ function recalculate(state, changed) {
   let { name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
 
   const thicknessUnit = mashSchedule.thickness.consequent;
-  const grainWeight = { value: _.sumBy(grains, g => helpers.convertToUnit(g.weight, thicknessUnit).value), unit: thicknessUnit };
+  const grainWeight = {
+    value: _.sumBy(grains, g => helpers.convertToUnit(g.weight, thicknessUnit).value),
+    unit: thicknessUnit
+  };
   boilVolume = zymath.calculateBoilVolume(targetVolume, mashSchedule.boilOff, mashSchedule.thickness, mashSchedule.absorption, boilMinutes, grainWeight);
 
   switch (method) {
