@@ -17,6 +17,7 @@ const Ratio = ({ ratio, antecedentOptions, consequentOptions, update }) => (
       className={s.ratioUnit}
       value={ratio.antecedent}
       onChange={(e, i, v) => update({ antecedent: v })}
+      disabled={antecedentOptions.length === 1}
       style={{width: '65px'}}
     >
       {antecedentOptions.map(option => (
@@ -30,6 +31,7 @@ const Ratio = ({ ratio, antecedentOptions, consequentOptions, update }) => (
       className={s.ratioUnit}
       value={ratio.consequent}
       onChange={(e, i, v) => update({ consequent: v })}
+      disabled={consequentOptions.length === 1}
       style={{width: '65px'}}
     >
       {consequentOptions.map(option => (

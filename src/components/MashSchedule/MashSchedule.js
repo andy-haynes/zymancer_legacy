@@ -177,7 +177,7 @@ const MashSchedule = ({ mashSchedule, actions }) => (
               <Ratio
                 ratio={mashSchedule.thickness}
                 antecedentOptions={MeasurementUnits.RecipeVolume}
-                consequentOptions={MeasurementUnits.GrainWeight}
+                consequentOptions={MeasurementUnits.MashWeight}
                 update={actions.setThickness}
               />
             </SliderInput>
@@ -198,7 +198,7 @@ const MashSchedule = ({ mashSchedule, actions }) => (
               <Ratio
                 ratio={mashSchedule.absorption}
                 antecedentOptions={MeasurementUnits.RecipeVolume}
-                consequentOptions={MeasurementUnits.GrainWeight}
+                consequentOptions={MeasurementUnits.MashWeight}
                 update={actions.setAbsorption}
               />
             </SliderInput>
