@@ -24,14 +24,14 @@ const Grain = ({ grain, targetVolume, actions }) => (
       </div>
       <div className="pure-u-12-24">
         <div className="pure-g">
-          <div className="pure-u-1-2">
+          <div className="pure-u-1-2" style={{marginTop: '-0.8em'}}>
             <Measurement
               measurement={grain.weight}
               update={(weight) => actions.setWeight(grain, weight)}
               options={MeasurementUnits.GrainWeight}
             />
           </div>
-          <div className="pure-u-1-2" style={{display: grain.extractType !== null ? 'block' : 'none'}}>
+          <div className="pure-u-1-2" style={{marginTop: '-0.8em', display: grain.extractType !== null ? 'block' : 'none'}}>
             <SelectField
               value={grain.extractType}
               onChange={(e, k, v) => actions.setExtractType(grain, v)}
@@ -41,28 +41,28 @@ const Grain = ({ grain, targetVolume, actions }) => (
               <MenuItem value={ExtractType.Liquid} primaryText="Liquid" />
             </SelectField>
           </div>
-          <div className="pure-u-1-2" style={{display: grain.extractType !== null ? 'none' : 'block'}}>
+          <div className="pure-u-1-2" style={{marginTop: '-0.8em', display: grain.extractType !== null ? 'none' : 'block'}}>
             <TextField
-              id="gravity-input"
-              className={s.gravityInput}
+              id="lintner-input"
               value={grain.lintner}
               onChange={(e) => actions.setLintner(grain, e.target.value)}
+              style={{width: '3em'}}
             />&deg;L
           </div>
-          <div className="pure-u-1-2">
+          <div className="pure-u-1-2" style={{marginTop: '-0.8em'}}>
             <TextField
               id="gravity-input"
-              className={s.gravityInput}
               value={zymath.formatGravity(grain.gravity)}
               onChange={(e) => actions.setGravity(grain, e.target.value)}
+              style={{width: '3em'}}
             />
           </div>
-          <div className="pure-u-1-2">
+          <div className="pure-u-1-2" style={{marginTop: '-0.8em'}}>
             <TextField
               id="lovibond-input"
-              className={s.lovibondInput}
               value={grain.lovibond}
               onChange={(e) => actions.setLovibond(grain, e.target.value)}
+              style={{width: '3em'}}
             />&deg;Lov
           </div>
         </div>
