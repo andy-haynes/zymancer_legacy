@@ -81,15 +81,7 @@ const Fermentation = ({ fermentation, actions }) => (
           <Yeast
             key={yeast.id}
             yeast={yeast}
-            actions={{
-              setMfgDate: (date) => actions.setMfgDate(yeast, date),
-              setApparentAttenuation: (attenuation) => actions.setApparentAttenuation(yeast, attenuation),
-              setViability: (viability) => actions.setViability(yeast, viability),
-              setQuantity: (quantity) => actions.setQuantity(yeast, quantity),
-              removeYeast: () => actions.removeYeast(yeast),
-              addStarterStep: (gravity, hours) => actions.addStarterStep(yeast, gravity, hours),
-              removeStarterStep: (step) => actions.removeStarterStep(yeast, step),
-            }}
+            actions={actions}
           />
         ))}
       </div>

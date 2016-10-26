@@ -32,7 +32,7 @@ const Yeast = ({ yeast, actions }) => (
             <DatePicker
               id="yeast-mfg-date"
               value={yeast.mfgDate}
-              onChange={(e, date) => actions.setMfgDate(date)}
+              onChange={(e, date) => actions.setMfgDate(yeast, date)}
               hintText="Mfg Date"
               textFieldStyle={{width: '90px'}}
               /*minDate={subtractMonthsFromNow(YeastViabilityMonths)}*/
@@ -51,7 +51,7 @@ const Yeast = ({ yeast, actions }) => (
             <TextField
               id="yeast-viability"
               value={yeast.viability}
-              onChange={(e) => actions.setViability(e.target.value)}
+              onChange={(e) => actions.setViability(yeast, e.target.value)}
               style={{width: '36px'}}
             />%
           </div>
@@ -64,7 +64,7 @@ const Yeast = ({ yeast, actions }) => (
             <TextField
               id="yeast-quantity"
               value={yeast.quantity}
-              onChange={(e) => actions.setQuantity(e.target.value)}
+              onChange={(e) => actions.setQuantity(yeast, e.target.value)}
               style={{width: '2em', marginLeft: '1em'}}
             />
           </div>
@@ -77,7 +77,7 @@ const Yeast = ({ yeast, actions }) => (
         </IconButton>
       </div>
       <div className="pure-u-1-24">
-        <IconButton onClick={actions.removeYeast}>
+        <IconButton onClick={() => actions.removeYeast(yeast)}>
           <ContentRemoveCircle />
         </IconButton>
       </div>
@@ -116,7 +116,7 @@ const Yeast = ({ yeast, actions }) => (
       <div className="pure-u-8-24">
         <SliderInput
           value={yeast.apparentAttenuation}
-          update={actions.setApparentAttenuation}
+          update={(v) => actions.setApparentAttenuation(yeast, v)}
           min={yeast.attenuationRange.low}
           max={yeast.attenuationRange.high}
           step={0.1}
