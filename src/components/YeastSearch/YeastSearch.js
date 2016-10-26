@@ -9,7 +9,7 @@ const YeastSearch = ({ query, results, loading, error, actions }) => (
     <TextField
       id="yeast-search"
       className={s.searchInput}
-      inputStyle={{padding: '0 8px', lineHeight: '28px', fontSize: '18px', textAlign: 'center'}}
+      inputStyle={{padding: '0 0.7em', lineHeight: '2.4em', fontSize: '1.1em', textAlign: 'center'}}
       placeholder="Start typing to search yeast..."
       value={query}
       onChange={e => actions.searchYeast(e.target.value)}

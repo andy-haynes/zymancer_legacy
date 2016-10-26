@@ -9,7 +9,7 @@ const GrainSearch = ({ query, results, loading, error, actions }) => (
       <TextField
           id="grain-search"
           className={s.searchInput}
-          inputStyle={{padding: '0 8px', lineHeight: '28px', fontSize: '18px', textAlign: 'center'}}
+          inputStyle={{padding: '0 0.7em', lineHeight: '2.4em', fontSize: '1.1em', textAlign: 'center'}}
           placeholder="Start typing to search grains..."
           value={query}
           onChange={e => actions.searchGrains(e.target.value)}

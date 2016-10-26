@@ -9,7 +9,7 @@ const HopSearch = ({ query, results, loading, error, originalGravity, boilVolume
     <TextField
       id="hop-search"
       className={s.searchInput}
-      inputStyle={{padding: '0 8px', lineHeight: '2.4em', fontSize: '1.2em', textAlign: 'center'}}
+      inputStyle={{padding: '0 0.7em', lineHeight: '2.4em', fontSize: '1.1em', textAlign: 'center'}}
       placeholder="Start typing to search hops..."
       value={query}
       onChange={e => actions.searchHops(e.target.value)}
