@@ -16,6 +16,12 @@ const SliderInput = ({ value, min, max, update, children, sliderWidth = '7-8', i
     />
   );
 
+  if (value > max) {
+    value = max;
+  } else if (value < min) {
+    value = min;
+  }
+
   return (
     <div className={s.sliderInput}>
       <div className="pure-g">

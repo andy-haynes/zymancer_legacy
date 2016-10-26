@@ -10,7 +10,7 @@ const Ratio = ({ ratio, antecedentOptions, consequentOptions, update }) => (
     <TextField
       id="ratio-input"
       value={ratio.value}
-      onChange={(e) => update(e.target.value)}
+      onChange={(e) => update({ value: e.target.value })}
       style={{width: '52px', position: 'relative', bottom: '4px'}}
     />
     <SelectField
