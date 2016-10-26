@@ -34,7 +34,7 @@ const Yeast = ({ yeast, actions }) => (
               value={yeast.mfgDate}
               onChange={(e, date) => actions.setMfgDate(yeast, date)}
               hintText="Mfg Date"
-              textFieldStyle={{width: '90px'}}
+              textFieldStyle={{width: '5em'}}
               /*minDate={subtractMonthsFromNow(YeastViabilityMonths)}*/
               maxDate={new Date()}
               formatDate={(d) => dateFormat(d, 'd mmm yy')}
@@ -52,7 +52,7 @@ const Yeast = ({ yeast, actions }) => (
               id="yeast-viability"
               value={yeast.viability}
               onChange={(e) => actions.setViability(yeast, e.target.value)}
-              style={{width: '36px'}}
+              style={{width: '3em'}}
             />%
           </div>
         </div>
