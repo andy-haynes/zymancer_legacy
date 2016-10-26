@@ -179,3 +179,8 @@ textarea {
     page-break-after: avoid;
   }
 }
+
+/* override normalize.css to fix MenuItem styles in Chrome */
+button, html [type="button"], [type="reset"], [type="submit"] {
+  -webkit-appearance: none;
+}
