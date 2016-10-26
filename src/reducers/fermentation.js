@@ -25,6 +25,7 @@ const fermentation = (state = initialState, action) => {
       });
     case RecipeActions.SetYeastMfgDate:
     case RecipeActions.SetYeastAttenuation:
+    case RecipeActions.SetYeastQuantity:
     case RecipeActions.SetYeastViability:
     case RecipeActions.AddStarterStep:
     case RecipeActions.RemoveStarterStep:
