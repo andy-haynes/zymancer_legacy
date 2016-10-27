@@ -32,6 +32,10 @@ export async function getRecipe(recipeId) {
       name,
       style,
       method,
+      volume {
+        value,
+        unit
+      },
       grains {
         id,
         name,
@@ -106,6 +110,7 @@ export async function getRecipe(recipeId) {
   }
 
   return Object.assign({}, data.loadRecipe, {
+    targetVolume: data.loadRecipe.volume,
     grains: grains.map(g => grain.create(g)),
     hops: hops.map(h => hop.create(h)),
     fermentation: {
@@ -147,6 +152,7 @@ export async function saveRecipe(recipe) {
       name:"${recipe.name}",
       style:"${recipe.style}",
       method:"${recipe.method}",
+      volume:${volume},
       ABV:${_.round(parseFloat(recipe.ABV), 2)},
       IBU:${_.round(parseFloat(recipe.IBU), 2)},
       OG:${parseFloat(recipe.originalGravity)},

@@ -7,7 +7,7 @@ import {
   GraphQLNonNull
 } from 'graphql';
 import RecipeType from '../types/RecipeType';
-import { GrainInputType, HopInputType, YeastInputType } from '../types/IngredientTypes';
+import { WeightInputType, GrainInputType, HopInputType, YeastInputType } from '../types/IngredientTypes';
 import { FermentationInputType } from '../types/FermentationType';
 import { MashScheduleInputType } from '../types/MashScheduleType';
 import { Recipe, RecipeGrain, RecipeHop, RecipeYeast, RecipeFermentation, MashSchedule } from '../models';
@@ -19,6 +19,7 @@ const saveRecipe = {
     name: { type: GraphQLString },
     style: { type: GraphQLString },
     method: { type: GraphQLString },
+    volume: { type: WeightInputType },
     ABV: { type: GraphQLFloat },
     IBU: { type: GraphQLFloat },
     OG: { type: GraphQLFloat },

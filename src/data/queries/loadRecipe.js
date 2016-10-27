@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLInt } from 'graphql';
 import RecipeType from '../types/RecipeType';
-import { Recipe, Grain, Hop, Yeast, MashSchedule, RecipeFermentation } from '../models';
+import { Recipe, Grain, Hop, RecipeHop, Yeast, MashSchedule, RecipeFermentation } from '../models';
 import _ from 'lodash';
 
 const loadRecipe = {
@@ -10,7 +10,7 @@ const loadRecipe = {
   },
   async resolve({ request }, { id }) {
     return await Recipe.findOne({
-      attributes: ['id', 'name', 'style', 'method'],
+      attributes: ['id', 'name', 'style', 'method', 'volume'],
       include: [{
         attributes: ['id', 'name', 'isExtract', 'DBFG', 'DBCG'],
         model: Grain,
@@ -47,6 +47,7 @@ const loadRecipe = {
       name: recipe.name,
       style: recipe.style,
       method: recipe.method,
+      volume: recipe.volume,
       grains: recipe.grains.map(grain => ({
         id: grain.id,
         name: grain.name,

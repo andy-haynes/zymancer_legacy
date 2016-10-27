@@ -8,6 +8,7 @@ const Recipe = Model.define('Recipes', {
   name: { type: DataType.STRING, allowNull: false },
   style: { type: DataType.STRING, allowNull: true },
   method: { type: DataType.STRING, allowNull: false },
+  volume: { type: DataType.JSON, allowNull: false },
   ABV: { type: DataType.DECIMAL },
   IBU: { type: DataType.DECIMAL },
   OG: { type: DataType.DECIMAL },
