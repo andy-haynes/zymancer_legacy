@@ -15,6 +15,7 @@ const RecipeType = new GraphQLObjectType({
   fields: {
     userId: { type: new GraphQLNonNull(GraphQLInt) },
     id: { type: new GraphQLNonNull(GraphQLInt) },
+    hash: { type: GraphQLString },
     name: { type: new GraphQLNonNull(GraphQLString) },
     style: { type: GraphQLString },
     method: { type: GraphQLString },

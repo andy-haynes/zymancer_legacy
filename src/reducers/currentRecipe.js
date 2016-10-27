@@ -11,6 +11,7 @@ import measurement from './measurement';
 import _ from 'lodash'
 
 const initialState = {
+  id: null,
   name: 'My Awesome Mixed Beer #6',
   style: 'American Pale Ale',
   method: BrewMethod.AllGrain,
@@ -52,7 +53,7 @@ function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, bo
 }
 
 function recalculate(state, changed) {
-  let { name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
+  let { id, name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
 
   const thicknessUnit = mashSchedule.thickness.consequent;
   const grainWeight = {
@@ -83,7 +84,7 @@ function recalculate(state, changed) {
   ABV = zymath.calculateABV(originalGravity, finalGravity);
   SRM = zymath.calculateSRM(targetVolume, grains);
 
-  return { name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM };
+  return { id, name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM };
 }
 
 const currentRecipe = (state = initialState, action) => {

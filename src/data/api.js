@@ -139,9 +139,19 @@ export async function saveRecipe(recipe) {
     apparentAttenuation: _.round(y.apparentAttenuation / 100, 2)
   })));
 
-  const mashSchedule = helpers.jsonToGraphql(
-    _.pick(recipe.mashSchedule, 'style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp')
-  );
+  const cleanMeasurement = (measurement) => _.pick(measurement, 'value', 'unit');
+  const cleanRatio = (ratio) => _.pick(ratio, 'value', 'antecedent', 'consequent');
+
+  const volume = helpers.jsonToGraphql(cleanMeasurement(recipe.targetVolume));
+  const mashSchedule = helpers.jsonToGraphql(Object.assign(
+    _.pick(recipe.mashSchedule, 'style'),
+    { thickness: cleanRatio(recipe.mashSchedule.thickness) },
+    { absorption: cleanRatio(recipe.mashSchedule.absorption) },
+    { boilOff: cleanRatio(recipe.mashSchedule.boilOff) },
+    { grainTemp: cleanMeasurement(recipe.mashSchedule.grainTemp) },
+    { infusionTemp: cleanMeasurement(recipe.mashSchedule.infusionTemp) },
+    { mashoutTemp: cleanMeasurement(recipe.mashSchedule.mashoutTemp) }
+  ));
 
   const fermentation = helpers.jsonToGraphql({
     pitchRateMillionsMLP: recipe.fermentation.pitchRate
@@ -149,6 +159,7 @@ export async function saveRecipe(recipe) {
 
   const query = `{
     saveRecipe(
+      id:${recipe.id || -1},
       name:"${recipe.name}",
       style:"${recipe.style}",
       method:"${recipe.method}",

@@ -6,6 +6,7 @@ import {
   GraphQLFloat,
   GraphQLNonNull
 } from 'graphql';
+import yeest from 'yeast';
 import RecipeType from '../types/RecipeType';
 import { WeightInputType, GrainInputType, HopInputType, YeastInputType } from '../types/IngredientTypes';
 import { FermentationInputType } from '../types/FermentationType';
@@ -16,6 +17,7 @@ import _ from 'lodash';
 const saveRecipe = {
   type: RecipeType,
   args: {
+    id: { type: GraphQLInt },
     name: { type: GraphQLString },
     style: { type: GraphQLString },
     method: { type: GraphQLString },
@@ -30,17 +32,24 @@ const saveRecipe = {
     mashSchedule: { type: MashScheduleInputType },
     fermentation: { type: FermentationInputType }
   },
-  async resolve({ request }, { name, style, method, ABV, IBU, OG, FG, grains, hops, yeasts, mashSchedule, fermentation }) {
-    return await Recipe.create({
-      ownerId: request.user.id,
-      name,
-      style,
-      method,
-      ABV,
-      IBU,
-      OG,
-      FG
+  async resolve({ request }, { id, name, style, method, volume, ABV, IBU, OG, FG, grains, hops, yeasts, mashSchedule, fermentation }) {
+    const r = { ownerId: request.user.id, name, style, method, volume, ABV, IBU, OG, FG };
+    const existing = id > 0;
+    if (existing) {
+      const updated = await Recipe.update(r, { where: { id }, returning: true });
+    }
+
+    return await (existing ? Recipe.findOne({ where: { id } }) : Recipe.create(r)).then(recipe => {
+      if (!existing) {
+        Recipe.update({ hash: yeest.encode(recipe.id) }, { where: { id: recipe.id } });
+      }
+
+      return recipe;
     }).then(recipe => {
+      if (existing) {
+        RecipeGrain.destroy({ where: { recipeId: id } });
+      }
+
       RecipeGrain.bulkCreate(grains.map(g => Object.assign(_.pick(g, 'lovibond', 'lintner', 'gravity', 'weight'), {
         recipeId: recipe.id,
         grainId: g.id
@@ -48,6 +57,10 @@ const saveRecipe = {
 
       return recipe;
     }).then(recipe => {
+      if (existing) {
+        RecipeHop.destroy({ where: { recipeId: id } });
+      }
+
       RecipeHop.bulkCreate(hops.map(h => Object.assign(_.pick(h, 'alpha', 'beta', 'minutes', 'weight'), {
         recipeId: recipe.id,
         hopId: h.id
@@ -55,6 +68,10 @@ const saveRecipe = {
 
       return recipe;
     }).then(recipe => {
+      if (existing) {
+        RecipeYeast.destroy({ where: { recipeId: id } });
+      }
+
       RecipeYeast.bulkCreate(yeasts.map(y => Object.assign(_.pick(y, 'mfgDate', 'apparentAttenuation', 'quantity'), {
         recipeId: recipe.id,
         yeastId: y.id
@@ -62,6 +79,10 @@ const saveRecipe = {
 
       return recipe;
     }).then(recipe => {
+      if (existing) {
+        RecipeFermentation.destroy({ where: { recipeId: id } });
+      }
+
       RecipeFermentation.create({
         recipeId: recipe.id,
         pitchRateMillionsMLP: fermentation.pitchRateMillionsMLP
@@ -69,6 +90,10 @@ const saveRecipe = {
 
       return recipe;
     }).then(recipe => {
+      if (existing) {
+        MashSchedule.destroy({ where: { recipeId: id } });
+      }
+
       MashSchedule.create(Object.assign(
         _.pick(mashSchedule, 'style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'),
         { recipeId: recipe.id }
