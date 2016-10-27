@@ -49,23 +49,23 @@ User.hasMany(Recipe, { as: 'recipes', foreignKey: 'ownerId' });
 
 // User <- SharedRecipe -> Recipe
 Recipe.belongsToMany(User, { through: SharedRecipe, as: 'sharedUsers', foreignKey: 'recipeId' });
-User.belongsToMany(Recipe, { through: SharedRecipe, as: 'sharedRecipes', foreignKey: 'userId'  });
+User.belongsToMany(Recipe, { through: SharedRecipe, as: 'sharedRecipes', foreignKey: 'userId' });
 
 // User <- RecipeHistory -> Recipe
 Recipe.belongsToMany(User, { through: RecipeHistory, as: 'userActions', foreignKey: 'recipeId' });
 User.belongsToMany(Recipe, { through: RecipeHistory, as: 'recipeActions', foreignKey: 'userId' });
 
 // Recipe <- RecipeGrain -> Grain
-Recipe.belongsToMany(Grain, { through: RecipeGrain, as: 'grains', foreignKey: 'recipeId' });
-Grain.belongsToMany(Recipe, { through: RecipeGrain, as: 'recipes', foreignKey: 'grainId' });
+Recipe.belongsToMany(Grain, { through: { model: RecipeGrain, unique: false }, as: 'grains', foreignKey: 'recipeId' });
+Grain.belongsToMany(Recipe, { through: { model: RecipeGrain, unique: false }, as: 'recipes', foreignKey: 'grainId' });
 
 // Recipe <- RecipeHop -> Hop
-Recipe.belongsToMany(Hop, { through: RecipeHop, as: 'hopAdditions', foreignKey: 'recipeId' });
-Hop.belongsToMany(Recipe, { through: RecipeHop, as: 'recipes', foreignKey: 'hopId' });
+Recipe.belongsToMany(Hop, { through: { model: RecipeHop, unique: false }, as: 'hopAdditions', foreignKey: 'recipeId' });
+Hop.belongsToMany(Recipe, { through: { model: RecipeHop, unique: false }, as: 'recipes', foreignKey: 'hopId' });
 
 // Recipe <- RecipeYeast -> Yeast
-Recipe.belongsToMany(Yeast, { through: RecipeYeast, as: 'yeast', foreignKey: 'recipeId' });
-Yeast.belongsToMany(Recipe, { through: RecipeYeast, as: 'recipes', foreignKey: 'yeastId' });
+Recipe.belongsToMany(Yeast, { through: { model: RecipeYeast, unique: false }, as: 'yeast', foreignKey: 'recipeId' });
+Yeast.belongsToMany(Recipe, { through: { model: RecipeYeast, unique: false }, as: 'recipes', foreignKey: 'yeastId' });
 
 // why does't this work when the sour are reversed and 'belongsTo' is used?
 Recipe.hasOne(MashSchedule, { as: 'mashSchedule', foreignKey: 'recipeId' });
