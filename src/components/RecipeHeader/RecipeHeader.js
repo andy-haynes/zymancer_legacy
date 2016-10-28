@@ -5,7 +5,7 @@ import MeasurementUnits from '../../constants/MeasurementUnits';
 import Defaults from '../../constants/Defaults';
 import { BrewMethod } from '../../constants/AppConstants';
 import Measurement from '../Measurement';
-import _ from 'lodash';
+import round from 'lodash/round';
 import zymath from '../../utils/zymath';
 import SliderInput from '../SliderInput';
 import TextField from 'material-ui/TextField';
@@ -85,7 +85,7 @@ const RecipeHeader = ({ recipe, actions }) => (
             </div>
             <div className="pure-u-1-2">
               <div className={s.calculatedValue}>
-                {_.round(recipe.IBU, 1)}
+                {round(recipe.IBU, 1)}
               </div>
             </div>
             <div className="pure-u-1-2">

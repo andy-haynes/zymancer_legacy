@@ -5,7 +5,10 @@ import helpers from '../utils/helpers';
 import grain from '../reducers/grain';
 import hop from '../reducers/hop';
 import yeast from '../reducers/yeast';
-import _ from 'lodash';
+import pick from 'lodash/pick';
+import groupBy from 'lodash/groupBy';
+import flatten from 'lodash/flatten';
+import round from 'lodash/round';
 
 async function _graphqlFetch(query) {
   const resp = await fetch('/graphql', {
@@ -98,15 +101,15 @@ export async function getRecipe(recipeId) {
 
   // group hops by id to get additions as separate property
   // TODO: group by RecipeHopId instead to get hops of the same type with different alpha/beta
-  hops = hops && hops.length ? _.groupBy(hops, h => h.id) : [];
+  hops = hops && hops.length ? groupBy(hops, h => h.id) : [];
   hops = Object.keys(hops).map(k => ({
-    additions: hops[k].map(a => _.pick(a, 'minutes', 'weight')),
+    additions: hops[k].map(a => pick(a, 'minutes', 'weight')),
     ...hops[k][0]
   }));
 
   function setMeasurementRanges(measurement, defaultMeasurement) {
     // TODO: convert ratio to handle different saved units
-    return Object.assign(measurement, _.pick(defaultMeasurement, 'min', 'max'));
+    return Object.assign(measurement, pick(defaultMeasurement, 'min', 'max'));
   }
 
   return Object.assign({}, data.loadRecipe, {
@@ -128,23 +131,23 @@ export async function getRecipe(recipeId) {
 }
 
 export async function saveRecipe(recipe) {
-  const grains = recipe.grains.map(g => helpers.jsonToGraphql(_.pick(g, 'id', 'weight', 'lovibond', 'lintner', 'gravity')));
-  const hops = _.flatten(recipe.hops.map(h => h.additions.map(a => helpers.jsonToGraphql(Object.assign(
-    _.pick(h, 'id', 'alpha', 'beta'),
-    _.pick(a, 'minutes', 'weight')
+  const grains = recipe.grains.map(g => helpers.jsonToGraphql(pick(g, 'id', 'weight', 'lovibond', 'lintner', 'gravity')));
+  const hops = flatten(recipe.hops.map(h => h.additions.map(a => helpers.jsonToGraphql(Object.assign(
+    pick(h, 'id', 'alpha', 'beta'),
+    pick(a, 'minutes', 'weight')
   )))));
 
-  const yeast = recipe.fermentation.yeasts.map(y => helpers.jsonToGraphql(Object.assign(_.pick(y, 'id', 'quantity'), {
+  const yeast = recipe.fermentation.yeasts.map(y => helpers.jsonToGraphql(Object.assign(pick(y, 'id', 'quantity'), {
     mfgDate: y.mfgDate.toString(),
-    apparentAttenuation: _.round(y.apparentAttenuation / 100, 2)
+    apparentAttenuation: round(y.apparentAttenuation / 100, 2)
   })));
 
-  const cleanMeasurement = (measurement) => _.pick(measurement, 'value', 'unit');
-  const cleanRatio = (ratio) => _.pick(ratio, 'value', 'antecedent', 'consequent');
+  const cleanMeasurement = (measurement) => pick(measurement, 'value', 'unit');
+  const cleanRatio = (ratio) => pick(ratio, 'value', 'antecedent', 'consequent');
 
   const volume = helpers.jsonToGraphql(cleanMeasurement(recipe.targetVolume));
   const mashSchedule = helpers.jsonToGraphql(Object.assign(
-    _.pick(recipe.mashSchedule, 'style'),
+    pick(recipe.mashSchedule, 'style'),
     { thickness: cleanRatio(recipe.mashSchedule.thickness) },
     { absorption: cleanRatio(recipe.mashSchedule.absorption) },
     { boilOff: cleanRatio(recipe.mashSchedule.boilOff) },
@@ -164,8 +167,8 @@ export async function saveRecipe(recipe) {
       style:"${recipe.style}",
       method:"${recipe.method}",
       volume:${volume},
-      ABV:${_.round(parseFloat(recipe.ABV), 2)},
-      IBU:${_.round(parseFloat(recipe.IBU), 2)},
+      ABV:${round(parseFloat(recipe.ABV), 2)},
+      IBU:${round(parseFloat(recipe.IBU), 2)},
       OG:${parseFloat(recipe.originalGravity)},
       FG:${parseFloat(recipe.finalGravity)},
       grains:[${grains.join(',')}],

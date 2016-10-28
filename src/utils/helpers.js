@@ -1,6 +1,6 @@
 import Units from '../constants/Units';
 import conversionTable from '../constants/ConversionTable';
-import _ from 'lodash';
+import round from 'lodash/round';
 
 //region unit conversion
 function convertTemp(temp, unit) {
@@ -9,9 +9,9 @@ function convertTemp(temp, unit) {
   } else if (temp.unit !== unit) {
     const convert = temp.unit === Units.Fahrenheit ? t => (t - 32) * 5/9 : t => (t * 9/5) + 32;
     return {
-      value: _.round(convert(temp.value), 1),
-      min: _.round(convert(temp.min), 0),
-      max: _.round(convert(temp.max), 0),
+      value: round(convert(temp.value), 1),
+      min: round(convert(temp.min), 0),
+      max: round(convert(temp.max), 0),
       unit
     };
   }
@@ -29,9 +29,9 @@ function convertToUnit(measurement, unit, precision = undefined) {
       const converted = value * factor;
 
       return {
-        value: precision ? _.round(converted, precision) : converted,
-        min: _.round(measurement.min * factor, 0),
-        max: _.round(measurement.max * factor, 0),
+        value: precision ? round(converted, precision) : converted,
+        min: round(measurement.min * factor, 0),
+        max: round(measurement.max * factor, 0),
         unit
       };
     }
@@ -60,7 +60,7 @@ function convertRatio(oldRatio, newRatio, precision = undefined) {
   max = (max || 0) * factor;
 
   if (precision) {
-    value = _.round(value, precision);
+    value = round(value, precision);
   }
 
   return Object.assign({}, newRatio, { value, min, max });

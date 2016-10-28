@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import actions from '../actions';
 import Fermentation from '../components/Fermentation';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 
 const { recipe } = actions;
 
 function mapState(state) {
-  return _.pick(state.currentRecipe, 'fermentation');
+  return pick(state.currentRecipe, 'fermentation');
 }
 
 function mapDispatch(dispatch) {

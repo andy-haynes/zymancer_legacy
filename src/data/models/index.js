@@ -16,7 +16,8 @@ import MashSchedule from './MashSchedule';
 import RecipeFermentation from './RecipeFermentation';
 import BJCPCategory from './BJCPCategory';
 import BJCPStyle from './BJCPStyle';
-import _ from 'lodash';
+import flatten from 'lodash/flatten';
+import pick from 'lodash/pick';
 
 import Ingredients from '../../constants/TestIngredients';
 import styles from '../../constants/BJCP_JSON';
@@ -93,12 +94,12 @@ function sync(...args) {
         }]
       }];
 
-      const logins = _.flatten(users.map(user => user.logins.map(login => ({ userId: user.id, ...login }))));
-      const claims = _.flatten(users.map(user => user.claims.map(claim => ({ userId: user.id, ...claim }))));
+      const logins = flatten(users.map(user => user.logins.map(login => ({ userId: user.id, ...login }))));
+      const claims = flatten(users.map(user => user.claims.map(claim => ({ userId: user.id, ...claim }))));
 
       //region ingredients
       const grains = Ingredients.filter(i => i.ingredientType === 1).map(grain => Object.assign(
-        _.pick(grain, 'name', 'category', 'description', 'characteristics', 'flavor', 'mfg', 'lovibond'), {
+        pick(grain, 'name', 'category', 'description', 'characteristics', 'flavor', 'mfg', 'lovibond'), {
           DBFG: isNaN(parseFloat(grain.DBFG)) ? null : parseFloat(grain.DBFG),
           DBCG: isNaN(parseFloat(grain.DBCG)) ? null : parseFloat(grain.DBCG),
           lintner: isNaN(parseFloat(grain.lintner)) ? null : parseFloat(grain.lintner),
@@ -109,14 +110,14 @@ function sync(...args) {
       ));
 
       const hops = Ingredients.filter(i => i.ingredientType === 2).map(hop => Object.assign(
-        _.pick(hop, 'name', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
+        pick(hop, 'name', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
           aroma: hop.aroma.join(','),
           categories: hop.categories.join(',')
         }
       ));
 
       const yeasts = Ingredients.filter(i => i.ingredientType === 3).map(yeast => Object.assign(
-        _.pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'rangeF', 'rangeC', 'tolerance', 'attenuationRange', 'mfg'), {
+        pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'rangeF', 'rangeC', 'tolerance', 'attenuationRange', 'mfg'), {
           styles: yeast.styles ? yeast.styles.join(',') : null
         }
       ));

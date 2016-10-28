@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './HopAddition.css';
 import Measurement from '../Measurement';
-import _ from 'lodash';
+import round from 'lodash/round';
 import MeasurementUnits from '../../constants/MeasurementUnits';
 import zymath from '../../utils/zymath';
 import SliderInput from '../SliderInput';
@@ -40,13 +40,13 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, actions }) =>
           <div className="pure-u-1-2">
             <div className={s.additionDetail}>
               <div className={s.detailLabel}>IBU</div>
-              {_.round(zymath.calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume), 1)}
+              {round(zymath.calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume), 1)}
             </div>
           </div>
           <div className="pure-u-1-2">
             <div className={s.additionDetail}>
               <div className={s.detailLabel}>Util</div>
-              {_.round(zymath.calculateUtilization(addition.minutes, originalGravity), 2)}
+              {round(zymath.calculateUtilization(addition.minutes, originalGravity), 2)}
             </div>
           </div>
         </div>

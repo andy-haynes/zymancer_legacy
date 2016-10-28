@@ -1,7 +1,7 @@
 import { GraphQLList, GraphQLInt } from 'graphql';
 import RecipeType from '../types/RecipeType';
 import { Recipe, Grain, Hop, RecipeHop, Yeast, MashSchedule, RecipeFermentation } from '../models';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 
 const loadRecipe = {
   type: RecipeType,
@@ -83,7 +83,7 @@ const loadRecipe = {
         apparentAttenuation: yeast.RecipeYeast.apparentAttenuation,
         quantity: yeast.RecipeYeast.quantity
       })),
-      fermentation: _.pick(recipe.fermentation, 'pitchRateMillionsMLP'),
+      fermentation: pick(recipe.fermentation, 'pitchRateMillionsMLP'),
       mashSchedule: {
         style: recipe.mashSchedule.style,
         thickness: recipe.mashSchedule.thickness,

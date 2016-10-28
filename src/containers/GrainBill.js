@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import actions from '../actions';
 import GrainBill from '../components/GrainBill';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 
 const { recipe } = actions;
 
 function mapState(state) {
-  return _.pick(state.currentRecipe, 'grains', 'targetVolume');
+  return pick(state.currentRecipe, 'grains', 'targetVolume');
 }
 
 function mapDispatch(dispatch) {

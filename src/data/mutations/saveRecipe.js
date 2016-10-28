@@ -12,7 +12,7 @@ import { WeightInputType, GrainInputType, HopInputType, YeastInputType } from '.
 import { FermentationInputType } from '../types/FermentationType';
 import { MashScheduleInputType } from '../types/MashScheduleType';
 import { Recipe, RecipeGrain, RecipeHop, RecipeYeast, RecipeFermentation, MashSchedule } from '../models';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 
 const saveRecipe = {
   type: RecipeType,
@@ -50,7 +50,7 @@ const saveRecipe = {
         RecipeGrain.destroy({ where: { recipeId: id } });
       }
 
-      RecipeGrain.bulkCreate(grains.map(g => Object.assign(_.pick(g, 'lovibond', 'lintner', 'gravity', 'weight'), {
+      RecipeGrain.bulkCreate(grains.map(g => Object.assign(pick(g, 'lovibond', 'lintner', 'gravity', 'weight'), {
         recipeId: recipe.id,
         grainId: g.id
       })));
@@ -61,7 +61,7 @@ const saveRecipe = {
         RecipeHop.destroy({ where: { recipeId: id } });
       }
 
-      RecipeHop.bulkCreate(hops.map(h => Object.assign(_.pick(h, 'alpha', 'beta', 'minutes', 'weight'), {
+      RecipeHop.bulkCreate(hops.map(h => Object.assign(pick(h, 'alpha', 'beta', 'minutes', 'weight'), {
         recipeId: recipe.id,
         hopId: h.id
       })));
@@ -72,7 +72,7 @@ const saveRecipe = {
         RecipeYeast.destroy({ where: { recipeId: id } });
       }
 
-      RecipeYeast.bulkCreate(yeasts.map(y => Object.assign(_.pick(y, 'mfgDate', 'apparentAttenuation', 'quantity'), {
+      RecipeYeast.bulkCreate(yeasts.map(y => Object.assign(pick(y, 'mfgDate', 'apparentAttenuation', 'quantity'), {
         recipeId: recipe.id,
         yeastId: y.id
       })));
@@ -95,7 +95,7 @@ const saveRecipe = {
       }
 
       MashSchedule.create(Object.assign(
-        _.pick(mashSchedule, 'style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'),
+        pick(mashSchedule, 'style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'),
         { recipeId: recipe.id }
       ));
 

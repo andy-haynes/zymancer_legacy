@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import SliderInput from '../SliderInput';
 import Yeast from '../Yeast';
-import _ from 'lodash';
+import round from 'lodash/round';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Paper from 'material-ui/Paper';
 import s from './Fermentation.css';
@@ -21,7 +21,7 @@ const Fermentation = ({ fermentation, actions }) => (
                   </div>
                   <div className={s.cellCount}>
                     <span className={s.cellCountValue}>
-                      {_.round(fermentation.cellCount / Math.pow(10, 9), 1)}
+                      {round(fermentation.cellCount / Math.pow(10, 9), 1)}
                     </span>
                     &nbsp;&times; 10<sup>9</sup>
                   </div>
@@ -38,7 +38,7 @@ const Fermentation = ({ fermentation, actions }) => (
                   </div>
                   <div className={s.cellCount}>
                     <span className={s.cellCountValue}>
-                      {_.round(fermentation.recommendedCellCount / Math.pow(10, 9), 1)}
+                      {round(fermentation.recommendedCellCount / Math.pow(10, 9), 1)}
                     </span>
                     &nbsp;&times; 10<sup>9</sup>
                   </div>

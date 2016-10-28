@@ -1,7 +1,7 @@
 import RecipeActions from '../constants/RecipeActionTypes';
 import hopAddition from './hopAddition';
 import helpers from '../utils/helpers';
-import _ from 'lodash';
+import round from 'lodash/round';
 
 function createHop(hop) {
   const alphaRange = hop.alphaRange || helpers.extractRange(hop.alpha);
@@ -10,8 +10,8 @@ function createHop(hop) {
   return {
     id: hop.id,
     name: hop.name,
-    alpha: isNaN(hop.alpha) ? _.round(alphaRange.avg, 1) : hop.alpha,
-    beta: isNaN(hop.beta) ? _.round(betaRange.avg, 1) : hop.beta,
+    alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
+    beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
     additions: (hop.additions || [undefined]).map(a => hopAddition.create(a)),
     categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories,
     alphaRange,

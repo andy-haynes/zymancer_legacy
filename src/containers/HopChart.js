@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import HopChart from '../components/HopChart';
-import _ from 'lodash';
+import sumBy from 'lodash/sumBy';
+import flatten from 'lodash/flatten';
 
 const datasetOptionDefaults = {
   pointStrokeColor: "#fff",
@@ -23,9 +24,9 @@ function getChartItems(hopData, categories) {
 
 function mapState(state) {
   const hopData = state.currentRecipe.hops.map(hop => Object.assign({}, hop, {
-    chartValue: hop.beta * _.sumBy(hop.additions, addition => addition.weight.value)
+    chartValue: hop.beta * sumBy(hop.additions, addition => addition.weight.value)
   }));
-  const currentCategories = _.flatten(state.currentRecipe.hops.map(hop => hop.categories))
+  const currentCategories = flatten(state.currentRecipe.hops.map(hop => hop.categories))
                              .filter((v, i, a) => a.indexOf(v) === i);
 
   return {

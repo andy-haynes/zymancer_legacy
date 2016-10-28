@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import SavedRecipes from '../components/SavedRecipes';
 import { RecipeType } from '../constants/AppConstants';
 import actions from '../actions';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 
 function mapState(state) {
-  return _.pick(state.recipes, RecipeType.SavedRecipes, RecipeType.SharedRecipes, RecipeType.PublicRecipes);
+  return pick(state.recipes, RecipeType.SavedRecipes, RecipeType.SharedRecipes, RecipeType.PublicRecipes);
 }
 
 function mapDispatch(dispatch) {

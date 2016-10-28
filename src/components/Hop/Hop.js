@@ -3,7 +3,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Hop.css';
 import Measurement from '../Measurement';
 import HopAddition from '../HopAddition';
-import _ from 'lodash';
+import round from 'lodash/round';
+import pick from 'lodash/pick';
 import zymath from '../../utils/zymath';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
@@ -49,13 +50,13 @@ const Hop = ({ hop, originalGravity, boilVolume, actions }) => (
             <div className="pure-u-1-2">
               <div className={s.hopDetail}>
                 <div className={s.detailLabel}>IBU</div>
-                {_.round(zymath.calculateTotalIBU(boilVolume, originalGravity, [hop]), 1)}
+                {round(zymath.calculateTotalIBU(boilVolume, originalGravity, [hop]), 1)}
               </div>
             </div>
             <div className="pure-u-1-2">
               <div className={s.hopDetail}>
                 <div className={s.detailLabel}>Util</div>
-                {_.round(zymath.calculateTotalUtilization(hop.additions, originalGravity), 2)}
+                {round(zymath.calculateTotalUtilization(hop.additions, originalGravity), 2)}
               </div>
             </div>
           </div>
@@ -75,7 +76,7 @@ const Hop = ({ hop, originalGravity, boilVolume, actions }) => (
         originalGravity={originalGravity}
         boilVolume={boilVolume}
         addition={addition}
-        actions={_.pick(actions, 'setAdditionTime', 'setAdditionWeight', 'removeAddition')}
+        actions={pick(actions, 'setAdditionTime', 'setAdditionWeight', 'removeAddition')}
       />
     ))}
   </Paper>

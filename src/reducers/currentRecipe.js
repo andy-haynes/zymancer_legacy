@@ -8,7 +8,7 @@ import hop from './hop';
 import fermentation from './fermentation';
 import mashSchedule from './mashSchedule';
 import measurement from './measurement';
-import _ from 'lodash'
+import sumBy from 'lodash/sumBy'
 
 const initialState = {
   id: null,
@@ -57,7 +57,7 @@ function recalculate(state, changed) {
 
   const thicknessUnit = mashSchedule.thickness.consequent;
   const grainWeight = {
-    value: _.sumBy(grains, g => helpers.convertToUnit(g.weight, thicknessUnit).value),
+    value: sumBy(grains, g => helpers.convertToUnit(g.weight, thicknessUnit).value),
     unit: thicknessUnit
   };
   boilVolume = zymath.calculateBoilVolume(targetVolume, mashSchedule.boilOff, mashSchedule.thickness, mashSchedule.absorption, boilMinutes, grainWeight);
@@ -76,10 +76,10 @@ function recalculate(state, changed) {
   IBU = zymath.calculateTotalIBU(boilVolume, originalGravity, hops);
 
   fermentation = Object.assign({}, fermentation, {
-    cellCount: zymath.calculateCellCount(Defaults.CellCount * _.sumBy(fermentation.yeasts, (y) => parseInt(y.quantity) || 0)),
+    cellCount: zymath.calculateCellCount(Defaults.CellCount * sumBy(fermentation.yeasts, (y) => parseInt(y.quantity) || 0)),
     recommendedCellCount: zymath.calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume)
   });
-  const apparentAttenuation = (_.sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || Defaults.YeastAttenuation;
+  const apparentAttenuation = (sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || Defaults.YeastAttenuation;
   finalGravity = zymath.calculateFinalGravity(originalGravity, apparentAttenuation);
   ABV = zymath.calculateABV(originalGravity, finalGravity);
   SRM = zymath.calculateSRM(targetVolume, grains);

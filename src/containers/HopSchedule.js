@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 import actions from '../actions';
 import HopSchedule from '../components/HopSchedule';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 
 const { recipe } = actions;
 
 function mapState(state) {
-  return _.pick(state.currentRecipe, 'hops', 'originalGravity', 'boilVolume');
+  return pick(state.currentRecipe, 'hops', 'originalGravity', 'boilVolume');
 }
 
 function mapDispatch(dispatch) {

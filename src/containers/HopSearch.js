@@ -2,12 +2,12 @@ import { connect } from 'react-redux';
 import actions from '../actions';
 import HopSearch from '../components/HopSearch';
 import { IngredientType } from '../constants/AppConstants';
-import _ from 'lodash';
+import pick from 'lodash/pick';
 
 function mapState(state) {
   return Object.assign({},
     state.ingredientSearch[IngredientType.Hop],
-    _.pick(state.currentRecipe, 'originalGravity', 'boilVolume')
+    pick(state.currentRecipe, 'originalGravity', 'boilVolume')
   );
 }
 

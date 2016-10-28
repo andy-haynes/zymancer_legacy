@@ -1,9 +1,11 @@
 import SRMColors from '../constants/SRMColors';
-import _ from 'lodash';
 import Units from '../constants/Units';
 import helpers from './helpers';
 import { ExtractGravity } from '../constants/AppConstants';
 import Defaults from '../constants/Defaults';
+import round from 'lodash/round';
+import sumBy from 'lodash/sumBy';
+import pick from 'lodash/pick';
 
 // gravity
 function formatGravity(gravity) {
@@ -15,7 +17,7 @@ function gravityToPoints(gravity) {
 }
 
 function pointsToGravity(points) {
-  return !isNaN(points) ? _.round(1 + (parseInt(points) / 1000), 3) : 1;
+  return !isNaN(points) ? round(1 + (parseInt(points) / 1000), 3) : 1;
 }
 
 function gravityToPlato(gravity) {
@@ -28,7 +30,7 @@ function calculateGrainRGB(targetVolume, grain) {
 }
 
 function calculateSRM(targetVolume, grains) {
-  let mcu = _.sumBy(grains, grain => {
+  let mcu = sumBy(grains, grain => {
     const lovibond = parseFloat(grain.lovibond);
     if (!isNaN(lovibond)) {
       const weight = helpers.convertToUnit(grain.weight, Units.Pound);
@@ -49,7 +51,7 @@ function SRMtoRGB(srm) {
 
 function calculateGravity(efficiencyPercentage, grains, targetVolume) {
   const efficiency = efficiencyPercentage / 100;
-  const points = _.sumBy(grains, grain => {
+  const points = sumBy(grains, grain => {
     const points = gravityToPoints(grain.isExtract ? ExtractGravity[grain.extractType] : grain.gravity);
     return (grain.isExtract ? 1 : efficiency) * points * helpers.convertToUnit(grain.weight, Units.Pound).value
   });
@@ -58,7 +60,7 @@ function calculateGravity(efficiencyPercentage, grains, targetVolume) {
 
 /* http://byo.com/mead/item/1544-understanding-malt-spec-sheets-advanced-brewing */
 function DBFGtoGravity(dbfg) {
-  return _.round(1 + ((dbfg / 100) * 0.04621), 3);
+  return round(1 + ((dbfg / 100) * 0.04621), 3);
 }
 
 // hops
@@ -75,12 +77,12 @@ function calculateIBU(weight, minutes, alpha, originalGravity, boilVolume) {
 }
 
 function calculateTotalUtilization(additions, originalGravity) {
-  return _.sumBy(additions, addition => calculateUtilization(addition.minutes, originalGravity));
+  return sumBy(additions, addition => calculateUtilization(addition.minutes, originalGravity));
 }
 
 function calculateTotalIBU(boilVolume, originalGravity, hops) {
-  return _.sumBy(hops, hop => {
-    return _.sumBy(hop.additions, addition => calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume));
+  return sumBy(hops, hop => {
+    return sumBy(hop.additions, addition => calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume));
   });
 }
 
@@ -97,26 +99,26 @@ function calculateBoilVolume(targetVolume, boilOffRatio, mashThicknessRatio, abs
   const absorptionLoss = convertedWeight.value * convertedAbsorption.value;
 
   return {
-    value: _.round(parseFloat(targetVolume.value) + boilLoss + absorptionLoss, 1),
+    value: round(parseFloat(targetVolume.value) + boilLoss + absorptionLoss, 1),
     unit: volumeUnit
   };
 }
 
 function calculateStrikeVolume(grainWeight, mashThickness) {
   const weight = helpers.convertToUnit(grainWeight, mashThickness.consequent);
-  return { value: _.round(weight.value * mashThickness.value, 1), unit: mashThickness.antecedent }
+  return { value: round(weight.value * mashThickness.value, 1), unit: mashThickness.antecedent }
 }
 
 function calculateSpargeVolume(boilVolume, strikeVolume) {
   return {
-    value: _.round(helpers.convertToUnit(boilVolume, strikeVolume.unit, 1).value - strikeVolume.value, 1),
+    value: round(helpers.convertToUnit(boilVolume, strikeVolume.unit, 1).value - strikeVolume.value, 1),
     unit: strikeVolume.unit
   };
 }
 
 // TODO: metric
 function setTempRange(defaultTemp, measurement) {
-  return Object.assign(_.pick(defaultTemp, 'min', 'max'), measurement);
+  return Object.assign(pick(defaultTemp, 'min', 'max'), measurement);
 }
 
 function calculateStrikeWaterTemp(mashThickness, sourceTemp, targetTemp) {
@@ -129,7 +131,7 @@ function calculateStrikeWaterTemp(mashThickness, sourceTemp, targetTemp) {
   const deltaT = ((0.2 / convertedRatio) * (target.value - source.value)) + target.value;
 
   return setTempRange(Defaults.InfusionTemp, {
-    value: _.round(deltaT, 1),
+    value: round(deltaT, 1),
     unit: Units.Fahrenheit
   });
 }
@@ -143,7 +145,7 @@ function calculateMashoutWaterTemp(strikeVolume, spargeVolume, grainWeight, infu
   const sparge = helpers.convertToUnit(spargeVolume, Units.Quart).value;
 
   return setTempRange(Defaults.MashoutTemp, {
-    value: _.round((deltaT * ((0.2 * weight * strike) / sparge)) + mashoutF, 1),
+    value: round((deltaT * ((0.2 * weight * strike) / sparge)) + mashoutF, 1),
     unit: Units.Fahrenheit
   });
 }
@@ -156,11 +158,11 @@ function calculateFinalGravity(originalGravity, apparentAttenuation) {
 
 function calculateABV(originalGravity, finalGravity) {
   const pointsDiff = parseFloat(originalGravity) - finalGravity;
-  return _.round(pointsDiff * 131.25, 1);
+  return round(pointsDiff * 131.25, 1);
 }
 
 function calculateYeastViability(mfgDate) {
-  return _.round(Math.max(96.2 - (21.5 * helpers.monthsSinceDate(mfgDate)), 10), 1);
+  return round(Math.max(96.2 - (21.5 * helpers.monthsSinceDate(mfgDate)), 10), 1);
 }
 
 function calculateCellCount(startingCount, mfgDate, starterSteps) {
