@@ -46,6 +46,17 @@ const MeasurementPrecision = {
   SetGrainTemp: 1
 };
 
+// routing
+const SelectedRoute = {
+  '/': ['', 'recipe'],
+  '/recipes': ['recipes'],
+  '/account': ['account'],
+  '/equipment': ['equipment'],
+  '/login': ['login'],
+  '/logout': ['logout'],
+  '/contact': ['contact']
+};
+
 export default {
   BoilMinutes,
   EfficiencyPercentage,
@@ -65,5 +76,6 @@ export default {
   YeastAttenuation,
   PitchRate,
   CellCount,
-  MeasurementPrecision
+  MeasurementPrecision,
+  SelectedRoute
 };

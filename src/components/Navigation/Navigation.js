@@ -15,21 +15,21 @@ import Link from '../Link';
 function Navigation({ userLoggedIn }) {
   const accountLink = userLoggedIn ? (
       <span>
-        <Link className={s.link} to="/account">Account</Link>
+        <Link navlink className={s.link} to="/account">Account</Link>
         <span className={s.spacer}>|</span>
         <a className={s.link} href="/logout">Log out</a>
       </span>
-  ) : (<Link className={s.link} to="/login">Log in</Link>);
+  ) : (<Link navlink className={s.link} to="/login">Log in</Link>);
 
   return (
     <div className={s.root} role="navigation">
-      <Link className={s.link} to="/">Calculator</Link>
+      <Link navlink className={s.link} to="/">Calculator</Link>
       <span className={s.spacer}>|</span>
-      <Link className={s.link} to="/recipes">Recipes</Link>
+      <Link navlink className={s.link} to="/recipes">Recipes</Link>
       <span className={s.spacer}>|</span>
-      <Link className={s.link} to="/equipment">Equipment</Link>
+      <Link navlink className={s.link} to="/equipment">Equipment</Link>
       <span className={s.spacer}>|</span>
-      <Link className={s.link} to="/contact">Contact</Link>
+      <Link navlink className={s.link} to="/contact">Contact</Link>
       <span className={s.spacer}>|</span>
       {accountLink}
     </div>

@@ -9,6 +9,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import history from '../../core/history';
+import Defaults from '../../constants/Defaults';
 
 function isLeftClickEvent(event) {
   return event.button === 0;
@@ -48,15 +49,16 @@ class Link extends Component { // eslint-disable-line react/prefer-stateless-fun
       } else {
         history.push({
           pathname: event.currentTarget.pathname,
-          search: event.currentTarget.search,
+          search: event.currentTarget.search
         });
       }
     }
   };
 
   render() {
-    const { to, ...props } = this.props; // eslint-disable-line no-use-before-define
-    const active = history.getCurrentLocation().pathname === to;
+    const { to, navlink, ...props } = this.props; // eslint-disable-line no-use-before-define
+    const currentPath = history.getCurrentLocation().pathname.split('/')[1];
+    const active = navlink && Defaults.SelectedRoute[to].some(r => r === currentPath);
     return <a data-active={active} href={history.createHref(to)} {...props} onClick={this.handleClick} />;
   }
 
