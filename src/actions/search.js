@@ -31,7 +31,7 @@ const ingredientTypeMap = {
   [IngredientType.Yeast]: {
     filter: _filterAction(SearchActions.FilterYeastResults),
     update: _updateAction(SearchActions.UpdateYeastResults, yeast, 'searchYeast'),
-    buildQuery: q => `{searchYeast(query:"${q}"){id,name,url,code,attenuationRange,description,flocculation,rangeF,rangeC,tolerance,mfg,styles}}`
+    buildQuery: q => `{searchYeast(query:"${q}"){id,name,url,code,attenuationLow,attenuationHigh,description,flocculation,temperatureLow,temperatureHigh,toleranceLow,toleranceHigh,mfg,styles}}`
   }
 };
 

@@ -20,7 +20,7 @@ const loadRecipe = {
         model: Hop,
         as: 'hopAdditions'
       }, {
-        attributes: ['id', 'name', 'styles', 'description', 'mfg', 'code', 'rangeC', 'rangeF', 'tolerance', 'flocculation', 'attenuationRange'],
+        attributes: ['id', 'name', 'code', 'url', 'description', 'flocculation', 'temperatureLow', 'temperatureHigh', 'toleranceLow', 'toleranceHigh', 'attenuationLow', 'attenuationHigh', 'mfg'],
         model: Yeast,
         as: 'yeast'
       }, {
@@ -75,11 +75,13 @@ const loadRecipe = {
         styles: yeast.styles,
         mfg: yeast.mfg,
         code: yeast.code,
-        rangeC: yeast.rangeC,
-        rangeF: yeast.rangeF,
-        tolerance: yeast.tolerance,
+        temperatureLow: yeast.temperatureLow,
+        temperatureHigh: yeast.temperatureHigh,
+        toleranceLow: yeast.toleranceLow,
+        toleranceHigh: yeast.toleranceHigh,
+        attenuationLow: yeast.attenuationLow,
+        attenuationHigh: yeast.attenuationHigh,
         mfgDate: yeast.RecipeYeast.mfgDate,
-        attenuationRange: yeast.attenuationRange,
         apparentAttenuation: yeast.RecipeYeast.apparentAttenuation,
         quantity: yeast.RecipeYeast.quantity
       })),

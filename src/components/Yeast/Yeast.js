@@ -117,8 +117,8 @@ const Yeast = ({ yeast, actions }) => (
         <SliderInput
           value={yeast.apparentAttenuation}
           update={(v) => actions.setApparentAttenuation(yeast, v)}
-          min={yeast.attenuationRange.low}
-          max={yeast.attenuationRange.high}
+          min={yeast.attenuationLow}
+          max={yeast.attenuationHigh}
           step={0.1}
           style={{paddingBottom: '16px', height: '40px'}}
         />
@@ -126,19 +126,23 @@ const Yeast = ({ yeast, actions }) => (
       <div className="pure-u-2-24"></div>
       <div className="pure-u-4-24">
         <div className={s.yeastValue}>
-          {yeast.rangeF.toString()} °F
+          {yeast.temperatureLow || '–'}
+          {(yeast.temperatureHigh || '') && ' - ' + yeast.temperatureHigh}
+          {(yeast.temperatureLow || '') && ' °F'}
         </div>
       </div>
       <div className="pure-u-1-24"></div>
       <div className="pure-u-4-24">
         <div className={s.yeastValue}>
-          {yeast.flocculation}
+          {yeast.flocculation || '–'}
         </div>
       </div>
       <div className="pure-u-1-24"></div>
       <div className="pure-u-4-24">
         <div className={s.yeastValue}>
-          {yeast.tolerance}
+          {yeast.toleranceLow || '–'}
+          {(yeast.toleranceHigh || '') && ' - ' + yeast.toleranceHigh}
+          {(yeast.toleranceLow || '') && '%'}
         </div>
       </div>
     </div>

@@ -10,7 +10,7 @@
 import Sequelize from 'sequelize';
 import { databaseUrl } from '../config';
 
-const sequelize = new Sequelize('Zymancer', 'postgres', 'autobotz', {
+const sequelize = new Sequelize('Zymancer', 'postgres', 'autobot', {
   dialect: 'postgres',
   port: 5432,
   define: {

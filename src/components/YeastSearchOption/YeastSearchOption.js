@@ -15,12 +15,16 @@ const YeastSearchOption = ({ yeast, addYeast }) => (
       </div>
       <div className="pure-u-6-24">
         <div className={s.yeastDetail}>
-          {yeast.tolerance}
+          {yeast.toleranceLow || '–'}
+          {(yeast.toleranceHigh || '') && ' - ' + yeast.toleranceHigh}
+          {(yeast.toleranceLow || '') && '%'}
         </div>
       </div>
       <div className="pure-u-6-24">
         <div className={s.yeastDetail}>
-          {yeast.attenuationRange.toString()}%
+          {yeast.attenuationLow || '–'}
+          {(yeast.attenuationHigh || '') && ' - ' + yeast.attenuationHigh}
+          {(yeast.attenuationLow || '') && '%'}
         </div>
       </div>
     </div>

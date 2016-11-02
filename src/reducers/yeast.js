@@ -3,33 +3,24 @@ import Defaults from '../constants/Defaults';
 import helpers from '../utils/helpers';
 import zymath from '../utils/zymath';
 import measurement from './measurement';
+import pick from 'lodash/pick';
 
 function createYeast(yeast) {
   const now = new Date();
   const mfgDate = typeof yeast.mfgDate === 'string' ? new Date(yeast.mfgDate) : new Date(now.getFullYear(), now.getMonth(), -7);
-  const attenuationRange = typeof yeast.attenuationRange === 'string' ? helpers.extractRange(yeast.attenuationRange) : yeast.attenuationRange;
-  const apparentAttenuation = (yeast.apparentAttenuation * (yeast.apparentAttenuation < 1 ? 100 : 1)) || attenuationRange.avg;
-  const rangeF = typeof yeast.rangeF === 'string' ? helpers.extractRange(yeast.rangeF) : yeast.rangeF;
-  const rangeC = typeof yeast.rangeC === 'string' ? helpers.extractRange(yeast.rangeC) : yeast.rangeC;
-  return {
-    id: yeast.id,
-    name: yeast.name,
-    code: yeast.code,
-    mfg: yeast.mfg,
-    mfgDate,
-    url: yeast.url,
-    description: yeast.description,
-    quantity: 1,
-    viability: zymath.calculateYeastViability(mfgDate),
-    flocculation: yeast.flocculation,
-    tolerance: yeast.tolerance,
-    styles: typeof yeast.styles === 'string' ? yeast.styles.split(',').join(', ') : [],
-    starterSteps: [],
-    apparentAttenuation,
-    attenuationRange,
-    rangeF,
-    rangeC
-  };
+  const avgAttenuation = (yeast.attenuationLow && yeast.attenuationHigh ? (yeast.attenuationLow + yeast.attenuationHigh) / 2 : yeast.attenuationLow) || null;
+  const apparentAttenuation = (yeast.apparentAttenuation * (yeast.apparentAttenuation < 1 ? 100 : 1)) || avgAttenuation;
+
+  return Object.assign(
+    pick(yeast, 'id', 'name', 'code', 'url', 'mfg', 'description', 'flocculation', 'toleranceLow', 'toleranceHigh', 'attenuationLow', 'attenuationHigh', 'temperatureLow', 'temperatureHigh'),
+    {
+      mfgDate,
+      quantity: 1,
+      viability: zymath.calculateYeastViability(mfgDate),
+      styles: typeof yeast.styles === 'string' ? yeast.styles.split(',').join(', ') : [],
+      apparentAttenuation,
+      starterSteps: []
+    });
 }
 
 function yeast(state = {}, action) {

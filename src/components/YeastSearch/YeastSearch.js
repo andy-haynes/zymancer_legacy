@@ -23,10 +23,10 @@ const YeastSearch = ({ query, results, loading, error, actions }) => (
               <span>Name</span>
             </div>
             <div className="pure-u-6-24">
-              <span>Attenuation</span>
+              <span>ABV</span>
             </div>
             <div className="pure-u-6-24">
-              <span>Temp</span>
+              <span>Attenuation</span>
             </div>
           </div>
         </div>

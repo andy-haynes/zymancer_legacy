@@ -111,11 +111,13 @@ const _yeastFieldsDetailed = Object.assign({}, _yeastFields, {
   url: { type: new GraphQLNonNull(GraphQLString) },
   code: { type: GraphQLString },
   description: { type: GraphQLString },
-  attenuationRange: { type: GraphQLString },
   flocculation: { type: GraphQLString },
-  rangeF: { type: GraphQLString },
-  rangeC: { type: GraphQLString },
-  tolerance: { type: GraphQLString },
+  attenuationLow: { type: GraphQLInt },
+  attenuationHigh: { type: GraphQLInt },
+  temperatureLow: { type: GraphQLInt },
+  temperatureHigh: { type: GraphQLInt },
+  toleranceLow: { type: GraphQLInt },
+  toleranceHigh: { type: GraphQLInt },
   mfg: { type: GraphQLString },
   styles: { type: GraphQLString }
 });
