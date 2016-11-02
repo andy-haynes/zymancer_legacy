@@ -76,7 +76,7 @@ function recalculate(state, changed) {
   IBU = zymath.calculateTotalIBU(boilVolume, originalGravity, hops);
 
   fermentation = Object.assign({}, fermentation, {
-    cellCount: zymath.calculateCellCount(Defaults.CellCount * sumBy(fermentation.yeasts, (y) => parseInt(y.quantity) || 0)),
+    cellCount: sumBy(fermentation.yeasts, y => zymath.calculateCellCount(Defaults.CellCount * y.quantity, y.mfgDate, y.starterSteps)) || 0,
     recommendedCellCount: zymath.calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume)
   });
   const apparentAttenuation = (sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || Defaults.YeastAttenuation;

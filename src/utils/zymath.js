@@ -166,7 +166,7 @@ function calculateYeastViability(mfgDate) {
 }
 
 function calculateCellCount(startingCount, mfgDate, starterSteps) {
-  return startingCount;
+  return startingCount * (calculateYeastViability(mfgDate) / 100);
 }
 
 function calculateRecommendedCellCount(pitchRate, originalGravity, targetVolume) {
