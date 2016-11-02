@@ -13,6 +13,7 @@ const SliderInput = ({ value, min, max, update, children, sliderWidth = '7-8', i
       className={s.input}
       value={value}
       onChange={(e) => update(e.target.value)}
+      disabled={disabled || value === null}
     />
   );
 
@@ -31,7 +32,7 @@ const SliderInput = ({ value, min, max, update, children, sliderWidth = '7-8', i
             value={value}
             min={min} max={max} step={step}
             onChange={(e, v) => update(v)}
-            disabled={disabled}
+            disabled={disabled || value === null}
           />
         </div>
         <div className={inputContainer}>
