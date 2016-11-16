@@ -3,14 +3,17 @@
 
 .searchInput {
   padding-top: 18px;
+  margin-bottom: -0.5em;
 }
 
 .searchResults {
   position: absolute;
-  top: 58px;
-  width: 46%;
+  width: 36em;
   z-index: 1000;
+  max-height: 90%;
+  overflow: scroll;
   background-color: white;
+  border-bottom: 1px solid #ddd;
 }
 
 .resultsHeader {

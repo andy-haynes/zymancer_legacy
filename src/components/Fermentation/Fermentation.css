@@ -9,6 +9,10 @@
   padding: 0.3em 0 0 0.2em;
 }
 
+.yeasts {
+  min-height: 350px;
+}
+
 .cellCount {
   float: right;
   padding: 0.2em 0.8em 0.3em 0.5em;
