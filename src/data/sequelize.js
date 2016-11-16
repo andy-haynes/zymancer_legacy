@@ -8,11 +8,11 @@
  */
 
 import Sequelize from 'sequelize';
-import { databaseUrl } from '../config';
+import { dbName, dbUser, dbPassword, dbPort } from '../config';
 
-const sequelize = new Sequelize('Zymancer', 'postgres', 'autobot', {
+const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
   dialect: 'postgres',
-  port: 5432,
+  port: dbPort,
   define: {
     freezeTableName: true,
     charset: 'utf8',

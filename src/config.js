@@ -12,7 +12,10 @@
 export const port = process.env.PORT || 3000;
 export const host = process.env.WEBSITE_HOSTNAME || `localhost:${port}`;
 
-export const databaseUrl = process.env.DATABASE_URL || 'sqlite:database.sqlite';
+export const dbName = process.env.DB_NAME || 'Zymancer';
+export const dbUser = process.env.DB_USER || 'postgres';
+export const dbPassword = process.env.DB_SECRET || 'autobot';
+export const dbPort = process.env.DB_PORT || 5432;
 
 export const analytics = {
 
