@@ -8,10 +8,10 @@
 
 .searchResults {
   position: absolute;
-  width: 36em;
+  width: 45%;
   z-index: 1000;
   max-height: 90%;
-  overflow: scroll;
+  overflow: auto;
   background-color: white;
   border-bottom: 1px solid #ddd;
 }
