@@ -7,21 +7,18 @@ import MeasurementUnits from '../../constants/MeasurementUnits';
 import zymath from '../../utils/zymath';
 import SliderInput from '../SliderInput';
 import TextField from 'material-ui/TextField';
-import Paper from 'material-ui/Paper';
 import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-circle-outline';
 
 const HopAddition = ({ addition, hop, originalGravity, boilVolume, actions }) => (
-  <Paper className={s.hopAddition} zDepth={2}>
+  <div className={s.hopAddition}>
     <div className="pure-g">
       <div className="pure-u-11-24">
-        <div className={s.additionMinutes}>
-          <SliderInput
-            value={addition.minutes}
-            min={0}
-            max={60}
-            update={(minutes) => actions.setAdditionTime(addition, hop, minutes)}
-          />
-        </div>
+        <SliderInput
+          value={addition.minutes}
+          min={0}
+          max={60}
+          update={(minutes) => actions.setAdditionTime(addition, hop, minutes)}
+        />
       </div>
       <div className="pure-u-2-24">
         <div className={s.minuteLabel}>Min</div>
@@ -58,7 +55,7 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, actions }) =>
         />
       </div>
     </div>
-  </Paper>
+  </div>
 );
 
 export default withStyles(s)(HopAddition);

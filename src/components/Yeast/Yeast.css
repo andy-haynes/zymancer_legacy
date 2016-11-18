@@ -8,12 +8,6 @@
   font-weight: 400;
 }
 
-.styleHeader {
-  font-size: 0.7em;
-  padding-left: 45%;
-  text-decoration: underline;
-}
-
 .yeastMfg a {
   text-transform: uppercase;
   font-size: 14px;
@@ -35,15 +29,19 @@
 }
 
 .yeastDescription {
-  padding: 4px;
   font-size: 12px;
+  padding: 0.7em 0.3em;
 }
 
 .yeastStyles {
-  padding: 4px 8px;
-  font-size: 11px;
+  padding: 0 2.5em;
+  font-size: 0.75em;
+  color: #004666;
+  text-align: center;
+  font-weight: 600;
 }
 
-hr {
-  margin: 0.7em 0;
+.expandable {
+  margin-bottom: 0.5em;
+  padding: 0.5em 0;
 }
