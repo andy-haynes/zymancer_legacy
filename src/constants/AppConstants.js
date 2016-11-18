@@ -36,4 +36,4 @@ export const ExtractGravity = {
 };
 
 export const MinSearchQueryLength = 1;
-export const MaxSearchResults = 10;
+export const MaxSearchResults = 30;
