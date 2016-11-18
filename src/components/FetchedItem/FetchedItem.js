@@ -15,7 +15,6 @@ class FetchedItem extends React.Component {
   render() {
     return (
       <div className={s.fetchedItem}>
-        {!this.props.isFetching && !this.props.children && `you fucked up! null? ${this.props.children == null}`}
         {!this.props.isFetching && this.props.children}
         {this.props.isFetching && <CircularProgress />}
       </div>
