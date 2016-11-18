@@ -1,23 +1,2 @@
 .yeastSearch {
 }
-
-.searchInput {
-  padding-top: 18px;
-  margin-bottom: -0.5em;
-}
-
-.searchResults {
-  position: absolute;
-  width: 45%;
-  z-index: 1000;
-  max-height: 90%;
-  overflow: auto;
-  background-color: white;
-  border-bottom: 1px solid #ddd;
-}
-
-.resultsHeader {
-  background-color: #444;
-  color: white;
-  padding: 0.2em 0.3em;
-}

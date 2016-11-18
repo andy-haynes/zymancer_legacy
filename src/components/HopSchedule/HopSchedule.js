@@ -2,18 +2,32 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Hop from '../Hop';
 import s from './HopSchedule.css';
+import HopChart from '../../containers/HopChart';
+import HopSearchContainer from '../../containers/HopSearch';
 
 const HopSchedule = ({ hops, originalGravity, boilVolume, actions }) => (
   <div className={s.hopSchedule}>
-    {hops.map(hop => (
-      <Hop
-        key={hop.id}
-        hop={hop}
-        originalGravity={originalGravity}
-        boilVolume={boilVolume}
-        actions={actions}
-      />
-    ))}
+    <div className="pure-g">
+      <div className="pure-u-1-2">
+        <div className={s.hops}>
+          {hops.map(hop => (
+            <Hop
+              key={hop.id}
+              hop={hop}
+              originalGravity={originalGravity}
+              boilVolume={boilVolume}
+              actions={actions}
+            />
+          ))}
+        </div>
+      </div>
+      <div className="pure-u-1-2">
+        <HopSearchContainer />
+        <div className={s.hopChart}>
+          {hops.length ? <HopChart /> : ''}
+        </div>
+      </div>
+    </div>
   </div>
 );
 

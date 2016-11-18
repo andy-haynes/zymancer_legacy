@@ -1,12 +1,12 @@
 .grainBill {
-  padding: 8px;
+  padding: 1em 0.7em;
 }
 
-.grainHeaders {
-  margin: 10px 0;
-  padding: 10px 0;
-  border-top: 1px solid #ccc;
-  border-bottom: 1px solid #ccc;
-  font-size: 14px;
-  color: #888;
+.grainChart {
+  padding: 8% 0 0 18%;
+  min-height: 350px;
+}
+
+.grains {
+  padding-right: 0.7em;
 }
