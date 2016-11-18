@@ -4,7 +4,7 @@ import GrainSearch from '../components/GrainSearch';
 import { IngredientType } from '../constants/AppConstants';
 
 function mapState(state) {
-  return state.ingredientSearch[IngredientType.Grain];
+  return { search: state.ingredientSearch[IngredientType.Grain] };
 }
 
 function mapDispatch(dispatch) {

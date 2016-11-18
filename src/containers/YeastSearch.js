@@ -4,7 +4,7 @@ import YeastSearch from '../components/YeastSearch';
 import { IngredientType } from '../constants/AppConstants';
 
 function mapState(state) {
-  return state.ingredientSearch[IngredientType.Yeast];
+  return { search: state.ingredientSearch[IngredientType.Yeast] };
 }
 
 function mapDispatch(dispatch) {

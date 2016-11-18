@@ -6,7 +6,7 @@ import pick from 'lodash/pick';
 
 function mapState(state) {
   return Object.assign({},
-    state.ingredientSearch[IngredientType.Hop],
+    { search: state.ingredientSearch[IngredientType.Hop] },
     pick(state.currentRecipe, 'originalGravity', 'boilVolume')
   );
 }
