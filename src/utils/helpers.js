@@ -79,7 +79,12 @@ function createRatio(numerator, denominator, min, max) {
 
 //region strings
 function extractRange(raw) {
-  const comp = (raw || '').split('-').map(r => parseFloat(r));
+  let comp = (raw || '').split('-');
+  if (comp.length === 1) {
+    comp = comp[0].split('–');
+  }
+  comp = comp.map(r => parseFloat(r));
+
   const low = !isNaN(comp[0]) ? comp[0] : 0;
   let ret = comp.length === 2 && low !== comp[1] && !isNaN(comp[1]) ? {
     high: comp[1],

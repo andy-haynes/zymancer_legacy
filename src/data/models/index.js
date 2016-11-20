@@ -20,8 +20,9 @@ import flatten from 'lodash/flatten';
 import pick from 'lodash/pick';
 
 import Ingredients from '../../constants/TestIngredients';
-import styles from '../../constants/BJCP_JSON';
+import bjcp from '../../constants/bjcp';
 import zymath from '../../utils/zymath';
+import helpers from '../../utils/helpers';
 
 User.hasMany(UserLogin, {
   foreignKey: 'userId',
@@ -122,20 +123,32 @@ function sync(...args) {
         }
       ));
 
-      const categories = Object.keys(styles).map(k => ({
-        id: parseInt(k),
-        name: styles[k].name,
-        description: styles[k].description
+      const styles = flatten(bjcp.map(c => c.styles || []));
+      const categories = bjcp.map(c => ({
+        number: parseInt(c.number),
+        name: c.category,
+        description: c.description
       }));
 
-      const bjcpStyles = Object.keys(styles)
-        .map(k => styles[k].styles)
-        .reduce((prev, next) => prev.concat(next), [])
-        .map(style => Object.assign({}, style, {
-          categoryId: style.code ? parseInt(style.code) : (style.name.indexOf('IPA') > -1 ? 21 : 27),
-          commercialExamples: style.commercialExamples && style.commercialExamples.length ? style.commercialExamples.join(', ') : '',
-          tags: style.tags && style.tags.length ? style.tags.join(', ') : ''
-        }));
+      const bjcpStyles = styles.map(style => Object.assign({}, style, {
+        fgRange: helpers.extractRange(style.FG),
+        ogRange: helpers.extractRange(style.OG),
+        ibuRange: helpers.extractRange(style.IBUs),
+        srmRange: helpers.extractRange(style.SRM),
+        abvRange: helpers.extractRange(style.ABV),
+        categoryId: parseInt(style.code)
+      })).map(style => Object.assign({}, style, {
+        fg_low: style.fgRange.low || null,
+        fg_high: style.fgRange.high || null,
+        og_low: style.ogRange.low || null,
+        og_high: style.ogRange.high || null,
+        ibu_low: style.ibuRange.low || null,
+        ibu_high: style.ibuRange.high || null,
+        srm_low: style.srmRange.low || null,
+        srm_high: style.srmRange.high || null,
+        abv_low: style.abvRange.low || null,
+        abv_high: style.abvRange.high || null
+      }));
       //endregion
 
       return sequelize.sync(Object.assign({}, args, { force: true }))
