@@ -26,7 +26,7 @@ const RecipeHeader = ({ recipe, actions }) => (
   <div className={s.recipeHeader}>
     <div className="pure-g">
       <div className="pure-u-1-1">
-        <div className={s.inputBlock}>
+        <div className={s.inputBlock} style={{marginRight: '-2.5em'}}>
           <div>
             <TextField
               id="recipe-name"
@@ -52,7 +52,7 @@ const RecipeHeader = ({ recipe, actions }) => (
             </SelectField>
           </div>
         </div>
-        <div className={s.inputBlock} style={{marginRight: '-2em'}}>
+        <div className={s.inputBlock} style={{marginRight: '-3.5em'}}>
           <div className="pure-g">
             <div className="pure-u-1-2">
               <div className={s.headerLabel}>
@@ -100,7 +100,7 @@ const RecipeHeader = ({ recipe, actions }) => (
             </div>
           </div>
         </div>
-        <div className={s.inputBlock} style={{marginRight: '-5em'}}>
+        <div className={s.inputBlock} style={{marginRight: '-6em'}}>
           <div className="pure-g">
             <div className="pure-u-1-3">
               <div className={s.headerLabel}>
@@ -128,7 +128,7 @@ const RecipeHeader = ({ recipe, actions }) => (
             </div>
           </div>
         </div>
-        <div className={s.inputBlock}>
+        <div className={s.inputBlock} style={{marginRight: '-0.3em'}}>
           <div className="pure-g">
             <div className="pure-u-1-2">
               <div className={s.headerLabel}>
@@ -154,14 +154,14 @@ const RecipeHeader = ({ recipe, actions }) => (
             </div>
           </div>
         </div>
-        <div className={s.inputBlock} style={{width: '23em'}}>
+        <div className={s.inputBlock}>
           <div className="pure-g">
             <div className="pure-u-6-24">
               <div className={s.headerLabel}>
                 Method
               </div>
             </div>
-            <div className="pure-u-16-24">
+            <div className="pure-u-17-24">
               <SelectField
                 value={recipe.method}
                 onChange={(e, k, v) => actions.setRecipeMethod(v)}
@@ -173,7 +173,7 @@ const RecipeHeader = ({ recipe, actions }) => (
                 <MenuItem value={BrewMethod.Extract}     primaryText="Extract     " />
               </SelectField>
             </div>
-            <div className="pure-u-2-24">
+            <div className="pure-u-1-24">
               <IconMenu
                 iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
                 anchorOrigin={{horizontal: 'right', vertical: 'top'}}

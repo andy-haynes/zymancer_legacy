@@ -1,9 +1,13 @@
+@import '../variables.css';
+
 .recipeHeader {
+  max-width: var(--max-content-width);
+  margin: 0 auto;
 }
 
 .headerLabel {
   text-align: right;
-  padding: 2em 2em 0 0;
+  padding: 2em 1em 0 0;
   font-size: 0.6em;
   color: #777;
   text-transform: uppercase;
@@ -47,5 +51,5 @@ svg {
 }
 
 .inputBlock:first-child {
-  padding-left: 0.5em;
+  padding-left: 1em;
 }
