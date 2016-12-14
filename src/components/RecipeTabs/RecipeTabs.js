@@ -5,6 +5,7 @@ import GrainBillContainer from '../../containers/GrainBill';
 import HopScheduleContainer from '../../containers/HopSchedule';
 import MashScheduleContainer from '../../containers/MashSchedule';
 import FermentationContainer from '../../containers/Fermentation';
+import StyleContainer from '../../containers/Style';
 import RecipeHeader from '../RecipeHeader';
 import { BrewMethod } from '../../constants/AppConstants';
 import Tabs from 'material-ui/Tabs/Tabs';
@@ -28,6 +29,9 @@ const RecipeTabs = ({ recipe, actions }) => (
       </Tab>
       <Tab className={s.recipeTab} label="Fermentation">
         <FermentationContainer />
+      </Tab>
+      <Tab className={s.recipeTab} label="Style">
+        <StyleContainer />
       </Tab>
     </Tabs>
   </div>

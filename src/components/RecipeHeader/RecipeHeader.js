@@ -38,7 +38,7 @@ const RecipeHeader = ({ recipe, actions }) => (
           </div>
           <div>
             <SelectField
-              value={recipe.style}
+              value={recipe.style.name}
               onChange={(e, i, v) => actions.setRecipeStyle(v)}
               className={s.longInput}
             >

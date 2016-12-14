@@ -9,6 +9,7 @@ import {
 import { WeightType, GrainType, HopAdditionType, YeastType } from './IngredientTypes';
 import { MashScheduleType } from './MashScheduleType';
 import { FermentationType } from './FermentationType';
+import { StyleType } from './StyleType';
 
 const RecipeType = new GraphQLObjectType({
   name: 'RecipeType',
@@ -17,7 +18,7 @@ const RecipeType = new GraphQLObjectType({
     id: { type: new GraphQLNonNull(GraphQLInt) },
     hash: { type: GraphQLString },
     name: { type: new GraphQLNonNull(GraphQLString) },
-    style: { type: GraphQLString },
+    style: { type: StyleType },
     method: { type: GraphQLString },
     volume: { type: WeightType },
     ABV: { type: new GraphQLNonNull(GraphQLFloat) },

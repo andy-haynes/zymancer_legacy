@@ -7,13 +7,14 @@ import grain from './grain';
 import hop from './hop';
 import fermentation from './fermentation';
 import mashSchedule from './mashSchedule';
+import style from './style';
 import measurement from './measurement';
 import sumBy from 'lodash/sumBy'
 
 const initialState = {
   id: null,
   name: 'My Awesome Mixed Beer #6',
-  style: 'American Pale Ale',
+  style: style(undefined, {}),
   method: BrewMethod.AllGrain,
   loaded: false,
   originalGravity: 1.0,

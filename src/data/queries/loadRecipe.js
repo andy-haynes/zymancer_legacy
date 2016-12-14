@@ -1,6 +1,6 @@
 import { GraphQLList, GraphQLInt } from 'graphql';
 import RecipeType from '../types/RecipeType';
-import { Recipe, Grain, Hop, RecipeHop, Yeast, MashSchedule, RecipeFermentation } from '../models';
+import { Recipe, Grain, Hop, RecipeHop, Yeast, MashSchedule, RecipeFermentation, BJCPStyle } from '../models';
 import pick from 'lodash/pick';
 
 const loadRecipe = {
@@ -31,6 +31,9 @@ const loadRecipe = {
         attributes: ['pitchRateMillionsMLP'],
         model: RecipeFermentation,
         as: 'fermentation'
+      }, {
+        model: BJCPStyle,
+        as: 'style'
       }],
       where: {
         id: id,
@@ -94,6 +97,31 @@ const loadRecipe = {
         grainTemp: recipe.mashSchedule.grainTemp,
         infusionTemp: recipe.mashSchedule.infusionTemp,
         mashoutTemp: recipe.mashSchedule.mashoutTemp
+      },
+      style: {
+        name: recipe.style.name,
+        code: recipe.style.code,
+        description: recipe.style.description,
+        overallImpression: recipe.style.overall_impression,
+        aroma: recipe.style.aroma,
+        appearance: recipe.style.appearance,
+        flavor: recipe.style.flavor,
+        mouthfeel: recipe.style.mouthfeel,
+        comments: recipe.style.comments,
+        history: recipe.style.history,
+        characteristics: recipe.style.characteristics,
+        styleComparison: recipe.style.style_comparison,
+        ogLow: recipe.style.og_low,
+        ogHigh: recipe.style.og_high,
+        fgLow: recipe.style.fg_low,
+        fgHigh: recipe.style.fg_high,
+        ibuLow: recipe.style.ibu_low,
+        ibuHigh: recipe.style.ibu_high,
+        srmLow: recipe.style.srm_low,
+        srmHigh: recipe.style.srm_high,
+        abvLow: recipe.style.abv_low,
+        abvHigh: recipe.style.abv_high,
+        commercialExamples: recipe.style.commercial_examples
       }
     }));
   }

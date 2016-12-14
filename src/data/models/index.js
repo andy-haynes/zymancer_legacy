@@ -49,6 +49,9 @@ User.hasOne(UserProfile, {
 Recipe.belongsTo(User, { as: 'owner', foreignKey: 'ownerId' });
 User.hasMany(Recipe, { as: 'recipes', foreignKey: 'ownerId' });
 
+// Recipe -> Style
+Recipe.belongsTo(BJCPStyle, { as: 'style', foreignKey: 'styleId' });
+
 // User <- SharedRecipe -> Recipe
 Recipe.belongsToMany(User, { through: SharedRecipe, as: 'sharedUsers', foreignKey: 'recipeId' });
 User.belongsToMany(Recipe, { through: SharedRecipe, as: 'sharedRecipes', foreignKey: 'userId' });

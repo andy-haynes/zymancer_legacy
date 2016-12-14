@@ -7,7 +7,7 @@ const Recipe = Model.define('Recipes', {
   ownerId: { type: DataType.UUID, allowNull: false },
   isPublic: { type: DataType.BOOLEAN, defaultValue: false },
   name: { type: DataType.STRING, allowNull: false },
-  style: { type: DataType.STRING, allowNull: true },
+  styleId: { type: DataType.INTEGER, allowNull: true },
   method: { type: DataType.STRING, allowNull: false },
   volume: { type: DataType.JSON, allowNull: false },
   ABV: { type: DataType.DECIMAL },
