@@ -1,2 +1,39 @@
 .style {
 }
+
+.styleName {
+  font-size: 1.8em;
+  font-weight: 500;
+  padding: 1em 1em 0 1.5em;
+}
+
+.label {
+  position: relative;
+  top: 0.8em;
+  left: 0.8em;
+  font-size: 0.6em;
+  color: #777;
+  text-transform: uppercase;
+}
+
+.styleRange {
+  padding: 0.4em 0.9em;
+  font-size: 1.1em;
+  font-weight: 500;
+}
+
+.styleText {
+  padding: 0.6em 0.8em;
+  font-size: 0.9em;
+}
+
+.styleNote {
+  padding: 0.2em 1.1em;
+  font-size: 0.75em;
+}
+
+.rangeIcon {
+  position: relative;
+  bottom: 0.2em;
+  left: 0.3em;
+}

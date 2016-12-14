@@ -34,6 +34,7 @@ const RecipeHeader = ({ recipe, actions }) => (
               placeholder="Recipe Name"
               value={recipe.name}
               onChange={e => actions.setRecipeName(e.target.value)}
+              style={{width: '19em'}}
             />
           </div>
           <div>
@@ -41,6 +42,7 @@ const RecipeHeader = ({ recipe, actions }) => (
               value={recipe.style.name}
               onChange={(e, i, v) => actions.setRecipeStyle(i + 1)}
               className={s.longInput}
+              style={{width: '19.7em'}}
             >
               {BJCPStyles.map((style, i) => (
                 <MenuItem
