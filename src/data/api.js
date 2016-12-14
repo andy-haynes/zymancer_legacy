@@ -28,36 +28,38 @@ async function _graphqlFetch(query) {
   return await resp.json();
 }
 
+const _styleKeys = `
+  name,
+  code,
+  description,
+  overallImpression,
+  aroma,
+  appearance,
+  flavor,
+  mouthfeel,
+  comments,
+  history,
+  characteristics,
+  styleComparison,
+  ogLow,
+  ogHigh,
+  fgLow,
+  fgHigh,
+  ibuLow,
+  ibuHigh,
+  srmLow,
+  srmHigh,
+  abvLow,
+  abvHigh,
+  commercialExamples
+`;
+
 export async function getRecipe(recipeId) {
   const query = `{
     loadRecipe(id:${recipeId}) {
       id,
       name,
-      style {
-        name,
-        code,
-        description,
-        overallImpression,
-        aroma,
-        appearance,
-        flavor,
-        mouthfeel,
-        comments,
-        history,
-        characteristics,
-        styleComparison,
-        ogLow,
-        ogHigh,
-        fgLow,
-        fgHigh,
-        ibuLow,
-        ibuHigh,
-        srmLow,
-        srmHigh,
-        abvLow,
-        abvHigh,
-        commercialExamples
-      },
+      style {${_styleKeys}},
       method,
       volume {
         value,
@@ -215,4 +217,8 @@ export async function getSavedRecipes(recipeType) {
   }[recipeType];
   const { data } = await _graphqlFetch(`{${query}{ id, name, style, ABV, IBU, OG, FG }}`);
   return data[query] || [];
+}
+
+export async function getStyle(styleId) {
+  return await _graphqlFetch(`{style(id:${styleId}) { ${_styleKeys} }}`);
 }

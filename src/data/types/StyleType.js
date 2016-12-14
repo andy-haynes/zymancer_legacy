@@ -6,7 +6,7 @@ import {
   GraphQLFloat
 } from 'graphql';
 
-export const StyleType = new GraphQLObjectType({
+const StyleType = new GraphQLObjectType({
   name: 'StyleType',
   fields: {
     id: { type: new GraphQLNonNull(GraphQLInt) },
@@ -36,3 +36,5 @@ export const StyleType = new GraphQLObjectType({
 
   }
 });
+
+export default StyleType;

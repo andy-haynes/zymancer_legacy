@@ -10,6 +10,7 @@ import searchGrains from './queries/searchGrains';
 import searchHops from './queries/searchHops';
 import searchYeast from './queries/searchYeast';
 import loadRecipe from './queries/loadRecipe';
+import style from './queries/style';
 
 import saveRecipe from './mutations/saveRecipe';
 
@@ -26,6 +27,7 @@ const schema = new GraphQLSchema({
       searchHops,
       searchYeast,
       loadRecipe,
+      style,
       // mutations
       saveRecipe
     }

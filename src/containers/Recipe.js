@@ -13,7 +13,7 @@ function mapDispatch(dispatch) {
     actions: {
       saveRecipe: (recipe) => dispatch(recipeActions.saveCurrentRecipe(recipe)),
       setRecipeName: (name) => dispatch(recipeActions.setRecipeName(name)),
-      setRecipeStyle: (style) => dispatch(recipeActions.setRecipeStyle(style)),
+      setRecipeStyle: (styleId) => dispatch(recipeActions.setStyle(styleId)),
       setRecipeMethod: (method) => dispatch(recipeActions.setRecipeMethod(method)),
       setTargetVolume: (volume) => dispatch(recipeActions.setTargetVolume(volume)),
       setBoilVolume: (volume) => dispatch(recipeActions.setBoilVolume(volume)),

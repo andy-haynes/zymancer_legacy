@@ -1,13 +1,20 @@
 import RecipeActions from '../constants/RecipeActionTypes';
 import helpers from '../utils/helpers';
 import actions from '../actions';
-import { saveRecipe } from '../data/api';
+import { saveRecipe, getStyle } from '../data/api';
 
 function saveCurrentRecipe(recipe) {
   return async (dispatch) => {
     const recipeId = await saveRecipe(recipe);
     return dispatch(actions.recipe.recipeSaved(recipeId));
   };
+}
+
+function setStyle(styleId) {
+  return async (dispatch) => {
+    const { data } = await getStyle(styleId);
+    return dispatch(actions.recipe.setRecipeStyle(data.style));
+  }
 }
 
 export default {
@@ -61,5 +68,6 @@ export default {
   removeStarterStep: helpers.createAction(RecipeActions.RemoveStarterStep, 'yeast'),
 
   // async
-  saveCurrentRecipe
+  saveCurrentRecipe,
+  setStyle
 };
