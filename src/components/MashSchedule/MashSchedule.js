@@ -16,7 +16,8 @@ const MashSchedule = ({ mashSchedule, actions }) => (
       <div className="pure-u-1-2">
         <Paper className={s.mashControl} zDepth={2}>
           <div className="pure-g">
-            <div className="pure-u-3-4">
+            <div className="pure-u-1-12">&nbsp;</div>
+            <div className="pure-u-1-3">
               <div className={s.mashLabel}>
                 Mash Style
               </div>
@@ -24,7 +25,7 @@ const MashSchedule = ({ mashSchedule, actions }) => (
                 <SelectField
                   value={mashSchedule.style}
                   onChange={(e, i, v) => actions.setStyle(v)}
-                  style={{position: 'relative', top: '4px'}}
+                  style={{position: 'relative', top: '4px', width: '10em'}}
                 >
                   <MenuItem value={MashMethod.SingleInfusion} primaryText="Single Infusion" />
                   <MenuItem value={MashMethod.BIAB} primaryText="Brew in a Bag" />
@@ -33,7 +34,21 @@ const MashSchedule = ({ mashSchedule, actions }) => (
                 </SelectField>
               </div>
             </div>
+            <div className="pure-u-1-4">&nbsp;</div>
             <div className="pure-u-1-4">
+              <div className={s.mashLabel}>
+                Strike Volume
+              </div>
+              <div className={s.mashValue}>
+                <Measurement
+                  measurement={mashSchedule.strikeVolume}
+                  options={MeasurementUnits.RecipeVolume}
+                />
+              </div>
+            </div>
+            <div className="pure-u-1-12">&nbsp;</div>
+            <div className="pure-u-1-12">&nbsp;</div>
+            <div className="pure-u-1-3">
               <div className={s.mashLabel}>
                 Grain Temp
               </div>
@@ -45,6 +60,46 @@ const MashSchedule = ({ mashSchedule, actions }) => (
                 />
               </div>
             </div>
+            <div className="pure-u-1-4">&nbsp;</div>
+            <div
+              className="pure-u-1-4"
+              style={{display: (mashSchedule.style !== MashMethod.BIAB) ? 'block' : 'none'}}
+            >
+              <div className={s.mashLabel}>
+                Sparge Volume
+              </div>
+              <div className={s.mashValue}>
+                <Measurement
+                  measurement={mashSchedule.spargeVolume}
+                  options={MeasurementUnits.RecipeVolume}
+                />
+              </div>
+            </div>
+          </div>
+        </Paper>
+        <Paper
+          className={s.mashControl}
+          zDepth={2}
+          style={{display: (mashSchedule.style !== MashMethod.BIAB) ? 'block' : 'none'}}
+        >
+          <div className={s.mashLabel}>
+            Mash Thickness
+          </div>
+          <div className={s.mashValue}>
+            <SliderInput
+              {...mashSchedule.thickness}
+              step={0.05}
+              update={(value) => actions.setThickness({ value })}
+              sliderWidth="1-2"
+              inputWidth="1-2"
+            >
+              <Ratio
+                ratio={mashSchedule.thickness}
+                antecedentOptions={MeasurementUnits.RecipeVolume}
+                consequentOptions={MeasurementUnits.MashWeight}
+                update={actions.setThickness}
+              />
+            </SliderInput>
           </div>
         </Paper>
         <Paper
@@ -126,63 +181,6 @@ const MashSchedule = ({ mashSchedule, actions }) => (
         </Paper>
       </div>
       <div className="pure-u-1-2">
-        <Paper
-          className={s.mashControl}
-          zDepth={2}
-        >
-          <div className="pure-g">
-            <div className="pure-u-1-2">
-              <div className={s.mashLabel}>
-                Strike Volume
-              </div>
-              <div className={s.mashValue}>
-                <Measurement
-                  measurement={mashSchedule.strikeVolume}
-                  options={MeasurementUnits.RecipeVolume}
-                />
-              </div>
-            </div>
-            <div
-              className="pure-u-1-2"
-              style={{display: (mashSchedule.style !== MashMethod.BIAB) ? 'block' : 'none'}}
-            >
-              <div className={s.mashLabel}>
-                Sparge Volume
-              </div>
-              <div className={s.mashValue}>
-                <Measurement
-                  measurement={mashSchedule.spargeVolume}
-                  options={MeasurementUnits.RecipeVolume}
-                />
-              </div>
-            </div>
-          </div>
-        </Paper>
-        <Paper
-          className={s.mashControl}
-          zDepth={2}
-          style={{display: (mashSchedule.style !== MashMethod.BIAB) ? 'block' : 'none'}}
-        >
-          <div className={s.mashLabel}>
-            Mash Thickness
-          </div>
-          <div className={s.mashValue}>
-            <SliderInput
-              {...mashSchedule.thickness}
-              step={0.05}
-              update={(value) => actions.setThickness({ value })}
-              sliderWidth="1-2"
-              inputWidth="1-2"
-            >
-              <Ratio
-                ratio={mashSchedule.thickness}
-                antecedentOptions={MeasurementUnits.RecipeVolume}
-                consequentOptions={MeasurementUnits.MashWeight}
-                update={actions.setThickness}
-              />
-            </SliderInput>
-          </div>
-        </Paper>
         <Paper className={s.mashControl} zDepth={2}>
           <div className={s.mashLabel}>
             Grain Absorption
