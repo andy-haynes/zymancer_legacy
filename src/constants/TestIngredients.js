@@ -1,5 +1,5 @@
 import { fawcett, briess } from './Grains';
-import { wyeast, whiteLabs } from './Yeast';
+import { wyeast, whiteLabs, imperial } from './Yeast';
 
 const grains = fawcett
   .concat(briess)
@@ -7,6 +7,7 @@ const grains = fawcett
 
 const yeast = Object.keys(wyeast).map(k => wyeast[k])
   .concat(Object.keys(whiteLabs).map(k => whiteLabs[k]))
+  .concat(Object.keys(imperial).map(k => imperial[k]))
   .reduce((a, b) => a.concat(b), [])
   .map(y => Object.assign(y, {
     toleranceLow: (y.tolerance || y.toleranceLow) || null,

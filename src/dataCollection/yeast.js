@@ -103,3 +103,31 @@ $('.teaser-nav').each(function (j, n) {
 		}
 	});
 });
+
+// http://www.imperialyeast.com/organic-yeast-strains/
+var imperial = {};
+
+$('h4').each(function (i, header) {
+	var code = $(header).text().split(' ')[0];
+	var name = $(header).text().substring(4);
+	var $desc = $(header).next('p');
+	var details = $desc.next('p').text().split('//');
+
+	var temp = details[0].split(':')[1].trim().split(',')[0].split('-')
+	var attenuation = details[2].split(':')[1].trim().split('-');
+
+	imperial[code] = {
+		code: code,
+		name: name,
+		description: $desc.text(),
+		temperatureLow: temp[0].substring(0, 2),
+		temperatureHigh: temp.length === 1 ? temp[0].substring(0, 2) : temp[1].substring(0, 2),
+		flocculation: details[1].split(':')[1].trim(),
+		attenuationLow: attenuation[0].substring(0, 2),
+		attenuationHigh: attenuation.length === 1 ? attenuation[0].substring(0, 2) : attenuation[1].substring(0, 2)
+	};
+});
+A01 House
+The best of both worlds, House is clean and allows malt and hops to shine. This strain is extremely versatile and flocculent enough to drop out of the beer quickly. Best used in American IPAs but works well in English style ales. House is clean at cold temperatures with increased esters as fermentation temperatures increase.
+
+Temp: 62-70F, 16-21C // Flocculation: High // Attenuation: 73-75%
