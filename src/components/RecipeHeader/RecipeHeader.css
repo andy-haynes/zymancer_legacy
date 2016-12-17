@@ -6,8 +6,9 @@
 }
 
 .headerLabel {
-  text-align: right;
-  padding: 2em 1em 0 0;
+  position: relative;
+  top: 0.8em;
+  left: -0.8em;
   font-size: 0.6em;
   color: #777;
   text-transform: uppercase;
@@ -48,6 +49,7 @@ svg {
 
 .inputBlock {
   float: left;
+  margin-left: 1em;
 }
 
 .inputBlock:first-child {
