@@ -181,46 +181,98 @@ const MashSchedule = ({ mashSchedule, actions }) => (
         </Paper>
       </div>
       <div className="pure-u-1-2">
-        <Paper className={s.mashControl} zDepth={2}>
-          <div className={s.mashLabel}>
-            Grain Absorption
-          </div>
-          <div className={s.mashValue}>
-            <SliderInput
-              {...mashSchedule.absorption}
-              step={0.01}
-              update={(value) => actions.setAbsorption({ value })}
-              sliderWidth="1-2"
-              inputWidth="1-2"
-            >
-              <Ratio
-                ratio={mashSchedule.absorption}
-                antecedentOptions={MeasurementUnits.RecipeVolume}
-                consequentOptions={MeasurementUnits.MashWeight}
-                update={actions.setAbsorption}
-              />
-            </SliderInput>
+        <Paper
+          className={s.mashControl}
+          zDepth={2}
+        >
+          <div className="pure-g">
+            <div className="pure-u-3-4">&nbsp;</div>
+            <div className="pure-u-1-4">
+              <div className={s.mashLabel}>
+                Total Loss
+              </div>
+              <div className={s.mashValue}>
+                <Measurement
+                  measurement={mashSchedule.totalLoss}
+                  options={MeasurementUnits.RecipeVolume}
+                  disabled={true}
+                />
+              </div>
+            </div>
           </div>
         </Paper>
         <Paper className={s.mashControl} zDepth={2}>
-          <div className={s.mashLabel}>
-            Boil Off
+          <div className="pure-g">
+            <div className="pure-u-3-4">
+              <div className={s.mashLabel}>
+                Grain Absorption
+              </div>
+              <div className={s.mashValue}>
+                <SliderInput
+                  {...mashSchedule.absorption}
+                  step={0.01}
+                  update={(value) => actions.setAbsorption({ value })}
+                  sliderWidth="1-2"
+                  inputWidth="1-2"
+                >
+                  <Ratio
+                    ratio={mashSchedule.absorption}
+                    antecedentOptions={MeasurementUnits.RecipeVolume}
+                    consequentOptions={MeasurementUnits.MashWeight}
+                    update={actions.setAbsorption}
+                  />
+                </SliderInput>
+              </div>
+            </div>
+            <div className="pure-u-1-4">
+              <div className={s.mashLabel}>
+                Absorption Loss
+              </div>
+              <div className={s.mashValue}>
+                <Measurement
+                  measurement={mashSchedule.absorptionLoss}
+                  options={MeasurementUnits.RecipeVolume}
+                  disabled={true}
+                />
+              </div>
+            </div>
           </div>
-          <div className={s.mashValue}>
-            <SliderInput
-              {...mashSchedule.boilOff}
-              step={0.1}
-              update={(value) => actions.setBoilOff({ value })}
-              sliderWidth="1-2"
-              inputWidth="1-2"
-            >
-              <Ratio
-                ratio={mashSchedule.boilOff}
-                antecedentOptions={MeasurementUnits.RecipeVolume}
-                consequentOptions={MeasurementUnits.BoilOffTime}
-                update={actions.setBoilOff}
-              />
-            </SliderInput>
+        </Paper>
+        <Paper className={s.mashControl} zDepth={2}>
+          <div className="pure-g">
+            <div className="pure-u-3-4">
+              <div className={s.mashLabel}>
+                Boil Off Rate
+              </div>
+              <div className={s.mashValue}>
+                <SliderInput
+                  {...mashSchedule.boilOff}
+                  step={0.1}
+                  update={(value) => actions.setBoilOff({ value })}
+                  sliderWidth="1-2"
+                  inputWidth="1-2"
+                >
+                  <Ratio
+                    ratio={mashSchedule.boilOff}
+                    antecedentOptions={MeasurementUnits.RecipeVolume}
+                    consequentOptions={MeasurementUnits.BoilOffTime}
+                    update={actions.setBoilOff}
+                  />
+                </SliderInput>
+              </div>
+            </div>
+            <div className="pure-u-1-4">
+              <div className={s.mashLabel}>
+                Boil Loss
+              </div>
+              <div className={s.mashValue}>
+                <Measurement
+                  measurement={mashSchedule.boilLoss}
+                  options={MeasurementUnits.RecipeVolume}
+                  disabled={true}
+                />
+              </div>
+            </div>
           </div>
         </Paper>
       </div>

@@ -66,6 +66,21 @@ function convertRatio(oldRatio, newRatio, precision = undefined) {
   return Object.assign({}, newRatio, { value, min, max });
 }
 
+function multiplyRatioByMeasurement(ratio, measurement, precision) {
+  const ratioFactor = convertRatio(ratio, { antecedent: ratio.antecedent, consequent: measurement.unit }).value;
+  return {
+    value: round(measurement.value * ratioFactor, precision),
+    unit: ratio.antecedent
+  };
+}
+
+function sumMeasurements(precision, ...measurements) {
+  return measurements.reduce((a, b) => ({
+    value: round(a.value + convertToUnit(b, a.unit).value, precision),
+    unit: a.unit
+  }));
+}
+
 function createRatio(numerator, denominator, min, max) {
   return {
     value: numerator.value / denominator.value,
@@ -161,6 +176,8 @@ export default {
   convertRatio,
   createRatio,
   convertToUnit,
+  multiplyRatioByMeasurement,
+  sumMeasurements,
   extractRange,
   monthsSinceDate,
   subtractMonthsFromNow,

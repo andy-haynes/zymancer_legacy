@@ -5,7 +5,7 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import s from './Measurement.css';
 
-const Measurement = ({ measurement, update, options }) => (
+const Measurement = ({ measurement, update, options, disabled = false }) => (
   <div className={s.measurement}>
     <TextField
       name="measurement-value"
@@ -13,6 +13,7 @@ const Measurement = ({ measurement, update, options }) => (
       value={measurement.value === 0 ? '' : measurement.value}
       onChange={e => update(Object.assign({}, measurement, { value: e.target.value }))}
       style={{width: "3em"}}
+      disabled={disabled}
     />
     <SelectField
       className={s.measurementUnit}

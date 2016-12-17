@@ -2,6 +2,7 @@ import RecipeActions from '../constants/RecipeActionTypes';
 import zymath from '../utils/zymath';
 import helpers from '../utils/helpers';
 import Defaults from '../constants/Defaults';
+import Units from '../constants/Units';
 import { BrewMethod, MashMethod } from '../constants/AppConstants';
 import grain from './grain';
 import hop from './hop';
@@ -61,18 +62,23 @@ function recalculate(state, changed) {
     value: sumBy(grains, g => helpers.convertToUnit(g.weight, thicknessUnit).value),
     unit: thicknessUnit
   };
+
   boilVolume = zymath.calculateBoilVolume(targetVolume, mashSchedule.boilOff, mashSchedule.thickness, mashSchedule.absorption, boilMinutes, grainWeight);
+  mashSchedule.boilLoss = helpers.multiplyRatioByMeasurement(mashSchedule.boilOff, { value: boilMinutes, unit: Units.Minute }, 2);
 
   switch (method) {
     case BrewMethod.AllGrain:
     case BrewMethod.PartialMash:
       originalGravity = zymath.calculateGravity(efficiency, grains, targetVolume);
       mashSchedule = calculateMashSchedule(Object.assign({}, mashSchedule), grains, grainWeight, efficiency, boilVolume);
+      mashSchedule.absorptionLoss = helpers.multiplyRatioByMeasurement(mashSchedule.absorption, grainWeight, 2);
       break;
     case BrewMethod.Extract:
       originalGravity = zymath.calculateGravity(100, grains.filter(g => g.isExtract), targetVolume);
       break;
   }
+
+  mashSchedule.totalLoss = helpers.sumMeasurements(2, mashSchedule.boilLoss, mashSchedule.absorptionLoss);
 
   IBU = zymath.calculateTotalIBU(boilVolume, originalGravity, hops);
 
