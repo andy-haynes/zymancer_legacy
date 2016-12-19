@@ -11,6 +11,7 @@ import RecipeType from '../types/RecipeType';
 import { WeightInputType, GrainInputType, HopInputType, YeastInputType } from '../types/IngredientTypes';
 import { FermentationInputType } from '../types/FermentationType';
 import { MashScheduleInputType } from '../types/MashScheduleType';
+import { StyleInputType } from '../types/StyleType';
 import { Recipe, RecipeGrain, RecipeHop, RecipeYeast, RecipeFermentation, MashSchedule } from '../models';
 import pick from 'lodash/pick';
 
@@ -19,7 +20,7 @@ const saveRecipe = {
   args: {
     id: { type: GraphQLInt },
     name: { type: GraphQLString },
-    style: { type: GraphQLString },
+    style: { type: StyleInputType },
     method: { type: GraphQLString },
     volume: { type: WeightInputType },
     ABV: { type: GraphQLFloat },
@@ -33,7 +34,7 @@ const saveRecipe = {
     fermentation: { type: FermentationInputType }
   },
   async resolve({ request }, { id, name, style, method, volume, ABV, IBU, OG, FG, grains, hops, yeasts, mashSchedule, fermentation }) {
-    const r = { ownerId: request.user.id, name, style, method, volume, ABV, IBU, OG, FG };
+    const r = { ownerId: request.user.id, name, styleId: style.id, method, volume, ABV, IBU, OG, FG };
     const existing = id > 0;
     if (existing) {
       const updated = await Recipe.update(r, { where: { id }, returning: true });

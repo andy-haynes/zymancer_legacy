@@ -1,5 +1,5 @@
 import { GraphQLInt } from 'graphql';
-import StyleType from '../types/StyleType';
+import { StyleType } from '../types/StyleType';
 import { BJCPStyle } from '../models';
 
 const style = {
@@ -10,6 +10,7 @@ const style = {
   async resolve({ request }, { id }) {
     return await BJCPStyle.findOne({ where: { id }})
       .then(style => ({
+        id: style.id,
         name: style.name,
         code: style.code,
         description: style.description,

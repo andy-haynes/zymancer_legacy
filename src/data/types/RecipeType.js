@@ -9,7 +9,7 @@ import {
 import { WeightType, GrainType, HopAdditionType, YeastType } from './IngredientTypes';
 import { MashScheduleType } from './MashScheduleType';
 import { FermentationType } from './FermentationType';
-import StyleType from './StyleType';
+import { StyleType } from './StyleType';
 
 const RecipeType = new GraphQLObjectType({
   name: 'RecipeType',

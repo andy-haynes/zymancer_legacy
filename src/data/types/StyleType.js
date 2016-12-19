@@ -1,12 +1,13 @@
 import {
   GraphQLObjectType,
+  GraphQLInputObjectType,
   GraphQLString,
   GraphQLInt,
   GraphQLNonNull,
   GraphQLFloat
 } from 'graphql';
 
-const StyleType = new GraphQLObjectType({
+export const StyleType = new GraphQLObjectType({
   name: 'StyleType',
   fields: {
     id: { type: new GraphQLNonNull(GraphQLInt) },
@@ -37,4 +38,9 @@ const StyleType = new GraphQLObjectType({
   }
 });
 
-export default StyleType;
+export const StyleInputType = new GraphQLInputObjectType({
+  name: 'StyleInputType',
+  fields: {
+    id: {type: new GraphQLNonNull(GraphQLInt)}
+  }
+});

@@ -40,7 +40,7 @@ const Recipe = ({ recipe, loadRecipe }) => (
       <div className="pure-u-1-24"></div>
       <div className="pure-u-10-24">
         <div className={s.recipeStyle}>
-          {recipe.style}
+          {recipe.style.code}. {recipe.style.name}
         </div>
       </div>
       <div className="pure-u-3-24">
