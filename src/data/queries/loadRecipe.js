@@ -10,7 +10,7 @@ const loadRecipe = {
   },
   async resolve({ request }, { id }) {
     return await Recipe.findOne({
-      attributes: ['id', 'name', 'style', 'method', 'volume'],
+      attributes: ['id', 'name', 'styleId', 'method', 'volume'],
       include: [{
         attributes: ['id', 'name', 'isExtract', 'DBFG', 'DBCG'],
         model: Grain,
@@ -99,6 +99,7 @@ const loadRecipe = {
         mashoutTemp: recipe.mashSchedule.mashoutTemp
       },
       style: {
+        id: recipe.style.id,
         name: recipe.style.name,
         code: recipe.style.code,
         description: recipe.style.description,
