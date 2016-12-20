@@ -7,28 +7,30 @@ import measurement from './measurement';
 import ratio from './ratio';
 import Units from '../constants/Units';
 
-const emptyVolume = { value: 0, unit: Units.Quart };
-const initialState = {
-  style: MashMethod.SingleInfusion,
-  thickness: Defaults.MashThickness,
-  boilOff: Defaults.BoilOffRate,
-  absorption: Defaults.GrainAbsorptionLoss,
-  boilLoss: emptyVolume,
-  absorptionLoss: emptyVolume,
-  totalLoss: emptyVolume,
-  grainTemp: Defaults.GrainTemp,
-  infusionTemp: Defaults.InfusionTemp,
-  mashoutTemp: Defaults.MashoutTemp,
-  strikeTemp: { value: 0, unit: Units.Fahrenheit },
-  spargeTemp: { value: 0, unit: Units.Fahrenheit },
-  rests: [],
-  decoctions: [],
-  infusionVolume: emptyVolume,
-  strikeVolume: emptyVolume,
-  spargeVolume: emptyVolume
-};
+function createMashSchedule(mash = {}) {
+  const emptyVolume = { value: 0, unit: Units.Quart };
+  return {
+    style: mash.style || MashMethod.SingleInfusion,
+    thickness: mash.thickness || Defaults.MashThickness,
+    boilOff: mash.boilOff || Defaults.BoilOffRate,
+    absorption: mash.absorption || Defaults.GrainAbsorptionLoss,
+    boilLoss: mash.boilLoss || emptyVolume,
+    absorptionLoss: mash.absorptionLoss || emptyVolume,
+    totalLoss: mash.totalLoss || emptyVolume,
+    grainTemp: mash.grainTemp || Defaults.GrainTemp,
+    infusionTemp: mash.infusionTemp || Defaults.InfusionTemp,
+    mashoutTemp: mash.mashoutTemp || Defaults.MashoutTemp,
+    strikeTemp: mash.strikeTemp || { value: 0, unit: Units.Fahrenheit },
+    spargeTemp: mash.spargeTemp || { value: 0, unit: Units.Fahrenheit },
+    rests: mash.rests || [],
+    decoctions: mash.decoctions || [],
+    infusionVolume: mash.infusionVolume || emptyVolume,
+    strikeVolume: mash.strikeVolume || emptyVolume,
+    spargeVolume: mash.spargeVolume || emptyVolume
+  };
+}
 
-const mashSchedule = (state = initialState, action) => {
+const mashSchedule = (state = {}, action) => {
   switch (action.type) {
     case RecipeActions.SetMashStyle:
       return Object.assign({}, state, {
@@ -73,8 +75,10 @@ const mashSchedule = (state = initialState, action) => {
         }))
       });
     default:
-      return state;
+      return Object.keys(state).length ? state : createMashSchedule();
   }
 };
+
+mashSchedule.create = createMashSchedule;
 
 export default mashSchedule;
