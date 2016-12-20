@@ -27,11 +27,9 @@ function Navigation({ userLoggedIn }) {
       <span className={s.spacer}>|</span>
       <Link navlink className={s.link} to="/recipes">Recipes</Link>
       <span className={s.spacer}>|</span>
-      <Link navlink className={s.link} to="/equipment">Equipment</Link>
+      {accountLink}
       <span className={s.spacer}>|</span>
       <Link navlink className={s.link} to="/contact">Contact</Link>
-      <span className={s.spacer}>|</span>
-      {accountLink}
     </div>
   );
 }

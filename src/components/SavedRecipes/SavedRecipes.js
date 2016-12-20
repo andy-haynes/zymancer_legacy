@@ -34,6 +34,8 @@ class SavedRecipes extends React.Component {
 
     return (
       <div className={s.savedRecipes}>
+        {buildRecipeSet(RecipeType.SavedRecipes)}
+        {/*
         <Tabs>
           <Tab label="Saved">
             {buildRecipeSet(RecipeType.SavedRecipes)}
@@ -47,6 +49,7 @@ class SavedRecipes extends React.Component {
           <Tab label="Parse">
           </Tab>
         </Tabs>
+        */}
       </div>
     );
   }
