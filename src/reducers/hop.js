@@ -12,7 +12,7 @@ function createHop(hop, boilMinutes) {
     name: hop.name,
     alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
     beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
-    additions: (hop.additions || []).map(a => hopAddition.create(a, boilMinutes)),
+    additions: (hop.additions || []).map(a => hopAddition.create(a, hop, boilMinutes)),
     categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories,
     alphaRange,
     betaRange

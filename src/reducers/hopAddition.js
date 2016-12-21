@@ -4,9 +4,9 @@ import measurement from './measurement';
 
 let additionId = 0;
 
-function createHopAddition(addition = {}, minutes) {
+function createHopAddition(addition = {}, hop, minutes) {
   return {
-    id: additionId++,
+    id: (hop.id * 1000) + additionId++,
     minutes: isNaN(addition.minutes) ? minutes : addition.minutes,
     weight: addition.weight || Defaults.HopAdditionWeight,
     defaultAddition: true
@@ -16,7 +16,7 @@ function createHopAddition(addition = {}, minutes) {
 const hopAddition = (state = {}, action) => {
   switch (action.type) {
     case RecipeActions.AddHopAddition:
-      return createHopAddition(undefined, action.boilMinutes);
+      return createHopAddition(undefined, action.hop, action.boilMinutes);
     case RecipeActions.SetHopAdditionTime:
       return Object.assign({}, state, {
         minutes: action.minutes,

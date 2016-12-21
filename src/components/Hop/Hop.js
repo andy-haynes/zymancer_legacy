@@ -48,7 +48,7 @@ class Hop extends React.Component {
               className={s.hopInput}
               value={hop.alpha}
               onChange={e => actions.setAlpha(hop, e.target.value)}
-              />
+            />
           </div>
           <div className="pure-u-4-24">
             β &nbsp;
@@ -57,7 +57,7 @@ class Hop extends React.Component {
               className={s.hopInput}
               value={hop.beta}
               onChange={e => actions.setBeta(hop, e.target.value)}
-              />
+            />
           </div>
           <div className="pure-u-4-24">
             <div className="pure-g">
@@ -84,17 +84,15 @@ class Hop extends React.Component {
         </div>
         <Collapse isOpened={this.state.expanded}>
           {hop.additions.map(addition => (
-            <div className={s.hopAddition}>
-              <HopAddition
-                key={addition.id}
-                hop={hop}
-                originalGravity={originalGravity}
-                boilVolume={boilVolume}
-                boilMinutes={boilMinutes}
-                addition={addition}
-                actions={pick(actions, 'setAdditionTime', 'setAdditionWeight', 'removeAddition')}
-                />
-            </div>
+            <HopAddition
+              key={addition.id}
+              hop={hop}
+              originalGravity={originalGravity}
+              boilVolume={boilVolume}
+              boilMinutes={boilMinutes}
+              addition={addition}
+              actions={pick(actions, 'setAdditionTime', 'setAdditionWeight', 'removeAddition')}
+            />
           ))}
         </Collapse>
       </Paper>
