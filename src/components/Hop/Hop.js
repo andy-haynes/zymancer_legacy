@@ -36,22 +36,20 @@ class Hop extends React.Component {
               {!this.state.expanded && <NavigationExpandMore />}
             </IconButton>
           </div>
-          <div className="pure-u-7-24">
+          <div className="pure-u-9-24">
             <div className={s.hopName}>
               {hop.name}
             </div>
           </div>
-          <div className="pure-u-4-24">
-            α &nbsp;
+          <div className="pure-u-6-24">
+            <div className={s.greekLabel}>α</div>
             <TextField
               id="hop-alpha"
               className={s.hopInput}
               value={hop.alpha}
               onChange={e => actions.setAlpha(hop, e.target.value)}
             />
-          </div>
-          <div className="pure-u-4-24">
-            β &nbsp;
+            <div className={s.greekLabel}>β</div>
             <TextField
               id="hop-beta"
               className={s.hopInput}
@@ -60,19 +58,13 @@ class Hop extends React.Component {
             />
           </div>
           <div className="pure-u-4-24">
-            <div className="pure-g">
-              <div className="pure-u-1-2">
-                <div className={s.hopDetail}>
-                  <div className={s.detailLabel}>IBU</div>
-                  {round(zymath.calculateTotalIBU(boilVolume, originalGravity, [hop]), 1)}
-                </div>
-              </div>
-              <div className="pure-u-1-2">
-                <div className={s.hopDetail}>
-                  <div className={s.detailLabel}>Util</div>
-                  {round(zymath.calculateTotalUtilization(hop.additions, originalGravity), 2)}
-                </div>
-              </div>
+            <div className={s.hopDetail}>
+              <div className={s.detailLabel}>IBU</div>
+              {round(zymath.calculateTotalIBU(boilVolume, originalGravity, [hop]), 1)}
+            </div>
+            <div className={s.hopDetail}>
+              <div className={s.detailLabel}>Util</div>
+              {round(zymath.calculateTotalUtilization(hop.additions, originalGravity), 2)}
             </div>
           </div>
           <div className="pure-u-3-24">

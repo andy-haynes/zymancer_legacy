@@ -13,7 +13,18 @@
 }
 
 .hopInput {
-  width: 40% !important;
+  width: 2.4em !important;
+  margin-left: 1em;
+}
+
+.greekLabel {
+  display: inline-block;
+  position: relative;
+  bottom: 1em;
+  left: 0.7em;
+  font-size: 0.8em;
+  font-weight: 500;
+  color: #555;
 }
 
 .addRemoveHop {
@@ -25,10 +36,11 @@
 }
 
 .detailLabel {
-  font-size: 10px;
-  color: #666;
+  font-size: 0.6em;
+  color: #777;
 }
 
 .hopDetail {
-  padding-top: 5%;
+  float: left;
+  padding-left: 0.9em;
 }

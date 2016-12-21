@@ -12,17 +12,6 @@ import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-cir
 const HopAddition = ({ addition, hop, originalGravity, boilVolume, boilMinutes, actions }) => (
   <div className={s.hopAddition}>
     <div className="pure-g">
-      <div className="pure-u-11-24">
-        <SliderInput
-          value={addition.minutes}
-          min={0}
-          max={boilMinutes}
-          update={(minutes) => actions.setAdditionTime(addition, hop, minutes)}
-        />
-      </div>
-      <div className="pure-u-2-24">
-        <div className={s.minuteLabel}>Min</div>
-      </div>
       <div className="pure-u-5-24">
         <div className={s.additionWeight}>
           <Measurement
@@ -32,20 +21,23 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, boilMinutes, 
           />
         </div>
       </div>
-      <div className="pure-u-5-24">
-        <div className="pure-g">
-          <div className="pure-u-1-2">
-            <div className={s.additionDetail}>
-              <div className={s.detailLabel}>IBU</div>
-              {round(zymath.calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume), 1)}
-            </div>
-          </div>
-          <div className="pure-u-1-2">
-            <div className={s.additionDetail}>
-              <div className={s.detailLabel}>Util</div>
-              {round(zymath.calculateUtilization(addition.minutes, originalGravity), 2)}
-            </div>
-          </div>
+      <div className="pure-u-12-24">
+        <div className={s.minuteLabel}>Minutes</div>
+        <SliderInput
+          value={addition.minutes}
+          min={0}
+          max={boilMinutes}
+          update={(minutes) => actions.setAdditionTime(addition, hop, minutes)}
+        />
+      </div>
+      <div className="pure-u-6-24">
+        <div className={s.additionDetail}>
+          <div className={s.detailLabel}>IBU</div>
+          {round(zymath.calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume), 1)}
+        </div>
+        <div className={s.additionDetail}>
+          <div className={s.detailLabel}>Util</div>
+          {round(zymath.calculateUtilization(addition.minutes, originalGravity), 2)}
         </div>
       </div>
       <div className="pure-u-1-24">
