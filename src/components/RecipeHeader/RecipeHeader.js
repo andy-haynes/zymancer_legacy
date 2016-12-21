@@ -170,7 +170,7 @@ const RecipeHeader = ({ recipe, actions }) => (
               </IconMenu>
             </div>
             <div className="pure-u-1-1" style={{marginTop: '-0.6em'}}>
-              <div className={s.headerLabel} style={{margin: '0.3em 0 -0.7em 0'}}>
+              <div className={s.headerLabel} style={{margin: '0.45em 0 -0.7em 0'}}>
                 Mash Efficiency
               </div>
               <SliderInput
