@@ -4,7 +4,7 @@ import HopSearchOption from '../HopSearchOption';
 import s from './HopSearch.css';
 import IngredientSearch from '../IngredientSearch';
 
-const HopSearch = ({ search, originalGravity, boilVolume, actions }) => (
+const HopSearch = ({ search, boilMinutes, actions }) => (
   <IngredientSearch
     {...search}
     filter={actions.searchHops}
@@ -25,7 +25,7 @@ const HopSearch = ({ search, originalGravity, boilVolume, actions }) => (
     {search.results.map(hop => (
       <HopSearchOption
         key={hop.id}
-        addHop={() => actions.addHop(Object.assign({}, hop), originalGravity, boilVolume)}
+        addHop={() => actions.addHop(Object.assign({}, hop), boilMinutes)}
         hop={hop}
       />
     ))}

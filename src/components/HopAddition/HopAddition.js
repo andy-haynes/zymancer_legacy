@@ -9,14 +9,14 @@ import SliderInput from '../SliderInput';
 import TextField from 'material-ui/TextField';
 import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-circle-outline';
 
-const HopAddition = ({ addition, hop, originalGravity, boilVolume, actions }) => (
+const HopAddition = ({ addition, hop, originalGravity, boilVolume, boilMinutes, actions }) => (
   <div className={s.hopAddition}>
     <div className="pure-g">
       <div className="pure-u-11-24">
         <SliderInput
           value={addition.minutes}
           min={0}
-          max={60}
+          max={boilMinutes}
           update={(minutes) => actions.setAdditionTime(addition, hop, minutes)}
         />
       </div>

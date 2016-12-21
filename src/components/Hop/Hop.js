@@ -26,7 +26,7 @@ class Hop extends React.Component {
   };
 
   render() {
-    const { hop, boilVolume, originalGravity, actions } = this.props;
+    const { hop, boilVolume, originalGravity, boilMinutes, actions } = this.props;
     return (
       <Paper className={s.hop} zDepth={2}>
         <div className="pure-g">
@@ -77,7 +77,7 @@ class Hop extends React.Component {
           </div>
           <div className="pure-u-3-24">
             <div className={s.addRemoveHop}>
-              <ContentAddCircle className={s.addAddition} onClick={() => actions.addAddition(hop)}/>
+              <ContentAddCircle className={s.addAddition} onClick={() => actions.addAddition(hop, boilMinutes)}/>
               <ContentRemoveCircle className={s.removeHop} onClick={() => actions.removeHop(hop)}/>
             </div>
           </div>
@@ -90,6 +90,7 @@ class Hop extends React.Component {
                 hop={hop}
                 originalGravity={originalGravity}
                 boilVolume={boilVolume}
+                boilMinutes={boilMinutes}
                 addition={addition}
                 actions={pick(actions, 'setAdditionTime', 'setAdditionWeight', 'removeAddition')}
                 />

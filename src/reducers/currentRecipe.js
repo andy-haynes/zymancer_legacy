@@ -111,6 +111,11 @@ const currentRecipe = (state = initialState, action) => {
       return updateRecipe({ style: action.style }, false);
     case RecipeActions.SetRecipeMethod:
       return updateRecipe({ method: action.method });
+    case RecipeActions.SetBoilTime:
+      return updateRecipe({
+        boilMinutes: action.minutes,
+        hops: state.hops.map(h => hop(h, action))
+      });
     case RecipeActions.SetTargetVolume:
       return updateRecipe({ targetVolume: measurement(state.targetVolume, action) });
     case RecipeActions.SetBoilVolume:

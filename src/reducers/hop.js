@@ -3,7 +3,7 @@ import hopAddition from './hopAddition';
 import helpers from '../utils/helpers';
 import round from 'lodash/round';
 
-function createHop(hop) {
+function createHop(hop, boilMinutes) {
   const alphaRange = hop.alphaRange || helpers.extractRange(hop.alpha);
   const betaRange = hop.betaRange || helpers.extractRange(hop.beta);
 
@@ -12,7 +12,7 @@ function createHop(hop) {
     name: hop.name,
     alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
     beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
-    additions: (hop.additions || [undefined]).map(a => hopAddition.create(a)),
+    additions: (hop.additions || []).map(a => hopAddition.create(a, boilMinutes)),
     categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories,
     alphaRange,
     betaRange
@@ -22,8 +22,7 @@ function createHop(hop) {
 const hop = (state = {}, action) => {
   switch (action.type) {
     case RecipeActions.AddHop:
-      // TODO: add boil time to action to always set new hops at max time
-      return createHop(action.hop);
+      return createHop(action.hop, action.boilMinutes);
     case RecipeActions.SetHopAlpha:
       return Object.assign({}, state, { alpha: action.alpha });
     case RecipeActions.SetHopBeta:
@@ -36,6 +35,10 @@ const hop = (state = {}, action) => {
     case RecipeActions.SetHopAdditionWeight:
       return Object.assign({}, state, {
         additions: state.additions.map(a => a.id === action.addition.id ? hopAddition(a, action) : a)
+      });
+    case RecipeActions.SetBoilTime:
+      return Object.assign({} ,state, {
+        additions: state.additions.map(a => hopAddition(a, action))
       });
     default:
       return state;

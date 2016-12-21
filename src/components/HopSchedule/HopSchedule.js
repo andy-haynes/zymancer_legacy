@@ -5,7 +5,7 @@ import s from './HopSchedule.css';
 import HopChart from '../../containers/HopChart';
 import HopSearchContainer from '../../containers/HopSearch';
 
-const HopSchedule = ({ hops, originalGravity, boilVolume, actions }) => (
+const HopSchedule = ({ hops, originalGravity, boilVolume, boilMinutes, actions }) => (
   <div className={s.hopSchedule}>
     <div className="pure-g">
       <div className="pure-u-1-2">
@@ -16,6 +16,7 @@ const HopSchedule = ({ hops, originalGravity, boilVolume, actions }) => (
               hop={hop}
               originalGravity={originalGravity}
               boilVolume={boilVolume}
+              boilMinutes={boilMinutes}
               actions={actions}
             />
           ))}

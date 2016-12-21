@@ -128,7 +128,7 @@ const RecipeHeader = ({ recipe, actions }) => (
             </div>
             <div className="pure-u-1-1" style={{marginTop: '1.85em'}}>
               <div className={s.headerLabel}>
-                Boil Time
+                Boil Minutes
               </div>
               <TextField
                 id="boil-minutes"

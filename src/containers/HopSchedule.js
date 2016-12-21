@@ -6,14 +6,14 @@ import pick from 'lodash/pick';
 const { recipe } = actions;
 
 function mapState(state) {
-  return pick(state.currentRecipe, 'hops', 'originalGravity', 'boilVolume');
+  return pick(state.currentRecipe, 'hops', 'originalGravity', 'boilVolume', 'boilMinutes');
 }
 
 function mapDispatch(dispatch) {
   return {
     actions: {
       removeHop: (hop) => dispatch(recipe.removeHop(hop)),
-      addAddition: (hop) => dispatch(recipe.addAddition(hop)),
+      addAddition: (hop, boilMinutes) => dispatch(recipe.addHopAddition(hop, boilMinutes)),
       setAdditionTime: (addition, hop, minutes) => dispatch(recipe.setAdditionTime(addition, hop, minutes)),
       setAdditionWeight: (addition, hop, weight) => dispatch(recipe.setAdditionWeight(addition, hop, weight)),
       removeAddition: (addition, hop) => dispatch(recipe.removeAddition(addition, hop)),

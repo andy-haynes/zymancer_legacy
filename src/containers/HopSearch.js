@@ -7,15 +7,16 @@ import pick from 'lodash/pick';
 function mapState(state) {
   return Object.assign({},
     { search: state.ingredientSearch[IngredientType.Hop] },
-    pick(state.currentRecipe, 'originalGravity', 'boilVolume')
+    pick(state.currentRecipe, 'boilMinutes')
   );
 }
 
 function mapDispatch(dispatch) {
   return {
     actions: {
-      addHop: (hop) => {
+      addHop: (hop, boilMinutes) => {
         dispatch(actions.recipe.addHop(hop));
+        dispatch(actions.recipe.addHopAddition(hop, boilMinutes));
         dispatch(actions.search.clearHopSearch());
       },
       searchHops: (query) => dispatch(actions.search.queryIngredients(IngredientType.Hop, query))
