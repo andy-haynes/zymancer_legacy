@@ -14,6 +14,8 @@ function mapDispatch(dispatch) {
     actions: {
       removeHop: (hop) => dispatch(recipe.removeHop(hop)),
       addAddition: (hop, boilMinutes) => dispatch(recipe.addHopAddition(hop, boilMinutes)),
+      setHopForm: (hop, form) => dispatch(recipe.setHopForm(hop, form)),
+      setAdditionType: (addition, hop, type) => dispatch(recipe.setHopAdditionType(addition, hop, type)),
       setAdditionTime: (addition, hop, minutes) => dispatch(recipe.setAdditionTime(addition, hop, minutes)),
       setAdditionWeight: (addition, hop, weight) => dispatch(recipe.setAdditionWeight(addition, hop, weight)),
       removeAddition: (addition, hop) => dispatch(recipe.removeAddition(addition, hop)),

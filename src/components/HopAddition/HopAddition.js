@@ -4,9 +4,12 @@ import s from './HopAddition.css';
 import Measurement from '../Measurement';
 import round from 'lodash/round';
 import MeasurementUnits from '../../constants/MeasurementUnits';
+import { HopAdditionType } from '../../constants/AppConstants';
 import zymath from '../../utils/zymath';
 import SliderInput from '../SliderInput';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import ContentRemoveCircleOutline from 'material-ui/svg-icons/content/remove-circle-outline';
 
 const HopAddition = ({ addition, hop, originalGravity, boilVolume, boilMinutes, actions }) => (
@@ -21,23 +24,35 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, boilMinutes, 
           />
         </div>
       </div>
-      <div className="pure-u-12-24">
-        <div className={s.minuteLabel}>Minutes</div>
+      <div className="pure-u-7-24">
         <SliderInput
           value={addition.minutes}
           min={0}
           max={boilMinutes}
           update={(minutes) => actions.setAdditionTime(addition, hop, minutes)}
+          disabled={addition.type !== HopAdditionType.Boil}
         />
       </div>
       <div className="pure-u-6-24">
+        <div className={s.additionType}>
+          <SelectField
+            value={addition.type}
+            onChange={(e, i, v) => actions.setAdditionType(addition, hop, v)}
+            style={{width: '7.3em'}}
+          >
+            <MenuItem primaryText='First Wort' value={HopAdditionType.FirstWort} />
+            <MenuItem primaryText='Boil' value={HopAdditionType.Boil} />
+            <MenuItem primaryText='Whirlpool' value={HopAdditionType.Whirlpool} />
+            <MenuItem primaryText='Dry' value={HopAdditionType.Dry} />
+          </SelectField>
+        </div>
+      </div>
+      <div className="pure-u-5-24">
         <div className={s.additionDetail}>
-          <div className={s.detailLabel}>IBU</div>
-          {round(zymath.calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume), 1)}
+          {round(zymath.calculateIBU(addition, hop.alpha, originalGravity, boilVolume), 1)}
         </div>
         <div className={s.additionDetail}>
-          <div className={s.detailLabel}>Util</div>
-          {round(zymath.calculateUtilization(addition.minutes, originalGravity), 2)}
+          {round(zymath.calculateUtilization(addition, originalGravity), 2)}
         </div>
       </div>
       <div className="pure-u-1-24">

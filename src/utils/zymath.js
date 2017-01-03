@@ -1,7 +1,7 @@
 import SRMColors from '../constants/SRMColors';
 import Units from '../constants/Units';
 import helpers from './helpers';
-import { ExtractGravity } from '../constants/AppConstants';
+import { ExtractGravity, HopAdditionType } from '../constants/AppConstants';
 import Defaults from '../constants/Defaults';
 import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';
@@ -64,25 +64,38 @@ function DBFGtoGravity(dbfg) {
 }
 
 // hops
-function calculateUtilization(minutes, gravity) {
-  const fG = 1.65 * Math.pow(0.000125, gravity - 1);
-  const fT = (1 - Math.pow(Math.E, -0.04 * minutes)) / 4.15;
-  return fG * fT;
+function _calculateUtilizationFactor(additionType) {
+  switch (additionType) {
+    case HopAdditionType.FirstWort:
+      return 1.1;
+    case HopAdditionType.Whirlpool:
+    case HopAdditionType.Dry:
+      return 0;
+    case HopAdditionType.Boil:
+    default:
+      return 1.0
+  }
 }
 
-function calculateIBU(weight, minutes, alpha, originalGravity, boilVolume) {
-  const aau = parseFloat(alpha) * helpers.convertToUnit(weight, Units.Ounce).value;
-  const utilization = calculateUtilization(minutes, originalGravity);
+function calculateUtilization(addition, gravity) {
+  const fG = 1.65 * Math.pow(0.000125, gravity - 1);
+  const fT = (1 - Math.pow(Math.E, -0.04 * addition.minutes)) / 4.15;
+  return fG * fT * _calculateUtilizationFactor(addition.type);
+}
+
+function calculateIBU(addition, alpha, originalGravity, boilVolume) {
+  const aau = parseFloat(alpha) * helpers.convertToUnit(addition.weight, Units.Ounce).value;
+  const utilization = calculateUtilization(addition, originalGravity);
   return (aau * utilization * 75) / helpers.convertToUnit(boilVolume, Units.Gallon).value;
 }
 
 function calculateTotalUtilization(additions, originalGravity) {
-  return sumBy(additions, addition => calculateUtilization(addition.minutes, originalGravity));
+  return sumBy(additions, addition => calculateUtilization(addition, originalGravity));
 }
 
 function calculateTotalIBU(boilVolume, originalGravity, hops) {
   return sumBy(hops, hop => {
-    return sumBy(hop.additions, addition => calculateIBU(addition.weight, addition.minutes, hop.alpha, originalGravity, boilVolume));
+    return sumBy(hop.additions, addition => calculateIBU(addition, hop.alpha, originalGravity, boilVolume));
   });
 }
 

@@ -30,6 +30,8 @@ export default {
   /***************************** hops *****************************/
   addHop: helpers.createAction(RecipeActions.AddHop, 'hop'),
   removeHop: helpers.createAction(RecipeActions.RemoveHop, 'hop'),
+  setHopForm: helpers.createAction(RecipeActions.SetHopForm, 'hop', 'form'),
+  setHopAdditionType: helpers.createAction(RecipeActions.SetHopAdditionType, 'addition', 'hop', 'additionType'),
   addHopAddition: helpers.createAction(RecipeActions.AddHopAddition, 'hop', 'boilMinutes'),
   setAdditionTime: helpers.createAction(RecipeActions.SetHopAdditionTime, 'addition', 'hop', 'minutes'),
   setAdditionWeight: helpers.createAction(RecipeActions.SetHopAdditionWeight, 'addition', 'hop', 'measurement'),

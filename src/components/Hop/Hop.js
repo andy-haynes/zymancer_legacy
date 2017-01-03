@@ -7,7 +7,10 @@ import round from 'lodash/round';
 import pick from 'lodash/pick';
 import zymath from '../../utils/zymath';
 import Collapse from 'react-collapse';
+import { HopForm } from '../../constants/AppConstants';
 import TextField from 'material-ui/TextField';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
@@ -36,7 +39,7 @@ class Hop extends React.Component {
               {!this.state.expanded && <NavigationExpandMore />}
             </IconButton>
           </div>
-          <div className="pure-u-9-24">
+          <div className="pure-u-7-24">
             <div className={s.hopName}>
               {hop.name}
             </div>
@@ -57,15 +60,15 @@ class Hop extends React.Component {
               onChange={e => actions.setBeta(hop, e.target.value)}
             />
           </div>
-          <div className="pure-u-4-24">
-            <div className={s.hopDetail}>
-              <div className={s.detailLabel}>IBU</div>
-              {round(zymath.calculateTotalIBU(boilVolume, originalGravity, [hop]), 1)}
-            </div>
-            <div className={s.hopDetail}>
-              <div className={s.detailLabel}>Util</div>
-              {round(zymath.calculateTotalUtilization(hop.additions, originalGravity), 2)}
-            </div>
+          <div className="pure-u-6-24">
+            <SelectField
+              value={hop.form}
+              onChange={(e, i, v) => actions.setHopForm(hop, v)}
+              style={{width: '8.1em'}}
+            >
+              <MenuItem primaryText='Pellet' value={HopForm.Pellet} />
+              <MenuItem primaryText='Whole Leaf' value={HopForm.Leaf} />
+            </SelectField>
           </div>
           <div className="pure-u-3-24">
             <div className={s.addRemoveHop}>
@@ -75,6 +78,33 @@ class Hop extends React.Component {
           </div>
         </div>
         <Collapse isOpened={this.state.expanded}>
+          <div className="pure-g">
+            <div className="pure-u-5-24">
+              <div className={s.detailLabel}>
+                Quantity
+              </div>
+            </div>
+            <div className="pure-u-8-24">
+              <div className={s.detailLabel}>
+                Minutes
+              </div>
+            </div>
+            <div className="pure-u-5-24" style={{paddingLeft: '0.3em'}}>
+              <div className={s.detailLabel}>
+                Addition
+              </div>
+            </div>
+            <div className="pure-u-2-24">
+              <div className={s.detailLabel} style={{paddingLeft: '0.8em'}}>
+                IBU
+              </div>
+            </div>
+            <div className="pure-u-2-24">
+              <div className={s.detailLabel} style={{paddingLeft: '0.8em'}}>
+                Util
+              </div>
+            </div>
+          </div>
           {hop.additions.map(addition => (
             <HopAddition
               key={addition.id}
@@ -83,7 +113,7 @@ class Hop extends React.Component {
               boilVolume={boilVolume}
               boilMinutes={boilMinutes}
               addition={addition}
-              actions={pick(actions, 'setAdditionTime', 'setAdditionWeight', 'removeAddition')}
+              actions={pick(actions, 'setAdditionType', 'setAdditionTime', 'setAdditionWeight', 'removeAddition')}
             />
           ))}
         </Collapse>

@@ -8,7 +8,7 @@
 }
 
 .removeAddition {
-  padding-top: 1.8em;
+  padding-top: 1.1em;
 }
 
 .minuteLabel {
@@ -26,7 +26,11 @@
 }
 
 .additionDetail {
-  padding-top: 0.6em;
+  padding: 1.3em 0 0 1em;
   float: left;
-  padding-left: 1em;
+  min-width: 2.5em;
+}
+
+.additionType {
+  padding: 0.4em 0 0 2em;
 }

@@ -128,8 +128,10 @@ const currentRecipe = (state = initialState, action) => {
       return updateRecipe({ hops: state.hops.filter(h => h.id !== action.hop.id) });
     case RecipeActions.SetHopAlpha:
     case RecipeActions.SetHopBeta:
+    case RecipeActions.SetHopForm:
     case RecipeActions.AddHopAddition:
     case RecipeActions.RemoveHopAddition:
+    case RecipeActions.SetHopAdditionType:
     case RecipeActions.SetHopAdditionTime:
     case RecipeActions.SetHopAdditionWeight:
       return updateRecipe({ hops: state.hops.map(h => h.id === action.hop.id ? hop(h, action) : h) });

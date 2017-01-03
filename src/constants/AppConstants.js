@@ -35,5 +35,17 @@ export const ExtractGravity = {
   [ExtractType.Dry]: 1.044
 };
 
+export const HopForm = keyMirror({
+  Pellet: null,
+  Leaf: null
+});
+
+export const HopAdditionType = keyMirror({
+  FirstWort: null,
+  Boil: null,
+  Whirlpool: null,
+  Dry: null
+});
+
 export const MinSearchQueryLength = 1;
 export const MaxSearchResults = 30;

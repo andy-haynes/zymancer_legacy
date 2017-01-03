@@ -8,6 +8,7 @@ function createHopAddition(addition = {}, hop, minutes) {
   return {
     id: (hop.id * 1000) + additionId++,
     minutes: isNaN(addition.minutes) ? minutes : addition.minutes,
+    type: addition.type || Defaults.HopAdditionType,
     weight: addition.weight || Defaults.HopAdditionWeight,
     defaultAddition: true
   };
@@ -17,6 +18,11 @@ const hopAddition = (state = {}, action) => {
   switch (action.type) {
     case RecipeActions.AddHopAddition:
       return createHopAddition(undefined, action.hop, action.boilMinutes);
+    case RecipeActions.SetHopAdditionType:
+      return Object.assign({}, state, {
+        type: action.additionType,
+        defaultAddition: false
+      });
     case RecipeActions.SetHopAdditionTime:
       return Object.assign({}, state, {
         minutes: action.minutes,

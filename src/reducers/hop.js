@@ -1,4 +1,5 @@
 import RecipeActions from '../constants/RecipeActionTypes';
+import Defaults from '../constants/Defaults';
 import hopAddition from './hopAddition';
 import helpers from '../utils/helpers';
 import round from 'lodash/round';
@@ -12,6 +13,7 @@ function createHop(hop, boilMinutes) {
     name: hop.name,
     alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
     beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
+    form: hop.form || Defaults.HopForm,
     additions: (hop.additions || []).map(a => hopAddition.create(a, hop, boilMinutes)),
     categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories,
     alphaRange,
@@ -27,10 +29,13 @@ const hop = (state = {}, action) => {
       return Object.assign({}, state, { alpha: action.alpha });
     case RecipeActions.SetHopBeta:
       return Object.assign({}, state, { beta: action.beta });
+    case RecipeActions.SetHopForm:
+      return Object.assign({}, state, { form: action.form });
     case RecipeActions.AddHopAddition:
       return Object.assign({}, state, { additions: state.additions.concat(hopAddition(undefined, action)) });
     case RecipeActions.RemoveHopAddition:
       return Object.assign({}, state, { additions: state.additions.filter(a => a.id !== action.addition.id) });
+    case RecipeActions.SetHopAdditionType:
     case RecipeActions.SetHopAdditionTime:
     case RecipeActions.SetHopAdditionWeight:
       return Object.assign({}, state, {

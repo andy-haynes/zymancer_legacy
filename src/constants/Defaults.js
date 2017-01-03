@@ -9,6 +9,7 @@ import {
   SetGrainTemp
 } from './RecipeActionTypes';
 import Units from './Units';
+import { HopAdditionType, HopForm } from './AppConstants';
 
 // mash
 const BoilMinutes = 60;
@@ -24,6 +25,8 @@ const GrainAbsorptionLoss = { value: 0.1, antecedent: Units.Gallon, consequent: 
 const BoilOffRate = { value: 1, antecedent: Units.Gallon, consequent: Units.Hour, min: 0.1, max: 5 };
 
 // hops
+const _HopForm = HopForm.Pellet;
+const _HopAdditionType = HopAdditionType.Boil;
 const HopAdditionWeight = { value: 1, unit: Units.Ounce };
 
 // boil
@@ -69,6 +72,8 @@ export default {
   MashoutTemp,
   GrainAbsorptionLoss,
   BoilOffRate,
+  HopForm: _HopForm,
+  HopAdditionType: _HopAdditionType,
   HopAdditionWeight,
   BoilVolume,
   TargetVolume,

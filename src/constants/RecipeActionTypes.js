@@ -12,9 +12,11 @@ export default keyMirror({
   /* hops */
   AddHop: null,
   RemoveHop: null,
+  SetHopForm: null,
   SetHopAlpha: null,
   SetHopBeta: null,
   AddHopAddition: null,
+  SetHopAdditionType: null,
   SetHopAdditionTime: null,
   SetHopAdditionWeight: null,
   RemoveHopAddition: null,
