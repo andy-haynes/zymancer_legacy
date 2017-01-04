@@ -39,15 +39,15 @@ const RecipeHeader = ({ recipe, actions }) => (
           </div>
           <div>
             <SelectField
-              value={recipe.style.name}
-              onChange={(e, i, v) => actions.setRecipeStyle(i + 1)}
+              value={recipe.style.id}
+              onChange={(e, i, v) => actions.setRecipeStyle(v)}
               className={s.longInput}
               style={{width: '19.7em'}}
             >
               {BJCPStyles.map((style, i) => (
                 <MenuItem
                   key={i}
-                  value={style.name}
+                  value={style.id}
                   primaryText={`${style.code} - ${style.name}`}
                 />
               ))}

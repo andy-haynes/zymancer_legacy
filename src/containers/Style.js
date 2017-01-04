@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-//import actions from '../actions';
+import actions from '../actions';
 import Style from '../components/Style';
 
 function mapState(state) {
@@ -18,6 +18,7 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     actions: {
+      loadStyle: (styleId) => dispatch(actions.recipe.loadRecipeStyle(styleId))
     }
   }
 }

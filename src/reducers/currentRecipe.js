@@ -15,7 +15,7 @@ import sumBy from 'lodash/sumBy'
 const initialState = {
   id: null,
   name: 'My Awesome Mixed Beer #6',
-  style: style(undefined, {}),
+  style: undefined,
   method: BrewMethod.AllGrain,
   loaded: false,
   originalGravity: 1.0,
@@ -164,7 +164,10 @@ const currentRecipe = (state = initialState, action) => {
     case RecipeActions.RemoveStarterStep:
       return updateRecipe({ fermentation: fermentation(state.fermentation, action) });
     default:
-      return state;
+      // randomize the style on load
+      return Object.assign({}, state, {
+        style: style(state.style, action)
+      });
   }
 };
 

@@ -1,12 +1,14 @@
 import RecipeActions from '../constants/RecipeActionTypes';
 import Defaults from '../constants/Defaults';
-import yeast from './yeast';
+import BJCPStyles from '../constants/BJCPStyles';
 
-const initialState = {
-  id: 1
-};
+const style = (state, action) => {
+  if (typeof state === 'undefined') {
+    return {
+      id: Math.ceil(Math.random() * BJCPStyles.length)
+    }
+  }
 
-const style = (state = initialState, action) => {
   switch (action.type) {
     case RecipeActions.SetRecipeStyle:
       return Object.assign({}, state, {

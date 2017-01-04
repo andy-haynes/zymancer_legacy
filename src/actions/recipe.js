@@ -10,7 +10,7 @@ function saveCurrentRecipe(recipe) {
   };
 }
 
-function setStyle(styleId) {
+function loadRecipeStyle(styleId) {
   return async (dispatch) => {
     const { data } = await getStyle(styleId);
     return dispatch(actions.recipe.setRecipeStyle(data.style));
@@ -71,5 +71,5 @@ export default {
 
   // async
   saveCurrentRecipe,
-  setStyle
+  loadRecipeStyle
 };
