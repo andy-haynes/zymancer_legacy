@@ -48,7 +48,6 @@ const loadRecipe = {
     }).then(recipe => ({
       id: recipe.id,
       name: recipe.name,
-      style: recipe.style,
       method: recipe.method,
       volume: recipe.volume,
       grains: recipe.grains.map(grain => ({
