@@ -72,7 +72,7 @@ Hop.belongsToMany(Recipe, { through: { model: RecipeHop, unique: false }, as: 'r
 Recipe.belongsToMany(Yeast, { through: { model: RecipeYeast, unique: false }, as: 'yeast', foreignKey: 'recipeId' });
 Yeast.belongsToMany(Recipe, { through: { model: RecipeYeast, unique: false }, as: 'recipes', foreignKey: 'yeastId' });
 
-// why does't this work when the sour are reversed and 'belongsTo' is used?
+// why does't this work when the sources are reversed and 'belongsTo' is used?
 Recipe.hasOne(MashSchedule, { as: 'mashSchedule', foreignKey: 'recipeId' });
 Recipe.hasOne(RecipeFermentation, { as: 'fermentation', foreignKey: 'recipeId' });
 
