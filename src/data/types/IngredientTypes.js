@@ -82,7 +82,9 @@ export const HopAdditionType = new GraphQLObjectType({
   fields: Object.assign({}, _hopFields, {
     name: { type: new GraphQLNonNull(GraphQLString) },
     weight: { type: WeightType },
-    minutes: { type: GraphQLInt }
+    minutes: { type: GraphQLInt },
+    form: { type: GraphQLString },
+    type: { type: GraphQLString }
   })
 });
 
@@ -92,7 +94,9 @@ export const HopInputType = new GraphQLInputObjectType({
     weight: { type: WeightInputType },
     minutes: { type: GraphQLInt },
     alpha: { type: GraphQLFloat },
-    beta: { type: GraphQLFloat }
+    beta: { type: GraphQLFloat },
+    form: { type: GraphQLString },
+    type: { type: GraphQLString }
   })
 });
 

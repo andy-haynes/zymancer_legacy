@@ -88,6 +88,8 @@ export async function getRecipe(recipeId) {
         beta,
         categories,
         minutes,
+        form,
+        type,
         weight {
           value,
           unit
@@ -133,7 +135,7 @@ export async function getRecipe(recipeId) {
   // TODO: group by RecipeHopId instead to get hops of the same type with different alpha/beta
   hops = hops && hops.length ? groupBy(hops, h => h.id) : [];
   hops = Object.keys(hops).map(k => ({
-    additions: hops[k].map(a => pick(a, 'minutes', 'weight')),
+    additions: hops[k].map(a => pick(a, 'minutes', 'weight', 'type')),
     ...hops[k][0]
   }));
 
@@ -165,8 +167,8 @@ export async function getRecipe(recipeId) {
 export async function saveRecipe(recipe) {
   const grains = recipe.grains.map(g => helpers.jsonToGraphql(pick(g, 'id', 'weight', 'lovibond', 'lintner', 'gravity')));
   const hops = flatten(recipe.hops.map(h => h.additions.map(a => helpers.jsonToGraphql(Object.assign(
-    pick(h, 'id', 'alpha', 'beta'),
-    pick(a, 'minutes', 'weight')
+    pick(h, 'id', 'alpha', 'beta', 'form'),
+    pick(a, 'minutes', 'weight', 'type')
   )))));
 
   const yeast = recipe.fermentation.yeasts.map(y => helpers.jsonToGraphql(Object.assign(pick(y, 'id', 'quantity'), {

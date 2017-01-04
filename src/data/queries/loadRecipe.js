@@ -69,7 +69,9 @@ const loadRecipe = {
         beta: hop.RecipeHops.beta,
         categories: hop.categories,
         minutes: hop.RecipeHops.minutes,
-        weight: hop.RecipeHops.weight
+        weight: hop.RecipeHops.weight,
+        form: hop.RecipeHops.form,
+        type: hop.RecipeHops.type
       })),
       yeasts: recipe.yeast.map(yeast => ({
         id: yeast.id,

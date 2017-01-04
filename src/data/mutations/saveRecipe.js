@@ -62,7 +62,7 @@ const saveRecipe = {
         RecipeHop.destroy({ where: { recipeId: id } });
       }
 
-      RecipeHop.bulkCreate(hops.map(h => Object.assign(pick(h, 'alpha', 'beta', 'minutes', 'weight'), {
+      RecipeHop.bulkCreate(hops.map(h => Object.assign(pick(h, 'alpha', 'beta', 'minutes', 'weight', 'type', 'form'), {
         recipeId: recipe.id,
         hopId: h.id
       })));

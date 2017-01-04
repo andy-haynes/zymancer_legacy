@@ -8,7 +8,9 @@ const RecipeHop = Model.define('RecipeHops', {
   minutes: { type: DataType.INTEGER, allowNull: false },
   weight: { type: DataType.JSON, allowNull: false },
   alpha: { type: DataType.DECIMAL, allowNull: false },
-  beta: { type: DataType.DECIMAL, allowNull: false }
+  beta: { type: DataType.DECIMAL, allowNull: false },
+  type: { type: DataType.STRING, allowNull: false },
+  form: { type: DataType.STRING, allowNull: false }
 });
 
 export default RecipeHop;
