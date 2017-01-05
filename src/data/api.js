@@ -61,7 +61,9 @@ export async function getRecipe(recipeId) {
     loadRecipe(id:${recipeId}) {
       id,
       name,
-      style {${_styleKeys}},
+      style {
+        id
+      },
       method,
       volume {
         value,
