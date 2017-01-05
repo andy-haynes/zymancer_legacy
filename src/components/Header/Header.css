@@ -30,6 +30,10 @@
   font-size: 1.75em; /* ~28px */
 }
 
+.runes {
+  font-family: Segoe UI Symbol;
+}
+
 .brandTxt {
   margin-left: 10px;
 }
