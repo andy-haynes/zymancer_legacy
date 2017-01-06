@@ -5,7 +5,10 @@ import actions from '../actions';
 const { recipe: recipeActions } = actions;
 
 function mapState(state) {
-  return { recipe: state.currentRecipe };
+  return {
+    recipe: state.currentRecipe,
+    userLoggedIn: state.auth.userLoggedIn
+  };
 }
 
 function mapDispatch(dispatch) {
