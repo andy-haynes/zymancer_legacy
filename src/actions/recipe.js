@@ -57,6 +57,7 @@ export default {
   setBoilTime: helpers.createAction(RecipeActions.SetBoilTime, 'minutes'),
   setEfficiency: helpers.createAction(RecipeActions.SetEfficiency, 'efficiency'),
   recipeSaved: helpers.createAction(RecipeActions.RecipeSaved),
+  clearRecipe: helpers.createAction(RecipeActions.ClearRecipe),
   
   /************************* fermentation *************************/
   addYeast: helpers.createAction(RecipeActions.AddYeast, 'yeast'),

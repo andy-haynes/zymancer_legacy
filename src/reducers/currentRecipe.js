@@ -15,7 +15,6 @@ import sumBy from 'lodash/sumBy'
 const initialState = {
   id: null,
   name: 'My Awesome Mixed Beer #6',
-  style: undefined,
   method: BrewMethod.AllGrain,
   loaded: false,
   originalGravity: 1.0,
@@ -122,6 +121,8 @@ const currentRecipe = (state = initialState, action) => {
       return updateRecipe({ boilVolume: measurement(state.boilVolume, action) });
     case RecipeActions.SetEfficiency:
       return updateRecipe({ efficiency: action.efficiency });
+    case RecipeActions.ClearRecipe:
+      return Object.assign({}, state, initialState);
     case RecipeActions.AddHop:
       return updateRecipe({ hops: state.hops.concat(hop(undefined, action)) });
     case RecipeActions.RemoveHop:

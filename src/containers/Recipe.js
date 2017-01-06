@@ -18,7 +18,8 @@ function mapDispatch(dispatch) {
       setTargetVolume: (volume) => dispatch(recipeActions.setTargetVolume(volume)),
       setBoilVolume: (volume) => dispatch(recipeActions.setBoilVolume(volume)),
       setBoilTime: (minutes) => dispatch(recipeActions.setBoilTime(parseInt(minutes))),
-      setEfficiency: (efficiency) => dispatch(recipeActions.setEfficiency(parseFloat(efficiency)))
+      setEfficiency: (efficiency) => dispatch(recipeActions.setEfficiency(parseFloat(efficiency))),
+      clearRecipe: () => dispatch(recipeActions.clearRecipe())
     }
   };
 }

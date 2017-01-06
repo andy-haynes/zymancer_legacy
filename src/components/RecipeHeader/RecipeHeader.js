@@ -165,7 +165,7 @@ const RecipeHeader = ({ recipe, actions }) => (
               >
                 <MenuItem onClick={() => actions.saveRecipe(recipe)} primaryText="Save" leftIcon={<SaveIcon />} />
                 <Divider />
-                <MenuItem primaryText="Reset" leftIcon={<ClearIcon />} />
+                <MenuItem onClick={actions.clearRecipe} primaryText="Reset" leftIcon={<ClearIcon />} />
               </IconMenu>
             </div>
             <div className="pure-u-1-1" style={{marginTop: '-0.6em'}}>
