@@ -14,11 +14,11 @@ import Link from '../Link';
 import Navigation from '../Navigation';
 import logoUrl from './logo-small.png';
 
-function Header({ userLoggedIn }) {
+function Header({ authenticated }) {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        <Navigation userLoggedIn={userLoggedIn} />
+        <Navigation authenticated={authenticated} />
         <Link className={s.brand} to="/">
           <span className={s.runes}>ᚨᛚᚢ</span>
           <span className={s.brandTxt}>Zymancer</span>

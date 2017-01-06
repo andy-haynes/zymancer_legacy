@@ -109,7 +109,7 @@ app.get('*', async (req, res, next) => {
     let statusCode = 200;
     const data = { title: '', description: '', style: '', script: assets.main.js, children: '' };
 
-    const store = configureStore({ auth: { userLoggedIn: typeof req.user !== 'undefined' } }, {
+    const store = configureStore({ auth: { authenticated: typeof req.user !== 'undefined' } }, {
       cookie: req.headers.cookie
     });
 

@@ -22,7 +22,7 @@ import ContentSave from 'material-ui/svg-icons/content/save';
 import { grey200 } from 'material-ui/styles/colors';
 import BJCPStyles from '../../constants/BJCPStyles';
 
-const RecipeHeader = ({ recipe, userLoggedIn, actions }) => (
+const RecipeHeader = ({ recipe, authenticated, actions }) => (
   <div className={s.recipeHeader}>
     <div className="pure-g">
       <div className="pure-u-1-1">
@@ -167,7 +167,7 @@ const RecipeHeader = ({ recipe, userLoggedIn, actions }) => (
                   onClick={() => actions.saveRecipe(recipe)}
                   primaryText="Save"
                   leftIcon={<SaveIcon />}
-                  disabled={!userLoggedIn}
+                  disabled={!authenticated}
                 />
                 <Divider />
                 <MenuItem

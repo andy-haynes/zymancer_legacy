@@ -11,11 +11,11 @@ import { BrewMethod } from '../../constants/AppConstants';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 
-const RecipeTabs = ({ recipe, userLoggedIn, actions }) => (
+const RecipeTabs = ({ recipe, authenticated, actions }) => (
   <div className={s.recipeTabs}>
     <RecipeHeader
       recipe={recipe}
-      userLoggedIn={userLoggedIn}
+      authenticated={authenticated}
       actions={actions}
     />
     <Tabs>

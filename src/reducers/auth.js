@@ -1,4 +1,4 @@
-const auth = (state = { userLoggedIn: false }, action) => {
+const auth = (state = { authenticated: false }, action) => {
   return state;
 };
 

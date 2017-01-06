@@ -12,8 +12,8 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../Link';
 
-function Navigation({ userLoggedIn }) {
-  const accountLink = userLoggedIn ? (
+function Navigation({ authenticated }) {
+  const accountLink = authenticated ? (
       <span>
         <a className={s.link} href="/logout">Log out</a>
       </span>
@@ -32,7 +32,7 @@ function Navigation({ userLoggedIn }) {
 
 Navigation.propTypes = {
   className: PropTypes.string,
-  userLoggedIn: PropTypes.bool
+  authenticated: PropTypes.bool
 };
 
 export default withStyles(s)(Navigation);

@@ -7,7 +7,7 @@ const { recipe: recipeActions } = actions;
 function mapState(state) {
   return {
     recipe: state.currentRecipe,
-    userLoggedIn: state.auth.userLoggedIn
+    authenticated: state.auth.authenticated
   };
 }
 
