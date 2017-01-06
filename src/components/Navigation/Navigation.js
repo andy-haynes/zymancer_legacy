@@ -15,8 +15,6 @@ import Link from '../Link';
 function Navigation({ userLoggedIn }) {
   const accountLink = userLoggedIn ? (
       <span>
-        <Link navlink className={s.link} to="/account">Account</Link>
-        <span className={s.spacer}>|</span>
         <a className={s.link} href="/logout">Log out</a>
       </span>
   ) : (<Link navlink className={s.link} to="/login">Log in</Link>);
@@ -28,8 +26,6 @@ function Navigation({ userLoggedIn }) {
       <Link navlink className={s.link} to="/recipes">Recipes</Link>
       <span className={s.spacer}>|</span>
       {accountLink}
-      <span className={s.spacer}>|</span>
-      <Link navlink className={s.link} to="/contact">Contact</Link>
     </div>
   );
 }

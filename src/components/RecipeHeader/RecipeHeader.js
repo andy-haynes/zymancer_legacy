@@ -164,7 +164,6 @@ const RecipeHeader = ({ recipe, actions }) => (
                 targetOrigin={{horizontal: 'right', vertical: 'top'}}
               >
                 <MenuItem onClick={() => actions.saveRecipe(recipe)} primaryText="Save" leftIcon={<SaveIcon />} />
-                <MenuItem primaryText="Share" leftIcon={<ShareIcon />} />
                 <Divider />
                 <MenuItem primaryText="Reset" leftIcon={<ClearIcon />} />
               </IconMenu>
