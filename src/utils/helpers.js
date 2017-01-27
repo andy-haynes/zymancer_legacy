@@ -94,6 +94,10 @@ function createRatio(numerator, denominator, min, max) {
 
 //region strings
 function extractRange(raw) {
+  if (typeof raw === 'number') {
+    return { avg: raw };
+  }
+
   let comp = (raw || '').split('-');
   if (comp.length === 1) {
     comp = comp[0].split('–');
