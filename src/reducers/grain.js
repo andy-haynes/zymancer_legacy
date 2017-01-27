@@ -4,9 +4,16 @@ import { ExtractType, ExtractGravity } from '../constants/AppConstants';
 import measurement from './measurement';
 import pick from 'lodash/pick';
 
+let grainId = 0;
+
 function createGrain(grain) {
   const props = pick(grain, 'id', 'name', 'mfg', 'DBCG', 'DBFG', 'isExtract', 'category', 'description', 'flavor');
   const extractType = grain.isExtract ? (grain.extractType || ExtractType.Dry) : null;
+
+  if (typeof props.id === 'undefined') {
+    props.id = ++grainId;
+  }
+
   return Object.assign(props, {
     weight: grain.weight || Defaults.GrainWeight,
     gravity: grain.gravity || (extractType ? ExtractGravity[extractType] : 1),

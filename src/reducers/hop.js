@@ -4,12 +4,14 @@ import hopAddition from './hopAddition';
 import helpers from '../utils/helpers';
 import round from 'lodash/round';
 
+let hopId = 0;
+
 function createHop(hop, boilMinutes) {
   const alphaRange = hop.alphaRange || helpers.extractRange(hop.alpha);
   const betaRange = hop.betaRange || helpers.extractRange(hop.beta);
 
   return {
-    id: hop.id,
+    id: typeof hop.id !== 'undefined' ? hop.id : ++hopId,
     name: hop.name,
     alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
     beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
