@@ -343,6 +343,7 @@ export async function buildParsedRecipe(parsed) {
     grains,
     hops,
     fermentation: {
+      pitchRate: Defaults.PitchRate,
       yeasts
     }
   });
