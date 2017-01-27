@@ -11,6 +11,7 @@ import searchHops from './queries/searchHops';
 import searchYeast from './queries/searchYeast';
 import loadRecipe from './queries/loadRecipe';
 import style from './queries/style';
+import matchParsedIngredients from './queries/matchParsedIngredients';
 
 import saveRecipe from './mutations/saveRecipe';
 
@@ -28,6 +29,7 @@ const schema = new GraphQLSchema({
       searchYeast,
       loadRecipe,
       style,
+      matchParsedIngredients,
       // mutations
       saveRecipe
     }

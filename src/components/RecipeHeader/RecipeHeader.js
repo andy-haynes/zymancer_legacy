@@ -5,20 +5,13 @@ import MeasurementUnits from '../../constants/MeasurementUnits';
 import Defaults from '../../constants/Defaults';
 import { BrewMethod } from '../../constants/AppConstants';
 import Measurement from '../Measurement';
+import UserMenu from '../UserMenu';
 import round from 'lodash/round';
 import zymath from '../../utils/zymath';
 import SliderInput from '../SliderInput';
 import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
-import Divider from 'material-ui/Divider';
-import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
-import SaveIcon from 'material-ui/svg-icons/content/save';
-import ShareIcon from 'material-ui/svg-icons/social/share';
-import ClearIcon from 'material-ui/svg-icons/content/clear';
-import ContentSave from 'material-ui/svg-icons/content/save';
 import { grey200 } from 'material-ui/styles/colors';
 import BJCPStyles from '../../constants/BJCPStyles';
 
@@ -158,24 +151,7 @@ const RecipeHeader = ({ recipe, authenticated, actions }) => (
               </SelectField>
             </div>
             <div className="pure-u-1-24">
-              <IconMenu
-                iconButtonElement={<IconButton><MoreVertIcon /></IconButton>}
-                anchorOrigin={{horizontal: 'right', vertical: 'top'}}
-                targetOrigin={{horizontal: 'right', vertical: 'top'}}
-              >
-                <MenuItem
-                  onClick={() => actions.saveRecipe(recipe)}
-                  primaryText="Save"
-                  leftIcon={<SaveIcon />}
-                  disabled={!authenticated}
-                />
-                <Divider />
-                <MenuItem
-                  onClick={actions.clearRecipe}
-                  primaryText="Reset"
-                  leftIcon={<ClearIcon />}
-                />
-              </IconMenu>
+              <UserMenu authenticated={authenticated} actions={actions} />
             </div>
             <div className="pure-u-1-1" style={{marginTop: '-0.6em'}}>
               <div className={s.headerLabel} style={{margin: '0.45em 0 -0.7em 0'}}>

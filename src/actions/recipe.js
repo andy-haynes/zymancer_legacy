@@ -1,7 +1,8 @@
 import RecipeActions from '../constants/RecipeActionTypes';
 import helpers from '../utils/helpers';
+import parseText from '../utils/parseRecipe';
 import actions from '../actions';
-import { saveRecipe, getStyle } from '../data/api';
+import { saveRecipe, getStyle, buildParsedRecipe } from '../data/api';
 
 function saveCurrentRecipe(recipe) {
   return async (dispatch) => {
@@ -15,6 +16,21 @@ function loadRecipeStyle(styleId) {
     const { data } = await getStyle(styleId);
     return dispatch(actions.recipe.setRecipeStyle(data.style));
   }
+}
+
+function parseRecipeText(recipeText) {
+  const parsed = parseText(recipeText);
+  return async (dispatch) => {
+    if (parsed !== null) {
+      const recipe = await buildParsedRecipe(parsed);
+      if (recipe) {
+        return dispatch(actions.saved.loadSavedRecipe(recipe));
+      }
+    }
+
+    // todo: display error
+    return dispatch(actions.recipe.clearRecipe());
+  };
 }
 
 export default {
@@ -58,7 +74,8 @@ export default {
   setEfficiency: helpers.createAction(RecipeActions.SetEfficiency, 'efficiency'),
   recipeSaved: helpers.createAction(RecipeActions.RecipeSaved),
   clearRecipe: helpers.createAction(RecipeActions.ClearRecipe),
-  
+  updateRecipeText: helpers.createAction(RecipeActions.UpdateRecipeText, 'recipeText'),
+
   /************************* fermentation *************************/
   addYeast: helpers.createAction(RecipeActions.AddYeast, 'yeast'),
   removeYeast: helpers.createAction(RecipeActions.RemoveYeast, 'yeast'),
@@ -72,5 +89,6 @@ export default {
 
   // async
   saveCurrentRecipe,
-  loadRecipeStyle
+  loadRecipeStyle,
+  parseRecipeText
 };

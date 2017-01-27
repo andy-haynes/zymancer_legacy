@@ -23,7 +23,7 @@ export const WeightInputType = new GraphQLInputObjectType({
   fields: _weightFields
 });
 
-const _grainFields ={
+const _grainFields = {
   id: { type: new GraphQLNonNull(GraphQLInt) },
   gravity: { type: GraphQLFloat },
   lovibond: { type: GraphQLString },

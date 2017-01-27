@@ -1,4 +1,4 @@
-import { RecipeType } from '../constants/AppConstants';
+import { RecipeType, RecipeParameter } from '../constants/AppConstants';
 import Defaults from '../constants/Defaults';
 import fetch from '../core/fetch';
 import helpers from '../utils/helpers';
@@ -235,4 +235,115 @@ export async function getSavedRecipes(recipeType) {
 
 export async function getStyle(styleId) {
   return await _graphqlFetch(`{style(id:${styleId}) { ${_styleKeys} }}`);
+}
+
+export async function buildParsedRecipe(parsed) {
+  const [parsedGrains, parsedHops, parsedYeast] = [
+    parsed.grains.map(g => helpers.jsonToGraphql(pick(g, 'name'))),
+    parsed.hops.map(h => helpers.jsonToGraphql(pick(h, 'name'))),
+    parsed.yeast.map(y => helpers.jsonToGraphql(pick(y, 'code')))
+  ].map(p => [...new Set(p)]);
+
+  const query = `{
+    matchParsedIngredients(
+      grains: [${parsedGrains}],
+      hops: [${parsedHops}],
+      yeast: [${parsedYeast}]
+    ) {
+      grains {
+        id,
+        name,
+        gravity,
+        lovibond,
+        lintner,
+        isExtract,
+        DBCG,
+        DBFG
+      },
+      hops {
+        id,
+        name,
+        alpha,
+        beta,
+        categories
+      },
+      yeast {
+        id,
+        name,
+        mfg,
+        code,
+        styles,
+        description,
+        toleranceLow,
+        toleranceHigh,
+        temperatureLow,
+        temperatureHigh,
+        attenuationLow,
+        attenuationHigh,
+        apparentAttenuation,
+        flocculation
+      }
+    }
+  }`;
+
+  const { data } = await _graphqlFetch(query);
+  const recipe = data.matchParsedIngredients;
+
+  parsed.parameters.forEach(p => {
+    switch (p.parameter) {
+      case RecipeParameter.BoilTime:
+        recipe.boilMinutes = p.quantity.value;
+        break;
+      case RecipeParameter.BrewMethod:
+        recipe.brewMethod = p.quantity.value;
+        break;
+      case RecipeParameter.Efficiency:
+        recipe.efficiency = Math.round(p.value / 100);
+        break;
+      case RecipeParameter.TargetVolume:
+        recipe.targetVolume = Object.assign({}, Defaults.TargetVolume, p.quantity);
+        break;
+      //case RecipeParameter.Attenuation:
+      //  break;
+      // what to do with calculated values?
+      //case RecipeParameter.BoilVolume:
+      //case RecipeParameter.FinalGravity:
+      //case RecipeParameter.OriginalGravity:
+      //case RecipeParameter.IBU:
+      //case RecipeParameter.SRM:
+      //case RecipeParameter.ABV:
+    }
+  });
+
+  function mergeIngredients(ingredients, retrieved, compare, create) {
+    if (ingredients) {
+      return ingredients.map(i => {
+        const matching = retrieved && retrieved.find(r => compare(i, r));
+        if (matching) {
+          return Object.assign({}, matching, i);
+        }
+        return i;
+      }).map(i => create(i));
+    }
+
+    return [];
+  }
+
+  const grains = mergeIngredients(parsed.grains, recipe.grains, (x, y) => x.name === y.name, grain.create);
+  let hops = mergeIngredients(parsed.hops, recipe.hops, (x, y) => x.name === y.name, hop.create);
+  const yeasts = mergeIngredients(parsed.yeast, recipe.yeast, (x, y) => x.code === y.code, yeast.create);
+
+  hops = hops && hops.length ? groupBy(hops, h => h.id) : [];
+  hops = Object.keys(hops).map(k => hop.create({
+    additions: hops[k].map(a => pick(a, 'minutes', 'weight', 'type')),
+    ...hops[k][0]
+  }));
+
+  return Object.assign(recipe, {
+    grains,
+    hops,
+    fermentation: {
+      yeasts
+    }
+  });
 }

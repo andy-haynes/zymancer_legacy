@@ -44,7 +44,23 @@ export const HopAdditionType = keyMirror({
   FirstWort: null,
   Boil: null,
   Whirlpool: null,
+  HopStand: null,
+  HopBack: null,
   Dry: null
+});
+
+export const RecipeParameter = keyMirror({
+  TargetVolume: null,
+  BoilVolume: null,
+  BrewMethod: null,
+  Efficiency: null,
+  BoilTime: null,
+  OriginalGravity: null,
+  FinalGravity: null,
+  Attenuation: null,
+  ABV: null,
+  IBU: null,
+  SRM: null
 });
 
 export const MinSearchQueryLength = 1;
