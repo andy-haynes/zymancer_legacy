@@ -49,8 +49,7 @@ const config = {
         test: /\.jsx?$/,
         loader: 'babel-loader',
         include: [
-          path.resolve(__dirname, '../node_modules/react-routing/src'),
-          path.resolve(__dirname, '../src'),
+          path.resolve(__dirname, '../src')
         ],
         query: {
           // https://github.com/babel/babel-loader#options
@@ -250,7 +249,7 @@ const clientConfig = extend(true, {}, config, {
 
   // Choose a developer tool to enhance debugging
   // http://webpack.github.io/docs/configuration.html#devtool
-  devtool: DEBUG ? 'cheap-module-eval-source-map' : false,
+  devtool: DEBUG ? 'source-map' : false,
 });
 
 //
@@ -261,21 +260,17 @@ const serverConfig = extend(true, {}, config, {
   entry: './server.js',
 
   output: {
-    filename: '../../server.js',
-    libraryTarget: 'commonjs2',
+    path: path.resolve(__dirname, '../build'),
+    filename: 'server.js',
+    chunkFilename: 'server.[name].js',
+    libraryTarget: 'commonjs2'
   },
 
   target: 'node',
 
   externals: [
     /^\.\/assets$/,
-    function filter(context, request, cb) {
-      const isExternal =
-        request.match(/^[@a-z][a-z\/\.\-0-9]*$/i) &&
-        !request.match(/^react-routing/) &&
-        !context.match(/[\\/]react-routing/);
-      cb(null, Boolean(isExternal));
-    },
+    /^[@a-z][a-z\/\.\-0-9]*$/i
   ],
 
   plugins: [
