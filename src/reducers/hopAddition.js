@@ -7,7 +7,7 @@ let additionId = 0;
 function createHopAddition(addition = {}, hop, minutes) {
   return {
     id: (hop.id * 1000) + additionId++,
-    minutes: isNaN(addition.minutes) ? minutes : addition.minutes,
+    minutes: isNaN(addition.minutes) ? minutes : addition.minutes || 0,
     type: addition.type || Defaults.HopAdditionType,
     weight: addition.weight || Defaults.HopAdditionWeight,
     defaultAddition: true
