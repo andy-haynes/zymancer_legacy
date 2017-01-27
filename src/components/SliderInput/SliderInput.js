@@ -23,6 +23,12 @@ const SliderInput = ({ value, min, max, update, children, sliderWidth = '7-8', i
     value = min;
   }
 
+  // warnings are annoying, just fudge this for equal values
+  if (min === max) {
+    min -= step;
+    max += step;
+  }
+
   return (
     <div className={s.sliderInput}>
       <div className="pure-g">
