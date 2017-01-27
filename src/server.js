@@ -30,6 +30,9 @@ import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { port, auth } from './config';
 import exampleRecipe from './constants/ExampleRecipe';
+import injectTapEventPlugin from 'react-tap-event-plugin';
+
+injectTapEventPlugin();
 
 const app = express();
 
