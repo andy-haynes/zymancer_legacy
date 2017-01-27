@@ -130,7 +130,9 @@ function jsonToGraphql(obj) {
   function parseKeys (o, str) {
     Object.keys(o).forEach(k => {
       if (typeof o[k] === 'object') {
-        if (Object.keys(o[k])) {
+        if (o[k] === null) {
+          return;
+        } else if (Object.keys(o[k])) {
           if (typeof o[k].length === 'undefined') {
             str += `${k}:{${parseKeys(o[k], '')}},`;
           } else {
@@ -139,7 +141,7 @@ function jsonToGraphql(obj) {
         } else {
           str += o[k].toString();
         }
-      } else if (['number', 'string'].indexOf(typeof o[k]) > -1) {
+      } else if (['number', 'string'].includes(typeof o[k])) {
         if (!isNaN(o[k])) {
           str += `${k}:${o[k]},`;
         } else {
