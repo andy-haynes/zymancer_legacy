@@ -20,6 +20,7 @@ const _rxPlato = /([0-9]+[.]?[0-9]*)°\s*(?:Plato|P)/i;
 const _rxPPG = /([0-9]+[.]?[0-9]*)\s*(?:PPG)/i;
 const _rxSRM = /([0-9]+[.]?[0-9]*)\s*SRM/i;
 const _rxYeast = /(?:(white labs|wyeast|wyeast labs|safale|imperial|imperial yeast)\s*((?:wlp|[a-z]|us-)?\d{2,6}(?:-pc)?)|((?:wlp|us-)\d{2,6}(?:-pc)?))/i;
+const _rxAddition = /(whirlfloc|yeast nutrient|nutrient)/i;
 const _rxSoleNumeric = /([0-9]+[.]?[0-9]*)\s+(?!SG|%|SRM|IBU|lbs|lb|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt|minutes|minute|min|hours|hour|hr|aa|aau|alpha|a.a.|Lovibond|Lov|L)/ig;
 const _rxRecipeParameter = /(boil time|boiling time|batch size|yield|boil size|original gravity|final gravity|terminal gravity|og|fg|attenuation|srm|color|ibu|ibus|bitterness|plato|efficiency|abv|alcohol by volume|alcohol by vol)[ a-z()=:]+((?:[0-9]+[.]?[0-9]*)[°]?\s*(?:%|minutes|minute|min|sg|ibu|srm|gallons|gallon|gal|us gallons|us gallon|us gal)?)/i;
 
@@ -106,28 +107,29 @@ function parseLine(line) {
       srm: extractGroup(_rxSRM),
       gravity: extractGroup(_rxGravity),
       plato: extractGroup(_rxPlato),
-      ppg: extractGroup(_rxPPG)
+      ppg: extractGroup(_rxPPG),
+      addition: extractGroup(_rxAddition)
     };
 
     const freeNumbers = line.match(_rxSoleNumeric);
 
-    // no alpha but definitely a hop, try a lone number that looks appropriate
-    if (parsed.time && (parsed.hopForm || parsed.hopAddition) && (parsed.alpha || parsed.ibu) === null && freeNumbers) {
-      const alpha = freeNumbers[0];
-      if (alpha >= 0 && alpha < 25) {
-        parsed.alpha = alpha;
-      }
-    }
-
-    // no gravity or srm, best take whatever's close to being within range
-    if ((parsed.alpha || parsed.time) === null && ((parsed.gravity || parsed.plato || parsed.ppg) === null || (parsed.lovibond || parsed.srm) === null) && freeNumbers) {
-      freeNumbers.forEach((n) => {
-        if (parsed.ppg === null && n > 25 && n < 44) {
-          parsed.ppg = n;
-        } else if (parsed.lovibond === null && parsed.srm === null && n > 1 && n < 600) {
-          parsed.lovibond = n;
+    if (!parsed.addition) {
+      // no alpha but definitely a hop, try a lone number that looks appropriate
+      if (parsed.time && (parsed.hopForm || parsed.hopAddition) && (parsed.alpha || parsed.ibu) === null && freeNumbers) {
+        const alpha = freeNumbers[0];
+        if (alpha >= 0 && alpha < 25) {
+          parsed.alpha = alpha;
         }
-      });
+      } else if ((parsed.alpha || parsed.time) === null && ((parsed.gravity || parsed.plato || parsed.ppg) === null || (parsed.lovibond || parsed.srm) === null) && freeNumbers) {
+        // no gravity or srm, best take whatever's close to being within range
+        freeNumbers.forEach((n) => {
+          if (parsed.ppg === null && n > 25 && n < 44) {
+            parsed.ppg = n;
+          } else if (parsed.lovibond === null && parsed.srm === null && n > 1 && n < 600) {
+            parsed.lovibond = n;
+          }
+        });
+      }
     }
 
     return parsed;
@@ -167,7 +169,7 @@ function extractNumeric(str) {
 function parseQuantity(qty) {
   if (qty) {
     let quantity = { value: extractNumeric(qty) };
-    const unit = ((u) => _unitMapping[u] || u)(qty.replace(/[\W\d]+/i, '').toLowerCase().trim());
+    const unit = ((u) => _unitMapping[u] || null)(qty.replace(/[\W\d]+/i, '').toLowerCase().trim());
     if (unit) {
       quantity.unit = unit;
     }
@@ -182,6 +184,7 @@ function buildRecipe(parsed) {
     grains: [],
     hops: [],
     yeast: [],
+    additions: [],
     parameters: []
   };
 
@@ -190,7 +193,13 @@ function buildRecipe(parsed) {
       const mapHopDetail = (d) => d && _hopAdditionMapping[d.toLowerCase()];
       let weight = parseQuantity(p.quantity);
 
-      if (p.alpha || p.time || p.hopAddition || p.hopForm) {
+      if (p.addition) {
+        recipe.additions.push({
+          name: p.name,
+          time: extractNumeric(p.time),
+          weight
+        });
+      } else if (p.alpha || p.time || p.hopAddition || p.hopForm) {
         recipe.hops.push({
           name: p.name.replace(/pellet/i, '').trim(),
           alpha: extractNumeric(p.alpha || p.percentage),
@@ -202,7 +211,6 @@ function buildRecipe(parsed) {
             weight
           }]
         });
-        console.log(recipe.hops[recipe.hops.length - 1].additions[0].minutes)
       } else if (p.name && !p.time && p.name.toLowerCase() !== 'total') {
         recipe.grains.push({
           name: p.name,
