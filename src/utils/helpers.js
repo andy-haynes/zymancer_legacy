@@ -149,7 +149,7 @@ function jsonToGraphql(obj) {
         if (!isNaN(o[k])) {
           str += `${k}:${o[k]},`;
         } else {
-          str += `${k}:"${o[k]}",`;
+          str += `${k}:"${o[k].replace(/"/g, '\'')}",`;
         }
       }
     });
