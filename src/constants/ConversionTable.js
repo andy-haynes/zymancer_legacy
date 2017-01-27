@@ -5,6 +5,8 @@ import {
   Cup,
   Liter,
   Milliliter,
+  Teaspoon,
+  Tablespoon,
   Pound,
   Ounce,
   Kilogram,
@@ -58,6 +60,12 @@ const conversionTable = {
     FluidOunce: 0.033814,
     Cup:        0.00416667,
     Liter:      0.001
+  },
+  Teaspoon: {
+    //
+  },
+  Tablespoon: {
+    //
   },
 /* mass */
   Pound: {

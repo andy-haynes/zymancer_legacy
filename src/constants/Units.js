@@ -8,6 +8,8 @@ export default keyMirror({
   Cup: null,
   Liter: null,
   Milliliter: null,
+  Teaspoon: null,
+  Tablespoon: null,
   Pound: null,
   Ounce: null,
   Kilogram: null,
