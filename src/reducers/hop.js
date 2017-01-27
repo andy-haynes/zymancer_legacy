@@ -17,7 +17,7 @@ function createHop(hop, boilMinutes) {
     beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
     form: hop.form || Defaults.HopForm,
     additions: (hop.additions || []).map(a => hopAddition.create(a, hop, boilMinutes)),
-    categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories,
+    categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories || [],
     alphaRange,
     betaRange
   };

@@ -195,10 +195,10 @@ function buildRecipe(parsed) {
           name: p.name.replace(/pellet/i, '').trim(),
           alpha: extractNumeric(p.alpha || p.percentage),
           ibu: extractNumeric(p.ibu),
+          form: mapHopDetail(p.hopForm),
           additions: [{
             minutes: extractNumeric(p.time),
-            form: mapHopDetail(p.hopForm),
-            additionType: mapHopDetail(p.hopAddition),
+            type: mapHopDetail(p.hopAddition),
             weight
           }]
         });
