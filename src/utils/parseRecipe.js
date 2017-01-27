@@ -58,9 +58,9 @@ const _hopAdditionMapping = {
   'whirlpool': HopAdditionType.Whirlpool,
   'whirl-pool': HopAdditionType.Whirlpool,
   'whirl pool': HopAdditionType.Whirlpool,
-  'hopstand': HopAdditionType.HopStand,
-  'hop-stand': HopAdditionType.HopStand,
-  'hop stand': HopAdditionType.HopStand
+  'hopstand': HopAdditionType.Whirlpool,
+  'hop-stand': HopAdditionType.Whirlpool,
+  'hop stand': HopAdditionType.Whirlpool
 };
 
 const _parameterMapping = {

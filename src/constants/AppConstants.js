@@ -44,7 +44,6 @@ export const HopAdditionType = keyMirror({
   FirstWort: null,
   Boil: null,
   Whirlpool: null,
-  HopStand: null,
   HopBack: null,
   Dry: null
 });
