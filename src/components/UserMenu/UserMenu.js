@@ -37,7 +37,7 @@ class UserMenu extends React.Component {
   };
 
   render() {
-    const { authenticated, actions } = this.props;
+    const { recipe, authenticated, actions } = this.props;
 
     return (
       <div>

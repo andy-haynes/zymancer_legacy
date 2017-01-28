@@ -151,7 +151,7 @@ const RecipeHeader = ({ recipe, authenticated, actions }) => (
               </SelectField>
             </div>
             <div className="pure-u-1-24">
-              <UserMenu authenticated={authenticated} actions={actions} />
+              <UserMenu recipe={recipe} authenticated={authenticated} actions={actions} />
             </div>
             <div className="pure-u-1-1" style={{marginTop: '-0.6em'}}>
               <div className={s.headerLabel} style={{margin: '0.45em 0 -0.7em 0'}}>
