@@ -246,6 +246,7 @@ export async function buildParsedRecipe(parsed) {
 
   const query = `{
     matchParsedIngredients(
+      ${parsed.styleId ? `style: { id: ${parsed.styleId} },` : ''}
       grains: [${parsedGrains}],
       hops: [${parsedHops}],
       yeast: [${parsedYeast}]
@@ -282,6 +283,9 @@ export async function buildParsedRecipe(parsed) {
         attenuationHigh,
         apparentAttenuation,
         flocculation
+      },
+      style {
+        ${_styleKeys}
       }
     }
   }`;
@@ -329,6 +333,9 @@ export async function buildParsedRecipe(parsed) {
     return [];
   }
 
+  if (recipe.style === null) {
+    delete recipe.style;
+  }
   const grains = mergeIngredients(parsed.grains, recipe.grains, (x, y) => x.name === y.name, grain.create);
   let hops = mergeIngredients(parsed.hops, recipe.hops, (x, y) => x.name === y.name, hop.create);
   const yeasts = mergeIngredients(parsed.yeast, recipe.yeast, (x, y) => x.code === y.code, yeast.create);

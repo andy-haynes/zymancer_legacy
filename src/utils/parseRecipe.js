@@ -3,6 +3,7 @@ import Units from '../constants/Units';
 import helpers from './helpers';
 import { ExtractGravity, HopAdditionType, HopForm, RecipeParameter } from '../constants/AppConstants';
 import Defaults from '../constants/Defaults';
+import BJCPStyles from '../constants/BJCPStyles';
 import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';
 import pick from 'lodash/pick';
@@ -155,6 +156,16 @@ function parseLine(line) {
         mfg
       };
     }
+
+    // check against style
+    const style = BJCPStyles.map(s => ({ name: s.name.toLowerCase(), id: s.id }))
+                            .filter(s => line.toLowerCase().includes(s.name))
+                            .map(s => s.id)[0];
+
+    if (style) {
+      return { style };
+    }
+
   }
 
   return null;
@@ -183,6 +194,7 @@ function parseQuantity(qty) {
 
 function buildRecipe(parsed) {
   const recipe = {
+    styleId: null,
     grains: [],
     hops: [],
     yeast: [],
@@ -249,6 +261,8 @@ function buildRecipe(parsed) {
         quantity: parseQuantity(p.value),
         value: extractNumeric(p.value)
       }));
+    } else if (p.style) {
+      recipe.styleId = p.style;
     }
   });
 

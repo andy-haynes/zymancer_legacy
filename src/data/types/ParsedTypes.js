@@ -6,10 +6,12 @@ import {
   GraphQLList
 } from 'graphql';
 import { WeightInputType, GrainType, HopType, YeastType } from './IngredientTypes';
+import { StyleType } from './StyleType';
 
 const ParsedRecipeType = new GraphQLObjectType({
   name: 'ParsedRecipeType',
   fields: {
+    style: { type: StyleType },
     grains: { type: new GraphQLList(GrainType) },
     hops: { type: new GraphQLList(HopType) },
     yeast: { type: new GraphQLList(YeastType) }
