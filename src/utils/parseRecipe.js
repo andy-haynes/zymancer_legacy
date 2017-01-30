@@ -149,7 +149,7 @@ function parseLine(line) {
       yeast = yeast.slice(1);
       const mfg = yeast[0];
       return {
-        code: yeast[mfg ? 1 : 2],
+        code: yeast[mfg ? 1 : 2].toString(),
         mfg
       };
     }
