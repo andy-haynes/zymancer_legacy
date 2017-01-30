@@ -25,13 +25,21 @@ const matchParsedIngredients = {
       grains: await Grain.findAll({
         attributes: GrainSearchType._fields,
         where: {
-          name: grains.map(g => g.name)
+          name: {
+            $iLike: {
+              $any: grains.map(g => `%${g.name}%`)
+            }
+          }
         }
       }),
       hops: await Hop.findAll({
         attributes: HopType._fields,
         where: {
-          name: hops.map(h => h.name)
+          name: {
+            $iLike: {
+              $any: hops.map(h => `%${h.name}%`)
+            }
+          }
         }
       }),
       yeast: await Yeast.findAll({

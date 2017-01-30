@@ -333,9 +333,9 @@ export async function buildParsedRecipe(parsed) {
   function mergeIngredients(ingredients, retrieved, compare, create) {
     if (ingredients) {
       return ingredients.map(i => {
-        const matching = retrieved && retrieved.find(r => compare(i, r));
+        const matching = retrieved && retrieved.find(r => compare(r, i));
         if (matching) {
-          return Object.assign({}, matching, i);
+          return Object.assign({}, matching, i, { name: matching.name });
         }
         return i;
       }).map(i => create(i));
@@ -347,15 +347,10 @@ export async function buildParsedRecipe(parsed) {
   if (recipe.style === null) {
     delete recipe.style;
   }
-  const grains = mergeIngredients(parsed.grains, recipe.grains, (x, y) => x.name === y.name, grain.create);
-  let hops = mergeIngredients(parsed.hops, recipe.hops, (x, y) => x.name === y.name, hop.create);
-  const yeasts = mergeIngredients(parsed.yeast, recipe.yeast, (x, y) => x.code === y.code, yeast.create);
 
-  hops = hops && hops.length ? groupBy(hops, h => h.id) : [];
-  hops = Object.keys(hops).map(k => hop.create({
-    additions: hops[k].map(a => pick(a, 'minutes', 'weight', 'type')),
-    ...hops[k][0]
-  }));
+  const grains = mergeIngredients(parsed.grains, recipe.grains, (x, y) => x.name.includes(y.name), grain.create);
+  const hops = mergeIngredients(_groupHops(parsed.hops), recipe.hops, (x, y) => x.name.includes(y.name), hop.create);
+  const yeasts = mergeIngredients(parsed.yeast, recipe.yeast, (x, y) => x.code === y.code, yeast.create);
 
   return Object.assign(recipe, {
     grains,
