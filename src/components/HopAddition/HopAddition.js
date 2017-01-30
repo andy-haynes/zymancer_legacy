@@ -44,7 +44,7 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, boilMinutes, 
             <MenuItem primaryText='Hop Back' value={HopAdditionType.HopBack} />
             <MenuItem primaryText='Boil' value={HopAdditionType.Boil} />
             <MenuItem primaryText='Whirlpool' value={HopAdditionType.Whirlpool} />
-            <MenuItem primaryText='Dry' value={HopAdditionType.Dry} />
+            <MenuItem primaryText='Dry Hop' value={HopAdditionType.Dry} />
           </SelectField>
         </div>
       </div>
