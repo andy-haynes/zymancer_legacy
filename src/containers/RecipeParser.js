@@ -6,7 +6,8 @@ const { recipe: recipeActions } = actions;
 
 function mapState(state) {
   return {
-    parser: state.recipeParser
+    parser: state.recipeParser,
+    searchCache: state.searchCache
   };
 }
 
@@ -14,7 +15,7 @@ function mapDispatch(dispatch) {
   return {
     actions: {
       updateRecipeText: (recipeText) => dispatch(recipeActions.updateRecipeText(recipeText)),
-      parseRecipeText: (recipeText) => dispatch(recipeActions.parseRecipeText(recipeText))
+      parseRecipeText: (recipeText, searchCache) => dispatch(recipeActions.parseRecipeText(recipeText, searchCache))
     }
   };
 }

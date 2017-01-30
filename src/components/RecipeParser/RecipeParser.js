@@ -4,7 +4,7 @@ import s from './RecipeParser.css';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton'
 
-const RecipeParser = ({ parser, actions }) => (
+const RecipeParser = ({ parser, searchCache, actions }) => (
   <div className={s.parseRecipe}>
     <TextField
       name="recipe-text"
@@ -16,7 +16,7 @@ const RecipeParser = ({ parser, actions }) => (
     />
     <FlatButton
       label="Parse"
-      onClick={() => actions.parseRecipeText(parser.text)}
+      onClick={() => actions.parseRecipeText(parser.text, searchCache)}
     />
   </div>
 );

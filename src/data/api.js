@@ -248,10 +248,41 @@ function _groupHops(hops) {
   return grouped;
 }
 
-export async function buildParsedRecipe(parsed) {
+function matchIngredient(parsedName, tokens) {
+  const scores = {};
+  parsedName
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, ' ')
+    .split(/\s+/g)
+    .forEach(s => {
+      if (tokens[s]) {
+        tokens[s].forEach(id => {
+          if (!scores.hasOwnProperty(id)) {
+            scores[id] = 0;
+          }
+          scores[id]++;
+        });
+      }
+    });
+
+  if (Object.keys(scores).length) {
+    return Object.keys(scores).sort((k, l) => scores[l] - scores[k])[0];
+  }
+
+  return null;
+}
+
+export async function buildParsedRecipe(parsed, searchCache) {
+  function matchingIdStr(ingredients, tokens) {
+    return [...new Set(ingredients)]
+      .map(i => matchIngredient(i, tokens))
+      .filter(p => p >= 0)
+      .join(',');
+  }
+
   const [parsedGrains, parsedHops, parsedYeast] = [
-    parsed.grains.map(g => helpers.jsonToGraphql(pick(g, 'name'))),
-    parsed.hops.map(h => helpers.jsonToGraphql(pick(h, 'name'))),
+    matchingIdStr(parsed.grains.map(g => g.name), searchCache.grains),
+    matchingIdStr(parsed.hops.map(h => h.name), searchCache.hops),
     parsed.yeast.map(y => helpers.jsonToGraphql(pick(y, 'code')))
   ].map(p => [...new Set(p)]);
 
@@ -360,4 +391,33 @@ export async function buildParsedRecipe(parsed) {
       yeasts
     }
   });
+}
+
+export async function tokenizeIngredients() {
+  function histogramReduce(blacklist = []) {
+    return (tokens, ingredient) => {
+      ingredient.name
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, ' ')
+        .split(/\s+/g)
+        .forEach(i => {
+          if (i && !blacklist.includes(i)) {
+            if (!tokens.hasOwnProperty(i)) {
+              tokens[i] = [];
+            }
+            tokens[i].push(ingredient.id);
+          }
+        });
+
+      return tokens;
+    };
+  }
+
+  const { data } = await _graphqlFetch('{tokenizeIngredients { grains { id, name }, hops { id, name }, yeast { id, name } }}');
+  const ingredients = data.tokenizeIngredients;
+  return {
+    grains: ingredients.grains.reduce(histogramReduce('malt', 'ale'), {}),
+    hops: ingredients.hops.reduce(histogramReduce('hop'), {}),
+    yeast: ingredients.yeast.reduce(histogramReduce('yeast'), {})
+  };
 }

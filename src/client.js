@@ -12,6 +12,7 @@ import ReactDOM from 'react-dom';
 import FastClick from 'fastclick';
 import UniversalRouter from 'universal-router';
 import routes from './routes';
+import actions from './actions';
 import history from './core/history';
 import configureStore from './store/configureStore';
 import { readState, saveState } from 'history/lib/DOMStateStorage';
@@ -105,6 +106,7 @@ function run() {
   FastClick.attach(document.body);
 
   context.store = configureStore(initialState, {});
+  context.store.dispatch(actions.search.updateSearchCache());
 
   // Re-render the app when window.location changes
   function onLocationChange(location) {

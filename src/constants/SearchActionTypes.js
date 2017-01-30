@@ -9,5 +9,7 @@ export default keyMirror({
   UpdateHopResults: null,
   FilterYeastResults: null,
   UpdateYeastResults: null,
-  ClearYeastSearch: null
+  ClearYeastSearch: null,
+  UpdateSearchCache: null,
+  LoadSearchCache: null
 });

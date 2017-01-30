@@ -18,11 +18,11 @@ function loadRecipeStyle(styleId) {
   }
 }
 
-function parseRecipeText(recipeText) {
+function parseRecipeText(recipeText, searchCache) {
   const parsed = parseText(recipeText);
   return async (dispatch) => {
     if (parsed !== null) {
-      const recipe = await buildParsedRecipe(parsed);
+      const recipe = await buildParsedRecipe(parsed, searchCache);
       if (recipe) {
         return dispatch(actions.saved.loadSavedRecipe(recipe));
       }

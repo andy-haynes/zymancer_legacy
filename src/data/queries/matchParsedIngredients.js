@@ -10,8 +10,8 @@ const matchParsedIngredients = {
   type: ParsedTypes.ParsedRecipeType,
   args: {
     style: { type: StyleInputType },
-    grains: { type: new GraphQLList(ParsedTypes.GrainInputType) },
-    hops: { type: new GraphQLList(ParsedTypes.HopInputType) },
+    grains: { type: new GraphQLList(GraphQLInt) },
+    hops: { type: new GraphQLList(GraphQLInt) },
     yeast: { type: new GraphQLList(ParsedTypes.YeastInputType) }
   },
   async resolve({ request }, { style, grains, hops, yeast }) {
@@ -25,21 +25,13 @@ const matchParsedIngredients = {
       grains: await Grain.findAll({
         attributes: GrainSearchType._fields,
         where: {
-          name: {
-            $iLike: {
-              $any: grains.map(g => `%${g.name}%`)
-            }
-          }
+          id: {$in: grains}
         }
       }),
       hops: await Hop.findAll({
         attributes: HopType._fields,
         where: {
-          name: {
-            $iLike: {
-              $any: hops.map(h => `%${h.name}%`)
-            }
-          }
+          id: { $in: hops }
         }
       }),
       yeast: await Yeast.findAll({
