@@ -6,27 +6,29 @@ import round from 'lodash/round';
 
 let hopId = 0;
 
-function createHop(hop, boilMinutes) {
+function createHop(hop, boilMinutes, manual = false) {
   const alphaRange = hop.alphaRange || helpers.extractRange(hop.alpha);
   const betaRange = hop.betaRange || helpers.extractRange(hop.beta);
 
-  return {
+  return (created => {
+    created.additions = (hop.additions || []).map(a => hopAddition.create(a, created, boilMinutes, manual));
+    return created;
+  })({
     id: typeof hop.id !== 'undefined' ? hop.id : ++hopId,
     name: hop.name,
     alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
     beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
     form: hop.form || Defaults.HopForm,
-    additions: (hop.additions || []).map(a => hopAddition.create(a, hop, boilMinutes)),
     categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories || [],
     alphaRange,
     betaRange
-  };
+  });
 }
 
 const hop = (state = {}, action) => {
   switch (action.type) {
     case RecipeActions.AddHop:
-      return createHop(action.hop, action.boilMinutes);
+      return createHop(action.hop, action.boilMinutes, true);
     case RecipeActions.SetHopAlpha:
       return Object.assign({}, state, { alpha: action.alpha });
     case RecipeActions.SetHopBeta:

@@ -4,20 +4,20 @@ import measurement from './measurement';
 
 let additionId = 0;
 
-function createHopAddition(addition = {}, hop, minutes) {
+function createHopAddition(addition = {}, hop, minutes, manual = false) {
   return {
     id: (hop.id * 1000) + additionId++,
     minutes: isNaN(addition.minutes) ? minutes : addition.minutes || 0,
     type: addition.type || Defaults.HopAdditionType,
     weight: addition.weight || Defaults.HopAdditionWeight,
-    defaultAddition: true
+    defaultAddition: manual
   };
 }
 
 const hopAddition = (state = {}, action) => {
   switch (action.type) {
     case RecipeActions.AddHopAddition:
-      return createHopAddition(undefined, action.hop, action.boilMinutes);
+      return createHopAddition(undefined, action.hop, action.boilMinutes, true);
     case RecipeActions.SetHopAdditionType:
       return Object.assign({}, state, {
         type: action.additionType,
