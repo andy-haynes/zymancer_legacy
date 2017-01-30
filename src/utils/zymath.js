@@ -24,6 +24,10 @@ function gravityToPlato(gravity) {
   return gravityToPoints(gravity) / 4;
 }
 
+function platoToGravity(plato) {
+  return pointsToGravity(plato * 4);
+}
+
 // grains
 function calculateGrainRGB(targetVolume, grain) {
   return SRMtoRGB(calculateSRM(targetVolume, [grain]));
@@ -191,6 +195,7 @@ export default {
   gravityToPoints,
   pointsToGravity,
   gravityToPlato,
+  platoToGravity,
   calculateGrainRGB,
   calculateSRM,
   SRMtoRGB,

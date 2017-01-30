@@ -47,6 +47,7 @@ const _unitMapping = {
 };
 
 const _hopAdditionMapping = {
+  'pellets': HopForm.Pellet,
   'pellet': HopForm.Pellet,
   'whole leaf': HopForm.Leaf,
   'whole': HopForm.Leaf,
@@ -69,6 +70,7 @@ const _parameterMapping = {
   'boiling time': RecipeParameter.BoilTime,
   'batch size': RecipeParameter.TargetVolume,
   'yield': RecipeParameter.TargetVolume,
+  'for': RecipeParameter.TargetVolume,
   'boil size': RecipeParameter.BoilVolume,
   'original gravity': RecipeParameter.OriginalGravity,
   'final gravity': RecipeParameter.FinalGravity,
@@ -188,47 +190,65 @@ function buildRecipe(parsed) {
     parameters: []
   };
 
+  function createProp(obj) {
+    Object.keys(obj).forEach(k => obj[k] === null || typeof obj[k] === 'undefined' ? delete obj[k] : {});
+    return obj;
+  }
+
   parsed.filter(p => p !== null).forEach(p => {
     if (p.quantity) {
-      const mapHopDetail = (d) => d && _hopAdditionMapping[d.toLowerCase()];
       let weight = parseQuantity(p.quantity);
 
       if (p.addition) {
-        recipe.additions.push({
+        recipe.additions.push(createProp({
           name: p.name,
           time: extractNumeric(p.time),
           weight
-        });
+        }));
       } else if (p.alpha || p.time || p.hopAddition || p.hopForm) {
-        recipe.hops.push({
-          name: p.name.replace(/pellet/i, '').trim(),
+        const mapHopDetail = (d) => d && _hopAdditionMapping[d.toLowerCase()];
+
+        recipe.hops.push(createProp({
+          name: p.name.replace(_rxHopForm, '').replace(/(hops|hop|at)(\s|:|$)+/ig, '').trim(),
           alpha: extractNumeric(p.alpha || p.percentage),
           ibu: extractNumeric(p.ibu),
           form: mapHopDetail(p.hopForm),
           additions: [{
             minutes: extractNumeric(p.time),
-            type: mapHopDetail(p.hopAddition),
+            type: mapHopDetail(p.hopAddition) || HopAdditionType.Boil,
             weight
           }]
-        });
+        }));
       } else if (p.name && !p.time && p.name.toLowerCase() !== 'total') {
-        recipe.grains.push({
+        p.gravity = extractNumeric(p.gravity);
+        if (!p.gravity) {
+          if (extractNumeric(p.ppg)) {
+            p.gravity = pointsToGravity(extractNumeric(p.ppg));
+          } else if (extractNumeric(p.plato)) {
+            p.gravity = platoToGravity(extractNumeric(p.plato));
+          }
+        }
+
+        p.lovibond = extractNumeric(p.lovibond);
+        if (!p.lovibond) {
+          p.lovibond = extractNumeric(p.srm);
+        }
+
+        recipe.grains.push(createProp({
           name: p.name,
-          lovibond: extractNumeric(p.lovibond),
-          gravity: extractNumeric(p.gravity),
-          plato: extractNumeric(p.plato),
-          ppg: extractNumeric(p.ppg),
-          srm: extractNumeric(p.srm),
+          gravity: p.gravity,
+          lovibond: p.lovibond,
           weight
-        });
+        }));
       }
     } else if (p.code) {
       recipe.yeast.push(p);
     } else if (p.parameter) {
-      recipe.parameters.push({
+      recipe.parameters.push(createProp({
         parameter: _parameterMapping[p.parameter.toLowerCase()] || p.parameter,
-        quantity: parseQuantity(p.value)
-      });
+        quantity: parseQuantity(p.value),
+        value: extractNumeric(p.value)
+      }));
     }
   });
 

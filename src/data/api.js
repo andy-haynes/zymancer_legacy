@@ -298,7 +298,7 @@ export async function buildParsedRecipe(parsed) {
         recipe.brewMethod = p.quantity.value;
         break;
       case RecipeParameter.Efficiency:
-        recipe.efficiency = Math.round(p.value / 100);
+        recipe.efficiency = p.value;
         break;
       case RecipeParameter.TargetVolume:
         recipe.targetVolume = Object.assign({}, Defaults.TargetVolume, p.quantity);
