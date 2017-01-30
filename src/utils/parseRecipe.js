@@ -7,22 +7,22 @@ import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';
 import pick from 'lodash/pick';
 
-const _rxNamedQty = /((?:[0-9]+[.]?[0-9]*)\s*(?:lbs|lb|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt))[.]?(?: \((?:[0-9]+[.]?[0-9]*)\s*(?:lbs|lb|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt)[.]?\))?\s{1,3}([ a-z®äöüß0-9\-\"/]+[a-z®äöüß\"])/i;
-const _rxTime = /((?:[0-9]+[.]?[0-9]*)\s*(?:minutes|minute|min|hours|hour|hr))/i;
+const _rxNamedQty = /((?:[0-9]+[.]?[0-9]*)[\s|]*(?:lbs|lb|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt))[.]?(?: \((?:[0-9]+[.]?[0-9]*)[\s|]*(?:lbs|lb|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt)[.]?\))?[\s|]{1,5}([ a-z®äöüß0-9\-\"/°]+[a-z®äöüß\"°])/i;
+const _rxTime = /((?:[0-9]+[.]?[0-9]*)\s*(?:minutes|minute|min|hours|hour|hr)|(?:@|at :)\d+\.?\d*)/i;
 const _rxAlpha = /([0-9]+[.]?[0-9]*)\s*[%]?\s*(?:aa|aau|alpha|a.a.)/i;
 const _rxIBU = /([0-9]+[.]?[0-9]*)\s*[%]?\s*(?:IBU)/i;
 const _rxPercent = /([0-9]+[.]?[0-9]*)(?:\s*%)/i;
-const _rxLovibond = /([0-9]+[.]?[0-9]*)°\s*(?:Lovibond|Lov|L)/i;
-const _rxHopForm = /(pellet|whole leaf|whole|leaf)/i;
+const _rxLovibond = /([0-9]+[.]?[0-9]*)(?:°\s)*(?:Lovibond|Lov|L)/i;
+const _rxHopForm = /(pellets|pellet|whole leaf|whole|leaf)/i;
 const _rxHopAddition = /(dry hop|dry-hop|dry|hopback|hop-back|whirlpool|whirl-pool|whirl pool|hopstand|hop-stand|hop stand)/i;
 const _rxGravity = /(1\.[0-9]{3})/i;
 const _rxPlato = /([0-9]+[.]?[0-9]*)°\s*(?:Plato|P)/i;
 const _rxPPG = /([0-9]+[.]?[0-9]*)\s*(?:PPG)/i;
 const _rxSRM = /([0-9]+[.]?[0-9]*)\s*SRM/i;
 const _rxYeast = /(?:(white labs|wyeast|wyeast labs|safale|imperial|imperial yeast)\s*((?:wlp|[a-z]|us-)?\d{2,6}(?:-pc)?)|((?:wlp|us-)\d{2,6}(?:-pc)?))/i;
-const _rxAddition = /(whirlfloc|yeast nutrient|nutrient)/i;
+const _rxAddition = /(whirlfloc|yeast nutrient|nutrient|calcium chloride|canning salt|iodized salt|salt|gypsum|irish moss|isinglass)/i;
 const _rxSoleNumeric = /([0-9]+[.]?[0-9]*)\s+(?!SG|%|SRM|IBU|lbs|lb|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt|minutes|minute|min|hours|hour|hr|aa|aau|alpha|a.a.|Lovibond|Lov|L)/ig;
-const _rxRecipeParameter = /(boil time|boiling time|batch size|yield|boil size|original gravity|final gravity|terminal gravity|og|fg|attenuation|srm|color|ibu|ibus|bitterness|plato|efficiency|abv|alcohol by volume|alcohol by vol)[ a-z()=:]+((?:[0-9]+[.]?[0-9]*)[°]?\s*(?:%|minutes|minute|min|sg|ibu|srm|gallons|gallon|gal|us gallons|us gallon|us gal)?)/i;
+const _rxRecipeParameter = /(boil time|boiling time|batch size|yield|for|boil size|original gravity|final gravity|terminal gravity|og|fg|attenuation|srm|color|ibu|ibus|bitterness|plato|efficiency|abv|alcohol by volume|alcohol by vol)[ a-z()=:]+((?:[0-9]+[.]?[0-9]*)[°]?\s*(?:%|minutes|minute|min|sg|ibu|srm|gallons|gallon|gal|us gallons|us gallon|us gal)?)/i;
 
 const _unitMapping = {
   'lbs': Units.Pound,
