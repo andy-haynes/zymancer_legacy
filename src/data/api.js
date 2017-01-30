@@ -167,19 +167,39 @@ export async function getRecipe(recipeId) {
 }
 
 export async function saveRecipe(recipe) {
-  const grains = recipe.grains.map(g => helpers.jsonToGraphql(pick(g, 'id', 'weight', 'lovibond', 'lintner', 'gravity')));
-  const hops = flatten(recipe.hops.map(h => h.additions.map(a => helpers.jsonToGraphql(Object.assign(
+  const grains = recipe.grains.map(g => {
+    return pick(g, 'id', 'weight', 'lovibond', 'lintner', 'gravity')
+  }).map(g => helpers.jsonToGraphql(
+    Object.assign(g, {
+      lovibond: parseFloat(g.lovibond),
+      lintner: parseFloat(g.lintner),
+      gravity: parseFloat(g.gravity),
+      weight: Object.assign({}, g.weight, { value: parseFloat(g.weight.value) })
+    })
+  ));
+
+  const hops = flatten(recipe.hops.map(h => h.additions.map(a => Object.assign(
     pick(h, 'id', 'alpha', 'beta', 'form'),
     pick(a, 'minutes', 'weight', 'type')
-  )))));
+  )))).map(h => helpers.jsonToGraphql(Object.assign(h, {
+    alpha: parseFloat(h.alpha),
+    beta: parseFloat(h.beta),
+    minutes: parseFloat(h.minutes),
+    weight: Object.assign({}, h.weight, { value: parseFloat(h.weight.value) })
+  })));
 
   const yeast = recipe.fermentation.yeasts.map(y => helpers.jsonToGraphql(Object.assign(pick(y, 'id', 'quantity'), {
     mfgDate: y.mfgDate.toString(),
     apparentAttenuation: round(y.apparentAttenuation / 100, 2)
   })));
 
-  const cleanMeasurement = (measurement) => pick(measurement, 'value', 'unit');
-  const cleanRatio = (ratio) => pick(ratio, 'value', 'antecedent', 'consequent');
+  function parseValue(m) {
+    m.value = parseFloat(m.value);
+    return m;
+  }
+
+  const cleanMeasurement = (measurement) => parseValue(pick(measurement, 'value', 'unit'));
+  const cleanRatio = (ratio) => parseValue(pick(ratio, 'value', 'antecedent', 'consequent'));
 
   const volume = helpers.jsonToGraphql(cleanMeasurement(recipe.targetVolume));
   const mashSchedule = helpers.jsonToGraphql(Object.assign(
@@ -193,7 +213,7 @@ export async function saveRecipe(recipe) {
   ));
 
   const fermentation = helpers.jsonToGraphql({
-    pitchRateMillionsMLP: recipe.fermentation.pitchRate
+    pitchRateMillionsMLP: parseFloat(recipe.fermentation.pitchRate)
   });
 
   const style = helpers.jsonToGraphql({

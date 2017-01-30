@@ -5,6 +5,7 @@ import TextField from 'material-ui/TextField';
 import s from './SliderInput.css';
 
 const SliderInput = ({ value, min, max, update, children, sliderWidth = '7-8', inputWidth = '1-8', step = 1, disabled = false }) => {
+  value = typeof value === 'string' ? parseFloat(value) : value;
   const sliderContainer = `pure-u-${sliderWidth}`;
   const inputContainer = `pure-u-${inputWidth}`;
   const input = children ? children : (
