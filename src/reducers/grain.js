@@ -16,8 +16,8 @@ function createGrain(grain) {
 
   return Object.assign(props, {
     weight: grain.weight || Defaults.GrainWeight,
-    gravity: grain.gravity || (extractType ? ExtractGravity[extractType] : 1),
-    lovibond: parseFloat(grain.lovibond),
+    gravity: grain.gravity || (extractType ? ExtractGravity[extractType] : Defaults.GrainGravity),
+    lovibond: (l => isNaN(l) ? Defaults.GrainLovibond : l)(parseFloat(grain.lovibond)),
     lintner: parseFloat(grain.lintner) || 0,
     characteristics: typeof grain.characteristics === 'object' ? grain.characteristics.split(',') : grain.characteristics,
     extractType

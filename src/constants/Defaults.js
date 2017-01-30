@@ -23,6 +23,8 @@ const InfusionTemp = { value: 152, unit: Units.Fahrenheit, min: 110, max: 190 };
 const MashoutTemp = { value: 170, unit: Units.Fahrenheit, min: 150, max: 212 };
 const GrainAbsorptionLoss = { value: 0.1, antecedent: Units.Gallon, consequent: Units.Pound, min: 0.05, max: 0.3 };
 const BoilOffRate = { value: 1, antecedent: Units.Gallon, consequent: Units.Hour, min: 0.1, max: 5 };
+const GrainGravity = 1.030;
+const GrainLovibond = 3.2;
 
 // hops
 const _HopForm = HopForm.Pellet;
@@ -72,6 +74,8 @@ export default {
   MashoutTemp,
   GrainAbsorptionLoss,
   BoilOffRate,
+  GrainGravity,
+  GrainLovibond,
   HopForm: _HopForm,
   HopAdditionType: _HopAdditionType,
   HopAdditionWeight,
