@@ -237,6 +237,17 @@ export async function getStyle(styleId) {
   return await _graphqlFetch(`{style(id:${styleId}) { ${_styleKeys} }}`);
 }
 
+function _groupHops(hops) {
+  const grouped = [];
+  const hashGroup = groupBy(hops, h => [h.form, h.name, h.alpha, h.beta].join('-'));
+  Object.keys(hashGroup).forEach(k => {
+    grouped.push(Object.assign({}, hashGroup[k][0], {
+      additions: flatten(hashGroup[k].map(h => h.additions))
+    }));
+  });
+  return grouped;
+}
+
 export async function buildParsedRecipe(parsed) {
   const [parsedGrains, parsedHops, parsedYeast] = [
     parsed.grains.map(g => helpers.jsonToGraphql(pick(g, 'name'))),
