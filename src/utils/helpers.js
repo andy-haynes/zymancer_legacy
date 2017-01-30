@@ -146,7 +146,7 @@ function jsonToGraphql(obj) {
           str += o[k].toString();
         }
       } else if (['number', 'string'].includes(typeof o[k])) {
-        if (!isNaN(o[k])) {
+        if (typeof o[k] === 'number') {
           str += `${k}:${o[k]},`;
         } else {
           str += `${k}:"${o[k].replace(/"/g, '\'')}",`;
