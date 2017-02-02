@@ -2,9 +2,12 @@ import { connect } from 'react-redux';
 import actions from '../actions';
 import GrainSearch from '../components/GrainSearch';
 import { IngredientType } from '../constants/AppConstants';
+import pick from 'lodash/pick';
 
 function mapState(state) {
-  return { search: state.ingredientSearch[IngredientType.Grain] };
+  return {
+    search: Object.assign(state.ingredientSearch[IngredientType.Grain], pick(state, 'searchCache'))
+  };
 }
 
 function mapDispatch(dispatch) {
@@ -14,7 +17,7 @@ function mapDispatch(dispatch) {
         dispatch(actions.recipe.addGrain(grain));
         dispatch(actions.search.clearGrainSearch());
       },
-      searchGrains: (query) => dispatch(actions.search.queryIngredients(IngredientType.Grain, query))
+      searchGrains: (query, searchCache) => dispatch(actions.search.queryIngredients(IngredientType.Grain, query, searchCache.grains))
     }
   };
 }

@@ -5,8 +5,8 @@ import { IngredientType } from '../constants/AppConstants';
 import pick from 'lodash/pick';
 
 function mapState(state) {
-  return Object.assign({},
-    { search: state.ingredientSearch[IngredientType.Hop] },
+  return Object.assign(
+    { search: Object.assign({}, state.ingredientSearch[IngredientType.Hop], pick(state, 'searchCache')) },
     pick(state.currentRecipe, 'boilMinutes')
   );
 }
@@ -19,7 +19,7 @@ function mapDispatch(dispatch) {
         dispatch(actions.recipe.addHopAddition(hop, boilMinutes));
         dispatch(actions.search.clearHopSearch());
       },
-      searchHops: (query) => dispatch(actions.search.queryIngredients(IngredientType.Hop, query))
+      searchHops: (query, searchCache) => dispatch(actions.search.queryIngredients(IngredientType.Hop, query, searchCache.hops))
     }
   };
 }

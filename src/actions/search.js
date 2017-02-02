@@ -5,44 +5,27 @@ import helpers from '../utils/helpers';
 import grain from '../reducers/grain';
 import hop from '../reducers/hop';
 import yeast from '../reducers/yeast';
-import { tokenizeIngredients } from '../data/api';
+import { searchIngredients, tokenizeIngredients } from '../data/api';
 
-function _filterAction(type) {
-  return helpers.createAction(type, 'query');
-}
+function queryIngredients(ingredientType, query, searchCache) {
+  return async (dispatch) => {
+    const createActions = (filterAction, updateAction, reducer) => ({
+      filter: helpers.createAction(filterAction, 'query'),
+      update: (results) => ({
+        results: results.map(r => reducer.create(r)),
+        type: updateAction
+      })
+    });
 
-function _updateAction(type, reducer, resultsKey) {
-  return ({ data }) => ({
-    results: data[resultsKey].map(r => reducer.create(r)),
-    type
-  });
-}
+    const { filter, update } = {
+      [IngredientType.Grain]: createActions(SearchActions.FilterGrainResults, SearchActions.UpdateGrainResults, grain),
+      [IngredientType.Hop]: createActions(SearchActions.FilterHopResults, SearchActions.UpdateHopResults, hop),
+      [IngredientType.Yeast]: createActions(SearchActions.FilterYeastResults, SearchActions.UpdateYeastResults, yeast)
+    }[ingredientType];
 
-const ingredientTypeMap = {
-  [IngredientType.Grain]: {
-    filter: _filterAction(SearchActions.FilterGrainResults),
-    update: _updateAction(SearchActions.UpdateGrainResults, grain, 'searchGrains'),
-    buildQuery: q => `{searchGrains(query:"${q}"){id,name,gravity,isExtract,DBCG,DBFG,lovibond,lintner,flavor,characteristics,mfg}}`
-  },
-  [IngredientType.Hop]: {
-    filter: _filterAction(SearchActions.FilterHopResults),
-    update: _updateAction(SearchActions.UpdateHopResults, hop, 'searchHops'),
-    buildQuery: q => `{searchHops(query:"${q}"){id,name,url,aroma,categories,alpha,beta}}`
-  },
-  [IngredientType.Yeast]: {
-    filter: _filterAction(SearchActions.FilterYeastResults),
-    update: _updateAction(SearchActions.UpdateYeastResults, yeast, 'searchYeast'),
-    buildQuery: q => `{searchYeast(query:"${q}"){id,name,url,code,attenuationLow,attenuationHigh,description,flocculation,temperatureLow,temperatureHigh,toleranceLow,toleranceHigh,mfg,styles}}`
-  }
-};
-
-function queryIngredients(ingredientType, query) {
-  return (dispatch, getState, helpers) => {
-    const { filter, update, buildQuery } = ingredientTypeMap[ingredientType];
     dispatch(filter(query));
-    return query.length >= MinSearchQueryLength
-        && helpers.graphqlRequest(buildQuery(query))
-              .then(json => dispatch(update(json)));
+    const results = await searchIngredients(ingredientType, query, searchCache);
+    return dispatch(update(results));
   };
 }
 

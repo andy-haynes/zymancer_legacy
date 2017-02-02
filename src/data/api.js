@@ -1,5 +1,6 @@
 import { RecipeType, RecipeParameter } from '../constants/AppConstants';
 import Defaults from '../constants/Defaults';
+import { IngredientType } from '../constants/AppConstants';
 import fetch from '../core/fetch';
 import helpers from '../utils/helpers';
 import grain from '../reducers/grain';
@@ -268,22 +269,62 @@ function _groupHops(hops) {
   return grouped;
 }
 
-function matchIngredient(parsedName, tokens) {
-  const scores = {};
-  parsedName
+function buildTokenScore(query, resolveTokens) {
+  return query
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, ' ')
     .split(/\s+/g)
-    .forEach(s => {
-      if (tokens[s]) {
-        tokens[s].forEach(id => {
-          if (!scores.hasOwnProperty(id)) {
+    .forEach(resolveTokens);
+}
+
+function partialMatchIngredient(query, tokens) {
+  const scores = {};
+  buildTokenScore(query, (s) => {
+    tokens.forEach((token) => {
+      if (token === s) {
+        tokens[token].forEach(id => {
+          if (!scores[id]) {
             scores[id] = 0;
           }
-          scores[id]++;
+          scores[id] += 10;
+        });
+      } else if (token.startsWith(s)) {
+        tokens[token].forEach(id => {
+          if (!scores[id]) {
+            scores[id] = 0;
+          }
+          scores[id] += 3;
+        });
+      } else if (token.includes(s)) {
+        tokens[token].forEach(id => {
+          if (!scores[id]) {
+            scores[id] = 0;
+          }
+          scores[id] += 1;
         });
       }
-    });
+    })
+  });
+
+  if (Object.keys(scores).length) {
+    return Object.keys(scores).sort((k, l) => scores[l] - scores[k]);
+  }
+
+  return null;
+}
+
+function matchIngredient(parsedName, tokens) {
+  const scores = {};
+  buildTokenScore(parsedName, (token) => {
+    if (tokens[token]) {
+      tokens[token].forEach(id => {
+        if (!scores.hasOwnProperty(id)) {
+          scores[id] = 0;
+        }
+        scores[id]++;
+      });
+    }
+  });
 
   if (Object.keys(scores).length) {
     return Object.keys(scores).sort((k, l) => scores[l] - scores[k])[0];
@@ -440,4 +481,64 @@ export async function tokenizeIngredients() {
     hops: ingredients.hops.reduce(histogramReduce('hop'), {}),
     yeast: ingredients.yeast.reduce(histogramReduce('yeast'), {})
   };
+}
+
+export async function searchIngredients(ingredientType, query, searchCache) {
+  let q, key = null;
+  switch (ingredientType) {
+    case IngredientType.Grain:
+      key = 'searchGrains';
+      q = `{${key}(query:"${query}") {
+        id,
+        name,
+        gravity,
+        isExtract,
+        DBCG,
+        DBFG,
+        lovibond,
+        lintner,
+        flavor,
+        characteristics,
+        mfg
+      }}`;
+      break;
+    case IngredientType.Hop:
+      key = 'searchHops';
+      q = `{${key}(query:"${query}") {
+        id,
+        name,
+        url,
+        aroma,
+        categories,
+        alpha,
+        beta
+      }}`;
+      break;
+    case IngredientType.Yeast:
+      key = 'searchYeast';
+      q = `{${key}(query:"${query}") {
+        id,
+        name,
+        url,
+        code,
+        attenuationLow,
+        attenuationHigh,
+        description,
+        flocculation,
+        temperatureLow,
+        temperatureHigh,
+        toleranceLow,
+        toleranceHigh,
+        mfg,
+        styles
+      }}`;
+      break;
+  }
+
+  if (q && key) {
+    const scores = partialMatchIngredient(query, searchCache);
+    console.log(scores)
+    const { data } = await _graphqlFetch(q);
+    return data[key];
+  }
 }
