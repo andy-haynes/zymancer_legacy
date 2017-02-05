@@ -1,4 +1,5 @@
 import SearchActions from '../constants/SearchActionTypes';
+import searchCache from './searchCache';
 import Defaults from '../constants/Defaults';
 import { IngredientType } from '../constants/AppConstants';
 
@@ -42,28 +43,33 @@ function createIngredientSearchReducer(ingredientType) {
 const initialState = {
   [IngredientType.Grain]: createIngredientSearchReducer(IngredientType.Grain)(undefined, {}),
   [IngredientType.Hop]: createIngredientSearchReducer(IngredientType.Hop)(undefined, {}),
-  [IngredientType.Yeast]: createIngredientSearchReducer(IngredientType.Yeast)(undefined, {})
+  [IngredientType.Yeast]: createIngredientSearchReducer(IngredientType.Yeast)(undefined, {}),
+  cache: searchCache(undefined, {})
 };
 
 function recipes(state = initialState, action) {
+  function setSearchState(ingredientType) {
+    return Object.assign({}, state, {
+      [ingredientType]: createIngredientSearchReducer(ingredientType)(state[ingredientType], action)
+    });
+  }
+
   switch (action.type) {
     case SearchActions.FilterGrainResults:
     case SearchActions.UpdateGrainResults:
     case SearchActions.ClearGrainSearch:
-      return Object.assign({}, state, {
-        [IngredientType.Grain]: createIngredientSearchReducer(IngredientType.Grain)(state[IngredientType.Grain], action)
-      });
+      return setSearchState(IngredientType.Grain);
     case SearchActions.FilterHopResults:
     case SearchActions.UpdateHopResults:
     case SearchActions.ClearHopSearch:
-      return Object.assign({}, state, {
-        [IngredientType.Hop]: createIngredientSearchReducer(IngredientType.Hop)(state[IngredientType.Hop], action)
-      });
+      return setSearchState(IngredientType.Hop);
     case SearchActions.FilterYeastResults:
     case SearchActions.UpdateYeastResults:
     case SearchActions.ClearYeastSearch:
+      return setSearchState(IngredientType.Yeast);
+    case SearchActions.LoadSearchCache:
       return Object.assign({}, state, {
-        [IngredientType.Yeast]: createIngredientSearchReducer(IngredientType.Yeast)(state[IngredientType.Yeast], action)
+        cache: searchCache(state.cache, action)
       });
     default:
       return state;
