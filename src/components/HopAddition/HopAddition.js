@@ -38,7 +38,7 @@ const HopAddition = ({ addition, hop, originalGravity, boilVolume, boilMinutes, 
           <SelectField
             value={addition.type}
             onChange={(e, i, v) => actions.setAdditionType(addition, hop, v)}
-            style={{width: '7.4em'}}
+            style={{width: '7.5em'}}
           >
             <MenuItem primaryText='First Wort' value={HopAdditionType.FirstWort} />
             <MenuItem primaryText='Hop Back' value={HopAdditionType.HopBack} />
