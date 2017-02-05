@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Grain from '../Grain';
 import s from './GrainBill.css';
-import GrainSearchContainer from '../../containers/GrainSearch';
+import Search from '../../containers/IngredientSearch';
 import GrainChart from '../../containers/GrainChart';
 
 const GrainBill = ({ grains, targetVolume, actions }) => (
@@ -21,7 +21,7 @@ const GrainBill = ({ grains, targetVolume, actions }) => (
         </div>
       </div>
       <div className="pure-u-1-2">
-        <GrainSearchContainer />
+        <Search.GrainSearch />
         <div className={s.grainChart}>
           <GrainChart />
         </div>

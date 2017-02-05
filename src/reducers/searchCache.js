@@ -1,10 +1,11 @@
+import { IngredientType } from '../constants/AppConstants';
 import SearchActions from '../constants/SearchActionTypes';
 import pick from 'lodash/pick';
 
 const initialState = {
-  grains: [],
-  hops: [],
-  yeast: []
+  [IngredientType.Grain]: [],
+  [IngredientType.Hop]: [],
+  [IngredientType.Yeast]: []
 };
 
 function searchCache(state = initialState, action) {

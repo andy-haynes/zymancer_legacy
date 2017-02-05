@@ -3,7 +3,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Hop from '../Hop';
 import s from './HopSchedule.css';
 import HopChart from '../../containers/HopChart';
-import HopSearchContainer from '../../containers/HopSearch';
+import Search from '../../containers/IngredientSearch';
 
 const HopSchedule = ({ hops, originalGravity, boilVolume, boilMinutes, actions }) => (
   <div className={s.hopSchedule}>
@@ -23,7 +23,7 @@ const HopSchedule = ({ hops, originalGravity, boilVolume, boilMinutes, actions }
         </div>
       </div>
       <div className="pure-u-1-2">
-        <HopSearchContainer />
+        <Search.HopSearch />
         <div className={s.hopChart}>
           {hops.length ? <HopChart /> : ''}
         </div>

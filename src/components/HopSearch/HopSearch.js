@@ -7,7 +7,7 @@ import IngredientSearch from '../IngredientSearch';
 const HopSearch = ({ search, boilMinutes, actions }) => (
   <IngredientSearch
     {...search}
-    filter={actions.searchHops}
+    filter={actions.createFilter(search.cache)}
     header={(
       <div className="pure-g">
         <div className="pure-u-12-24">
@@ -25,7 +25,7 @@ const HopSearch = ({ search, boilMinutes, actions }) => (
     {search.results.map(hop => (
       <HopSearchOption
         key={hop.id}
-        addHop={() => actions.addHop(Object.assign({}, hop), boilMinutes)}
+        addHop={() => actions.addIngredient(hop, boilMinutes)}
         hop={hop}
       />
     ))}

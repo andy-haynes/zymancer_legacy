@@ -7,7 +7,7 @@ import IngredientSearch from '../IngredientSearch';
 const GrainSearch = ({ search, actions }) => (
   <IngredientSearch
     {...search}
-    filter={actions.searchGrains}
+    filter={actions.createFilter(search.cache)}
     header={(
       <div className="pure-g">
         <div className="pure-u-15-24">
@@ -25,7 +25,7 @@ const GrainSearch = ({ search, actions }) => (
     {search.results.map(grain => (
       <GrainSearchOption
         key={grain.id}
-        addGrain={() => actions.addGrain(grain)}
+        addGrain={() => actions.addIngredient(grain)}
         grain={grain}
       />
     ))}

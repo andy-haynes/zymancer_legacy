@@ -7,7 +7,7 @@ import IngredientSearch from '../IngredientSearch';
 const YeastSearch = ({ search, actions }) => (
   <IngredientSearch
     {...search}
-    filter={actions.searchYeast}
+    filter={actions.createFilter(search.cache)}
     header={(
       <div className="pure-g">
         <div className="pure-u-12-24">
@@ -25,7 +25,7 @@ const YeastSearch = ({ search, actions }) => (
     {search.results.map(yeast => (
       <YeastSearchOption
         key={yeast.id}
-        addYeast={actions.addYeast}
+        addYeast={() => actions.addIngredient(yeast)}
         yeast={yeast}
       />
     ))}

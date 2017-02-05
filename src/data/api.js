@@ -1,6 +1,6 @@
 import { RecipeType, RecipeParameter } from '../constants/AppConstants';
 import Defaults from '../constants/Defaults';
-import { IngredientType } from '../constants/AppConstants';
+import { IngredientType, MinSearchQueryLength } from '../constants/AppConstants';
 import fetch from '../core/fetch';
 import helpers from '../utils/helpers';
 import grain from '../reducers/grain';
@@ -55,6 +55,47 @@ const _styleKeys = `
   abvLow,
   abvHigh,
   commercialExamples
+`;
+
+const _grainKeys = `
+  id,
+  name,
+  gravity,
+  isExtract,
+  DBCG,
+  DBFG,
+  lovibond,
+  lintner,
+  flavor,
+  characteristics,
+  mfg
+`;
+
+const _hopKeys = `
+  id,
+  name,
+  url,
+  aroma,
+  categories,
+  alpha,
+  beta
+`;
+
+const _yeastKeys = `
+  id,
+  name,
+  mfg,
+  code,
+  url,
+  styles,
+  description,
+  flocculation,
+  toleranceLow,
+  toleranceHigh,
+  temperatureLow,
+  temperatureHigh,
+  attenuationLow,
+  attenuationHigh
 `;
 
 export async function getRecipe(recipeId) {
@@ -280,30 +321,17 @@ function buildTokenScore(query, resolveTokens) {
 function partialMatchIngredient(query, tokens) {
   const scores = {};
   buildTokenScore(query, (s) => {
-    tokens.forEach((token) => {
+    Object.keys(tokens).forEach((token) => {
+      const updateScore = (value) => tokens[token].forEach(id => scores[id] = (scores[id] || 0) + value);
+
       if (token === s) {
-        tokens[token].forEach(id => {
-          if (!scores[id]) {
-            scores[id] = 0;
-          }
-          scores[id] += 10;
-        });
-      } else if (token.startsWith(s)) {
-        tokens[token].forEach(id => {
-          if (!scores[id]) {
-            scores[id] = 0;
-          }
-          scores[id] += 3;
-        });
+        updateScore(10);
+      } else if (token.startsWith(s) || token.endsWith(s)) {
+        updateScore(3);
       } else if (token.includes(s)) {
-        tokens[token].forEach(id => {
-          if (!scores[id]) {
-            scores[id] = 0;
-          }
-          scores[id] += 1;
-        });
+        updateScore(1);
       }
-    })
+    });
   });
 
   if (Object.keys(scores).length) {
@@ -342,8 +370,8 @@ export async function buildParsedRecipe(parsed, searchCache) {
   }
 
   const [parsedGrains, parsedHops, parsedYeast] = [
-    matchingIdStr(parsed.grains.map(g => g.name), searchCache.grains),
-    matchingIdStr(parsed.hops.map(h => h.name), searchCache.hops),
+    matchingIdStr(parsed.grains.map(g => g.name), searchCache[IngredientType.Grain]),
+    matchingIdStr(parsed.hops.map(h => h.name), searchCache[IngredientType.Hop]),
     parsed.yeast.map(y => helpers.jsonToGraphql(pick(y, 'code')))
   ].map(p => [...new Set(p)]);
 
@@ -354,42 +382,13 @@ export async function buildParsedRecipe(parsed, searchCache) {
       hops: [${parsedHops}],
       yeast: [${parsedYeast}]
     ) {
-      grains {
-        id,
-        name,
-        gravity,
-        lovibond,
-        lintner,
-        isExtract,
-        DBCG,
-        DBFG
-      },
-      hops {
-        id,
-        name,
-        alpha,
-        beta,
-        categories
-      },
+      grains {${_grainKeys}},
+      hops {${_hopKeys}},
       yeast {
-        id,
-        name,
-        mfg,
-        code,
-        styles,
-        description,
-        toleranceLow,
-        toleranceHigh,
-        temperatureLow,
-        temperatureHigh,
-        attenuationLow,
-        attenuationHigh,
-        apparentAttenuation,
-        flocculation
+        ${_yeastKeys},
+        apparentAttenuation
       },
-      style {
-        ${_styleKeys}
-      }
+      style {${_styleKeys}}
     }
   }`;
 
@@ -455,90 +454,59 @@ export async function buildParsedRecipe(parsed, searchCache) {
 }
 
 export async function tokenizeIngredients() {
-  function histogramReduce(blacklist = []) {
+  function histogramReduce(blacklist, props) {
     return (tokens, ingredient) => {
-      ingredient.name
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, ' ')
-        .split(/\s+/g)
-        .forEach(i => {
-          if (i && !blacklist.includes(i)) {
-            if (!tokens.hasOwnProperty(i)) {
-              tokens[i] = [];
+      props.filter(p => ingredient[p]).forEach(key => {
+        ingredient[key]
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, ' ')
+          .split(/\s+/g)
+          .forEach(i => {
+            if (i && !blacklist.includes(i)) {
+              if (!tokens.hasOwnProperty(i)) {
+                tokens[i] = [];
+              }
+              tokens[i].push(ingredient.id);
             }
-            tokens[i].push(ingredient.id);
-          }
-        });
+          });
+      });
 
       return tokens;
     };
   }
 
-  const { data } = await _graphqlFetch('{tokenizeIngredients { grains { id, name }, hops { id, name }, yeast { id, name } }}');
+  const { data } = await _graphqlFetch(`{tokenizeIngredients {
+    grains { id, name },
+    hops { id, name },
+    yeast { id, name, code }
+  }}`);
+
   const ingredients = data.tokenizeIngredients;
   return {
-    grains: ingredients.grains.reduce(histogramReduce('malt', 'ale'), {}),
-    hops: ingredients.hops.reduce(histogramReduce('hop'), {}),
-    yeast: ingredients.yeast.reduce(histogramReduce('yeast'), {})
+    [IngredientType.Grain]: ingredients.grains.reduce(histogramReduce(['malt', 'ale'], ['name']), {}),
+    [IngredientType.Hop]: ingredients.hops.reduce(histogramReduce(['hop'], ['name']), {}),
+    [IngredientType.Yeast]: ingredients.yeast.reduce(histogramReduce(['yeast'], ['name', 'code']), {})
   };
 }
 
 export async function searchIngredients(ingredientType, query, searchCache) {
-  let q, key = null;
-  switch (ingredientType) {
-    case IngredientType.Grain:
-      key = 'searchGrains';
-      q = `{${key}(query:"${query}") {
-        id,
-        name,
-        gravity,
-        isExtract,
-        DBCG,
-        DBFG,
-        lovibond,
-        lintner,
-        flavor,
-        characteristics,
-        mfg
-      }}`;
-      break;
-    case IngredientType.Hop:
-      key = 'searchHops';
-      q = `{${key}(query:"${query}") {
-        id,
-        name,
-        url,
-        aroma,
-        categories,
-        alpha,
-        beta
-      }}`;
-      break;
-    case IngredientType.Yeast:
-      key = 'searchYeast';
-      q = `{${key}(query:"${query}") {
-        id,
-        name,
-        url,
-        code,
-        attenuationLow,
-        attenuationHigh,
-        description,
-        flocculation,
-        temperatureLow,
-        temperatureHigh,
-        toleranceLow,
-        toleranceHigh,
-        mfg,
-        styles
-      }}`;
-      break;
+  if (query.length < MinSearchQueryLength) {
+    return [];
   }
 
-  if (q && key) {
-    const scores = partialMatchIngredient(query, searchCache);
-    console.log(scores)
-    const { data } = await _graphqlFetch(q);
+  async function fetchIngredients(key, fields) {
+    const scores = partialMatchIngredient(query, searchCache[ingredientType]);
+    if (scores === null) {
+      return [];
+    }
+
+    const { data } = await _graphqlFetch(`{${key}(ids:[${scores.join(',')}]) {${fields}}}`);
     return data[key];
   }
+
+  return await fetchIngredients.apply(null, {
+    [IngredientType.Grain]: ['searchGrains', _grainKeys],
+    [IngredientType.Hop]: ['searchHops', _hopKeys],
+    [IngredientType.Yeast]: ['searchYeast', _yeastKeys]
+  }[ingredientType]);
 }

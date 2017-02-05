@@ -1,4 +1,4 @@
-import { GraphQLList, GraphQLString } from 'graphql';
+import { GraphQLList, GraphQLInt } from 'graphql';
 import { YeastSearchType } from '../types/IngredientTypes';
 import { Yeast } from '../models';
 import { MaxSearchResults } from '../../constants/AppConstants';
@@ -6,17 +6,14 @@ import { MaxSearchResults } from '../../constants/AppConstants';
 const searchHops = {
   type: new GraphQLList(YeastSearchType),
   args: {
-    query: { type: GraphQLString }
+    ids: { type: new GraphQLList(GraphQLInt) }
   },
-  async resolve({ request }, { query }) {
+  async resolve({ request }, { ids }) {
     return await Yeast.findAll({
       limit: MaxSearchResults,
       attributes: Object.keys(YeastSearchType._fields),
       where: {
-        $or: [
-          { name: { $iLike: `%${query}%` } },
-          { code: { $iLike: `%${query}%` } }
-        ]
+        id: { $in: ids }
       }
     });
   }

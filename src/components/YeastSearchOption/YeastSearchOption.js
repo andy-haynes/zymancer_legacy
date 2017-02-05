@@ -3,7 +3,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './YeastSearchOption.css';
 
 const YeastSearchOption = ({ yeast, addYeast }) => (
-  <div className={s.yeastSearchOption} onClick={() => addYeast(yeast)}>
+  <div className={s.yeastSearchOption} onClick={addYeast}>
     <div className="pure-g">
       <div className="pure-u-12-24">
         <div className={s.yeastDetail}>

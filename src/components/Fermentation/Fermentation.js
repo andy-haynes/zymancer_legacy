@@ -5,7 +5,7 @@ import round from 'lodash/round';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Paper from 'material-ui/Paper';
 import s from './Fermentation.css';
-import YeastSearchContainer from '../../containers/YeastSearch';
+import Search from '../../containers/IngredientSearch';
 
 const Fermentation = ({ fermentation, actions }) => (
   <div className={s.fermentation}>
@@ -76,7 +76,7 @@ const Fermentation = ({ fermentation, actions }) => (
         </div>
       </div>
       <div className="pure-u-1-2">
-        <YeastSearchContainer />
+        <Search.YeastSearch />
         <div className={s.yeasts}>
           {fermentation.yeasts.map(yeast => (
             <Yeast
