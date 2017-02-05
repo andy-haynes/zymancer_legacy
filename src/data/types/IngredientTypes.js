@@ -36,14 +36,13 @@ const _grainViewFields = Object.assign({}, _grainFields, {
   flavor: { type: GraphQLString },
   DBCG: { type: GraphQLFloat },
   DBFG: { type: GraphQLFloat },
-  isExtract: { type: GraphQLBoolean }
+  isExtract: { type: GraphQLBoolean },
+  mfg: { type: new GraphQLNonNull(GraphQLString) }
 });
 
 export const GrainSearchType = new GraphQLObjectType({
   name: 'GrainSearchType',
-  fields: Object.assign({}, _grainViewFields, {
-    mfg: { type: new GraphQLNonNull(GraphQLString) }
-  })
+  fields: Object.assign({}, _grainViewFields)
 });
 
 export const GrainType = new GraphQLObjectType({
