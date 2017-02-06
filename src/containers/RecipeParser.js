@@ -7,7 +7,7 @@ const { recipe: recipeActions } = actions;
 function mapState(state) {
   return {
     parser: state.recipeParser,
-    searchCache: state.searchCache
+    searchCache: state.ingredientSearch.cache
   };
 }
 
