@@ -30,6 +30,17 @@ async function _graphqlFetch(query) {
   return await resp.json();
 }
 
+function _groupHops(hops) {
+  const grouped = [];
+  const hashGroup = groupBy(hops, h => [h.form, h.name, h.alpha, h.beta].join('-'));
+  Object.keys(hashGroup).forEach(k => {
+    grouped.push(Object.assign({}, hashGroup[k][0], {
+      additions: flatten(hashGroup[k].map(h => h.additions || [pick(h, 'minutes', 'weight')]))
+    }));
+  });
+  return grouped;
+}
+
 const _styleKeys = `
   id,
   name,
@@ -173,17 +184,7 @@ export async function getRecipe(recipeId) {
   }`.replace(/\s/g, '');
 
   const { data } = await _graphqlFetch(query);
-  let { grains, hops, yeasts, fermentation, mashSchedule: mash } = data.loadRecipe;
-
-  // group hops by id to get additions as separate property
-  // TODO: group by RecipeHopId instead to get hops of the same type with different alpha/beta
-  hops = hops && hops.length ? groupBy(hops, h => h.id) : [];
-  hops = Object.keys(hops).map(k => ({
-    additions: hops[k].map(a => pick(a, 'minutes', 'weight', 'type')),
-    ...hops[k][0]
-  }));
-
-  mash = mashSchedule.create(mash);
+  let { grains, hops, yeasts, fermentation, mashSchedule: _mashSchedule } = data.loadRecipe;
 
   function setMeasurementRanges(measurement, defaultMeasurement) {
     // TODO: convert ratio to handle different saved units
@@ -193,18 +194,18 @@ export async function getRecipe(recipeId) {
   return Object.assign({}, data.loadRecipe, {
     targetVolume: data.loadRecipe.volume,
     grains: grains.map(g => grain.create(g)),
-    hops: hops.map(h => hop.create(h)),
+    hops: _groupHops(hops).map(h => hop.create(h)),
     fermentation: {
       pitchRate: fermentation.pitchRateMillionsMLP,
       yeasts: yeasts.map(y => yeast.create(y))
     },
-    mashSchedule: Object.assign({}, mash, {
+    mashSchedule: (mash => Object.assign({}, mash, {
       thickness: setMeasurementRanges(mash.thickness, Defaults.MashThickness),
       boilOff: setMeasurementRanges(mash.boilOff, Defaults.BoilOffRate),
       absorption: setMeasurementRanges(mash.absorption, Defaults.GrainAbsorptionLoss),
       infusionTemp: setMeasurementRanges(mash.infusionTemp, Defaults.InfusionTemp),
       mashoutTemp: setMeasurementRanges(mash.mashoutTemp, Defaults.MashoutTemp)
-    })
+    }))(mashSchedule.create(_mashSchedule))
   });
 }
 
@@ -297,17 +298,6 @@ export async function getSavedRecipes(recipeType) {
 
 export async function getStyle(styleId) {
   return await _graphqlFetch(`{style(id:${styleId}) { ${_styleKeys} }}`);
-}
-
-function _groupHops(hops) {
-  const grouped = [];
-  const hashGroup = groupBy(hops, h => [h.form, h.name, h.alpha, h.beta].join('-'));
-  Object.keys(hashGroup).forEach(k => {
-    grouped.push(Object.assign({}, hashGroup[k][0], {
-      additions: flatten(hashGroup[k].map(h => h.additions))
-    }));
-  });
-  return grouped;
 }
 
 function buildTokenScore(query, resolveTokens, blacklist = []) {
