@@ -310,15 +310,16 @@ function _groupHops(hops) {
   return grouped;
 }
 
-function buildTokenScore(query, resolveTokens) {
+function buildTokenScore(query, resolveTokens, blacklist = []) {
   return query
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, ' ')
     .split(/\s+/g)
+    .filter(s => !blacklist.includes(s))
     .forEach(resolveTokens);
 }
 
-function partialMatchIngredient(query, tokens) {
+function partialMatchIngredient(query, tokens, blacklist) {
   const scores = {};
   buildTokenScore(query, (s) => {
     Object.keys(tokens).forEach((token) => {
@@ -332,7 +333,7 @@ function partialMatchIngredient(query, tokens) {
         updateScore(1);
       }
     });
-  });
+  }, blacklist);
 
   if (Object.keys(scores).length) {
     return Object.keys(scores).sort((k, l) => scores[l] - scores[k]);
