@@ -10,9 +10,9 @@ const GrainBill = ({ grains, targetVolume, actions }) => (
     <div className="pure-g">
       <div className="pure-u-1-2">
         <div className={s.grains}>
-          {grains.map(grain => (
+          {grains.map((grain, i) => (
             <Grain
-              key={grain.id}
+              key={`${grain.id}-${i}`}
               grain={grain}
               targetVolume={targetVolume}
               actions={actions}
