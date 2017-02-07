@@ -1,5 +1,6 @@
 import { RecipeType, RecipeParameter } from '../constants/AppConstants';
 import Defaults from '../constants/Defaults';
+import Units from '../constants/Units';
 import { IngredientType, MinSearchQueryLength } from '../constants/AppConstants';
 import fetch from '../core/fetch';
 import helpers from '../utils/helpers';
@@ -428,7 +429,7 @@ export async function buildParsedRecipe(parsed, searchCache) {
   const yeasts = mergeIngredients(parsed.yeast, recipe.yeast, yeast.create, getNameOrCode);
 
   return Object.assign(recipe, {
-    grains,
+    grains: grains.sort(helpers.sortMeasurements(e => e.weight, Units.Pound, false)),
     hops,
     fermentation: {
       pitchRate: Defaults.PitchRate,

@@ -40,6 +40,17 @@ function convertToUnit(measurement, unit, precision = undefined) {
   return Object.assign({}, measurement, { value });
 }
 
+function sortMeasurements(getMeasurement, unit, asc = true) {
+  return (a, b) => {
+    const [aValue, bValue] =  [a, b].map(m => convertToUnit(getMeasurement(m), unit).value);
+    if (asc) {
+      return aValue - bValue;
+    } else {
+      return bValue - aValue;
+    }
+  };
+}
+
 function convertRatio(oldRatio, newRatio, precision = undefined) {
   let value = parseFloat(newRatio.value || oldRatio.value) || 0;
   let { min, max } = oldRatio;
@@ -182,6 +193,7 @@ export default {
   convertRatio,
   createRatio,
   convertToUnit,
+  sortMeasurements,
   multiplyRatioByMeasurement,
   sumMeasurements,
   extractRange,
