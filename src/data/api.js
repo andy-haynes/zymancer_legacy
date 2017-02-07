@@ -332,39 +332,25 @@ function partialMatchIngredient(query, tokens, blacklist) {
   return null;
 }
 
-function matchIngredient(parsedName, tokens) {
-  const scores = {};
-  buildTokenScore(parsedName, (token) => {
-    if (tokens[token]) {
-      tokens[token].forEach(id => {
-        if (!scores.hasOwnProperty(id)) {
-          scores[id] = 0;
-        }
-        scores[id]++;
-      });
-    }
-  });
-
-  if (Object.keys(scores).length) {
-    return Object.keys(scores).sort((k, l) => scores[l] - scores[k])[0];
-  }
-
-  return null;
-}
-
 export async function buildParsedRecipe(parsed, searchCache) {
-  function matchingIdStr(ingredients, tokens) {
-    return [...new Set(ingredients)]
-      .map(i => matchIngredient(i, tokens))
-      .filter(p => p >= 0)
-      .join(',');
+  const ingredientMap = {};
+  function matchingIdStr(ingredients, tokens, blacklist) {
+    return [...new Set([...new Set(ingredients)]
+      .map(i => {
+        const match = partialMatchIngredient(i, tokens, blacklist)[0];
+        ingredientMap[i] = parseInt(match);
+        return match;
+      }))];
   }
+
+  const getName = (i) => i.name;
+  const getNameOrCode = (i) => i.name || i.code;
 
   const [parsedGrains, parsedHops, parsedYeast] = [
-    matchingIdStr(parsed.grains.map(g => g.name), searchCache[IngredientType.Grain]),
-    matchingIdStr(parsed.hops.map(h => h.name), searchCache[IngredientType.Hop]),
-    parsed.yeast.map(y => helpers.jsonToGraphql(pick(y, 'code')))
-  ].map(p => [...new Set(p)]);
+    matchingIdStr(parsed.grains.map(getName), searchCache[IngredientType.Grain], ['malt']),
+    matchingIdStr(parsed.hops.map(getName), searchCache[IngredientType.Hop], ['hop']),
+    matchingIdStr(parsed.yeast.map(getNameOrCode), searchCache[IngredientType.Yeast], ['yeast'])
+  ];
 
   const query = `{
     matchParsedIngredients(
@@ -412,12 +398,12 @@ export async function buildParsedRecipe(parsed, searchCache) {
     }
   });
 
-  function mergeIngredients(ingredients, retrieved, compare, create) {
+  function mergeIngredients(ingredients, retrieved, create, getIngredientKey) {
     if (ingredients) {
       return ingredients.map(i => {
-        const matching = retrieved && retrieved.find(r => compare(r, i));
+        const matching = retrieved && retrieved.find(r => ingredientMap[getIngredientKey(i)] === r.id);
         if (matching) {
-          return Object.assign({}, matching, i, { name: matching.name });
+          return Object.assign({}, matching, i);
         }
         return i;
       }).map(i => create(i));
@@ -430,9 +416,9 @@ export async function buildParsedRecipe(parsed, searchCache) {
     delete recipe.style;
   }
 
-  const grains = mergeIngredients(parsed.grains, recipe.grains, (x, y) => x.name.includes(y.name), grain.create);
-  const hops = mergeIngredients(_groupHops(parsed.hops), recipe.hops, (x, y) => x.name.includes(y.name), hop.create);
-  const yeasts = mergeIngredients(parsed.yeast, recipe.yeast, (x, y) => x.code === y.code, yeast.create);
+  const grains = mergeIngredients(parsed.grains, recipe.grains, grain.create, getName);
+  const hops = mergeIngredients(_groupHops(parsed.hops), recipe.hops, hop.create, getName);
+  const yeasts = mergeIngredients(parsed.yeast, recipe.yeast, yeast.create, getNameOrCode);
 
   return Object.assign(recipe, {
     grains,
