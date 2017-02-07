@@ -1,7 +1,7 @@
 import SRMColors from '../constants/SRMColors';
 import Units from '../constants/Units';
 import helpers from './helpers';
-import { ExtractGravity, HopAdditionType, HopForm, RecipeParameter } from '../constants/AppConstants';
+import { ExtractGravity, HopAdditionType, HopForm, RecipeParameter, ExtractType } from '../constants/AppConstants';
 import Defaults from '../constants/Defaults';
 import BJCPStyles from '../constants/BJCPStyles';
 import round from 'lodash/round';
@@ -14,6 +14,7 @@ const _rxAlpha = /([0-9]+[.]?[0-9]*)\s*[%]?\s*(?:aa|aau|alpha|a.a.)/i;
 const _rxIBU = /([0-9]+[.]?[0-9]*)\s*[%]?\s*(?:IBU)/i;
 const _rxPercent = /([0-9]+[.]?[0-9]*)(?:\s*%)/i;
 const _rxLovibond = /(\d+\.?\d*)°?\s*(?:Lovibond|Lov|L)/i;
+const _rxExtractForm = /(liquid malt extract|liquid extract|lme|dry malt extract|dry extract|dme)/i;
 const _rxHopForm = /(pellets|pellet|whole leaf|whole|leaf)/i;
 const _rxHopAddition = /(dry hop|dry-hop|dry|hopback|hop-back|whirlpool|whirl-pool|whirl pool|hopstand|hop-stand|hop stand)/i;
 const _rxGravity = /(1\.[0-9]{3})/i;
@@ -51,7 +52,7 @@ const _unitMapping = {
   'hr': Units.Hour
 };
 
-const _hopAdditionMapping = {
+const _recipeMapping = {
   'pellets': HopForm.Pellet,
   'pellet': HopForm.Pellet,
   'whole leaf': HopForm.Leaf,
@@ -67,7 +68,13 @@ const _hopAdditionMapping = {
   'whirl pool': HopAdditionType.Whirlpool,
   'hopstand': HopAdditionType.Whirlpool,
   'hop-stand': HopAdditionType.Whirlpool,
-  'hop stand': HopAdditionType.Whirlpool
+  'hop stand': HopAdditionType.Whirlpool,
+  'liquid malt extract': ExtractType.Liquid,
+  'liquid extract': ExtractType.Liquid,
+  'lme': ExtractType.Liquid,
+  'dry malt extract': ExtractType.Dry,
+  'dry extract': ExtractType.Dry,
+  'dme': ExtractType.Dry
 };
 
 const _parameterMapping = {
@@ -115,6 +122,7 @@ function parseLine(line) {
       gravity: extractGroup(_rxGravity),
       plato: extractGroup(_rxPlato),
       ppg: extractGroup(_rxPPG),
+      extract: extractGroup(_rxExtractForm),
       addition: extractGroup(_rxAddition)
     };
 
@@ -169,7 +177,6 @@ function parseLine(line) {
     if (style) {
       return { style };
     }
-
   }
 
   return null;
@@ -222,7 +229,7 @@ function buildRecipe(parsed) {
           weight
         }));
       } else if (p.alpha || p.time || p.hopAddition || p.hopForm) {
-        const mapHopDetail = (d) => d && _hopAdditionMapping[d.toLowerCase()];
+        const mapHopDetail = (d) => d && _recipeMapping[d.toLowerCase()];
 
         recipe.hops.push(createProp({
           name: p.name.replace(_rxHopForm, '').replace(/(hops|hop|at)(\s|:|$)+/ig, '').trim(),
@@ -250,10 +257,13 @@ function buildRecipe(parsed) {
           p.lovibond = extractNumeric(p.srm);
         }
 
+        const isExtract = p.extract !== null;
         recipe.grains.push(createProp({
           name: p.name,
           gravity: p.gravity,
           lovibond: p.lovibond,
+          extractType: isExtract ? _recipeMapping[p.extract] : null,
+          isExtract,
           weight
         }));
       }
