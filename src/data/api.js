@@ -340,9 +340,14 @@ export async function buildParsedRecipe(parsed, searchCache) {
   function matchingIdStr(ingredients, tokens, blacklist) {
     return [...new Set([...new Set(ingredients)]
       .map(i => {
-        ingredientMap[i] = partialMatchIngredient(i, tokens, blacklist)[0];
-        return ingredientMap[i];
-      }))];
+        const match = partialMatchIngredient(i, tokens, blacklist);
+        if (match !== null) {
+          ingredientMap[i] = match[0];
+          return ingredientMap[i];
+        }
+      })
+      .filter(i => typeof i !== 'undefined')
+    )];
   }
 
   const getName = (i) => i.name;
