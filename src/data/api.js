@@ -314,13 +314,14 @@ function partialMatchIngredient(query, tokens, blacklist) {
   buildTokenScore(query, (s) => {
     Object.keys(tokens).forEach((token) => {
       const updateScore = (value) => tokens[token].forEach(id => scores[id] = (scores[id] || 0) + value);
+      const freqFactor = 100 / tokens[token].length;
 
       if (token === s) {
-        updateScore(10);
+        updateScore(10 * freqFactor);
       } else if (token.startsWith(s) || token.endsWith(s)) {
-        updateScore(3);
+        updateScore(5 * freqFactor);
       } else if (token.includes(s)) {
-        updateScore(1);
+        updateScore(freqFactor);
       }
     });
   }, blacklist);
