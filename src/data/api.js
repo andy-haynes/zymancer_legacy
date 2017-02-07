@@ -326,7 +326,9 @@ function partialMatchIngredient(query, tokens, blacklist) {
   }, blacklist);
 
   if (Object.keys(scores).length) {
-    return Object.keys(scores).sort((k, l) => scores[l] - scores[k]);
+    return Object.keys(scores)
+      .map(s => parseInt(s))
+      .sort((k, l) => scores[l] - scores[k]);
   }
 
   return null;
@@ -337,9 +339,8 @@ export async function buildParsedRecipe(parsed, searchCache) {
   function matchingIdStr(ingredients, tokens, blacklist) {
     return [...new Set([...new Set(ingredients)]
       .map(i => {
-        const match = partialMatchIngredient(i, tokens, blacklist)[0];
-        ingredientMap[i] = parseInt(match);
-        return match;
+        ingredientMap[i] = partialMatchIngredient(i, tokens, blacklist)[0];
+        return ingredientMap[i];
       }))];
   }
 
