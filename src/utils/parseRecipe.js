@@ -13,14 +13,13 @@ const _rxTime = /((?:[0-9]+[.]?[0-9]*)\s*(?:minutes|minute|min|hours|hour|hr)|(?
 const _rxAlpha = /([0-9]+[.]?[0-9]*)\s*[%]?\s*(?:aa|aau|alpha|a.a.)/i;
 const _rxIBU = /([0-9]+[.]?[0-9]*)\s*[%]?\s*(?:IBU)/i;
 const _rxPercent = /([0-9]+[.]?[0-9]*)(?:\s*%)/i;
-const _rxLovibond = /(\d+\.?\d*)°?\s*(?:Lovibond|Lov|L)/i;
+const _rxGrainColor = /(\d+\.?\d*)°?\s*(?:Lovibond|lovibond|Lov|lov|L|SRM|srm)°?/;
 const _rxExtractForm = /(liquid malt extract|liquid extract|lme|dry malt extract|dry extract|dme)/i;
 const _rxHopForm = /(pellets|pellet|whole leaf|whole|leaf)/i;
 const _rxHopAddition = /(dry hop|dry-hop|dry|hopback|hop-back|whirlpool|whirl-pool|whirl pool|hopstand|hop-stand|hop stand)/i;
 const _rxGravity = /(1\.[0-9]{3})/i;
 const _rxPlato = /([0-9]+[.]?[0-9]*)°\s*(?:Plato|P)/i;
 const _rxPPG = /([0-9]+[.]?[0-9]*)\s*(?:PPG)/i;
-const _rxSRM = /([0-9]+[.]?[0-9]*)\s*SRM/i;
 const _rxYeast = /(?:(white labs|wyeast|wyeast labs|safale|imperial|imperial yeast)\s*((?:wlp|[a-z]|us-)?\d{2,6}(?:-pc)?)|((?:wlp|us-)\d{2,6}(?:-pc)?))/i;
 const _rxAddition = /(whirlfloc|yeast nutrient|nutrient|calcium chloride|canning salt|iodized salt|salt|gypsum|irish moss|isinglass)/i;
 const _rxSoleNumeric = /([0-9]+[.]?[0-9]*)\s+(?!SG|%|SRM|IBU|lbs|lb|pound|pounds|ounce|ounces|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt|minutes|minute|min|hours|hour|hr|aa|aau|alpha|a.a.|Lovibond|Lov|L)/ig;
@@ -117,8 +116,7 @@ function parseLine(line) {
       hopAddition: extractGroup(_rxHopAddition),
       time: extractGroup(_rxTime),
       percentage: extractGroup(_rxPercent),
-      lovibond: extractGroup(_rxLovibond),
-      srm: extractGroup(_rxSRM),
+      grainColor: extractGroup(_rxGrainColor),
       gravity: extractGroup(_rxGravity),
       plato: extractGroup(_rxPlato),
       ppg: extractGroup(_rxPPG),
@@ -135,13 +133,13 @@ function parseLine(line) {
         if (alpha >= 0 && alpha < 25) {
           parsed.alpha = alpha;
         }
-      } else if ((parsed.alpha || parsed.time) === null && ((parsed.gravity || parsed.plato || parsed.ppg) === null || (parsed.lovibond || parsed.srm) === null) && freeNumbers) {
+      } else if ((parsed.alpha || parsed.time) === null && ((parsed.gravity || parsed.plato || parsed.ppg) === null || parsed.grainColor === null) && freeNumbers) {
         // no gravity or srm, best take whatever's close to being within range
         freeNumbers.forEach((n) => {
           if (parsed.ppg === null && n > 25 && n < 44) {
             parsed.ppg = n;
-          } else if (parsed.lovibond === null && parsed.srm === null && n > 1 && n < 600) {
-            parsed.lovibond = n;
+          } else if (parsed.grainColor === null && n >= 1.5 && n < 600) {
+            parsed.grainColor = n;
           }
         });
       }
@@ -252,9 +250,9 @@ function buildRecipe(parsed) {
           }
         }
 
-        p.lovibond = extractNumeric(p.lovibond);
-        if (!p.lovibond) {
-          p.lovibond = extractNumeric(p.srm);
+        let lovibond = extractNumeric(p.grainColor);
+        if (lovibond !== null && lovibond >= 1.5) {
+          p.lovibond = lovibond;
         }
 
         const isExtract = p.extract !== null;
