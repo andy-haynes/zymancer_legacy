@@ -144,23 +144,23 @@ function subtractMonthsFromNow(months) {
 function jsonToGraphql(obj) {
   function parseKeys (o, str) {
     Object.keys(o).forEach(k => {
-      if (typeof o[k] === 'object') {
-        if (o[k] === null) {
-          return;
-        } else if (Object.keys(o[k])) {
-          if (typeof o[k].length === 'undefined') {
-            str += `${k}:{${parseKeys(o[k], '')}},`;
+      if (o[k] !== null) {
+        if (typeof o[k] === 'object') {
+          if (Object.keys(o[k])) {
+            if (typeof o[k].length === 'undefined') {
+              str += `${k}:{${parseKeys(o[k], '')}},`;
+            } else {
+              str += o[k].map(v => parseKeys(v, '')).join(',');
+            }
           } else {
-            str += o[k].map(v => parseKeys(v, '')).join(',');
+            str += o[k].toString();
           }
-        } else {
-          str += o[k].toString();
-        }
-      } else if (['number', 'string'].includes(typeof o[k])) {
-        if (typeof o[k] === 'number') {
-          str += `${k}:${o[k]},`;
-        } else {
-          str += `${k}:"${o[k].replace(/"/g, '\'')}",`;
+        } else if (['number', 'string'].includes(typeof o[k])) {
+          if (typeof o[k] === 'number') {
+            str += `${k}:${o[k]},`;
+          } else {
+            str += `${k}:"${o[k].replace(/"/g, '\'')}",`;
+          }
         }
       }
     });
