@@ -78,9 +78,9 @@ const Fermentation = ({ fermentation, actions }) => (
       <div className="pure-u-1-2">
         <Search.YeastSearch />
         <div className={s.yeasts}>
-          {fermentation.yeasts.map(yeast => (
+          {fermentation.yeasts.map((yeast, i) => (
             <Yeast
-              key={yeast.id}
+              key={`${yeast.id}-${i}`}
               yeast={yeast}
               actions={actions}
             />

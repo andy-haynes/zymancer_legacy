@@ -10,9 +10,9 @@ const HopSchedule = ({ hops, originalGravity, boilVolume, boilMinutes, actions }
     <div className="pure-g">
       <div className="pure-u-1-2">
         <div className={s.hops}>
-          {hops.map(hop => (
+          {hops.map((hop, i) => (
             <Hop
-              key={hop.id}
+              key={`${hop.id}-${i}`}
               hop={hop}
               originalGravity={originalGravity}
               boilVolume={boilVolume}
