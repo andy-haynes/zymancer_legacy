@@ -8,7 +8,17 @@ import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';
 import pick from 'lodash/pick';
 
-const _rxNamedQty = /((?:[0-9]+[.]?[0-9]*)[\s|]*(?:lbs|lb|pound|pounds|ounce|ounces|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt))[.]?(?: \((?:[0-9]+[.]?[0-9]*)[\s|]*(?:lbs|lb|pound|pounds|ounce|ounces|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt)[.]?\))?[\s|]{1,5}([ a-z®äöüß0-9\-\"/°]+[a-z®äöüß\"°])/i;
+const _weightOptions = 'lbs|lb|pound|pounds|ounce|ounces|oz|kg|gram|g\\s|g$';
+const _volumeOptions = 'tsp|tbsp|liter|l\\s|l$|quart|qt|gallons|gallon|gal|us gallons|us gallon|us gal';
+const _unitMarker = '___unit___';
+
+const _decimalTemplate = '\\d+.?\\d*';
+const _charTemplate = 'a-z®äöüß\\-\'"/°.';
+const _alphaNumericTemplate = `0-9${_charTemplate}`;
+const _namedQtyTemplate = `((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker}))[.]?(?: \\((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})[.]?\\))?[\\s|]{1,5}([ ${_alphaNumericTemplate}]+[${_alphaNumericTemplate}])`;
+const _rxNamedWeight = new RegExp(_namedQtyTemplate.replace(_unitMarker, _weightOptions), 'i');
+const _rxNamedVolume = new RegExp(_namedQtyTemplate.replace(_unitMarker, _volumeOptions), 'i');
+
 const _rxTime = /((?:[0-9]+[.]?[0-9]*)\s*(?:minutes|minute|min|hours|hour|hr)|(?:@|at :)\d+\.?\d*)/i;
 const _rxAlpha = /([0-9]+[.]?[0-9]*)\s*[%]?\s*(?:aa|aau|alpha|a.a.)/i;
 const _rxIBU = /([0-9]+[.]?[0-9]*)\s*[%]?\s*(?:IBU)/i;
@@ -20,10 +30,10 @@ const _rxHopAddition = /(dry hop|dry-hop|dry|hopback|hop-back|whirlpool|whirl-po
 const _rxGravity = /(1\.[0-9]{3})/i;
 const _rxPlato = /([0-9]+[.]?[0-9]*)°\s*(?:Plato|P)/i;
 const _rxPPG = /([0-9]+[.]?[0-9]*)\s*(?:PPG)/i;
-const _rxYeast = /(?:(white labs|wyeast|wyeast labs|safale|imperial|imperial yeast)\s*((?:wlp|[a-z]|us-)?\d{2,6}(?:-pc)?)|((?:wlp|us-)\d{2,6}(?:-pc)?))/i;
+const _rxYeast = /(?:(white labs|wyeast|wyeast labs|safale|imperial|imperial yeast)[\s#:\-]*((?:wlp|[a-z]|us-)?\d{2,6}(?:-pc)?)|((?:wlp|us-)\d{2,6}(?:-pc)?))/i;
 const _rxAddition = /(whirlfloc|yeast nutrient|nutrient|calcium chloride|canning salt|iodized salt|salt|gypsum|irish moss|isinglass)/i;
-const _rxSoleNumeric = /([0-9]+[.]?[0-9]*)\s+(?!SG|%|SRM|IBU|lbs|lb|pound|pounds|ounce|ounces|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt|minutes|minute|min|hours|hour|hr|aa|aau|alpha|a.a.|Lovibond|Lov|L)/ig;
-const _rxRecipeParameter = /(boil time|boiling time|batch size|yield|for|boil size|original gravity|final gravity|terminal gravity|og|fg|attenuation|srm|color|ibu|ibus|bitterness|plato|efficiency|abv|alcohol by volume|alcohol by vol)[ a-z()=:]+((?:[0-9]+[.]?[0-9]*)[°]?\s*(?:%|minutes|minute|min|sg|ibu|srm|gallons|gallon|gal|us gallons|us gallon|us gal)?)/i;
+const _rxSoleNumeric = /\s+([0-9]+[.]?[0-9]*)\s+(?!SG|%|SRM|IBU|lbs|lb|pound|pounds|ounce|ounces|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt|minutes|minute|min|hours|hour|hr|aa|aau|alpha|a.a.|Lovibond|Lov|L)/ig;
+const _rxRecipeParameter = /(boil time|boiling time|batch size|yield|for|boil size|original gravity|final gravity|terminal gravity|og|fg|attenuation|srm|color|ibu|ibus|bitterness|plato|efficiency|abv|alcohol by volume|alcohol by vol)[\sa-z()=:]+((?:[0-9]+[.]?[0-9]*)[°]?\s*(?:%|minutes|minute|min|sg|ibu|srm|gallons|gallon|gal|us gallons|us gallon|us gal)?)/i;
 
 const _unitMapping = {
   'lbs': Units.Pound,
@@ -38,10 +48,15 @@ const _unitMapping = {
   'tbsp': Units.Tablespoon,
   'liter': Units.Liter,
   'l': Units.Liter,
+  'gallons': Units.Gallon,
   'gallon': Units.Gallon,
+  'us gallons': Units.Gallon,
+  'us gallon': Units.Gallon,
+  'us gal': Units.Gallon,
   'gal': Units.Gallon,
   'quart': Units.Quart,
   'qt': Units.Quart,
+  'gram': Units.Gram,
   'g': Units.Gram,
   'minutes': Units.Minute,
   'minute': Units.Minute,
@@ -102,13 +117,18 @@ const _parameterMapping = {
 };
 
 function parseLine(line) {
-  const match = _rxNamedQty.exec(line);
+  let isVolume = true;
+  let match = _rxNamedVolume.exec(line);
+  if (!match) {
+    isVolume = false;
+    match = _rxNamedWeight.exec(line);
+  }
 
   if (match) {
     const extractGroup = (regex) => ((m) => m && m[1].trim())(regex.exec(line));
 
     const parsed = {
-      quantity: match[1],
+      [isVolume ? 'volume' : 'weight']: match[1],
       name: match[2].trim(),
       alpha: extractGroup(_rxAlpha),
       ibu: extractGroup(_rxIBU),
@@ -217,8 +237,8 @@ function buildRecipe(parsed) {
   }
 
   parsed.filter(p => p !== null).forEach(p => {
-    if (p.quantity) {
-      let weight = parseQuantity(p.quantity);
+    if (p.weight) {
+      let weight = parseQuantity(p.weight);
 
       if (p.addition) {
         recipe.additions.push(createProp({
