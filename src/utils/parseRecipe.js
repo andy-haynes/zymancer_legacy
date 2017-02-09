@@ -15,9 +15,13 @@ const _unitMarker = '___unit___';
 const _decimalTemplate = '\\d+.?\\d*';
 const _charTemplate = 'a-z®äöüß\\-\'"/°.';
 const _alphaNumericTemplate = `0-9${_charTemplate}`;
-const _namedQtyTemplate = `((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker}))[.]?(?: \\((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})[.]?\\))?[\\s|]{1,5}([ ${_alphaNumericTemplate}]+[${_alphaNumericTemplate}])`;
-const _rxNamedWeight = new RegExp(_namedQtyTemplate.replace(_unitMarker, _weightOptions), 'i');
-const _rxNamedVolume = new RegExp(_namedQtyTemplate.replace(_unitMarker, _volumeOptions), 'i');
+const _namedQtyTemplate = `((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})\\s*(?:(?:${_decimalTemplate})\\s*(?:${_unitMarker}))?)[.]?(?: \\((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})[.]?\\))?[\\s|\\-]{1,5}([ ${_alphaNumericTemplate}]+[${_alphaNumericTemplate}])`;
+
+function _createMeasurementRegex(template) {
+  return new RegExp(_namedQtyTemplate.replace(new RegExp(_unitMarker, 'g'), template), 'i');
+}
+const _rxNamedWeight = _createMeasurementRegex(_weightOptions);
+const _rxNamedVolume = _createMeasurementRegex(_volumeOptions);
 
 const _rxTime = /((?:[0-9]+[.]?[0-9]*)\s*(?:minutes|minute|min|hours|hour|hr)|(?:@|at :)\d+\.?\d*)/i;
 const _rxAlpha = /([0-9]+[.]?[0-9]*)\s*[%]?\s*(?:aa|aau|alpha|a.a.)/i;
@@ -128,7 +132,7 @@ function parseLine(line) {
     const extractGroup = (regex) => ((m) => m && m[1].trim())(regex.exec(line));
 
     const parsed = {
-      [isVolume ? 'volume' : 'weight']: match[1],
+      [isWeight ? 'weight' : 'volume']: match[1],
       name: match[2].trim(),
       alpha: extractGroup(_rxAlpha),
       ibu: extractGroup(_rxIBU),
@@ -210,11 +214,40 @@ function extractNumeric(str) {
 
 function parseQuantity(qty) {
   if (qty) {
-    let quantity = { value: extractNumeric(qty) };
-    const unit = ((u) => _unitMapping[u] || null)(qty.replace(/[\W\d]+/i, '').toLowerCase().trim());
-    if (unit) {
-      quantity.unit = unit;
+    const quantities = [];
+    let quantity = {};
+
+    const components = qty.split(/\s+/g);
+    components.forEach(q => {
+      const value = extractNumeric(q);
+      if (value !== null) {
+        if (!quantity.value) {
+          quantity.value = value;
+        } else {
+          quantities.push(quantity);
+          quantity = { value };
+        }
+      } else {
+        const unit = ((u) => _unitMapping[u] || null)(q.replace(/[\W\d]+/i, '').toLowerCase().trim());
+        if (unit !== null) {
+          if (!quantity.unit) {
+            quantity.unit = unit;
+          } else {
+            quantities.push(quantity);
+            quantity = { unit };
+          }
+        }
+      }
+    });
+
+    if (quantity.value && quantity.unit && !quantities.includes(quantity)) {
+      quantities.push(quantity);
     }
+
+    if (quantities.length) {
+      return helpers.sumMeasurements(2, ...quantities);
+    }
+
     return quantity;
   }
 
