@@ -117,11 +117,11 @@ const _parameterMapping = {
 };
 
 function parseLine(line) {
-  let isVolume = true;
-  let match = _rxNamedVolume.exec(line);
+  let isWeight = true;
+  let match = _rxNamedWeight.exec(line);
   if (!match) {
-    isVolume = false;
-    match = _rxNamedWeight.exec(line);
+    isWeight = false;
+    match = _rxNamedVolume.exec(line);
   }
 
   if (match) {
