@@ -24,8 +24,8 @@ class GrainChart extends React.Component {
             color: grain.color,
             fillColor: grain.color
           }))}
-          width="350px"
-          height="350px"
+          width={this.props.diameter}
+          height={this.props.diameter}
         />
       </div>
     );

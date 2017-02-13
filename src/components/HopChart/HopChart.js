@@ -25,8 +25,8 @@ class HopChart extends React.Component {
           data={this.props.data}
           options={this.props.options}
           redraw={true}
-          width="350px"
-          height="350px"
+          width={this.props.diameter}
+          height={this.props.diameter}
         />
       </div>
     );

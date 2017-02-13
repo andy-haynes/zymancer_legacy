@@ -25,7 +25,7 @@ const HopSchedule = ({ hops, originalGravity, boilVolume, boilMinutes, actions }
       <div className="pure-u-1-2">
         <Search.HopSearch />
         <div className={s.hopChart}>
-          {hops.length ? <HopChart /> : ''}
+          {hops.length ? <HopChart diameter="350px" /> : ''}
         </div>
       </div>
     </div>

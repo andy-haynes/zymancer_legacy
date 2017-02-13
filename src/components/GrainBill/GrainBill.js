@@ -23,7 +23,7 @@ const GrainBill = ({ grains, targetVolume, actions }) => (
       <div className="pure-u-1-2">
         <Search.GrainSearch />
         <div className={s.grainChart}>
-          <GrainChart />
+          <GrainChart diameter="350px" />
         </div>
       </div>
     </div>
