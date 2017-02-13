@@ -4,7 +4,7 @@ import helpers from '../utils/helpers';
 import parseRecipe from '../utils/parseRecipe';
 import Defaults from '../constants/Defaults';
 import Units from '../constants/Units';
-import { BrewMethod, MashMethod } from '../constants/AppConstants';
+import { BrewMethod, MashMethod, RecipeTab } from '../constants/AppConstants';
 import grain from './grain';
 import hop from './hop';
 import fermentation from './fermentation';
@@ -30,7 +30,8 @@ const initialState = {
   grains: [],
   hops: [],
   mashSchedule: mashSchedule(undefined, {}),
-  fermentation: fermentation(undefined, {})
+  fermentation: fermentation(undefined, {}),
+  selectedTab: RecipeTab.Grains
 };
 
 function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, boilVolume) {
@@ -168,6 +169,10 @@ const currentRecipe = (state = initialState, action) => {
     case RecipeActions.AddStarterStep:
     case RecipeActions.RemoveStarterStep:
       return updateRecipe({ fermentation: fermentation(state.fermentation, action) });
+    case RecipeActions.SelectMobileTab:
+      return Object.assign({}, state, {
+        selectedTab: action.tab
+      });
     default:
       // randomize the style on load
       return Object.assign({}, state, {

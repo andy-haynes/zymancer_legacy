@@ -7,18 +7,16 @@ import MashScheduleContainer from '../../containers/MashSchedule';
 import FermentationContainer from '../../containers/Fermentation';
 import StyleContainer from '../../containers/Style';
 import RecipeHeader from '../RecipeHeader';
+import MobileRecipeHeader from '../_mobile/RecipeHeader';
+import MobileRecipeTabs from '../_mobile/RecipeTabs';
 import { BrewMethod } from '../../constants/AppConstants';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
 
-const RecipeTabs = ({ recipe, authenticated, actions }) => (
+const RecipeTabs = ({ recipe, authenticated, actions, isMobile }) => (
   <div className={s.recipeTabs}>
-    <RecipeHeader
-      recipe={recipe}
-      authenticated={authenticated}
-      actions={actions}
-    />
-    <Tabs>
+    {!isMobile && <RecipeHeader {...{ recipe, authenticated, actions }} />}
+    {!isMobile && <Tabs>
       <Tab className={s.recipeTab} label="Grains">
         <GrainBillContainer />
       </Tab>
@@ -34,7 +32,9 @@ const RecipeTabs = ({ recipe, authenticated, actions }) => (
       <Tab className={s.recipeTab} label="Style">
         <StyleContainer />
       </Tab>
-    </Tabs>
+    </Tabs>}
+    {isMobile && <MobileRecipeHeader {...{ recipe, authenticated, actions }} />}
+    {isMobile && <MobileRecipeTabs {...{ recipe, actions }} />}
   </div>
 );
 

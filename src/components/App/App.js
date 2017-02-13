@@ -11,8 +11,10 @@ import React, { Component, PropTypes } from 'react';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import s from './App.css';
 import Header from '../Header';
+import MobileHeader from '../_mobile/Header';
 import Footer from '../Footer';
 import { Provider } from 'react-redux';
+import actions from '../../actions';
 
 class App extends Component {
 
@@ -56,10 +58,19 @@ class App extends Component {
       return this.props.children;
     }
 
+    const store = this.props.context.store;
+    const state = store.getState();
+    const authenticated = state.auth.authenticated;
+    const isMobile = state.isMobile;
+
     return (
-      <Provider store={this.props.context.store}>
+      <Provider store={store}>
         <div>
-          <Header authenticated={this.props.context.store.getState().auth.authenticated} />
+          {!isMobile && <Header authenticated={authenticated} />}
+          {isMobile && <MobileHeader
+            authenticated={authenticated}
+            selectMobileTab={(tab) => store.dispatch(actions.recipe.selectMobileTab(tab))}
+          />}
           {this.props.children}
         </div>
       </Provider>

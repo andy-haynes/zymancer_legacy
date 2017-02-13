@@ -11,19 +11,17 @@ export default {
   },
   children: [{
     path: '/',
-    async action() {
-      return (
-        <Calculator />
-      );
+    async action({ isMobile }) {
+      return <Calculator {...{ isMobile }} />;
     }
   }, {
     path: '/recipe/:id',
-    async action({ context }, { id }) {
+    async action({ context, isMobile }, { id }) {
       const recipe = process.env.BROWSER && await getRecipe(id);
       if (recipe) {
         context.store.dispatch(actions.saved.loadSavedRecipe(recipe));
       }
-      return <Calculator />
+      return <Calculator {...{ isMobile }} />;
     }
   }]
 };

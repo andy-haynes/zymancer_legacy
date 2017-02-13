@@ -1,0 +1,17 @@
+.mobileIngredientSearch {
+}
+
+.searchInput {
+  margin-bottom: -0.5em;
+}
+
+.searchResults {
+
+  position: absolute;
+  width: 100%;
+  overflow: auto;
+
+}
+
+.resultsHeader {
+}

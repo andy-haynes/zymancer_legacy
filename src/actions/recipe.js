@@ -87,6 +87,9 @@ export default {
   addStarterStep: helpers.createAction(RecipeActions.AddStarterStep, 'yeast', 'gravity', 'hours'),
   removeStarterStep: helpers.createAction(RecipeActions.RemoveStarterStep, 'yeast'),
 
+  /************************* fermentation *************************/
+  selectMobileTab: helpers.createAction(RecipeActions.SelectMobileTab, 'tab'),
+
   // async
   saveCurrentRecipe,
   loadRecipeStyle,

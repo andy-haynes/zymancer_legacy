@@ -1,0 +1,6 @@
+{
+  "name": "GrainSearch",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./GrainSearch.js"
+}

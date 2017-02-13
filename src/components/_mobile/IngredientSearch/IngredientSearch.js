@@ -9,17 +9,11 @@ const IngredientSearch = ({ query, cache, loading, error, children, header, filt
       id="ingredient-search"
       className={s.searchInput}
       inputStyle={{padding: '0 0.7em', lineHeight: '2.4em', fontSize: '1.1em', textAlign: 'center'}}
-      placeholder="Start typing to search ingredients"
       value={query}
       onChange={e => filter(e.target.value, cache)}
-      style={{width: '90%'}}
+      style={{width: '80%'}}
     />
     <div className={s.searchResults}>
-      {!children.length ? '' : (
-        <div className={s.resultsHeader}>
-          {header}
-        </div>
-      )}
       {children}
     </div>
   </div>

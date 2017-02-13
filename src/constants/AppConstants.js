@@ -62,5 +62,13 @@ export const RecipeParameter = keyMirror({
   SRM: null
 });
 
+export const RecipeTab = keyMirror({
+  Grains: null,
+  Hops: null,
+  Mash: null,
+  Fermentation: null,
+  Style: null
+});
+
 export const MinSearchQueryLength = 1;
 export const MaxSearchResults = 30;

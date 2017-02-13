@@ -29,7 +29,7 @@ import routes from './routes';
 import assets from './assets'; // eslint-disable-line import/no-unresolved
 import configureStore from './store/configureStore';
 import { port, auth } from './config';
-import exampleRecipe from './constants/ExampleRecipe';
+import device from 'express-device'
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
@@ -50,6 +50,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.use(device.capture());
+device.enableDeviceHelpers(app);
 
 //region authentication
 app.use(expressJwt({
@@ -112,7 +114,10 @@ app.get('*', async (req, res, next) => {
     let statusCode = 200;
     const data = { title: '', description: '', style: '', script: assets.main.js, children: '' };
 
-    const store = configureStore({ auth: { authenticated: typeof req.user !== 'undefined' } }, {
+    const store = configureStore({
+      auth: { authenticated: typeof req.user !== 'undefined' },
+      isMobile: req.device.type === 'phone'
+    }, {
       cookie: req.headers.cookie
     });
 

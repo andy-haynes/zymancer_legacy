@@ -10,15 +10,15 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
-import Link from '../Link';
-import Navigation from '../Navigation';
+import Link from '../../Link';
+import MobileNavigation from '../Navigation';
 import logoUrl from './logo-small.png';
 
-function MobileHeader({ authenticated }) {
+function Header({ authenticated, selectMobileTab }) {
   return (
     <div className={s.root}>
       <div className={s.container}>
-        <Navigation authenticated={authenticated} />
+        <MobileNavigation {...{ authenticated, selectMobileTab }} />
         <Link className={s.brand} to="/">
           <span className={s.runes}>ᚨᛚᚢ</span>
           <span className={s.brandTxt}>Zymancer</span>
@@ -28,4 +28,4 @@ function MobileHeader({ authenticated }) {
   );
 }
 
-export default withStyles(s)(MobileHeader);
+export default withStyles(s)(Header);

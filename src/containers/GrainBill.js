@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import actions from '../actions';
 import GrainBill from '../components/GrainBill';
+import MobileGrainBill from '../components/_mobile/GrainBill';
 import pick from 'lodash/pick';
 
 const { recipe } = actions;
@@ -23,3 +24,4 @@ function mapDispatch(dispatch) {
 }
 
 export default connect(mapState, mapDispatch)(GrainBill);
+export const MobileGrainContainer = connect(mapState, mapDispatch)(MobileGrainBill);

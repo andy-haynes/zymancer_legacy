@@ -10,5 +10,6 @@ export default combineReducers({
   recipes,
   ingredientSearch,
   auth,
-  recipeParser
+  recipeParser,
+  isMobile: (state) => state || false
 });

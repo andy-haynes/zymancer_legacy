@@ -7,7 +7,8 @@ const { recipe: recipeActions } = actions;
 function mapState(state) {
   return {
     recipe: state.currentRecipe,
-    authenticated: state.auth.authenticated
+    authenticated: state.auth.authenticated,
+    isMobile: state.isMobile
   };
 }
 

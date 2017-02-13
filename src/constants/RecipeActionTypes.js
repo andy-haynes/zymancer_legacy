@@ -54,5 +54,7 @@ export default keyMirror({
   SetYeastMfgDate: null,
   SetYeastAttenuation: null,
   SetYeastViability: null,
-  SetYeastQuantity: null
+  SetYeastQuantity: null,
+  /* mobile */
+  SelectMobileTab: null
 });
