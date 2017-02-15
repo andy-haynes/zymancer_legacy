@@ -4,7 +4,6 @@ import s from './GrainSearch.css';
 import IngredientSearch from '../IngredientSearch';
 import zymath from '../../../utils/zymath';
 import Units from '../../../constants/Units';
-//import MobileGrainSearchOption from '../MobileGrainSearchOption';
 import { List, ListItem } from 'material-ui/List';
 
 const GrainSearch = ({ search, actions, dismiss }) => (
@@ -12,39 +11,35 @@ const GrainSearch = ({ search, actions, dismiss }) => (
     {...search}
     filter={actions.createFilter(search.cache)}
   >
-    <List className={s.results}>
+    <List style={{paddingTop: '0.6em', paddingBottom: '2em'}}>
       {search.results.map(grain => (
         <ListItem
           key={grain.id}
-          className={s.mobileGrainSearchOption}
+          innerDivStyle={{
+            padding: '0',
+            height: '3.5em'
+          }}
           onTouchTap={() => {
             actions.addIngredient(grain);
             dismiss && dismiss();
           }}
         >
-          <div className="pure-g">
-            <div className="pure-u-20-24">
-              <div className={s.grainDetail}>
-                <div
-                  style={{
-                    float: 'left',
-                    width: '0.8em',
-                    height: '2em',
-                    marginRight: '0.3em',
-                    display: 'inline-block',
-                    backgroundColor: zymath.calculateGrainRGB({
-                        value: 1,
-                        unit: Units.Gallon
-                      }, Object.assign(grain, {
-                        weight: { value: 1, unit: Units.Pound }
-                      })
-                    )
-                  }}
-                />
-                {grain.name}
-              </div>
+          <div className={s.color}
+            style={{
+              backgroundColor: zymath.calculateGrainRGB({
+                  value: 1,
+                  unit: Units.Gallon
+                }, Object.assign(grain, {
+                  weight: { value: 1, unit: Units.Pound }
+                })
+              )
+            }}
+          />
+          <div className={s.grainDetail}>
+            <div>
+              {grain.name}
             </div>
-            <div className="pure-u-4-24">
+            <div className={s.grainSubtext}>
               {grain.mfg}
             </div>
           </div>

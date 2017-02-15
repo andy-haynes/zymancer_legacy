@@ -8,10 +8,14 @@ const IngredientSearch = ({ query, cache, loading, error, children, header, filt
     <TextField
       id="ingredient-search"
       className={s.searchInput}
-      inputStyle={{padding: '0 0.7em', lineHeight: '2.4em', fontSize: '1.1em', textAlign: 'center'}}
+      inputStyle={{padding: '0 0.7em', lineHeight: '2.4em', fontSize: '1.1em'}}
       value={query}
       onChange={e => filter(e.target.value, cache)}
-      style={{width: '80%'}}
+      style={{
+        width: '70%',
+        marginLeft: '10%'
+      }}
+      autoFocus
     />
     <div className={s.searchResults}>
       {children}

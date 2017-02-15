@@ -1,17 +1,12 @@
 .mobileGrainSearch {
 }
 
-.results {
-}
-
 .mobileGrainSearchOption {
   border: 1px solid #ddd;
   border-top: none;
-  cursor: pointer;
   transition-property: background;
   transition-duration: 0.2s;
   transition-timing-function: linear;
-  padding: 4px 8px;
 }
 
 .grainSearchOption:hover {
@@ -19,13 +14,17 @@
 }
 
 .grainDetail {
-  padding-top: 2px;
+  padding: 0.4em 1em 15em 1em;
 }
 
 .grainSubtext {
+  margin-left: 0.4em;
+  font-size: 0.6em;
+  font-color: #ccc;
 }
 
-.grainColor {
-  width: 100%;
-  height: 100%;
+.color {
+  float: left;
+  width: 0.8em;
+  height: 3.4em;
 }

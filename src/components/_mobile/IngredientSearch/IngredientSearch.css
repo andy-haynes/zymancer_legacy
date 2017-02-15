@@ -1,4 +1,5 @@
-.mobileIngredientSearch {
+.ingredientSearch {
+  position: fixed;
 }
 
 .searchInput {
@@ -6,12 +7,9 @@
 }
 
 .searchResults {
-
-  position: absolute;
+  min-height: 5em;
+  max-height: 40em;
+  height: 100%;
   width: 100%;
-  overflow: auto;
-
-}
-
-.resultsHeader {
+  overflow-y: auto;
 }

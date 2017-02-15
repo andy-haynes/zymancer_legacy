@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './GrainBill.css';
-import Measurement from '../../Measurement';
+import Measurement from '../Measurement';
 import Search from '../../../containers/IngredientSearch';
 import GrainChart from '../../../containers/GrainChart';
 import MeasurementUnits from '../../../constants/MeasurementUnits';
@@ -12,7 +12,7 @@ import IconButton from 'material-ui/IconButton';
 import MenuItem from 'material-ui/MenuItem';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
-import SearchIcon from 'material-ui/svg-icons/action/search';
+import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 import { grey500 } from 'material-ui/styles/colors';
 
 class GrainBill extends React.Component {
@@ -37,67 +37,82 @@ class GrainBill extends React.Component {
 
   render() {
     const { grains, targetVolume, actions } = this.props;
+    const _bgColor = (g) => zymath.calculateGrainRGB(targetVolume, g);
+    function _formatName(g) {
+      const maxLen = 18;
+      if (g.name.length <= maxLen) {
+        return g.name;
+      }
+
+      const components = g.name.split(' ');
+      if (components[0].length > maxLen) {
+        return `${components[0].substring(0, maxLen)}...`;
+      }
+
+      let i = 0;
+      let name = '';
+      do {
+        name += components[i++] + ' ';
+      } while (name.length < maxLen);
+      return `${name.trim()}...`;
+    }
 
     return (
       <div className={s.grainBill}>
-        <Drawer open={this.state.searchOpen} width={350}>
-          <IconButton onTouchTap={this.closeSearch} style={{float: 'right', display: 'inline-block'}}>
+        <Drawer open={this.state.searchOpen} width={270}>
+          <IconButton onTouchTap={this.closeSearch}>
             <CloseIcon />
           </IconButton>
           <Search.MobileGrainSearch dismiss={this.closeSearch} />
         </Drawer>
-        <div style={{position: 'relative', left: '25%', maxWidth: '190px'}}>
-          <GrainChart diameter="190px"/>
+        <div className={s.chart}>
+          <GrainChart diameter="165px"/>
         </div>
-        <List style={{marginTop: '-1em'}}>
+        <List className={s.grainList}>
           {grains.map(g => (
             <ListItem
-              disabled
-              style={{
-                marginLeft: '-1.1em',
-                marginBottom: '-1.2em'
-            }}>
-              <div className="pure-g">
-                <div className="pure-u-1-24">
-                  <div style={{
-                    display: 'inline-block',
-                    margin: '0.1em',
-                    width: '0.8em',
-                    height: '85%',
-                    backgroundColor: zymath.calculateGrainRGB(targetVolume, g)
-                  }}>
+              onTouchTap={() => console.log('herro')}
+              innerDivStyle={{padding: '0.8em 0.4em 0.8em 0.1em'}}
+              rightIcon={
+                <IconButton onTouchTap={() => actions.removeGrain(g)}>
+                  <CloseIcon color={grey500}/>
+                </IconButton>
+              }
+            >
+              <div style={{minHeight: '3em'}}>
+                <div className={s.colorBar} style={{
+                  backgroundColor: _bgColor(g)
+                }}>
+                </div>
+                <div className={s.grainDetail}>
+                  {_formatName(g)}
+                  <div className={s.grainMfg}>
+                    {g.mfg}
+                  </div>
+                  <div className={s.grainGravity}>
+                    {zymath.formatGravity(g.gravity)}
                   </div>
                 </div>
-                <div className="pure-u-14-24">
-                  <span style={{position: 'relative', top: '1.1em', left: '0.2em'}}>
-                    {g.name}
-                  </span>
-                </div>
-                <div className="pure-u-8-24">
-                  <div style={{display: 'inline-block', float: 'right'}}>
-                    <Measurement
-                      measurement={g.weight}
-                      update={w => actions.setWeight(g, w)}
-                      options={MeasurementUnits.GrainWeight}
-                      />
-                  </div>
-                </div>
-                <div className="pure-u-1-24">
-                  <IconButton onTouchTap={() => actions.removeGrain(g)}>
-                    <CloseIcon color={grey500}/>
-                  </IconButton>
+                <div className={s.grainWeight}>
+                  <Measurement
+                    measurement={g.weight}
+                    update={w => actions.setWeight(g, w)}
+                    options={MeasurementUnits.GrainWeightShort}
+                    />
                 </div>
               </div>
             </ListItem>
           ))}
         </List>
-        <FloatingActionButton onTouchTap={this.openSearch} style={{
-          position: 'relative',
-          bottom: '-0.4em',
-          left: '87%'
-        }}>
-          <SearchIcon />
-        </FloatingActionButton>
+        {!this.state.searchOpen &&
+          <FloatingActionButton
+            onTouchTap={this.openSearch}
+            className={s.searchIcon}
+            mini
+          >
+            <AddCircleIcon />
+          </FloatingActionButton>
+        }
       </div>
     );
   }

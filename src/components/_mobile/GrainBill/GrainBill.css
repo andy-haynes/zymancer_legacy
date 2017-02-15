@@ -5,3 +5,63 @@
 .grains {
   padding-right: 0.7em;
 }
+
+.searchIcon {
+  position: fixed;
+  bottom: 0.5em;
+  right: 0.5em;
+}
+
+.grainList {
+  overflow-y: auto;
+  margin-top: 165px;
+}
+
+.colorBar {
+  float: left;
+  margin: 0 0.4em 0 0.1em;
+  width: 4%;
+  height: 3em;
+}
+
+.grainDetail {
+  width: 55%;
+  float: left;
+}
+
+.grainMfg {
+  font-size: 0.6em;
+  color: #aaa;
+  text-transform: uppercase;
+}
+
+.grainGravity {
+  font-size: 0.6em;
+  color: #333;
+}
+
+.grainWeight {
+  width: 35%;
+  float: right;
+  padding-right: 0.5em;
+}
+
+.chart {
+  z-index: 2;
+  background-color: white;
+  position: fixed;
+  left: 27%;
+  max-width: 165px;
+}
+
+@media (min-height:511px) {
+  .grainList {
+    height: 220px;
+  }
+}
+
+@media (min-height:640px) {
+  .grainList {
+    height: 328px;
+  }
+}
