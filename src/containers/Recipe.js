@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import RecipeTabs from '../components/RecipeTabs';
+import RecipeDetails from '../components/_mobile/RecipeDetails';
 import actions from '../actions';
 
 const { recipe: recipeActions } = actions;
@@ -30,3 +31,4 @@ function mapDispatch(dispatch) {
 }
 
 export default connect(mapState, mapDispatch)(RecipeTabs);
+export const MobileRecipeContainer = connect(mapState, mapDispatch)(RecipeDetails);

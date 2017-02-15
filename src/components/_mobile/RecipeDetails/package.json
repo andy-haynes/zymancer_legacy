@@ -1,0 +1,6 @@
+{
+  "name": "RecipeDetails",
+  "version": "0.0.0",
+  "private": true,
+  "main": "./RecipeDetails.js"
+}

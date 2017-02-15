@@ -11,7 +11,7 @@ import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../../Link';
-import { RecipeTab } from '../../../constants/AppConstants';
+import { MobileRecipeTab } from '../../../constants/AppConstants';
 import IconMenu from 'material-ui/IconMenu';
 import MenuItem from 'material-ui/MenuItem';
 import AppBar from 'material-ui/AppBar';
@@ -36,11 +36,12 @@ function Navigation({ authenticated, selectMobileTab }) {
           </IconButton>
         }
       >
-        <MenuItem onTouchTap={() => selectMobileTab(RecipeTab.Grains)}>Grains</MenuItem>
-        <MenuItem onTouchTap={() => selectMobileTab(RecipeTab.Hops)}>Hops</MenuItem>
-        <MenuItem onTouchTap={() => selectMobileTab(RecipeTab.Mash)}>Mash</MenuItem>
-        <MenuItem onTouchTap={() => selectMobileTab(RecipeTab.Fermentation)}>Fermentation</MenuItem>
-        <MenuItem onTouchTap={() => selectMobileTab(RecipeTab.Style)}>Style</MenuItem>
+        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Root)}>Recipe</MenuItem>
+        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Grains)}>Grains</MenuItem>
+        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Hops)}>Hops</MenuItem>
+        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Mash)}>Mash</MenuItem>
+        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Fermentation)}>Fermentation</MenuItem>
+        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Style)}>Style</MenuItem>
         <MenuItem><Link navlink className={s.link} to="/recipes">Recipes</Link></MenuItem>
         <MenuItem>{accountLink}</MenuItem>
       </IconMenu>

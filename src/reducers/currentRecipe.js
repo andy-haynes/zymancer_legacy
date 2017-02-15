@@ -4,7 +4,7 @@ import helpers from '../utils/helpers';
 import parseRecipe from '../utils/parseRecipe';
 import Defaults from '../constants/Defaults';
 import Units from '../constants/Units';
-import { BrewMethod, MashMethod, RecipeTab } from '../constants/AppConstants';
+import { BrewMethod, MashMethod, MobileRecipeTab } from '../constants/AppConstants';
 import grain from './grain';
 import hop from './hop';
 import fermentation from './fermentation';
@@ -31,7 +31,7 @@ const initialState = {
   hops: [],
   mashSchedule: mashSchedule(undefined, {}),
   fermentation: fermentation(undefined, {}),
-  selectedTab: RecipeTab.Grains
+  selectedTab: MobileRecipeTab.Grains
 };
 
 function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, boilVolume) {

@@ -62,7 +62,8 @@ export const RecipeParameter = keyMirror({
   SRM: null
 });
 
-export const RecipeTab = keyMirror({
+export const MobileRecipeTab = keyMirror({
+  Root: null,
   Grains: null,
   Hops: null,
   Mash: null,

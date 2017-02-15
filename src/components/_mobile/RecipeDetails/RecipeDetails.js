@@ -1,6 +1,6 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './RecipeHeader.css';
+import s from './RecipeDetails.css';
 import MeasurementUnits from '../../../constants/MeasurementUnits';
 import Defaults from '../../../constants/Defaults';
 import { BrewMethod } from '../../../constants/AppConstants';
@@ -14,7 +14,7 @@ import MenuItem from 'material-ui/MenuItem';
 import { grey200 } from 'material-ui/styles/colors';
 import BJCPStyles from '../../../constants/BJCPStyles';
 
-const RecipeHeader = ({ recipe, authenticated, actions }) => (
+const RecipeDetails = ({ recipe, authenticated, actions }) => (
   <div className={s.recipeHeader}>
     <div className="pure-g">
       <div className="pure-u-1-1" style={{padding: '0 1em'}}>
@@ -87,4 +87,4 @@ const RecipeHeader = ({ recipe, authenticated, actions }) => (
   </div>
 );
 
-export default withStyles(s)(RecipeHeader);
+export default withStyles(s)(RecipeDetails);

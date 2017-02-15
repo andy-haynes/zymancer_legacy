@@ -7,7 +7,6 @@ import MashScheduleContainer from '../../containers/MashSchedule';
 import FermentationContainer from '../../containers/Fermentation';
 import StyleContainer from '../../containers/Style';
 import RecipeHeader from '../RecipeHeader';
-import MobileRecipeHeader from '../_mobile/RecipeHeader';
 import MobileRecipeTabs from '../_mobile/RecipeTabs';
 import { BrewMethod } from '../../constants/AppConstants';
 import Tabs from 'material-ui/Tabs/Tabs';
@@ -33,7 +32,6 @@ const RecipeTabs = ({ recipe, authenticated, actions, isMobile }) => (
         <StyleContainer />
       </Tab>
     </Tabs>}
-    {isMobile && <MobileRecipeHeader {...{ recipe, authenticated, actions }} />}
     {isMobile && <MobileRecipeTabs {...{ recipe, actions }} />}
   </div>
 );
