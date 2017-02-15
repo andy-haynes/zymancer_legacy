@@ -45,13 +45,6 @@ function Navigation({ authenticated, selectMobileTab }) {
         <MenuItem><Link navlink className={s.link} to="/recipes">Recipes</Link></MenuItem>
         <MenuItem>{accountLink}</MenuItem>
       </IconMenu>
-      {/*
-      <Link navlink className={s.link} to="/">Calculator</Link>
-      <span className={s.spacer}>|</span>
-      <Link navlink className={s.link} to="/recipes">Recipes</Link>
-      <span className={s.spacer}>|</span>
-      {accountLink}
-      */}
     </div>
   );
 }

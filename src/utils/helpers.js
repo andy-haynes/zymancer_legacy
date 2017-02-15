@@ -188,6 +188,27 @@ function createAction(type, ...argNames) {
 }
 //endregion
 
+//region mobile
+function formatIngredientName(name) {
+  const maxLen = 17;
+  if (name.length <= maxLen) {
+    return name;
+  }
+
+  const components = name.split(' ');
+  if (components[0].length > maxLen) {
+    return `${components[0].substring(0, maxLen)}...`;
+  }
+
+  let i = 0;
+  let abb = '';
+  do {
+    abb += components[i++] + ' ';
+  } while (abb.length < maxLen);
+  return `${abb.trim()}...`;
+}
+//endregion
+
 export default {
   convertTemp,
   convertRatio,
@@ -200,5 +221,8 @@ export default {
   monthsSinceDate,
   subtractMonthsFromNow,
   jsonToGraphql,
-  createAction
+  createAction,
+  mobile: {
+    formatIngredientName
+  }
 };

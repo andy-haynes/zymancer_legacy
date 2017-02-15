@@ -30,10 +30,6 @@ const Measurement = ({ measurement, update, options, disabled = false }) => (
 
 /*
 Measurement.propTypes = {
-  onRemove: PropTypes.func.isRequired,
-  name:     PropTypes.string.isRequired,
-  gravity:  PropTypes.number.isRequired,
-  color:    PropTypes.string.isRequired
 };
 */
 export default withStyles(s)(Measurement);

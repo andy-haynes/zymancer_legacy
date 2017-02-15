@@ -20,7 +20,7 @@ class HopChart extends React.Component {
 
   render() {
     return (
-      <div className={s.hopChart} >
+      <div className={s.hopChart}>
         <Radar
           data={this.props.data}
           options={this.props.options}

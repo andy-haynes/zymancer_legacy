@@ -1,5 +1,6 @@
 .ingredientSearch {
   position: fixed;
+  width: 100%;
 }
 
 .searchInput {
@@ -7,9 +8,17 @@
 }
 
 .searchResults {
-  min-height: 5em;
-  max-height: 40em;
-  height: 100%;
-  width: 100%;
   overflow-y: auto;
+}
+
+@media (min-height:511px) {
+  .searchResults {
+    height: 425px;
+  }
+}
+
+@media (min-height:640px) {
+  .searchResults {
+    height: 535px;
+  }
 }

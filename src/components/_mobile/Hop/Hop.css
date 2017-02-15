@@ -1,0 +1,25 @@
+.hop {
+  min-height: 3em;
+}
+
+.hopDetail {
+  width: 55%;
+  float: left;
+}
+
+.categories {
+  font-size: 0.6em;
+  color: #aaa;
+  text-transform: uppercase;
+}
+
+.alpha {
+  font-size: 0.6em;
+  color: #333;
+}
+
+.hopWeight {
+  width: 35%;
+  float: right;
+  padding-right: 0.5em;
+}

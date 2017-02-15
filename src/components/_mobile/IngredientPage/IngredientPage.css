@@ -1,0 +1,28 @@
+.ingredients {
+  padding: 1px 0.7em;
+}
+
+.chart {
+  z-index: 2;
+  background-color: white;
+  position: fixed;
+  left: 23%;
+  max-width: 190px;
+}
+
+.ingredientList {
+  overflow-y: auto;
+  margin-top: 190px;
+}
+
+@media (min-height:511px) {
+  .ingredientList {
+    height: 220px;
+  }
+}
+
+@media (min-height:640px) {
+  .ingredientList {
+    height: 328px;
+  }
+}

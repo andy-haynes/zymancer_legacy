@@ -1,0 +1,9 @@
+.searchDrawer {
+  padding: 1em 0.7em;
+}
+
+.addIcon {
+  position: fixed;
+  bottom: 0.5em;
+  right: 0.5em;
+}

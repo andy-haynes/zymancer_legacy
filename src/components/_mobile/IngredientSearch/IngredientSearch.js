@@ -12,8 +12,8 @@ const IngredientSearch = ({ query, cache, loading, error, children, header, filt
       value={query}
       onChange={e => filter(e.target.value, cache)}
       style={{
-        width: '70%',
-        marginLeft: '10%'
+        width: '75%',
+        marginLeft: '15%'
       }}
       autoFocus
     />
