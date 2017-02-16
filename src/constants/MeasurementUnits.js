@@ -43,6 +43,7 @@ const _shortOptions = _getOptions(_shortAbbreviations);
 
 export default {
   HopAdditionWeight: _options(Units.Ounce, Units.Gram, Units.Pound, Units.Kilogram),
+  HopWeightShort: _shortOptions(Units.Ounce, Units.Gram, Units.Pound, Units.Kilogram),
   RecipeVolume: _options(Units.Gallon, Units.Liter, Units.Quart),
   GrainWeight: _options(Units.Pound, Units.Ounce, Units.Kilogram, Units.Gram),
   GrainWeightShort: _shortOptions(Units.Pound, Units.Ounce, Units.Kilogram, Units.Gram),

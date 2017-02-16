@@ -6,11 +6,11 @@ import IngredientPage from '../IngredientPage';
 import Search from '../../../containers/IngredientSearch';
 import HopChart from '../../../containers/HopChart';
 
-const HopSchedule = ({ hops, actions }) => (
+const HopSchedule = ({ hops, boilMinutes, actions }) => (
   <IngredientPage
     chart={hops.length ? <HopChart diameter='190px' /> : ''}
     ingredients={hops.map(hop => (
-      <Hop {...{ hop, actions, ingredient: hop }} />
+      <Hop {...{ hop, boilMinutes, actions, ingredient: hop }} />
     ))}
     search={Search.MobileHopSearch}
     removeIngredient={actions.removeHop}

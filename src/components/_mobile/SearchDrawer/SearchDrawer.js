@@ -24,7 +24,7 @@ class SearchDrawer extends React.Component {
         <Drawer open={this.state.drawerOpen} width={280}>
           <IconButton
             onTouchTap={this.closeDrawer}
-            style={{position: 'fixed'}}
+            style={{position: 'fixed', zIndex: 2}}
           >
             <CloseIcon />
           </IconButton>

@@ -6,7 +6,7 @@ import zymath from '../../../utils/zymath';
 import Units from '../../../constants/Units';
 import { List, ListItem } from 'material-ui/List';
 
-const HopSearch = ({ search, actions, dismiss }) => (
+const HopSearch = ({ search, boilMinutes, actions, dismiss }) => (
   <IngredientSearch
     {...search}
     filter={actions.createFilter(search.cache)}
@@ -20,7 +20,7 @@ const HopSearch = ({ search, actions, dismiss }) => (
             height: '3.5em'
           }}
           onTouchTap={() => {
-            actions.addIngredient(hop);
+            actions.addIngredient(hop, boilMinutes);
             dismiss && dismiss();
           }}
         >

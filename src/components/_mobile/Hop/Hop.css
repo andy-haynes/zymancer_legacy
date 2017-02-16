@@ -2,12 +2,19 @@
   min-height: 3em;
 }
 
+.hopName {
+  position: relative;
+  top: 0.3em;
+  margin-right: 0.1em;
+}
+
 .hopDetail {
   width: 55%;
-  float: left;
+  margin-bottom: -15%;
 }
 
 .categories {
+  margin-top: -8%;
   font-size: 0.6em;
   color: #aaa;
   text-transform: uppercase;
@@ -22,4 +29,8 @@
   width: 35%;
   float: right;
   padding-right: 0.5em;
+}
+
+.hopAdditions {
+  margin-bottom: 15%;
 }

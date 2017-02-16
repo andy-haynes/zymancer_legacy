@@ -17,6 +17,7 @@ const IngredientPage = ({ chart, ingredients, search, removeIngredient }) => (
         {ingredients.map((ingredient, i) => (
           <ListItem
             key={i}
+            disabled
             innerDivStyle={{padding: '0.8em 0.4em 0.8em 0.1em'}}
             rightIcon={
               <IconButton onTouchTap={() => removeIngredient(ingredient.props.ingredient)}>
