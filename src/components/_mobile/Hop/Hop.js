@@ -39,12 +39,14 @@ const Hop = ({ hop, boilMinutes, actions }) => (
       <List>
         {hop.additions.map((addition, i) => (
           <ListItem key={i} innerDivStyle={{marginBottom: '-10%'}}>
-            <SliderInput
-              value={addition.minutes}
-              min={0}
-              max={boilMinutes}
-              update={m => actions.setAdditionTime(addition, hop, m)}
-            />
+            {(addition.type === HopAdditionType.Boil &&
+              <SliderInput
+                value={addition.minutes}
+                min={0}
+                max={boilMinutes}
+                update={m => actions.setAdditionTime(addition, hop, m)}
+              />
+            )}
             <div style={{marginTop: '-15%'}}>
               <div style={{float: 'left', display: 'inline-block'}}>
                 <Measurement

@@ -4,25 +4,24 @@
 
 .chart {
   z-index: 2;
-  background-color: white;
-  position: fixed;
-  left: 23%;
-  max-width: 190px;
+  padding-left: 28%;
+  min-height: 140px;
+  max-width: 140px;
+  margin-top: -10%;
 }
 
 .ingredientList {
   overflow-y: auto;
-  margin-top: 190px;
 }
 
 @media (min-height:511px) {
   .ingredientList {
-    height: 220px;
+    height: 211px;
   }
 }
 
 @media (min-height:640px) {
   .ingredientList {
-    height: 328px;
+    height: 340px;
   }
 }

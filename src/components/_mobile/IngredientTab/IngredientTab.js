@@ -1,14 +1,14 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './IngredientPage.css';
+import s from './IngredientTab.css';
 import SearchDrawer from '../SearchDrawer';
 import { List, ListItem } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import { grey500 } from 'material-ui/styles/colors';
 
-const IngredientPage = ({ chart, ingredients, search, removeIngredient }) => (
-  <SearchDrawer search={search}>
+const IngredientTab = ({ chart, ingredients, search, removeIngredient }) => (
+  <SearchDrawer {...{ search }}>
     <div className={s.ingredients}>
       <div className={s.chart}>
         {chart}
@@ -33,7 +33,7 @@ const IngredientPage = ({ chart, ingredients, search, removeIngredient }) => (
   </SearchDrawer>
 );
 /*
-IngredientPage.propTypes = {
+IngredientTab.propTypes = {
 };
 */
-export default withStyles(s)(IngredientPage);
+export default withStyles(s)(IngredientTab);

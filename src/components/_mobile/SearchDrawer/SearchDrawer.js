@@ -24,22 +24,27 @@ class SearchDrawer extends React.Component {
         <Drawer open={this.state.drawerOpen} width={280}>
           <IconButton
             onTouchTap={this.closeDrawer}
-            style={{position: 'fixed', zIndex: 2}}
+            style={{
+              zIndex: 2,
+              position: 'absolute',
+              top: '1em',
+              left: '1em'
+            }}
           >
             <CloseIcon />
           </IconButton>
-          {React.createElement(this.props.search, { dismiss: this.closeDrawer })}
+          {React.createElement(this.props.search, {
+            dismiss: this.closeDrawer
+          })}
         </Drawer>
+        <FloatingActionButton
+          onTouchTap={this.openDrawer}
+          className={s.addIcon}
+          mini
+        >
+          <AddCircleIcon />
+        </FloatingActionButton>
         {this.props.children}
-        {!this.state.drawerOpen &&
-          <FloatingActionButton
-            onTouchTap={this.openDrawer}
-            className={s.addIcon}
-            mini
-          >
-            <AddCircleIcon />
-          </FloatingActionButton>
-        }
       </div>
     );
   }
