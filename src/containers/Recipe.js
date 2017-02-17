@@ -25,7 +25,8 @@ function mapDispatch(dispatch) {
       setBoilTime: (minutes) => dispatch(recipeActions.setBoilTime(parseInt(minutes))),
       setEfficiency: (efficiency) => dispatch(recipeActions.setEfficiency(parseFloat(efficiency))),
       clearRecipe: () => dispatch(recipeActions.clearRecipe()),
-      parseRecipeText: (recipeText) => dispatch(recipeActions.parseRecipeText(recipeText))
+      parseRecipeText: (recipeText) => dispatch(recipeActions.parseRecipeText(recipeText)),
+      setMobileTab: (tab) => dispatch(recipeActions.selectMobileTab(tab))
     }
   };
 }

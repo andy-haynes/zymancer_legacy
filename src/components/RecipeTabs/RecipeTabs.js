@@ -1,13 +1,13 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './RecipeTabs.css';
+import MobileTabsContainer from '../../containers/MobileTabs';
 import GrainBillContainer from '../../containers/GrainBill';
 import HopScheduleContainer from '../../containers/HopSchedule';
 import MashScheduleContainer from '../../containers/MashSchedule';
 import FermentationContainer from '../../containers/Fermentation';
 import StyleContainer from '../../containers/Style';
 import RecipeHeader from '../RecipeHeader';
-import MobileRecipeTabs from '../_mobile/RecipeTabs';
 import { BrewMethod } from '../../constants/AppConstants';
 import Tabs from 'material-ui/Tabs/Tabs';
 import Tab from 'material-ui/Tabs/Tab';
@@ -32,7 +32,7 @@ const RecipeTabs = ({ recipe, authenticated, actions, isMobile }) => (
         <StyleContainer />
       </Tab>
     </Tabs>}
-    {isMobile && <MobileRecipeTabs {...{ recipe, actions }} />}
+    {isMobile && <MobileTabsContainer />}
   </div>
 );
 

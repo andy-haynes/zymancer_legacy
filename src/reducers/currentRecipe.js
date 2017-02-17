@@ -31,7 +31,7 @@ const initialState = {
   hops: [],
   mashSchedule: mashSchedule(undefined, {}),
   fermentation: fermentation(undefined, {}),
-  selectedTab: MobileRecipeTab.Grains
+  mobileTab: MobileRecipeTab.Root
 };
 
 function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, boilVolume) {
@@ -171,7 +171,7 @@ const currentRecipe = (state = initialState, action) => {
       return updateRecipe({ fermentation: fermentation(state.fermentation, action) });
     case RecipeActions.SelectMobileTab:
       return Object.assign({}, state, {
-        selectedTab: action.tab
+        mobileTab: action.tab
       });
     default:
       // randomize the style on load
