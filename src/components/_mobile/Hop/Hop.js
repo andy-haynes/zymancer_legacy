@@ -39,16 +39,8 @@ const Hop = ({ hop, boilMinutes, actions }) => (
       <List>
         {hop.additions.map((addition, i) => (
           <ListItem key={i} innerDivStyle={{marginBottom: '-10%'}}>
-            {(addition.type === HopAdditionType.Boil &&
-              <SliderInput
-                value={addition.minutes}
-                min={0}
-                max={boilMinutes}
-                update={m => actions.setAdditionTime(addition, hop, m)}
-              />
-            )}
-            <div style={{marginTop: '-15%'}}>
-              <div style={{float: 'left', display: 'inline-block'}}>
+            <div style={{marginTop: '5%'}}>
+              <div style={{display: 'inline-block', marginRight: '18%'}}>
                 <Measurement
                   measurement={addition.weight}
                   update={w => actions.setWeight(addition, w)}
@@ -58,7 +50,7 @@ const Hop = ({ hop, boilMinutes, actions }) => (
               <SelectField
                 value={addition.type}
                 onChange={(e, i, v) => actions.setAdditionType(addition, hop, v)}
-                style={{width: '7.5em', float: 'right'}}
+                style={{width: '7.5em'}}
               >
                 <MenuItem primaryText='First Wort' value={HopAdditionType.FirstWort} />
                 <MenuItem primaryText='Hop Back' value={HopAdditionType.HopBack} />
@@ -67,6 +59,16 @@ const Hop = ({ hop, boilMinutes, actions }) => (
                 <MenuItem primaryText='Dry Hop' value={HopAdditionType.Dry} />
               </SelectField>
             </div>
+            {(addition.type === HopAdditionType.Boil &&
+              <div style={{marginBottom: '-2em', marginTop: '-1em'}}>
+                <SliderInput
+                  value={addition.minutes}
+                  min={0}
+                  max={boilMinutes}
+                  update={m => actions.setAdditionTime(addition, hop, m)}
+                />
+              </div>
+            )}
           </ListItem>
         ))}
       </List>
