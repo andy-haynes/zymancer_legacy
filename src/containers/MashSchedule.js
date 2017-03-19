@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import actions from '../actions';
 import MashSchedule from '../components/MashSchedule'
+import MobileMashSchedule from '../components/_mobile/MashSchedule'
 import pick from 'lodash/pick';
 
 const { recipe } = actions;
@@ -24,3 +25,4 @@ function mapDispatch(dispatch) {
 }
 
 export default connect(mapState, mapDispatch)(MashSchedule);
+export const MobileMashContainer = connect(mapState, mapDispatch)(MobileMashSchedule);

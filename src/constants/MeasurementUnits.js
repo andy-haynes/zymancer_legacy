@@ -45,9 +45,13 @@ export default {
   HopAdditionWeight: _options(Units.Ounce, Units.Gram, Units.Pound, Units.Kilogram),
   HopWeightShort: _shortOptions(Units.Ounce, Units.Gram, Units.Pound, Units.Kilogram),
   RecipeVolume: _options(Units.Gallon, Units.Liter, Units.Quart),
+  RecipeVolumeShort: _shortOptions(Units.Gallon, Units.Liter, Units.Quart),
   GrainWeight: _options(Units.Pound, Units.Ounce, Units.Kilogram, Units.Gram),
   GrainWeightShort: _shortOptions(Units.Pound, Units.Ounce, Units.Kilogram, Units.Gram),
   MashWeight: _options(Units.Pound, Units.Kilogram),
+  MashWeightShort: _shortOptions(Units.Pound, Units.Kilogram),
   BoilOffTime: _options(Units.Hour),
-  TemperatureOptions: _options(Units.Fahrenheit, Units.Celsius)
+  BoilOffTimeShort: _shortOptions(Units.Hour),
+  TemperatureOptions: _options(Units.Fahrenheit, Units.Celsius),
+  TemperatureOptionsShort: _shortOptions(Units.Fahrenheit, Units.Celsius)
 }

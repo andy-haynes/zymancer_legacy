@@ -4,7 +4,7 @@ import s from './RecipeTabs.css';
 import { MobileRecipeContainer, MobileRecipeHeader } from '../../../containers/Recipe';
 import { MobileGrainContainer } from '../../../containers/GrainBill';
 import { MobileHopContainer } from '../../../containers/HopSchedule';
-//import { MobileMashContainer } from '../../../containers/MashSchedule';
+import { MobileMashContainer } from '../../../containers/MashSchedule';
 //import { MobileFermentationContainer } from '../../../containers/Fermentation';
 import { MobileStyleContainer } from '../../../containers/Style';
 import { BrewMethod, MobileRecipeTab } from '../../../constants/AppConstants';
@@ -33,6 +33,7 @@ const RecipeTabs = ({ activeTab, actions }) => {
           <MobileHopContainer />
         </Tab>
         <Tab icon={<MashIcon />} value={MobileRecipeTab.Mash}>
+          <MobileMashContainer />
         </Tab>
         <Tab icon={<FermentationIcon />} value={MobileRecipeTab.Fermentation}>
         </Tab>

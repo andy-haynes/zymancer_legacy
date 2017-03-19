@@ -5,8 +5,8 @@ import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
 import s from './Measurement.css';
 
-const Measurement = ({ measurement, update, options, disabled = false }) => (
-  <div className={s.measurement}>
+const Measurement = ({ measurement, update, options, style = {}, disabled = false }) => (
+  <div className={s.measurement} style={style}>
     <TextField
       name="measurement-value"
       className={s.measurementValue}
