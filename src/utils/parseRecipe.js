@@ -12,7 +12,7 @@ const _weightOptions = 'lbs|lb|pound|pounds|ounce|ounces|oz|kg|gram|g\\s|g$';
 const _volumeOptions = 'tsp|tbsp|liter|l\\s|l$|quart|qt|gallons|gallon|gal|us gallons|us gallon|us gal';
 const _unitMarker = '___unit___';
 
-const _decimalTemplate = '\\d+.?\\d*';
+const _decimalTemplate = '\\d+\\.?\\d*';
 const _charTemplate = 'a-z®äöüß\\-\'"/°.';
 const _alphaNumericTemplate = `0-9${_charTemplate}`;
 const _namedQtyTemplate = `((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})\\s*(?:(?:${_decimalTemplate})\\s*(?:${_unitMarker}))?)[.]?(?: \\((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})[.]?\\))?[\\s|\\-]{1,5}([ ${_alphaNumericTemplate}]+[${_alphaNumericTemplate}])`;
