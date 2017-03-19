@@ -6,7 +6,7 @@ import { MobileGrainContainer } from '../../../containers/GrainBill';
 import { MobileHopContainer } from '../../../containers/HopSchedule';
 //import { MobileMashContainer } from '../../../containers/MashSchedule';
 //import { MobileFermentationContainer } from '../../../containers/Fermentation';
-//import { MobileStyleContainer } from '../../../containers/Style';
+import { MobileStyleContainer } from '../../../containers/Style';
 import { BrewMethod, MobileRecipeTab } from '../../../constants/AppConstants';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import RecipeIcon from 'material-ui/svg-icons/av/featured-play-list';
@@ -37,6 +37,7 @@ const RecipeTabs = ({ activeTab, actions }) => {
         <Tab icon={<FermentationIcon />} value={MobileRecipeTab.Fermentation}>
         </Tab>
         <Tab icon={<StyleIcon />} value={MobileRecipeTab.Style}>
+          <MobileStyleContainer />
         </Tab>
       </Tabs>
       <MobileRecipeHeader />
