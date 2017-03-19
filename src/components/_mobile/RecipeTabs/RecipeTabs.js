@@ -1,7 +1,7 @@
 import React from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './RecipeTabs.css';
-import { MobileRecipeContainer } from '../../../containers/Recipe';
+import { MobileRecipeContainer, MobileRecipeHeader } from '../../../containers/Recipe';
 import { MobileGrainContainer } from '../../../containers/GrainBill';
 import { MobileHopContainer } from '../../../containers/HopSchedule';
 //import { MobileMashContainer } from '../../../containers/MashSchedule';
@@ -39,8 +39,9 @@ const RecipeTabs = ({ activeTab, actions }) => {
         <Tab icon={<StyleIcon />} value={MobileRecipeTab.Style}>
         </Tab>
       </Tabs>
+      <MobileRecipeHeader />
     </div>
   );
-}
+};
 
 export default withStyles(s)(RecipeTabs);

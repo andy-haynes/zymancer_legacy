@@ -16,7 +16,7 @@ import BJCPStyles from '../../../constants/BJCPStyles';
 
 const RecipeDetails = ({ recipe, authenticated, actions }) => (
   <div className={s.recipeHeader}>
-    <div className="pure-g">
+    <div className="pure-g" style={{paddingTop: '2%'}}>
       <div className="pure-u-1-1" style={{padding: '0 1em'}}>
         <TextField
           id="recipe-name"
@@ -40,46 +40,26 @@ const RecipeDetails = ({ recipe, authenticated, actions }) => (
         </SelectField>
       </div>
       <div>
-        <div className="pure-g">
-          <div className="pure-u-1-4">
-            <div className={s.calculatedParam}>
-              <div className={s.headerLabel}>
-                OG
-              </div>
-              <div className={s.calculatedValue}>
-                {zymath.formatGravity(recipe.originalGravity)}
-              </div>
+        <div className="pure-g" style={{padding: '2% 0 0 12%'}}>
+          <div className="pure-u-1-2">
+            <div className={s.headerLabel}>
+              Target
             </div>
+            <Measurement
+              measurement={recipe.targetVolume}
+              update={actions.setTargetVolume}
+              options={MeasurementUnits.RecipeVolume}
+            />
           </div>
-          <div className="pure-u-1-4">
-            <div className={s.calculatedParam}>
-              <div className={s.headerLabel}>
-                FG
-              </div>
-              <div className={s.calculatedValue}>
-                {zymath.formatGravity(recipe.finalGravity)}
-              </div>
+          <div className="pure-u-1-2">
+            <div className={s.headerLabel}>
+              Boil
             </div>
-          </div>
-          <div className="pure-u-1-4">
-            <div className={s.calculatedParam} style={{marginLeft: '3em'}}>
-              <div className={s.headerLabel}>
-                IBU
-              </div>
-              <div className={s.calculatedValue}>
-                {round(recipe.IBU, 1)}
-              </div>
-            </div>
-          </div>
-          <div className="pure-u-1-4">
-            <div className={s.calculatedParam}>
-              <div className={s.headerLabel}>
-                ABV
-              </div>
-              <div className={s.calculatedValue}>
-                {recipe.ABV}%
-              </div>
-            </div>
+            <Measurement
+              measurement={recipe.boilVolume}
+              update={actions.setBoilVolume}
+              options={MeasurementUnits.RecipeVolume}
+            />
           </div>
         </div>
       </div>

@@ -16,12 +16,12 @@
 
 @media (min-height:511px) {
   .ingredientList {
-    height: 211px;
+    height: 175px;
   }
 }
 
 @media (min-height:640px) {
   .ingredientList {
-    height: 340px;
+    height: 285px;
   }
 }
