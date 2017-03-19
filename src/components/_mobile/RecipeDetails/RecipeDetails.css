@@ -3,6 +3,11 @@
 .recipeHeader {
   max-width: var(--max-content-width);
   margin: 0 auto;
+  overflow: auto;
+}
+
+.recipeDetail {
+  float: left;
 }
 
 .headerLabel {
@@ -52,16 +57,23 @@ svg {
 }
 
 .beerColor {
-  width: 80%;
-  height: 80%;
-  margin-top: 15%;
-}
-
-.inputBlock {
-  float: left;
-  margin-left: 1em;
+  width: 5.2em;
+  height: 1.6em;
+  margin-top: 0.8em;
 }
 
 .inputBlock:first-child {
   padding-left: 1em;
+}
+
+@media (min-height:511px) {
+  .recipeHeader {
+    max-height: 350px;
+  }
+}
+
+@media (min-height:640px) {
+  .recipeHeader {
+    max-height: 480px;
+  }
 }
