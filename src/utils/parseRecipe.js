@@ -204,9 +204,10 @@ function parseLine(line) {
   return null;
 }
 
+const _rxNumeric = /\d+\.?\d*/g;
 function extractNumeric(str) {
   if (str) {
-    return ((m) => m && parseFloat(m[0]))(str.match(/\d+(?:[.\d]{2,})?/));
+    return ((m) => m && parseFloat(m[0]))(str.match(_rxNumeric));
   }
 
   return null;
@@ -217,8 +218,8 @@ function parseQuantity(qty) {
     const quantities = [];
     let quantity = {};
 
-    const components = qty.split(/\s+/g);
-    components.forEach(q => {
+    // split components to allow for compound units (e.g. 11 lbs, 4 oz)
+    qty.split(/\s+/g).forEach(q => {
       const value = extractNumeric(q);
       if (value !== null) {
         if (!quantity.value) {
@@ -227,7 +228,11 @@ function parseQuantity(qty) {
           quantities.push(quantity);
           quantity = { value };
         }
-      } else {
+      }
+
+      // check text regardless of whether it contained a
+      // numeric value to handle spaceless values (e.g. 7oz)
+      if (q.replace(_rxNumeric, '').trim()) {
         const unit = ((u) => _unitMapping[u] || null)(q.replace(/[\W\d]+/i, '').toLowerCase().trim());
         if (unit !== null) {
           if (!quantity.unit) {
