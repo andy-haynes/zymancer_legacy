@@ -43,7 +43,7 @@ const Hop = ({ hop, boilMinutes, actions }) => (
               <div style={{display: 'inline-block', marginRight: '18%'}}>
                 <Measurement
                   measurement={addition.weight}
-                  update={w => actions.setWeight(addition, w)}
+                  update={w => actions.setAdditionWeight(addition, hop, w)}
                   options={MeasurementUnits.HopWeightShort}
                 />
               </div>
