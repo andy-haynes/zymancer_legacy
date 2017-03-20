@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 import actions from '../actions';
 import Fermentation from '../components/Fermentation';
+import MobileFermentation from '../components/_mobile/Fermentation';
 import pick from 'lodash/pick';
 
 const { recipe } = actions;
@@ -25,3 +26,4 @@ function mapDispatch(dispatch) {
 }
 
 export default connect(mapState, mapDispatch)(Fermentation);
+export const MobileFermentationContainer = connect(mapState, mapDispatch)(MobileFermentation);

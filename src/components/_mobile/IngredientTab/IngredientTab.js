@@ -7,12 +7,14 @@ import IconButton from 'material-ui/IconButton';
 import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import { grey500 } from 'material-ui/styles/colors';
 
-const IngredientTab = ({ chart, ingredients, search, removeIngredient }) => (
+const IngredientTab = ({ chart, detail, ingredients, search, removeIngredient }) => (
   <SearchDrawer {...{ search }}>
     <div className={s.ingredients}>
-      <div className={s.chart}>
-        {chart}
-      </div>
+      {chart && (
+        <div className={s.chart}>
+          {chart}
+        </div>
+      )}
       <List className={s.ingredientList}>
         {ingredients.map((ingredient, i) => (
           <ListItem
@@ -29,6 +31,11 @@ const IngredientTab = ({ chart, ingredients, search, removeIngredient }) => (
           </ListItem>
         ))}
       </List>
+      {detail && (
+        <div className={s.detail}>
+          {detail}
+        </div>
+      )}
     </div>
   </SearchDrawer>
 );

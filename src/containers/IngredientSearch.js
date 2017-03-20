@@ -5,6 +5,7 @@ import MobileGrainSearch from '../components/_mobile/GrainSearch';
 import HopSearch from '../components/HopSearch';
 import MobileHopSearch from '../components/_mobile/HopSearch';
 import YeastSearch from '../components/YeastSearch';
+import MobileYeastSearch from '../components/_mobile/YeastSearch';
 import { IngredientType } from '../constants/AppConstants';
 import pick from 'lodash/pick';
 
@@ -58,5 +59,5 @@ export default {
   HopSearch: createSearchContainer(HopSearch, IngredientType.Hop, (state) => pick(state.currentRecipe, 'boilMinutes')),
   MobileHopSearch: createSearchContainer(MobileHopSearch, IngredientType.Hop, (state) => pick(state.currentRecipe, 'boilMinutes')),
   YeastSearch: createSearchContainer(YeastSearch, IngredientType.Yeast),
-  //MobileYeastSearch: createSearchContainer(MobileYeastSearch, IngredientType.Yeast)
+  MobileYeastSearch: createSearchContainer(MobileYeastSearch, IngredientType.Yeast)
 };

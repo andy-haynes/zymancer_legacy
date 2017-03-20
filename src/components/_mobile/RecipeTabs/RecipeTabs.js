@@ -5,7 +5,7 @@ import { MobileRecipeContainer, MobileRecipeHeader } from '../../../containers/R
 import { MobileGrainContainer } from '../../../containers/GrainBill';
 import { MobileHopContainer } from '../../../containers/HopSchedule';
 import { MobileMashContainer } from '../../../containers/MashSchedule';
-//import { MobileFermentationContainer } from '../../../containers/Fermentation';
+import { MobileFermentationContainer } from '../../../containers/Fermentation';
 import { MobileStyleContainer } from '../../../containers/Style';
 import { BrewMethod, MobileRecipeTab } from '../../../constants/AppConstants';
 import { Tabs, Tab } from 'material-ui/Tabs';
@@ -41,6 +41,7 @@ const RecipeTabs = ({ activeTab, actions }) => {
           <MobileStyleContainer />
         </Tab>
       </Tabs>
+            <MobileFermentationContainer />
       <MobileRecipeHeader />
     </div>
   );

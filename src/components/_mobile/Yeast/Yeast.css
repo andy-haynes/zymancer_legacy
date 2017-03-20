@@ -1,0 +1,46 @@
+.yeast {
+  padding: 8px 12px 0 12px;
+  margin-top: 8px;
+}
+
+.yeastName {
+  font-size: 24px;
+  font-weight: 400;
+}
+
+.yeastMfg a {
+  text-transform: uppercase;
+  font-size: 14px;
+  color: #0277BD;
+  padding-left: 12px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.yeastLabel {
+  font-size: 0.6em;
+  color: #777;
+  text-transform: uppercase;
+  margin-bottom: -1em;
+}
+
+.yeastValue {
+  padding-top: 1em;
+}
+
+.yeastDescription {
+  font-size: 12px;
+  padding: 0.7em 0.3em;
+}
+
+.yeastStyles {
+  padding: 0 0.5em;
+  font-size: 0.75em;
+  color: #004666;
+  font-weight: 500;
+}
+
+.expandable {
+  margin-bottom: 0.5em;
+  padding: 0.5em 0;
+}
