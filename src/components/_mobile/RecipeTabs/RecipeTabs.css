@@ -1,2 +1,18 @@
 .recipeTabs {
 }
+
+.tabs {
+  /*overflow: auto;*/
+}
+
+@media (min-height:511px) {
+  .tabs {
+    height: 404px;
+  }
+}
+
+@media (min-height:640px) {
+  .tabs {
+    height: 533px;
+  }
+}

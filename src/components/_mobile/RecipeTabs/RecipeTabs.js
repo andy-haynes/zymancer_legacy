@@ -19,29 +19,31 @@ import StyleIcon from 'material-ui/svg-icons/image/style';
 const RecipeTabs = ({ activeTab, actions }) => {
   return (
     <div className={s.recipeTabs}>
-      <Tabs
-        onChange={(tab) => actions.setMobileTab()}
-        value={activeTab}
-      >
-        <Tab icon={<RecipeIcon />} value={MobileRecipeTab.Root}>
-          <MobileRecipeContainer />
-        </Tab>
-        <Tab icon={<GrainIcon />} value={MobileRecipeTab.Grains}>
-          <MobileGrainContainer />
-        </Tab>
-        <Tab icon={<HopIcon />} value={MobileRecipeTab.Hops}>
-          <MobileHopContainer />
-        </Tab>
-        <Tab icon={<MashIcon />} value={MobileRecipeTab.Mash}>
-          <MobileMashContainer />
-        </Tab>
-        <Tab icon={<FermentationIcon />} value={MobileRecipeTab.Fermentation}>
-        </Tab>
-        <Tab icon={<StyleIcon />} value={MobileRecipeTab.Style}>
-          <MobileStyleContainer />
-        </Tab>
-      </Tabs>
+      <div className={s.tabs}>
+        <Tabs
+          onChange={(tab) => actions.setMobileTab()}
+          value={activeTab}
+        >
+          <Tab icon={<RecipeIcon />} value={MobileRecipeTab.Root}>
+            <MobileRecipeContainer />
+          </Tab>
+          <Tab icon={<GrainIcon />} value={MobileRecipeTab.Grains}>
+            <MobileGrainContainer />
+          </Tab>
+          <Tab icon={<HopIcon />} value={MobileRecipeTab.Hops}>
+            <MobileHopContainer />
+          </Tab>
+          <Tab icon={<MashIcon />} value={MobileRecipeTab.Mash}>
+            <MobileMashContainer />
+          </Tab>
+          <Tab icon={<FermentationIcon />} value={MobileRecipeTab.Fermentation}>
             <MobileFermentationContainer />
+          </Tab>
+          <Tab icon={<StyleIcon />} value={MobileRecipeTab.Style}>
+            <MobileStyleContainer />
+          </Tab>
+        </Tabs>
+      </div>
       <MobileRecipeHeader />
     </div>
   );

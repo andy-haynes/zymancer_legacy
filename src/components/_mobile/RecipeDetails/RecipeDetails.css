@@ -1,9 +1,6 @@
 @import '../../variables.css';
 
 .recipeHeader {
-  max-width: var(--max-content-width);
-  margin: 0 auto;
-  overflow: auto;
 }
 
 .recipeDetail {
@@ -68,12 +65,13 @@ svg {
 
 @media (min-height:511px) {
   .recipeHeader {
-    max-height: 350px;
+    height: 350px;
   }
 }
 
 @media (min-height:640px) {
   .recipeHeader {
+    height: 480px;
     max-height: 480px;
   }
 }
