@@ -2,8 +2,6 @@ import { connect } from 'react-redux';
 import RecipeParser from '../components/RecipeParser';
 import actions from '../actions';
 
-const { recipe: recipeActions } = actions;
-
 function mapState(state) {
   return {
     parser: state.recipeParser,
@@ -14,8 +12,9 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   return {
     actions: {
-      updateRecipeText: (recipeText) => dispatch(recipeActions.updateRecipeText(recipeText)),
-      parseRecipeText: (recipeText, searchCache) => dispatch(recipeActions.parseRecipeText(recipeText, searchCache))
+      loadParsedRecipe: (recipe) => dispatch(actions.saved.loadSavedRecipe(recipe)),
+      updateRecipeText: (recipeText) => dispatch(actions.parser.updateRecipeText(recipeText)),
+      parseRecipeText: (recipeText, searchCache) => dispatch(actions.parser.parseRecipeText(recipeText, searchCache))
     }
   };
 }

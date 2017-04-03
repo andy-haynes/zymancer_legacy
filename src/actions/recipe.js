@@ -18,21 +18,6 @@ function loadRecipeStyle(styleId) {
   }
 }
 
-function parseRecipeText(recipeText, searchCache) {
-  const parsed = parseText(recipeText);
-  return async (dispatch) => {
-    if (parsed !== null) {
-      const recipe = await buildParsedRecipe(parsed, searchCache);
-      if (recipe) {
-        return dispatch(actions.saved.loadSavedRecipe(recipe));
-      }
-    }
-
-    // todo: display error
-    return dispatch(actions.recipe.clearRecipe());
-  };
-}
-
 export default {
   /***************************** grains ***************************/
   addGrain: helpers.createAction(RecipeActions.AddGrain, 'grain'),
@@ -74,7 +59,6 @@ export default {
   setEfficiency: helpers.createAction(RecipeActions.SetEfficiency, 'efficiency'),
   recipeSaved: helpers.createAction(RecipeActions.RecipeSaved),
   clearRecipe: helpers.createAction(RecipeActions.ClearRecipe),
-  updateRecipeText: helpers.createAction(RecipeActions.UpdateRecipeText, 'recipeText'),
 
   /************************* fermentation *************************/
   addYeast: helpers.createAction(RecipeActions.AddYeast, 'yeast'),
@@ -92,6 +76,5 @@ export default {
 
   // async
   saveCurrentRecipe,
-  loadRecipeStyle,
-  parseRecipeText
+  loadRecipeStyle
 };

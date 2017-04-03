@@ -55,6 +55,7 @@ const MeasurementPrecision = {
 const SelectedRoute = {
   '/': ['', 'recipe'],
   '/recipes': ['recipes'],
+  '/parser': ['parser'],
   '/account': ['account'],
   '/equipment': ['equipment'],
   '/login': ['login'],

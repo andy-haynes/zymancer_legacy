@@ -13,6 +13,9 @@ const recipeParser = (state = initialState, action) => {
         text: action.recipeText
       });
     case RecipeActions.ParseRecipeText:
+      return Object.assign({}, state, {
+        recipe: action.recipe
+      });
     default:
       return state;
   }

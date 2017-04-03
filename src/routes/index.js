@@ -19,6 +19,7 @@ import content from './content';
 import error from './error';
 import calculator from './calculator';
 import recipes from './recipes';
+import parser from './parser';
 import equipment from './equipment';
 
 export default {
@@ -26,6 +27,7 @@ export default {
   children: [
     calculator,
     recipes,
+    parser,
     equipment,
     contact,
     login,

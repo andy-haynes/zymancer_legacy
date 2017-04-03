@@ -414,7 +414,7 @@ export async function buildParsedRecipe(parsed, searchCache) {
           return Object.assign({}, matching, i);
         }
         return i;
-      }).map(i => create(i));
+      }).map(i => Object.assign(create(i), { line: i.line }));
     }
 
     return [];
@@ -435,6 +435,8 @@ export async function buildParsedRecipe(parsed, searchCache) {
       pitchRate: Defaults.PitchRate,
       yeasts
     }
+  }, {
+    parameters: parsed.parameters
   });
 }
 

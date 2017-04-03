@@ -106,9 +106,6 @@ const currentRecipe = (state = initialState, action) => {
   switch (action.type) {
     case RecipeActions.LoadSavedRecipe:
       return updateRecipe(action.recipe);
-    case RecipeActions.ParseRecipeText:
-      const parsedRecipe = parseRecipe(action.recipeText);
-      return parsedRecipe !== null ? updateRecipe(parsedRecipe) : state;
     case RecipeActions.SetRecipeName:
       return updateRecipe({ name: action.name }, false);
     case RecipeActions.SetRecipeStyle:

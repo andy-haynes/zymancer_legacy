@@ -25,6 +25,8 @@ function Navigation({ authenticated }) {
       <span className={s.spacer}>|</span>
       <Link navlink className={s.link} to="/recipes">Recipes</Link>
       <span className={s.spacer}>|</span>
+      <Link navlink className={s.link} to="/parser">Parser</Link>
+      <span className={s.spacer}>|</span>
       {accountLink}
     </div>
   );
