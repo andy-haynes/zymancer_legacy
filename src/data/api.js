@@ -80,6 +80,7 @@ const _grainKeys = `
   lintner,
   flavor,
   characteristics,
+  description,
   mfg
 `;
 

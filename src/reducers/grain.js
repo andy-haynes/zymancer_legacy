@@ -7,7 +7,7 @@ import pick from 'lodash/pick';
 let grainId = 0;
 
 function createGrain(grain) {
-  const props = pick(grain, 'id', 'name', 'mfg', 'DBCG', 'DBFG', 'isExtract', 'category', 'description', 'flavor');
+  const props = pick(grain, 'id', 'name', 'mfg', 'DBCG', 'DBFG', 'isExtract', 'category', 'flavor');
   const extractType = grain.isExtract ? (grain.extractType || ExtractType.Dry) : null;
 
   if (typeof props.id === 'undefined') {
@@ -15,11 +15,12 @@ function createGrain(grain) {
   }
 
   return Object.assign(props, {
+    description: grain.description || '',
     weight: grain.weight || Defaults.GrainWeight,
     gravity: grain.gravity || (extractType ? ExtractGravity[extractType] : Defaults.GrainGravity),
     lovibond: (l => isNaN(l) ? Defaults.GrainLovibond : l)(parseFloat(grain.lovibond)),
     lintner: parseFloat(grain.lintner) || 0,
-    characteristics: typeof grain.characteristics === 'object' ? grain.characteristics.split(',') : grain.characteristics,
+    characteristics: grain.characteristics ? (typeof grain.characteristics === 'object' ? grain.characteristics.split(',') : grain.characteristics) : null,
     extractType
   });
 }

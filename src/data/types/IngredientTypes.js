@@ -33,6 +33,7 @@ const _grainFields = {
 const _grainViewFields = Object.assign({}, _grainFields, {
   name: { type: new GraphQLNonNull(GraphQLString) },
   characteristics: { type: GraphQLString },
+  description: { type: GraphQLString },
   flavor: { type: GraphQLString },
   DBCG: { type: GraphQLFloat },
   DBFG: { type: GraphQLFloat },

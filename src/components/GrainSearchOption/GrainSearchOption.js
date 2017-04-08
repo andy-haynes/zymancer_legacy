@@ -11,7 +11,7 @@ const GrainSearchOption = ({ grain, addGrain }) => (
         <div className={s.grainDetail}>
           {grain.name}
           <div className={s.grainSubtext}>
-            {grain.flavor || grain.characteristics}
+            {grain.flavor || grain.characteristics || (desc => desc.length > 100 ? `${desc}...` : desc)(grain.description.substring(0, 100))}
           </div>
         </div>
       </div>
