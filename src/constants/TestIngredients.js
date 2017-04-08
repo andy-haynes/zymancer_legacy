@@ -1,9 +1,14 @@
-import { fawcett, briess } from './Grains';
+import { fawcett, briess, bsg } from './Grains';
 import { wyeast, whiteLabs, imperial } from './Yeast';
+import pick from 'lodash/pick';
 
 const grains = fawcett
   .concat(briess)
-  .map(g => Object.assign({}, g, { ingredientType: 1 }));
+  .concat(bsg)
+  .map(g => Object.assign(
+    pick(g, 'category', 'characteristics', 'DBFG', 'DBCG', 'description', 'flavor', 'isExtract', 'lintner', 'lovibond', 'mfg', 'name', 'url', 'usage'),
+    { ingredientType: 1 }
+  ));
 
 const yeast = Object.keys(wyeast).map(k => wyeast[k])
   .concat(Object.keys(whiteLabs).map(k => whiteLabs[k]))

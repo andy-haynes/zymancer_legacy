@@ -7,15 +7,16 @@ const Grain = Model.define('Grains', {
   category: { type: DataType.STRING, allowNull: true },
   lovibond: { type: DataType.STRING, allowNull: true },
   flavor: { type: DataType.STRING, allowNull: true },
-  characteristics: { type: DataType.STRING(512), allowNull: true },
+  characteristics: { type: DataType.STRING(2048), allowNull: true },
   gravity: { type: DataType.DECIMAL, allowNull: true },
   lintner: { type: DataType.DECIMAL, allowNull: true },
   DBFG: { type: DataType.DECIMAL, allowNull: true },
   DBCG: { type: DataType.DECIMAL, allowNull: true },
-  description: { type: DataType.STRING(512), allowNull: true },
+  description: { type: DataType.STRING(2048), allowNull: true },
   mfg: { type: DataType.STRING, allowNull: false },
   isExtract: { type: DataType.BOOLEAN, allowNull: false, defaultValue: false },
-  url: { type: DataType.STRING, allowNull: true }
+  url: { type: DataType.STRING, allowNull: true },
+  usage: { type: DataType.STRING, allowNull: true }
 });
 
 export default Grain;

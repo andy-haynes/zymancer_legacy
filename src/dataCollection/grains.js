@@ -23,3 +23,59 @@ $('td.tdSubnavitgation a').each(function(i, a) {
     }
   })
 });
+
+// https://bsgcraftbrewing.com/craftbrewing-malt
+var grains = [];
+$('.picture').each(function (i, e) {
+	var $mfg = $(e);
+	var url = $mfg.find('a').attr('href');
+	var mfgName = $.trim($mfg.next('.title').text());
+
+	$.ajax({
+		url: url,
+		type: 'GET',
+		success: function (data) {
+			$(data).find('.item-box').each(function (j, c) {
+				var $category = $(c);
+				var categoryUrl = $category.find('a').attr('href');
+				var categoryName = $.trim($category.find('.title').text());
+
+				$.ajax({
+					url: categoryUrl,
+					type: 'GET',
+					success: function (grns) {
+						$(grns).find('.item-box').each(function (k, g) {
+							var $grain = $(g);
+							var grainUrl = $grain.find('a').attr('href');
+							var grainName = $.trim($grain.find('.product-title').text());
+
+							$.ajax({
+								url: grainUrl,
+								type: 'GET',
+								success: function (grainData) {
+									var $grainData = $(grainData);
+									var desc = $.trim($grainData.find('.full-description').find('p').first().text());
+
+									grains.push({
+										name: grainName,
+										url: grainUrl,
+										mfg: mfgName,
+										category: categoryName,
+										description: desc
+									});
+
+									$grainData.find('.data-table').first().find('tr').each(function (l, row){
+										var $cells = $(row).find('td');
+										var key = $.trim($cells.first().text());
+										var val = $.trim($cells.last().text());
+										grains[grains.length - 1][key] = val;
+									});
+								}
+							});
+						});
+					}
+				});
+			});
+		}
+	});
+});
