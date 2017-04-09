@@ -316,6 +316,7 @@ function buildTokenScore(query, resolveTokens, blacklist = []) {
 const _tokenAliases = flatten((aliases => Object.keys(aliases).map(a => [
   { [aliases[a]]: a }, { [a]: aliases[a] }
 ]))({
+  'roast': 'roasted',
   'crystal': 'caramel',
   '1': 'i',
   '2': 'ii',
