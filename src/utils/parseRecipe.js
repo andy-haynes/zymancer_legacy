@@ -1,6 +1,7 @@
 import SRMColors from '../constants/SRMColors';
 import Units from '../constants/Units';
 import helpers from './helpers';
+import zymath from './zymath';
 import { ExtractGravity, HopAdditionType, HopForm, RecipeParameter, ExtractType } from '../constants/AppConstants';
 import Defaults from '../constants/Defaults';
 import BJCPStyles from '../constants/BJCPStyles';
@@ -309,9 +310,9 @@ function buildRecipe(parsed) {
         p.gravity = extractNumeric(p.gravity);
         if (!p.gravity) {
           if (extractNumeric(p.ppg)) {
-            p.gravity = pointsToGravity(extractNumeric(p.ppg));
+            p.gravity = zymath.pointsToGravity(extractNumeric(p.ppg));
           } else if (extractNumeric(p.plato)) {
-            p.gravity = platoToGravity(extractNumeric(p.plato));
+            p.gravity = zymath.platoToGravity(extractNumeric(p.plato));
           }
         }
 
