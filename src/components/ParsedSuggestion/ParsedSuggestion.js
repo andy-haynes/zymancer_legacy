@@ -11,6 +11,7 @@ const ParsedSuggestion = ({ suggestion }) => (
       </div>
       <div className="pure-u-7-8">
         {suggestion.name} | {suggestion.mfg}
+        {suggestion.score}
       </div>
     </div>
   </div>

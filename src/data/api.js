@@ -341,9 +341,9 @@ function partialMatchIngredient(query, tokens, blacklist) {
       if (token === s) {
         updateScore(10 * freqFactor);
       } else if (_tokenAliases[token] === s) {
-        updateScore(9.9 * freqFactor);
+        updateScore(9 * freqFactor);
       } else if (token.startsWith(s) || token.endsWith(s)) {
-        updateScore(5 * freqFactor);
+        updateScore(2 * freqFactor);
       } else if (token.includes(s)) {
         updateScore(freqFactor);
       }
@@ -352,8 +352,8 @@ function partialMatchIngredient(query, tokens, blacklist) {
 
   if (Object.keys(scores).length) {
     return Object.keys(scores)
-      .map(s => parseInt(s))
-      .sort((k, l) => scores[l] - scores[k]);
+      .sort((k, l) => scores[l] - scores[k])
+      .map(id => ({ id: parseInt(id), score: scores[id] }));
   }
 
   return null;
@@ -367,7 +367,7 @@ export async function matchParsedIngredients(parsed, searchCache) {
         const match = partialMatchIngredient(i, tokens, blacklist);
         if (match !== null) {
           ingredientMap[i] = match.slice(0, Math.min(match.length, 5));
-          return ingredientMap[i];
+          return ingredientMap[i].map(score => score.id);
         }
       })
       .filter(i => typeof i !== 'undefined')
@@ -405,9 +405,13 @@ export async function matchParsedIngredients(parsed, searchCache) {
   function buildSuggestions(ingredients, matchKey, reducer) {
     return ingredients.map(i => Object.assign(reducer.create(i), {
       suggestions: (ingredientMap[getName(i)] || [])
+        .map(score => score.id)
         .map((id, j) => {
           const match = matched[matchKey].find(m => m.id === id);
-          return match && Object.assign(match, {active: j === 0});
+          return match && Object.assign(match, {
+            score: ingredientMap[getName(i)].find(ing => ing.id === id).score,
+            active: j === 0
+          });
         }).filter(i => i) || []
     }));
   }
