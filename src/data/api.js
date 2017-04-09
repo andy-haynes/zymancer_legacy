@@ -311,6 +311,26 @@ function buildTokenScore(query, resolveTokens, blacklist = []) {
     .forEach(resolveTokens);
 }
 
+// TODO store this
+// get key-value + value-key pairs
+const _tokenAliases = flatten((aliases => Object.keys(aliases).map(a => [
+  { [aliases[a]]: a }, { [a]: aliases[a] }
+]))({
+  'crystal': 'caramel',
+  '1': 'i',
+  '2': 'ii',
+  '3': 'iii',
+  '4': 'iv',
+  '5': 'v',
+  '6': 'vi',
+  '7': 'vii',
+  '8': 'viii',
+  '9': 'ix'
+})).reduce((aliases, mapping) => {
+  (key => aliases[key] = mapping[key])(Object.keys(mapping)[0]);
+  return aliases;
+}, {});
+
 function partialMatchIngredient(query, tokens, blacklist) {
   const scores = {};
   buildTokenScore(query, (s) => {
@@ -320,6 +340,8 @@ function partialMatchIngredient(query, tokens, blacklist) {
 
       if (token === s) {
         updateScore(10 * freqFactor);
+      } else if (_tokenAliases[token] === s) {
+        updateScore(9.9 * freqFactor);
       } else if (token.startsWith(s) || token.endsWith(s)) {
         updateScore(5 * freqFactor);
       } else if (token.includes(s)) {
@@ -337,6 +359,67 @@ function partialMatchIngredient(query, tokens, blacklist) {
   return null;
 }
 
+export async function matchParsedIngredients(parsed, searchCache) {
+  const ingredientMap = {};
+  function matchingIdStr(ingredients, tokens, blacklist) {
+    return [...new Set([...new Set(ingredients)]
+      .map(i => {
+        const match = partialMatchIngredient(i, tokens, blacklist);
+        if (match !== null) {
+          ingredientMap[i] = match.slice(0, Math.min(match.length, 5));
+          return ingredientMap[i];
+        }
+      })
+      .filter(i => typeof i !== 'undefined')
+    )];
+  }
+
+  const getName = (i) => i.name || i.code;
+
+  const [parsedGrains, parsedHops, parsedYeast] = [
+    matchingIdStr(parsed.grains.map(getName), searchCache[IngredientType.Grain], ['malt']),
+    matchingIdStr(parsed.hops.map(getName), searchCache[IngredientType.Hop], ['hop']),
+    matchingIdStr(parsed.yeast.map(getName), searchCache[IngredientType.Yeast], ['yeast'])
+  ];
+
+  const query = `{
+    matchParsedIngredients(
+      ${parsed.styleId ? `style: { id: ${parsed.styleId} },` : ''}
+      grains: [${parsedGrains}],
+      hops: [${parsedHops}],
+      yeast: [${parsedYeast}]
+    ) {
+      grains {${_grainKeys}},
+      hops {${_hopKeys}},
+      yeast {
+        ${_yeastKeys},
+        apparentAttenuation
+      },
+      style {${_styleKeys}}
+    }
+  }`;
+
+  const { data } = await _graphqlFetch(query);
+  const matched = data.matchParsedIngredients;
+
+  function buildSuggestions(ingredients, matchKey, reducer) {
+    return ingredients.map(i => Object.assign(reducer.create(i), {
+      suggestions: (ingredientMap[getName(i)] || [])
+        .map((id, j) => {
+          const match = matched[matchKey].find(m => m.id === id);
+          return match && Object.assign(match, {active: j === 0});
+        }).filter(i => i) || []
+    }));
+  }
+
+  return {
+    grains: buildSuggestions(parsed.grains, 'grains', grain),
+    hops: buildSuggestions(parsed.hops, 'hops', hop),
+    yeast: buildSuggestions(parsed.yeast, 'yeast', yeast),
+    parameters: parsed.parameters
+  };
+}
+/*
 export async function buildParsedRecipe(parsed, searchCache) {
   const ingredientMap = {};
   function matchingIdStr(ingredients, tokens, blacklist) {
@@ -440,6 +523,7 @@ export async function buildParsedRecipe(parsed, searchCache) {
     parameters: parsed.parameters
   });
 }
+*/
 
 export async function tokenizeIngredients() {
   function histogramReduce(blacklist, props) {

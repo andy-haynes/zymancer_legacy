@@ -1,12 +1,15 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './RecipeParser.css';
+import ParsedParameters from '../ParsedParameters';
+import ParsedGrain from '../ParsedGrain';
+import ParsedHop from '../ParsedHop';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton'
 import Paper from 'material-ui/Paper'
 
 const RecipeParser = ({ parser, searchCache, actions }) => (
-  <div className={s.parseRecipe}>
+  <div className={s.recipeParser}>
     <div className="pure-g">
       <div className="pure-u-1-2">
         <TextField
@@ -15,31 +18,30 @@ const RecipeParser = ({ parser, searchCache, actions }) => (
           placeholder="Paste recipe text here"
           multiLine={true}
           rows={24}
-          style={{width: '100%'}}
+          style={{width: '100%', height: '750px'}}
           value={parser.text}
           onChange={e => actions.updateRecipeText(e.target.value)}
         />
       </div>
       <div className="pure-u-1-2">
         <div className={s.results}>
-          {parser.recipe.parameters && parser.recipe.parameters.map((p, i) => (
-            <Paper key={`parsed-parameter-${i}`}>
-              {p.parameter}: {p.value}
-            </Paper>
-          ))}
+          {parser.recipe.parameters && <ParsedParameters parameters={parser.recipe.parameters} />}
           {parser.recipe.grains && parser.recipe.grains.map((g, i) => (
-            <Paper key={`parsed-grain-${i}`}>
-              {g.name} | {g.weight.value} {g.weight.unit}
-            </Paper>
+            <ParsedGrain key={`parsed-grain-${i}`} grain={g} />
           ))}
           {parser.recipe.hops && parser.recipe.hops.map((h, i) => (
-            <Paper key={`parsed-hop-${i}`}>
-              {h.name} | {h.alpha} | {h.additions.length && h.additions[0].minutes}
-            </Paper>
+            <ParsedHop key={`parsed-grain-${i}`} hop={h} />
           ))}
-          {parser.recipe.fermentation && parser.recipe.fermentation.yeasts.map((y, i) => (
-            <Paper key={`parsed-yeast-${i}`}>
+          {parser.recipe.yeast && parser.recipe.yeast.map((y, i) => (
+            <Paper className={s.parsedIngredient} key={`parsed-yeast-${i}`}>
               {y.code} | {y.name} | {y.mfg}
+              <div className={s.suggestions}>
+                {y.suggestions.map((s, j) => (
+                  <div key={`yeast-suggestion-${j}`}>
+                    {s.name}
+                  </div>
+                ))}
+              </div>
             </Paper>
           ))}
         </div>

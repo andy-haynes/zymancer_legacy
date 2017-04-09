@@ -1,6 +1,16 @@
-.parseRecipe {
+.recipeParser {
   padding: 2em;
 }
 
 .recipeText {
+}
+
+.parsedIngredient {
+  margin: 0.5em 0;
+  padding: 0.4em;
+}
+
+.results {
+  height: 750px;
+  overflow-y: scroll;
 }

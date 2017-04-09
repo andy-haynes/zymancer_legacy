@@ -335,12 +335,15 @@ function buildRecipe(parsed) {
     } else if (p.code) {
       recipe.yeast.push(p);
     } else if (p.parameter) {
-      recipe.parameters.push(createProp({
-        parameter: _parameterMapping[p.parameter.toLowerCase()] || p.parameter,
-        quantity: parseQuantity(p.value),
-        value: extractNumeric(p.value),
-        line: p.line
-      }));
+      const parameter = _parameterMapping[p.parameter.toLowerCase()] || p.parameter;
+      if (!recipe.parameters.some(p => p.parameter === parameter)) {
+        recipe.parameters.push(createProp({
+          parameter,
+          quantity: parseQuantity(p.value),
+          value: extractNumeric(p.value),
+          line: p.line
+        }));
+      }
     } else if (p.style) {
       recipe.styleId = p.style;
     }

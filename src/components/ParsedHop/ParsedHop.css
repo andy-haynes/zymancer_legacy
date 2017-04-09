@@ -1,0 +1,49 @@
+.hop {
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 8px;
+}
+
+.expandAdditions {
+}
+
+.hopName {
+  padding-top: 0.4em;
+  font-size: 1.4em;
+  font-weight: 100;
+}
+
+.hopInput {
+  width: 2.4em !important;
+  margin-left: 1em;
+}
+
+.greekLabel {
+  display: inline-block;
+  position: relative;
+  bottom: 1em;
+  left: 0.7em;
+  font-size: 0.8em;
+  font-weight: 400;
+  color: #555;
+}
+
+.addRemoveHop {
+  padding-top: 10px;
+}
+
+.addRemoveHop svg {
+  margin-left: 12px;
+}
+
+.detailLabel {
+  font-size: 0.6em;
+  color: #777;
+  text-transform: uppercase;
+  margin: 0.6em 0 -1.5em 0;
+}
+
+.hopDetail {
+  float: left;
+  padding-left: 0.9em;
+}

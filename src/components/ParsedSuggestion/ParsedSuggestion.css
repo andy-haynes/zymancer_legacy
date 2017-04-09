@@ -1,0 +1,8 @@
+.parsedSuggestion {
+  border: 1px solid #ddd;
+  border-top: none;
+  cursor: pointer;
+  transition-property: background;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+}
