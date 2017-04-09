@@ -336,17 +336,18 @@ function partialMatchIngredient(query, tokens, blacklist) {
   const scores = {};
   buildTokenScore(query, (s) => {
     Object.keys(tokens).forEach((token) => {
-      const updateScore = (value) => tokens[token].forEach(id => scores[id] = (scores[id] || 0) + value);
-      const freqFactor = 100 / tokens[token].length;
+      // ignore non-numeric strings of length 1
+      if (!isNaN(parseInt(s)) || s.length > 1) {
+        const updateScore = (value) => tokens[token].forEach(id => scores[id] = (scores[id] || 0) + value);
+        const freqFactor = 50 / tokens[token].length;
 
-      if (token === s) {
-        updateScore(10 * freqFactor);
-      } else if (_tokenAliases[token] === s) {
-        updateScore(9 * freqFactor);
-      } else if (token.startsWith(s) || token.endsWith(s)) {
-        updateScore(2 * freqFactor);
-      } else if (token.includes(s)) {
-        updateScore(freqFactor);
+        if (token === s) {
+          updateScore(10 * freqFactor);
+        } else if (_tokenAliases[token] === s) {
+          updateScore(9 * freqFactor);
+        } else if (token.includes(s)) {
+          updateScore(0.5 * freqFactor);
+        }
       }
     });
   }, blacklist);
@@ -407,13 +408,15 @@ export async function matchParsedIngredients(parsed, searchCache) {
     return ingredients.map(i => Object.assign(reducer.create(i), {
       suggestions: (ingredientMap[getName(i)] || [])
         .map(score => score.id)
-        .map((id, j) => {
+        .map(id => {
           const match = matched[matchKey].find(m => m.id === id);
           return match && Object.assign(match, {
-            score: ingredientMap[getName(i)].find(ing => ing.id === id).score,
-            active: j === 0
+            score: ingredientMap[getName(i)].find(ingredient => ingredient.id === id).score
           });
-        }).filter(i => i) || []
+        })
+        .filter(ingredient => ingredient)
+        .sort((a, b) => (score => score === 0 ? a.name.length - b.name.length : score)(b.score - a.score))  // break ties with name length
+        .map((ingredient, j) => Object.assign(ingredient, { active: j === 0 })) || []
     }));
   }
 
