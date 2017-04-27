@@ -580,7 +580,7 @@ export async function searchIngredients(ingredientType, query, searchCache) {
       return [];
     }
 
-    const { data } = await _graphqlFetch(`{${key}(ids:[${scores.join(',')}]) {${fields}}}`);
+    const { data } = await _graphqlFetch(`{${key}(ids:[${scores.map(s => s.id).join(',')}]) {${fields}}}`);
     return data[key];
   }
 
