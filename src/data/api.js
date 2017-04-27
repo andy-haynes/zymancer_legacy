@@ -581,7 +581,8 @@ export async function searchIngredients(ingredientType, query, searchCache) {
     }
 
     const { data } = await _graphqlFetch(`{${key}(ids:[${scores.map(s => s.id).join(',')}]) {${fields}}}`);
-    return data[key];
+    return data[key].map(d => Object.assign(d, { score: scores.find(s => s.id === d.id).score }))
+                    .sort((a, b) => b.score - a.score);
   }
 
   return await fetchIngredients.apply(null, {

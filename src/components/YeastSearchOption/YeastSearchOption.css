@@ -23,3 +23,9 @@
   color: #777;
   text-transform: uppercase
 }
+
+.matchScore {
+  float: right;
+  font-size: 0.6em;
+  color: #ccc;
+}

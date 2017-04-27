@@ -21,6 +21,7 @@ function createGrain(grain) {
     lovibond: (l => isNaN(l) ? Defaults.GrainLovibond : l)(parseFloat(grain.lovibond)),
     lintner: parseFloat(grain.lintner) || 0,
     characteristics: grain.characteristics ? (typeof grain.characteristics === 'object' ? grain.characteristics.split(',') : grain.characteristics) : null,
+    matchScore: grain.score || 0,
     extractType
   });
 }

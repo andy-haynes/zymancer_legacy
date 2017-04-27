@@ -8,6 +8,9 @@ const HopSearchOption = ({ hop, addHop }) => (
       <div className="pure-u-12-24">
         <div className={s.hopDetail}>
           {hop.name}
+          <div className={s.matchScore}>
+            {hop.matchScore}
+          </div>
           <div className={s.hopCategories}>
             {hop.categories.join(', ')}
           </div>

@@ -8,6 +8,9 @@ const YeastSearchOption = ({ yeast, addYeast }) => (
       <div className="pure-u-12-24">
         <div className={s.yeastDetail}>
           {yeast.name}
+          <div className={s.matchScore}>
+            {yeast.matchScore}
+          </div>
         </div>
         <div className={s.subtext}>
           {yeast.mfg} {yeast.code}

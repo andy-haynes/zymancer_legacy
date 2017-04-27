@@ -20,6 +20,7 @@ function createHop(hop, boilMinutes, manual = false) {
     beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
     form: hop.form || Defaults.HopForm,
     categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories || [],
+    matchScore: hop.score || 0,
     alphaRange,
     betaRange
   });
