@@ -1,14 +1,25 @@
 import { fawcett, briess, bsg } from './Grains';
 import { wyeast, whiteLabs, imperial } from './Yeast';
 import pick from 'lodash/pick';
+import zymath from '../utils/zymath';
+import helpers from '../utils/helpers';
 
 const grains = fawcett
   .concat(briess)
   .concat(bsg)
-  .map(g => Object.assign(
-    pick(g, 'category', 'characteristics', 'DBFG', 'DBCG', 'description', 'flavor', 'isExtract', 'lintner', 'lovibond', 'mfg', 'name', 'url', 'usage'),
-    { ingredientType: 1 }
-  ));
+  .map(g => {
+    const grain = Object.assign(
+      pick(g, 'category', 'characteristics', 'DBFG', 'DBCG', 'description', 'flavor', 'isExtract', 'lintner', 'lovibond', 'mfg', 'name', 'url', 'usage'),
+      { ingredientType: 1 }
+    );
+
+    grain.DBFG = helpers.numberOrNull(grain.DBFG);
+    grain.DBCG = helpers.numberOrNull(grain.DBCG);
+    grain.lintner = helpers.numberOrNull(grain.lintner);
+    grain.gravity = helpers.numberOrNull(grain.DBCG || grain.DBFG) !== null ? zymath.DBFGtoGravity(helpers.numberOrNull(grain.DBCG || grain.DBFG)) : null;
+
+    return grain;
+  });
 
 const yeast = Object.keys(wyeast).map(k => wyeast[k])
   .concat(Object.keys(whiteLabs).map(k => whiteLabs[k]))

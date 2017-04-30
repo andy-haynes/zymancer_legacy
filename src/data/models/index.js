@@ -102,15 +102,7 @@ function sync(...args) {
       const claims = flatten(users.map(user => user.claims.map(claim => ({ userId: user.id, ...claim }))));
 
       //region ingredients
-      const numberOrNull = (num) => (n => isNaN(n) ? null : n)(parseFloat(num));
-      const grains = Ingredients.filter(i => i.ingredientType === 1 && i.name).map(grain => Object.assign(
-        pick(grain, 'category', 'characteristics', 'DBFG', 'DBCG', 'description', 'flavor', 'isExtract', 'lintner', 'lovibond', 'mfg', 'name', 'url'), {
-          DBFG: numberOrNull(grain.DBFG),
-          DBCG: numberOrNull(grain.DBCG),
-          lintner: numberOrNull(grain.lintner),
-          gravity: numberOrNull(grain.DBCG || grain.DBFG) ? null : zymath.DBFGtoGravity(numberOrNull(grain.DBCG || grain.DBFG))
-        }
-      ));
+      const grains = Ingredients.filter(i => i.ingredientType === 1 && i.name);
 
       const hops = Ingredients.filter(i => i.ingredientType === 2).map(hop => Object.assign(
         pick(hop, 'name', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {

@@ -103,6 +103,12 @@ function createRatio(numerator, denominator, min, max) {
 }
 //endregion
 
+//region numbers
+function numberOrNull(number) {
+  return (n => isNaN(n) ? null : n)(parseFloat(number));
+}
+//endregion
+
 //region strings
 function extractRange(raw) {
   if (typeof raw === 'number') {
@@ -217,6 +223,7 @@ export default {
   sortMeasurements,
   multiplyRatioByMeasurement,
   sumMeasurements,
+  numberOrNull,
   extractRange,
   monthsSinceDate,
   subtractMonthsFromNow,
