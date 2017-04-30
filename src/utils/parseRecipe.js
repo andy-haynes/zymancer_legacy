@@ -20,7 +20,7 @@ const _unitMarker = '___unit___';
 const _decimalTemplate = '\\d+\\.?\\d*';
 const _charTemplate = 'a-z®äöüß\\-\'"/°.';
 const _alphaNumericTemplate = `0-9${_charTemplate}`;
-const _namedQtyTemplate = `((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})\\s*(?:(?:${_decimalTemplate})\\s*(?:${_unitMarker}))?)[.]?(?: \\((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})[.]?\\))?[\\s|\\-]{1,5}([ ${_alphaNumericTemplate}]+[${_alphaNumericTemplate}])`;
+const _namedQtyTemplate = `((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})[.]?\\s*(?:(?:${_decimalTemplate})\\s*(?:${_unitMarker}))?)[.]?(?: \\((?:${_decimalTemplate})[\\s|]*(?:${_unitMarker})[.]?\\))?[\\s|\\-]{1,5}([ ${_alphaNumericTemplate}]+[${_alphaNumericTemplate}])`;
 
 function _createMeasurementRegex(template) {
   return new RegExp(_namedQtyTemplate.replace(new RegExp(_unitMarker, 'g'), template), 'i');
