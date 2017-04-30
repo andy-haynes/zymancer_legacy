@@ -10,8 +10,9 @@ import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
+import ActionInfo from 'material-ui/svg-icons/action/info';
 
-const Grain = ({ grain, targetVolume, actions }) => (
+const Grain = ({ grain, targetVolume, actions, showDetailModal }) => (
   <Paper className={s.grain} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-1-24">
@@ -20,6 +21,7 @@ const Grain = ({ grain, targetVolume, actions }) => (
       <div className="pure-u-10-24">
         <div className={s.grainName}>
           {grain.name}
+          <ActionInfo onClick={showDetailModal} />
         </div>
       </div>
       <div className="pure-u-12-24">

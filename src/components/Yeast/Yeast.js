@@ -13,6 +13,7 @@ import IconButton from 'material-ui/IconButton';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
+import ActionInfo from 'material-ui/svg-icons/action/info';
 
 class Yeast extends React.Component {
   constructor(props) {
@@ -25,12 +26,13 @@ class Yeast extends React.Component {
   };
 
   render() {
-    const { yeast, actions } = this.props;
+    const { yeast, actions, showDetailModal } = this.props;
     return (
       <Paper className={s.yeast} zDepth={2}>
         <div className="pure-g">
           <div className="pure-u-11-24">
             <span className={s.yeastName}>{yeast.name}</span>
+            <ActionInfo onClick={showDetailModal} />
             <br/>
             <span className={s.yeastMfg}>
               <a href={yeast.url} target="_blank">

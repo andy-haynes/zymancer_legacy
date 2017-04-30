@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import SliderInput from '../SliderInput';
 import Yeast from '../Yeast';
+import Ingredient from '../Ingredient';
 import round from 'lodash/round';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Paper from 'material-ui/Paper';
@@ -79,11 +80,12 @@ const Fermentation = ({ fermentation, actions }) => (
         <Search.YeastSearch />
         <div className={s.yeasts}>
           {fermentation.yeasts.map((yeast, i) => (
-            <Yeast
-              key={`${yeast.id}-${i}`}
-              yeast={yeast}
-              actions={actions}
-            />
+            <Ingredient key={`${yeast.id}-${i}`} ingredient={yeast}>
+              <Yeast
+                yeast={yeast}
+                actions={actions}
+              />
+            </Ingredient>
           ))}
         </div>
       </div>

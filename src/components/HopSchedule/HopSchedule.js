@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Hop from '../Hop';
+import Ingredient from '../Ingredient';
 import s from './HopSchedule.css';
 import HopChart from '../../containers/HopChart';
 import Search from '../../containers/IngredientSearch';
@@ -11,14 +12,15 @@ const HopSchedule = ({ hops, originalGravity, boilVolume, boilMinutes, actions }
       <div className="pure-u-1-2">
         <div className={s.hops}>
           {hops.map((hop, i) => (
-            <Hop
-              key={`${hop.id}-${i}`}
-              hop={hop}
-              originalGravity={originalGravity}
-              boilVolume={boilVolume}
-              boilMinutes={boilMinutes}
-              actions={actions}
-            />
+            <Ingredient key={`${hop.id}-${i}`} ingredient={hop}>
+              <Hop
+                hop={hop}
+                originalGravity={originalGravity}
+                boilVolume={boilVolume}
+                boilMinutes={boilMinutes}
+                actions={actions}
+              />
+            </Ingredient>
           ))}
         </div>
       </div>

@@ -17,6 +17,7 @@ import ContentAddCircle from 'material-ui/svg-icons/content/add-circle';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import NavigationExpandMore from 'material-ui/svg-icons/navigation/expand-more';
 import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
+import ActionInfo from 'material-ui/svg-icons/action/info';
 
 class Hop extends React.Component {
   constructor(props) {
@@ -29,7 +30,7 @@ class Hop extends React.Component {
   };
 
   render() {
-    const { hop, boilVolume, originalGravity, boilMinutes, actions } = this.props;
+    const { hop, boilVolume, originalGravity, boilMinutes, actions, showDetailModal } = this.props;
     return (
       <Paper className={s.hop} zDepth={2}>
         <div className="pure-g">
@@ -42,6 +43,7 @@ class Hop extends React.Component {
           <div className="pure-u-7-24">
             <div className={s.hopName}>
               {hop.name}
+              <ActionInfo onClick={showDetailModal} />
             </div>
           </div>
           <div className="pure-u-6-24">

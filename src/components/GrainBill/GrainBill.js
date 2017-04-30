@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Grain from '../Grain';
+import Ingredient from '../Ingredient';
 import s from './GrainBill.css';
 import Search from '../../containers/IngredientSearch';
 import GrainChart from '../../containers/GrainChart';
@@ -11,12 +12,13 @@ const GrainBill = ({ grains, targetVolume, actions }) => (
       <div className="pure-u-1-2">
         <div className={s.grains}>
           {grains.map((grain, i) => (
-            <Grain
-              key={`${grain.id}-${i}`}
-              grain={grain}
-              targetVolume={targetVolume}
-              actions={actions}
-            />
+            <Ingredient key={`${grain.id}-${i}`} ingredient={grain}>
+              <Grain
+                grain={grain}
+                targetVolume={targetVolume}
+                actions={actions}
+              />
+            </Ingredient>
           ))}
         </div>
       </div>
