@@ -34,10 +34,13 @@ const yeast = Object.keys(wyeast).map(k => wyeast[k])
   .concat(Object.keys(imperial).map(k => imperial[k]))
   .reduce((a, b) => a.concat(b), [])
   .reduce((arr, yeast) => (!arr.some(y => y.url === yeast.url && y.code === yeast.code) && arr.push(yeast) && arr) || arr, [])
-  .map(y => Object.assign(y, {
-    toleranceLow: (y.tolerance || y.toleranceLow) || null,
-    ingredientType: 3
-  }));
+  .map(yeast => Object.assign(
+    pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'temperatureLow', 'temperatureHigh', 'toleranceLow', 'toleranceHigh', 'attenuationLow', 'attenuationHigh', 'mfg'), {
+      styles: yeast.styles ? yeast.styles.split(', ').filter((s, i, a) => a.indexOf(s) === i).join(', ') : null,
+      toleranceLow: (yeast.tolerance || yeast.toleranceLow) || null,
+      ingredientType: 3
+    }
+  ));
 
 const Ingredients = grains.concat(yeast).concat(hops);
 export default Ingredients;

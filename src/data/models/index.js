@@ -103,13 +103,8 @@ function sync(...args) {
 
       //region ingredients
       const grains = Ingredients.filter(i => i.ingredientType === 1 && i.name);
-      const hops = Ingredients.filter(i => i.ingredientType === 2);
-
-      const yeasts = Ingredients.filter(i => i.ingredientType === 3).map(yeast => Object.assign(
-        pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'temperatureLow', 'temperatureHigh', 'toleranceLow', 'toleranceHigh', 'attenuationLow', 'attenuationHigh', 'mfg'), {
-          styles: yeast.styles ? yeast.styles.split(', ').filter((s, i, a) => a.indexOf(s) === i).join(', ') : null
-        }
-      ));
+      const hops = Ingredients.filter(i => i.ingredientType === 2 && i.name);
+      const yeasts = Ingredients.filter(i => i.ingredientType === 3 && i.name);
 
       const styles = flatten(bjcp.map(c => c.styles || []));
       const categories = bjcp.map(c => ({
