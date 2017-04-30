@@ -103,13 +103,7 @@ function sync(...args) {
 
       //region ingredients
       const grains = Ingredients.filter(i => i.ingredientType === 1 && i.name);
-
-      const hops = Ingredients.filter(i => i.ingredientType === 2).map(hop => Object.assign(
-        pick(hop, 'name', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
-          aroma: hop.aroma.join(','),
-          categories: hop.categories.join(',')
-        }
-      ));
+      const hops = Ingredients.filter(i => i.ingredientType === 2);
 
       const yeasts = Ingredients.filter(i => i.ingredientType === 3).map(yeast => Object.assign(
         pick(yeast, 'name', 'code', 'url', 'description', 'flocculation', 'temperatureLow', 'temperatureHigh', 'toleranceLow', 'toleranceHigh', 'attenuationLow', 'attenuationHigh', 'mfg'), {
@@ -146,7 +140,7 @@ function sync(...args) {
       //endregion
 
       return sequelize.sync(Object.assign({}, args, { force: true }))
-        .then(() =>  User.bulkCreate(users.map(user => ({ emailConfirmed: true, ...user }))))
+        .then(() => User.bulkCreate(users.map(user => ({ emailConfirmed: true, ...user }))))
         .then(() => UserClaim.bulkCreate(logins))
         .then(() => UserLogin.bulkCreate(claims))
         .then(() => Grain.bulkCreate(grains))
