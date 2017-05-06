@@ -25,14 +25,14 @@ const RecipeParser = ({ parser, searchCache, actions }) => (
       </div>
       <div className="pure-u-1-2">
         <div className={s.results}>
-          {parser.recipe.parameters && <ParsedParameters parameters={parser.recipe.parameters} />}
-          {parser.recipe.grains && parser.recipe.grains.map((g, i) => (
+          {parser.suggestions.parameters && <ParsedParameters parameters={parser.suggestions.parameters} />}
+          {parser.suggestions.grains && parser.suggestions.grains.map((g, i) => (
             <ParsedGrain key={`parsed-grain-${i}`} grain={g} />
           ))}
-          {parser.recipe.hops && parser.recipe.hops.map((h, i) => (
+          {parser.suggestions.hops && parser.suggestions.hops.map((h, i) => (
             <ParsedHop key={`parsed-grain-${i}`} hop={h} />
           ))}
-          {parser.recipe.yeast && parser.recipe.yeast.map((y, i) => (
+          {parser.suggestions.yeasts && parser.suggestions.yeasts.map((y, i) => (
             <Paper className={s.parsedIngredient} key={`parsed-yeast-${i}`}>
               {y.code} | {y.name} | {y.mfg}
               <div className={s.suggestions}>
