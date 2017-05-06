@@ -15,7 +15,7 @@ function createHop(hop, boilMinutes, manual = false) {
     created.additions = (hop.additions || []).map(a => hopAddition.create(a, created, boilMinutes, manual));
     return created;
   })(Object.assign(
-    pick(hop, 'name', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
+    pick(hop, 'name', 'url', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
       id: typeof hop.id !== 'undefined' ? hop.id : ++hopId,
       alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
       beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
