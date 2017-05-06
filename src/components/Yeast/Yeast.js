@@ -32,7 +32,12 @@ class Yeast extends React.Component {
         <div className="pure-g">
           <div className="pure-u-11-24">
             <span className={s.yeastName}>{yeast.name}</span>
-            <ActionInfo className={s.showDetail} onClick={showDetailModal} />
+            <ActionInfo onClick={showDetailModal} style={{
+              height: '1em',
+              width: '1em',
+              position: 'relative',
+              top: '-0.6em'
+            }} />
             <br/>
             <span className={s.yeastMfg}>
               <a href={yeast.url} target="_blank">

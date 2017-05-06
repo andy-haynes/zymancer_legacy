@@ -44,10 +44,10 @@ class Hop extends React.Component {
             <div className={s.hopName}>
               {hop.name}
               <ActionInfo onClick={showDetailModal} style={{
-                height: '0.5em',
-                width: '0.5em',
+                height: '0.8em',
+                width: '0.8em',
                 position: 'relative',
-                top: '0.1em'
+                top: '-0.3em'
               }} />
             </div>
           </div>
