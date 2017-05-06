@@ -7,7 +7,7 @@ import pick from 'lodash/pick';
 let grainId = 0;
 
 function createGrain(grain) {
-  const props = pick(grain, 'id', 'name', 'mfg', 'DBCG', 'DBFG', 'isExtract', 'category', 'flavor');
+  const props = pick(grain, 'id', 'name', 'mfg', 'url', 'DBCG', 'DBFG', 'isExtract', 'category', 'flavor');
   const extractType = grain.isExtract ? (grain.extractType || ExtractType.Dry) : null;
 
   if (typeof props.id === 'undefined') {

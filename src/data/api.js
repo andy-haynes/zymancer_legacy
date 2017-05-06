@@ -72,6 +72,7 @@ const _styleKeys = `
 const _grainKeys = `
   id,
   name,
+  url,
   gravity,
   isExtract,
   DBCG,
@@ -91,7 +92,14 @@ const _hopKeys = `
   aroma,
   categories,
   alpha,
-  beta
+  beta,
+  coHumulone,
+  totalOil,
+  myrcene,
+  caryophyllene,
+  farnesene,
+  humulene,
+  geraniol
 `;
 
 const _yeastKeys = `
@@ -147,6 +155,13 @@ export async function getRecipe(recipeId) {
         minutes,
         form,
         type,
+        coHumulone,
+        totalOil,
+        myrcene,
+        caryophyllene,
+        farnesene,
+        humulene,
+        geraniol,
         weight {
           value,
           unit

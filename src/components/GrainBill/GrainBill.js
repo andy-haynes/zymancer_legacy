@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Grain from '../Grain';
-import Ingredient from '../Ingredient';
+import Ingredient from '../IngredientDetail';
 import s from './GrainBill.css';
 import Search from '../../containers/IngredientSearch';
 import GrainChart from '../../containers/GrainChart';

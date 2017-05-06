@@ -302,7 +302,7 @@ export const bsg = [
   DBFG: (fg => isNaN(fg) ? null : fg)(parseFloat(g['Extract FG Min'])),
   lovibond: (lov => isNaN(lov) ? null : lov)(parseFloat(g['Color °L'])),
   isExtract: false,
-  url: `https://bsgcraftbrewing.com/craftbrewing-malt${g.url}`,
+  url: `https://bsgcraftbrewing.com${g.url}`,
   usage: g['Usage Rate']
 }));
 

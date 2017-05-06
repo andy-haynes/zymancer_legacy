@@ -2,16 +2,13 @@
 }
 
 .detailLabel {
-  position: relative;
-  top: 0.8em;
-  left: 0.8em;
+  margin-top: 0.3em;
+  padding: 0.4em 0 0 0.4em;
   font-size: 0.6em;
   color: #777;
   text-transform: uppercase;
 }
 
 .detailValue {
-  position: relative;
-  top: 0.5em;
-  left: 0.5em;
+  padding: 0.2em 0 0 0.8em;
 }

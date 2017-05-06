@@ -3,6 +3,7 @@ import Defaults from '../constants/Defaults';
 import hopAddition from './hopAddition';
 import helpers from '../utils/helpers';
 import round from 'lodash/round';
+import pick from 'lodash/pick';
 
 let hopId = 0;
 
@@ -13,17 +14,18 @@ function createHop(hop, boilMinutes, manual = false) {
   return (created => {
     created.additions = (hop.additions || []).map(a => hopAddition.create(a, created, boilMinutes, manual));
     return created;
-  })({
-    id: typeof hop.id !== 'undefined' ? hop.id : ++hopId,
-    name: hop.name,
-    alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
-    beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
-    form: hop.form || Defaults.HopForm,
-    categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories || [],
-    matchScore: hop.score || 0,
-    alphaRange,
-    betaRange
-  });
+  })(Object.assign(
+    pick(hop, 'name', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
+      id: typeof hop.id !== 'undefined' ? hop.id : ++hopId,
+      alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
+      beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
+      form: hop.form || Defaults.HopForm,
+      categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories || [],
+      matchScore: hop.score || 0,
+      alphaRange,
+      betaRange
+    }
+  ));
 }
 
 const hop = (state = {}, action) => {

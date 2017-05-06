@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import SliderInput from '../SliderInput';
 import Yeast from '../Yeast';
-import Ingredient from '../Ingredient';
+import Ingredient from '../IngredientDetail';
 import round from 'lodash/round';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Paper from 'material-ui/Paper';

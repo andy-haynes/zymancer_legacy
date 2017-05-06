@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Hop from '../Hop';
-import Ingredient from '../Ingredient';
+import Ingredient from '../IngredientDetail';
 import s from './HopSchedule.css';
 import HopChart from '../../containers/HopChart';
 import Search from '../../containers/IngredientSearch';

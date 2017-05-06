@@ -1,15 +1,16 @@
 import React from 'react';
+import zymath from '../utils/zymath';
 
 export const displayKeys = {
   url: 'Source URL',
   mfg: 'Manufacturer',
-  DBFG: 'DBFG',
-  lovibond: '°L',
-  gravity: 'SG',
-  flavor: 'Flavor',
+  DBFG: 'Dry Basis Fine Grind',
+  lovibond: '° Lintner',
+  gravity: 'Specific Gravity',
   lintner: 'Lintner',
   alpha: 'Alpha',
   beta: 'Beta',
+  aroma: 'Aroma',
   categories: 'Categories',
   code: 'Code',
   styles: 'Styles',
@@ -18,7 +19,14 @@ export const displayKeys = {
   attenuationLow: 'Min Attenuation',
   attenuationHigh: 'Max Attenuation',
   temperatureLow: 'Min Temperature',
-  temperatureHigh: 'Max Temperature'
+  temperatureHigh: 'Max Temperature',
+  coHumulone: 'Co-Humulone',
+  totalOil: 'Total Oil',
+  myrcene: 'Myrcene',
+  caryophyllene: 'Caryophyllene',
+  farnesene: 'Farnesene',
+  humulene: 'Humulene',
+  geraniol: 'Geraniol'
 };
 
 export const detailDisplay = Object.assign(
@@ -26,7 +34,12 @@ export const detailDisplay = Object.assign(
     keys[k] = (ingredient) => ingredient[k];
     return keys;
   }, {}), {
-  url: (i) => (<a href={i.url}>{i.url}</a>),
   categories: (i) => (i.categories || []).join(', '),
-  styles: (i) => i.styles
+  styles: (i) => i.styles,
+  gravity: (i) => zymath.formatGravity(i.gravity),
+  url: (i) => (
+    <a href={i.url} target="_blank">
+      {i.url.split('/').splice(0, 3).join('/')}
+    </a>
+  )
 });

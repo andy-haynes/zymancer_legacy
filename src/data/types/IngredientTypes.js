@@ -32,6 +32,7 @@ const _grainFields = {
 
 const _grainViewFields = Object.assign({}, _grainFields, {
   name: { type: new GraphQLNonNull(GraphQLString) },
+  url: { type: GraphQLString },
   characteristics: { type: GraphQLString },
   description: { type: GraphQLString },
   flavor: { type: GraphQLString },
@@ -72,8 +73,15 @@ const _hopFields = {
 export const HopType = new GraphQLObjectType({
   name: 'HopType',
   fields: Object.assign({}, _hopFields, {
-    name: { type: new GraphQLNonNull(GraphQLString) },
-    url: { type: new GraphQLNonNull(GraphQLString) }
+    name: { type: GraphQLString },
+    url: { type: GraphQLString },
+    coHumulone: { type: GraphQLString },
+    totalOil: { type: GraphQLString },
+    myrcene: { type: GraphQLString },
+    caryophyllene: { type: GraphQLString },
+    farnesene: { type: GraphQLString },
+    humulene: { type: GraphQLString },
+    geraniol: { type: GraphQLString }
   })
 });
 

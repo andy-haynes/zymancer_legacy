@@ -1,13 +1,13 @@
 import React, { PropTypes } from 'react';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
-import s from './Ingredient.css';
-import { displayKeys, detailDisplay } from '../../constants/IngredientDetails';
+import s from './IngredientDetail.css';
+import { displayKeys, detailDisplay } from '../../constants/IngredientDetailDisplay';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 
-class Ingredient extends React.Component {
+class IngredientDetail extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -35,12 +35,13 @@ class Ingredient extends React.Component {
           onRequestClose={this.handleClose}
         >
           <div className="pure-g">
-            {ingredient.description && (
+            {(ingredient.description || ingredient.flavor) && (
               <div className="pure-u-1-1">
-                {ingredient.description}
+                {ingredient.description || ingredient.flavor}
+                <hr />
               </div>
             )}
-            {Object.keys(ingredient).map((key, i) => detailDisplay[key] && detailDisplay[key](ingredient) ? (
+            {Object.keys(ingredient).map((key, i) => (detailDisplay[key] && detailDisplay[key](ingredient) && (
               <div key={`ingredient-detail-${i}`} className="pure-u-1-2">
                 <div className={s.detailLabel}>
                   {displayKeys[key]}
@@ -49,7 +50,7 @@ class Ingredient extends React.Component {
                   {detailDisplay[key](ingredient)}
                 </div>
               </div>
-            ) : console.log(key))}
+            )) || '')}
           </div>
         </Dialog>
       </div>
@@ -64,4 +65,4 @@ IngredientDetail.propTypes = {
   color:    PropTypes.string.isRequired
 };
 */
-export default withStyles(s)(Ingredient);
+export default withStyles(s)(IngredientDetail);

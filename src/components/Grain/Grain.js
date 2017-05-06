@@ -21,7 +21,7 @@ const Grain = ({ grain, targetVolume, actions, showDetailModal }) => (
       <div className="pure-u-10-24">
         <div className={s.grainName}>
           {grain.name}
-          <ActionInfo onClick={showDetailModal} />
+          <ActionInfo className={s.showDetail} onClick={showDetailModal} />
         </div>
       </div>
       <div className="pure-u-12-24">
