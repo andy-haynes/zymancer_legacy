@@ -70,24 +70,27 @@ const _hopFields = {
   beta: { type: GraphQLString }
 };
 
+const _extendedHopFields = Object.assign(_hopFields, {
+  url: { type: new GraphQLNonNull(GraphQLString) },
+  coHumulone: { type: GraphQLString },
+  totalOil: { type: GraphQLString },
+  myrcene: { type: GraphQLString },
+  caryophyllene: { type: GraphQLString },
+  farnesene: { type: GraphQLString },
+  humulene: { type: GraphQLString },
+  geraniol: { type: GraphQLString }
+});
+
 export const HopType = new GraphQLObjectType({
   name: 'HopType',
-  fields: Object.assign({}, _hopFields, {
-    name: { type: GraphQLString },
-    url: { type: GraphQLString },
-    coHumulone: { type: GraphQLString },
-    totalOil: { type: GraphQLString },
-    myrcene: { type: GraphQLString },
-    caryophyllene: { type: GraphQLString },
-    farnesene: { type: GraphQLString },
-    humulene: { type: GraphQLString },
-    geraniol: { type: GraphQLString }
+  fields: Object.assign({}, _extendedHopFields, {
+    name: { type: GraphQLString }
   })
 });
 
 export const HopAdditionType = new GraphQLObjectType({
   name: 'HopAdditionType',
-  fields: Object.assign({}, _hopFields, {
+  fields: Object.assign({}, _extendedHopFields, {
     name: { type: new GraphQLNonNull(GraphQLString) },
     weight: { type: WeightType },
     minutes: { type: GraphQLInt },

@@ -31,17 +31,7 @@ async function _graphqlFetch(query) {
   return await resp.json();
 }
 
-function _groupHops(hops) {
-  const grouped = [];
-  const hashGroup = groupBy(hops, h => [h.form, h.name, h.alpha, h.beta].join('-'));
-  Object.keys(hashGroup).forEach(k => {
-    grouped.push(Object.assign({}, hashGroup[k][0], {
-      additions: flatten(hashGroup[k].map(h => h.additions || [pick(h, 'minutes', 'weight')]))
-    }));
-  });
-  return grouped;
-}
-
+//region GraphQL keys
 const _styleKeys = `
   id,
   name,
@@ -118,7 +108,9 @@ const _yeastKeys = `
   attenuationLow,
   attenuationHigh
 `;
+//endregion
 
+//region save/load recipes
 export async function getRecipe(recipeId) {
   const query = `{
     loadRecipe(id:${recipeId}) {
@@ -133,57 +125,23 @@ export async function getRecipe(recipeId) {
         unit
       },
       grains {
-        id,
-        name,
-        gravity,
-        lovibond,
-        lintner,
-        isExtract,
-        DBCG,
-        DBFG,
+        ${_grainKeys},
         weight {
           value,
           unit
         }
       },
       hops {
-        id,
-        name,
-        alpha,
-        beta,
-        categories,
-        minutes,
-        form,
-        type,
-        coHumulone,
-        totalOil,
-        myrcene,
-        caryophyllene,
-        farnesene,
-        humulene,
-        geraniol,
+        ${_hopKeys},
         weight {
           value,
           unit
         }
       },
       yeasts {
-        id,
-        name,
-        mfg,
-        code,
-        styles,
-        description,
-        toleranceLow,
-        toleranceHigh,
-        temperatureLow,
-        temperatureHigh,
+        ${_yeastKeys},
         mfgDate,
-        attenuationLow,
-        attenuationHigh,
-        apparentAttenuation,
-        quantity,
-        flocculation
+        quantity
       },
       fermentation {
         pitchRateMillionsMLP
@@ -312,11 +270,9 @@ export async function getSavedRecipes(recipeType) {
   const { data } = await _graphqlFetch(`{${query}{ id, name, style { id, code, name }, ABV, IBU, OG, FG }}`);
   return data[query] || [];
 }
+//endregion
 
-export async function getStyle(styleId) {
-  return await _graphqlFetch(`{style(id:${styleId}) { ${_styleKeys} }}`);
-}
-
+//region ingredient search
 function buildTokenScore(query, resolveTokens, blacklist = []) {
   return query
     .toLowerCase()
@@ -325,27 +281,6 @@ function buildTokenScore(query, resolveTokens, blacklist = []) {
     .filter(s => !blacklist.includes(s))
     .forEach(resolveTokens);
 }
-
-// TODO store this
-// get key-value + value-key pairs
-const _tokenAliases = flatten((aliases => Object.keys(aliases).map(a => [
-  { [aliases[a]]: a }, { [a]: aliases[a] }
-]))({
-  'roast': 'roasted',
-  'crystal': 'caramel',
-  '1': 'i',
-  '2': 'ii',
-  '3': 'iii',
-  '4': 'iv',
-  '5': 'v',
-  '6': 'vi',
-  '7': 'vii',
-  '8': 'viii',
-  '9': 'ix'
-})).reduce((aliases, mapping) => {
-  (key => aliases[key] = mapping[key])(Object.keys(mapping)[0]);
-  return aliases;
-}, {});
 
 function partialMatchIngredient(query, tokens, blacklist) {
   const scores = {};
@@ -376,6 +311,88 @@ function partialMatchIngredient(query, tokens, blacklist) {
   return null;
 }
 
+// TODO store aliases
+// get key-value + value-key pairs
+const _tokenAliases = flatten((aliases => Object.keys(aliases).map(a => [
+  { [aliases[a]]: a }, { [a]: aliases[a] }
+]))({
+  'roast': 'roasted',
+  'crystal': 'caramel',
+  '1': 'i',
+  '2': 'ii',
+  '3': 'iii',
+  '4': 'iv',
+  '5': 'v',
+  '6': 'vi',
+  '7': 'vii',
+  '8': 'viii',
+  '9': 'ix'
+})).reduce((aliases, mapping) => {
+  (key => aliases[key] = mapping[key])(Object.keys(mapping)[0]);
+  return aliases;
+}, {});
+
+export async function tokenizeIngredients() {
+  function histogramReduce(blacklist, props) {
+    return (tokens, ingredient) => {
+      props.filter(p => ingredient[p]).forEach(key => {
+        ingredient[key]
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, ' ')
+          .split(/\s+/g)
+          .forEach(i => {
+            if (i && !blacklist.includes(i)) {
+              if (!tokens.hasOwnProperty(i)) {
+                tokens[i] = [];
+              }
+              tokens[i].push(ingredient.id);
+            }
+          });
+      });
+
+      return tokens;
+    };
+  }
+
+  const { data } = await _graphqlFetch(`{tokenizeIngredients {
+    grains { id, name },
+    hops { id, name },
+    yeast { id, name, code }
+  }}`);
+
+  const ingredients = data.tokenizeIngredients;
+  return {
+    [IngredientType.Grain]: ingredients.grains.reduce(histogramReduce(['malt', 'ale'], ['name']), {}),
+    [IngredientType.Hop]: ingredients.hops.reduce(histogramReduce(['hop'], ['name']), {}),
+    [IngredientType.Yeast]: ingredients.yeast.reduce(histogramReduce(['yeast'], ['name', 'code']), {})
+  };
+}
+
+export async function searchIngredients(ingredientType, query, searchCache) {
+  if (query.length < MinSearchQueryLength) {
+    return [];
+  }
+
+  async function fetchIngredients(key, fields) {
+    const scores = partialMatchIngredient(query, searchCache[ingredientType]);
+    if (scores === null) {
+      return [];
+    }
+
+    const { data } = await _graphqlFetch(`{${key}(ids:[${scores.map(s => s.id).join(',')}]) {${fields}}}`);
+    return data[key].map(d => Object.assign(d, { score: scores.find(s => s.id === d.id).score }))
+                    .sort((a, b) => b.score - a.score);
+  }
+
+  return await fetchIngredients.apply(null, {
+    [IngredientType.Grain]: ['searchGrains', _grainKeys],
+    [IngredientType.Hop]: ['searchHops', _hopKeys],
+    [IngredientType.Yeast]: ['searchYeast', _yeastKeys]
+  }[ingredientType]);
+}
+//endregion
+
+//region recipe parsing
 export async function matchParsedIngredients(parsed, searchCache) {
   const ingredientMap = {};
   function matchingIdStr(ingredients, tokens, blacklist) {
@@ -442,167 +459,19 @@ export async function matchParsedIngredients(parsed, searchCache) {
     parameters: parsed.parameters
   };
 }
-/*
-export async function buildParsedRecipe(parsed, searchCache) {
-  const ingredientMap = {};
-  function matchingIdStr(ingredients, tokens, blacklist) {
-    return [...new Set([...new Set(ingredients)]
-      .map(i => {
-        const match = partialMatchIngredient(i, tokens, blacklist);
-        if (match !== null) {
-          ingredientMap[i] = match[0];
-          return ingredientMap[i];
-        }
-      })
-      .filter(i => typeof i !== 'undefined')
-    )];
-  }
+//endregion
 
-  const getName = (i) => i.name;
-  const getNameOrCode = (i) => i.name || i.code;
-
-  const [parsedGrains, parsedHops, parsedYeast] = [
-    matchingIdStr(parsed.grains.map(getName), searchCache[IngredientType.Grain], ['malt']),
-    matchingIdStr(parsed.hops.map(getName), searchCache[IngredientType.Hop], ['hop']),
-    matchingIdStr(parsed.yeast.map(getNameOrCode), searchCache[IngredientType.Yeast], ['yeast'])
-  ];
-
-  const query = `{
-    matchParsedIngredients(
-      ${parsed.styleId ? `style: { id: ${parsed.styleId} },` : ''}
-      grains: [${parsedGrains}],
-      hops: [${parsedHops}],
-      yeast: [${parsedYeast}]
-    ) {
-      grains {${_grainKeys}},
-      hops {${_hopKeys}},
-      yeast {
-        ${_yeastKeys},
-        apparentAttenuation
-      },
-      style {${_styleKeys}}
-    }
-  }`;
-
-  const { data } = await _graphqlFetch(query);
-  const recipe = data.matchParsedIngredients;
-
-  parsed.parameters.forEach(p => {
-    switch (p.parameter) {
-      case RecipeParameter.BoilTime:
-        recipe.boilMinutes = p.quantity.value;
-        break;
-      case RecipeParameter.BrewMethod:
-        recipe.brewMethod = p.quantity.value;
-        break;
-      case RecipeParameter.Efficiency:
-        recipe.efficiency = p.value;
-        break;
-      case RecipeParameter.TargetVolume:
-        recipe.targetVolume = Object.assign({}, Defaults.TargetVolume, p.quantity);
-        break;
-      //case RecipeParameter.Attenuation:
-      //  break;
-      // what to do with calculated values?
-      //case RecipeParameter.BoilVolume:
-      //case RecipeParameter.FinalGravity:
-      //case RecipeParameter.OriginalGravity:
-      //case RecipeParameter.IBU:
-      //case RecipeParameter.SRM:
-      //case RecipeParameter.ABV:
-    }
+function _groupHops(hops) {
+  const grouped = [];
+  const hashGroup = groupBy(hops, h => [h.form, h.name, h.alpha, h.beta].join('-'));
+  Object.keys(hashGroup).forEach(k => {
+    grouped.push(Object.assign({}, hashGroup[k][0], {
+      additions: flatten(hashGroup[k].map(h => h.additions || [pick(h, 'minutes', 'weight')]))
+    }));
   });
-
-  function mergeIngredients(ingredients, retrieved, create, getIngredientKey) {
-    if (ingredients) {
-      return ingredients.map(i => {
-        const matching = retrieved && retrieved.find(r => ingredientMap[getIngredientKey(i)] === r.id);
-        if (matching) {
-          return Object.assign({}, matching, i);
-        }
-        return i;
-      }).map(i => Object.assign(create(i), { line: i.line }));
-    }
-
-    return [];
-  }
-
-  if (recipe.style === null) {
-    delete recipe.style;
-  }
-
-  const grains = mergeIngredients(parsed.grains, recipe.grains, grain.create, getName);
-  const hops = mergeIngredients(_groupHops(parsed.hops), recipe.hops, hop.create, getName);
-  const yeasts = mergeIngredients(parsed.yeast, recipe.yeast, yeast.create, getNameOrCode);
-
-  return Object.assign(recipe, {
-    grains: grains.sort(helpers.sortMeasurements(e => e.weight, Units.Pound, false)),
-    hops,
-    fermentation: {
-      pitchRate: Defaults.PitchRate,
-      yeasts
-    }
-  }, {
-    parameters: parsed.parameters
-  });
-}
-*/
-
-export async function tokenizeIngredients() {
-  function histogramReduce(blacklist, props) {
-    return (tokens, ingredient) => {
-      props.filter(p => ingredient[p]).forEach(key => {
-        ingredient[key]
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, ' ')
-          .split(/\s+/g)
-          .forEach(i => {
-            if (i && !blacklist.includes(i)) {
-              if (!tokens.hasOwnProperty(i)) {
-                tokens[i] = [];
-              }
-              tokens[i].push(ingredient.id);
-            }
-          });
-      });
-
-      return tokens;
-    };
-  }
-
-  const { data } = await _graphqlFetch(`{tokenizeIngredients {
-    grains { id, name },
-    hops { id, name },
-    yeast { id, name, code }
-  }}`);
-
-  const ingredients = data.tokenizeIngredients;
-  return {
-    [IngredientType.Grain]: ingredients.grains.reduce(histogramReduce(['malt', 'ale'], ['name']), {}),
-    [IngredientType.Hop]: ingredients.hops.reduce(histogramReduce(['hop'], ['name']), {}),
-    [IngredientType.Yeast]: ingredients.yeast.reduce(histogramReduce(['yeast'], ['name', 'code']), {})
-  };
+  return grouped;
 }
 
-export async function searchIngredients(ingredientType, query, searchCache) {
-  if (query.length < MinSearchQueryLength) {
-    return [];
-  }
-
-  async function fetchIngredients(key, fields) {
-    const scores = partialMatchIngredient(query, searchCache[ingredientType]);
-    if (scores === null) {
-      return [];
-    }
-
-    const { data } = await _graphqlFetch(`{${key}(ids:[${scores.map(s => s.id).join(',')}]) {${fields}}}`);
-    return data[key].map(d => Object.assign(d, { score: scores.find(s => s.id === d.id).score }))
-                    .sort((a, b) => b.score - a.score);
-  }
-
-  return await fetchIngredients.apply(null, {
-    [IngredientType.Grain]: ['searchGrains', _grainKeys],
-    [IngredientType.Hop]: ['searchHops', _hopKeys],
-    [IngredientType.Yeast]: ['searchYeast', _yeastKeys]
-  }[ingredientType]);
+export async function getStyle(styleId) {
+  return await _graphqlFetch(`{style(id:${styleId}) { ${_styleKeys} }}`);
 }

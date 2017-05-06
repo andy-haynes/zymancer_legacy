@@ -12,11 +12,11 @@ const loadRecipe = {
     return await Recipe.findOne({
       attributes: ['id', 'name', 'styleId', 'method', 'volume'],
       include: [{
-        attributes: ['id', 'name', 'isExtract', 'DBFG', 'DBCG'],
+        attributes: ['id', 'name', 'isExtract', 'DBFG', 'DBCG', 'url', 'mfg'],
         model: Grain,
         as: 'grains'
       }, {
-        attributes: ['id', 'name', 'alpha', 'beta', 'categories'],
+        attributes: ['id', 'name', 'alpha', 'beta', 'categories', 'url'],
         model: Hop,
         as: 'hopAdditions'
       }, {
@@ -53,6 +53,8 @@ const loadRecipe = {
       grains: recipe.grains.map(grain => ({
         id: grain.id,
         name: grain.name,
+        mfg: grain.mfg,
+        url: grain.url,
         isExtract: grain.isExtract,
         DBCG: grain.DBCG,
         DBFG: grain.DBFG,
@@ -64,6 +66,7 @@ const loadRecipe = {
       hops: recipe.hopAdditions.map(hop => ({
         id: hop.id,
         name: hop.name,
+        url: hop.url,
         alpha: hop.RecipeHops.alpha,
         beta: hop.RecipeHops.beta,
         categories: hop.categories,
@@ -77,6 +80,7 @@ const loadRecipe = {
         name: yeast.name,
         description: yeast.description,
         styles: yeast.styles,
+        url: yeast.url,
         mfg: yeast.mfg,
         code: yeast.code,
         temperatureLow: yeast.temperatureLow,
