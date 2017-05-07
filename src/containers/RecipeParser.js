@@ -14,32 +14,34 @@ function mapState(state) {
 }
 
 function mapDispatch(dispatch) {
-  function loadParsedRecipe(recipe) {
-    function buildSuggestion(ingredient, overrideProps = []) {
-      const selectedGrain = ingredient.suggestions[0];  //TODO take the one matched by the user
+  function loadParsedRecipe({ recipe, suggestions }) {
+    function buildSuggestion(ingredient, key, overrideProps = []) {
+      const ingredientSuggestion = suggestions[key].find(s => s.id === ingredient.id);
+      const selectedIngredient = Object.assign({}, ingredientSuggestion.suggestions.find(s => s.active));
       const parsedFields = pick(ingredient, overrideProps);
 
       Object.keys(parsedFields).forEach(overrideKey => {
         if (parsedFields[overrideKey]) {
-          selectedGrain[overrideKey] = parsedFields[overrideKey];
+          selectedIngredient[overrideKey] = parsedFields[overrideKey];
         }
       });
 
-      return selectedGrain;
+      return selectedIngredient;
     }
 
-    recipe.grains = recipe.grains.map(g => buildSuggestion(g, ['name', 'weight', 'lovibond'])).map(grain.create);
-    recipe.hops = recipe.hops.map(h => buildSuggestion(h, ['name', 'alpha', 'beta', 'additions'])).map(hop.create);
-    recipe.fermentation = { yeasts: recipe.yeast.map(buildSuggestion).map(yeast.create) };
+    recipe.grains = recipe.grains.map(g => buildSuggestion(g, 'grains', ['name', 'weight', 'lovibond'])).map(grain.create);
+    recipe.hops = recipe.hops.map(h => buildSuggestion(h, 'hops', ['name', 'alpha', 'beta', 'additions'])).map(hop.create);
+    recipe.fermentation = { yeasts: recipe.yeast.map(y => buildSuggestion(y, 'yeasts')).map(yeast.create) };
 
-    dispatch(actions.saved.loadSavedRecipe(recipe));
+    return dispatch(actions.saved.loadSavedRecipe(recipe));
   }
 
   return {
     actions: {
       loadParsedRecipe,
       updateRecipeText: (recipeText) => dispatch(actions.parser.updateRecipeText(recipeText)),
-      parseRecipeText: (recipeText, searchCache) => dispatch(actions.parser.parseRecipeText(recipeText, searchCache))
+      parseRecipeText: (recipeText, searchCache) => dispatch(actions.parser.parseRecipeText(recipeText, searchCache)),
+      selectIngredientSuggestion: (ingredientKey, matchId, suggestionId) => dispatch(actions.parser.selectIngredientSuggestion(ingredientKey, matchId, suggestionId))
     }
   };
 }

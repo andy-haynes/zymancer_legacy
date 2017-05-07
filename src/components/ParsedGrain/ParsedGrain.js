@@ -12,7 +12,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 
-const ParsedGrain = ({ grain, actions }) => (
+const ParsedGrain = ({ grain, actions, toggleSuggestion }) => (
   <Paper className={s.parsedGrain} zDepth={2}>
     <div className="pure-g">
       <div className="pure-u-10-24">
@@ -70,7 +70,11 @@ const ParsedGrain = ({ grain, actions }) => (
       <div className="pure-u-1-1">
         <div className={s.suggestions}>
           {grain.suggestions.map((suggestion, i) => (
-            <ParsedSuggestion key={`grain-suggestion-${i}`} suggestion={suggestion} />
+            <ParsedSuggestion
+              key={`grain-suggestion-${i}`}
+              suggestion={suggestion}
+              toggle={() => toggleSuggestion(suggestion.id)}
+            />
           ))}
         </div>
       </div>

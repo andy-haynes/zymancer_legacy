@@ -18,7 +18,9 @@ import IconButton from 'material-ui/IconButton';
 class ParsedHop extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { expanded: true };
+    this.state = {
+      expanded: true
+    };
   }
 
   toggleExpand = () => {
@@ -70,7 +72,11 @@ class ParsedHop extends React.Component {
           <div className="pure-u-1-1">
             <div className={s.suggestions}>
               {hop.suggestions.map((suggestion, i) => (
-                <ParsedSuggestion key={`grain-suggestion-${i}`} suggestion={suggestion} />
+                <ParsedSuggestion
+                  key={`grain-suggestion-${i}`}
+                  suggestion={suggestion}
+                  toggle={() => this.props.toggleSuggestion(suggestion.id)}
+                />
               ))}
             </div>
           </div>

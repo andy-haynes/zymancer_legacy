@@ -21,5 +21,6 @@ function parseRecipeText(recipeText, searchCache) {
 export default {
   updateRecipeText: helpers.createAction(RecipeActions.UpdateRecipeText, 'recipeText'),
   updateSuggestions: helpers.createAction(RecipeActions.ParseRecipeText, 'recipe'),
+  selectIngredientSuggestion: helpers.createAction(RecipeActions.SelectIngredientSuggestion, 'ingredientKey', 'matchId', 'suggestionId'),
   parseRecipeText
 };
