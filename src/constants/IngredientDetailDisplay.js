@@ -5,7 +5,7 @@ export const displayKeys = {
   url: 'Source URL',
   mfg: 'Manufacturer',
   DBFG: 'Dry Basis Fine Grind',
-  lovibond: '° Lintner',
+  lovibond: '° Lovibond',
   gravity: 'Specific Gravity',
   lintner: 'Lintner',
   alpha: 'Alpha',

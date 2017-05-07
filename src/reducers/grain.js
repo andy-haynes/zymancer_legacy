@@ -2,6 +2,7 @@ import RecipeActions from '../constants/RecipeActionTypes';
 import Defaults from '../constants/Defaults';
 import { ExtractType, ExtractGravity } from '../constants/AppConstants';
 import measurement from './measurement';
+import helpers from '../utils/helpers';
 import pick from 'lodash/pick';
 
 let grainId = 0;
@@ -14,14 +15,26 @@ function createGrain(grain) {
     props.id = ++grainId;
   }
 
+  let lovibond = grain.lovibond;
+  if (!isNaN(parseFloat(lovibond))) {
+    lovibond = parseFloat(lovibond);
+  } else {
+    const lovibondRange = helpers.extractRange(lovibond);
+    if (lovibondRange !== null) {
+      lovibond = lovibondRange.avg;
+    } else {
+      lovibond = Defaults.GrainLovibond;
+    }
+  }
+
   return Object.assign(props, {
     description: grain.description || '',
     weight: grain.weight || Defaults.GrainWeight,
     gravity: grain.gravity || (extractType ? ExtractGravity[extractType] : Defaults.GrainGravity),
-    lovibond: (l => isNaN(l) ? Defaults.GrainLovibond : l)(parseFloat(grain.lovibond)),
     lintner: parseFloat(grain.lintner) || 0,
     characteristics: grain.characteristics ? (typeof grain.characteristics === 'object' ? grain.characteristics.split(',') : grain.characteristics) : null,
     matchScore: grain.score || 0,
+    lovibond,
     extractType
   });
 }
