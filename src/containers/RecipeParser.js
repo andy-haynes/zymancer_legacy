@@ -31,7 +31,7 @@ function mapDispatch(dispatch) {
 
     recipe.grains = recipe.grains.map(g => buildSuggestion(g, 'grains', ['name', 'weight', 'lovibond'])).map(grain.create);
     recipe.hops = recipe.hops.map(h => buildSuggestion(h, 'hops', ['name', 'alpha', 'beta', 'additions'])).map(hop.create);
-    recipe.fermentation = { yeasts: recipe.yeast.map(y => buildSuggestion(y, 'yeasts')).map(yeast.create) };
+    recipe.fermentation = { yeasts: recipe.yeast.map(y => buildSuggestion(y, 'yeast')).map(yeast.create) };
 
     return dispatch(actions.saved.loadSavedRecipe(recipe));
   }
