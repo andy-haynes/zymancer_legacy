@@ -22,7 +22,10 @@ function mapDispatch(dispatch) {
 
       Object.keys(parsedFields).forEach(overrideKey => {
         if (parsedFields[overrideKey]) {
-          selectedIngredient[overrideKey] = parsedFields[overrideKey];
+          // only take names if the selected match didn't have one
+          if (overrideKey !== 'name' || selectedIngredient[overrideKey] === undefined) {
+            selectedIngredient[overrideKey] = parsedFields[overrideKey];
+          }
         }
       });
 
