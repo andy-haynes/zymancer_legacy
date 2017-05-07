@@ -210,7 +210,7 @@ function parseLine(line) {
   return null;
 }
 
-const _rxNumeric = /\d+\.?\d*/g;
+const _rxNumeric = /[0-9.]+\d*/g;
 function extractNumeric(str) {
   if (str) {
     return ((m) => m && parseFloat(m[0]))(str.match(_rxNumeric));
@@ -227,7 +227,7 @@ function parseQuantity(qty) {
     // split components to allow for compound units (e.g. 11 lbs, 4 oz)
     qty.split(/\s+/g).forEach(q => {
       const value = extractNumeric(q);
-      if (value !== null) {
+      if (!isNaN(value) && value !== null) {
         if (!quantity.value) {
           quantity.value = value;
         } else {
