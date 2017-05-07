@@ -22,7 +22,7 @@ const Fermentation = ({ fermentation, actions }) => (
                   </div>
                   <div className={s.cellCount}>
                     <span className={s.cellCountValue}>
-                      {round(fermentation.cellCount / Math.pow(10, 9), 1)}
+                      {round((fermentation.cellCount || 0) / Math.pow(10, 9), 1)}
                     </span>
                     &nbsp;&times; 10<sup>9</sup>
                   </div>
@@ -39,7 +39,7 @@ const Fermentation = ({ fermentation, actions }) => (
                   </div>
                   <div className={s.cellCount}>
                     <span className={s.cellCountValue}>
-                      {round(fermentation.recommendedCellCount / Math.pow(10, 9), 1)}
+                      {round((fermentation.recommendedCellCount || 0) / Math.pow(10, 9), 1)}
                     </span>
                     &nbsp;&times; 10<sup>9</sup>
                   </div>
