@@ -13,4 +13,5 @@
 .results {
   height: 750px;
   overflow-y: scroll;
+  padding: 1em;
 }

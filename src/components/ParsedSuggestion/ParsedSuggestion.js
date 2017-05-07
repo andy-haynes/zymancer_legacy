@@ -5,14 +5,29 @@ import Toggle from 'material-ui/Toggle';
 import round from 'lodash/round';
 
 const ParsedSuggestion = ({ suggestion, toggle }) => (
-  <div className={s.parsedSuggestion}>
+  <div className={s.parsedSuggestion} onClick={toggle}>
     <div className="pure-g">
       <div className="pure-u-1-8">
-        <Toggle toggled={suggestion.active} onClick={toggle} />
+        <Toggle
+          toggled={suggestion.active}
+          style={{
+            position: 'relative',
+            top: '0.5em'
+          }}
+        />
       </div>
       <div className="pure-u-7-8">
-        {suggestion.name} | {suggestion.mfg}
-        {round(suggestion.score, 2)}
+        <div className={s.parsedName}>
+          {suggestion.name}
+        </div>
+        <div className={s.parsedMfg}>
+          <a href={suggestion.url} target="_blank">
+            {suggestion.mfg}
+          </a>
+        </div>
+        <div className={s.parsedScore}>
+          {round(suggestion.score, 2)}
+        </div>
       </div>
     </div>
   </div>

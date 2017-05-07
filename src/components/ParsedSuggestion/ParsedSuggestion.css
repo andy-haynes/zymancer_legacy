@@ -1,8 +1,31 @@
 .parsedSuggestion {
-  border: 1px solid #ddd;
-  border-top: none;
   cursor: pointer;
   transition-property: background;
   transition-duration: 0.2s;
   transition-timing-function: linear;
+  padding: 0.2em 0.6em;
+  margin-bottom: 0.1em;
+}
+
+.parsedSuggestion:hover {
+  background: #eee;
+}
+
+.parsedName {
+  font-size: 1em;
+  color: #222;
+}
+
+.parsedMfg {
+  font-size: 0.6em;
+  text-transform: uppercase;
+  color: #666;
+}
+
+.parsedScore {
+  font-size: 0.6em;
+  color: #666;
+  position: relative;
+  top: -2.5em;
+  float: right;
 }

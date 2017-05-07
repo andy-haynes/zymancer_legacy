@@ -26,16 +26,24 @@ const RecipeParser = ({ parser, searchCache, actions }) => {
             style={{width: '100%', height: '750px'}}
             value={parser.text}
             onChange={e => actions.updateRecipeText(e.target.value)}
-            />
+          />
         </div>
         <div className="pure-u-1-2">
           <div className={s.results}>
             {parser.suggestions.parameters && <ParsedParameters parameters={parser.suggestions.parameters}/>}
             {parser.suggestions.grains && parser.suggestions.grains.map((g, i) => (
-              <ParsedGrain key={`parsed-grain-${i}`} grain={g} toggleSuggestion={suggestionToggle('grains', g.id)}/>
+              <ParsedGrain
+                key={`parsed-grain-${i}`}
+                grain={g}
+                toggleSuggestion={suggestionToggle('grains', g.id)}
+              />
             ))}
             {parser.suggestions.hops && parser.suggestions.hops.map((h, i) => (
-              <ParsedHop key={`parsed-grain-${i}`} hop={h} toggleSuggestion={suggestionToggle('hops', h.id)}/>
+              <ParsedHop
+                key={`parsed-grain-${i}`}
+                hop={h}
+                toggleSuggestion={suggestionToggle('hops', h.id)}
+              />
             ))}
             {parser.suggestions.yeasts && parser.suggestions.yeasts.map((y, i) => (
               <Paper className={s.parsedIngredient} key={`parsed-yeast-${i}`}>
@@ -59,18 +67,18 @@ const RecipeParser = ({ parser, searchCache, actions }) => {
             secondary={true}
             style={{float: 'right'}}
             onClick={() => actions.loadParsedRecipe(parser)}
-            />
+          />
           <RaisedButton
             label="Parse"
             primary={true}
             style={{float: 'right'}}
             onClick={() => actions.parseRecipeText(parser.text, searchCache)}
-            />
+          />
         </div>
       </div>
     </div>
   );
-}
+};
 
 /*
 RecipeParser.propTypes = {
