@@ -297,7 +297,7 @@ function buildRecipe(parsed) {
         }));
       } else if (p.alpha || p.time || p.hopAddition || p.hopForm) {
         const mapHopDetail = (d) => d && _recipeMapping[d.toLowerCase()];
-        const hopName = p.name.replace(_rxHopForm, '').replace(/(hops|hop|at)(\s|:|$)+/ig, '').trim();
+        const hopName = p.name.replace(_rxHopForm, '').replace(/(hops|hop|at|dry)(\s|:|$)+/ig, '').trim();
         const alpha = extractNumeric(p.alpha || p.percentage);
 
         const parsedHop = recipe.hops.find(h => h.name === hopName && h.alpha === alpha);
