@@ -456,7 +456,8 @@ export async function matchParsedIngredients(parsed, searchCache) {
     grains: buildSuggestions(parsed.grains, 'grains', grain),
     hops: buildSuggestions(parsed.hops, 'hops', hop),
     yeast: buildSuggestions(parsed.yeast, 'yeast', yeast),
-    parameters: parsed.parameters
+    parameters: parsed.parameters,
+    style: parsed.styleId !== undefined ? { id: parsed.styleId } : undefined
   };
 }
 //endregion
