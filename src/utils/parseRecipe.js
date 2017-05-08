@@ -297,19 +297,28 @@ function buildRecipe(parsed) {
         }));
       } else if (p.alpha || p.time || p.hopAddition || p.hopForm) {
         const mapHopDetail = (d) => d && _recipeMapping[d.toLowerCase()];
+        const hopName = p.name.replace(_rxHopForm, '').replace(/(hops|hop|at)(\s|:|$)+/ig, '').trim();
+        const alpha = extractNumeric(p.alpha || p.percentage);
 
-        recipe.hops.push(createProp({
-          name: p.name.replace(_rxHopForm, '').replace(/(hops|hop|at)(\s|:|$)+/ig, '').trim(),
-          alpha: extractNumeric(p.alpha || p.percentage),
-          ibu: extractNumeric(p.ibu),
-          form: mapHopDetail(p.hopForm),
-          line: p.line,
-          additions: [{
-            minutes: extractNumeric(p.time),
-            type: mapHopDetail(p.hopAddition) || HopAdditionType.Boil,
-            weight
-          }]
-        }));
+        const parsedHop = recipe.hops.find(h => h.name === hopName && h.alpha === alpha);
+        const addition = {
+          minutes: extractNumeric(p.time),
+          type: mapHopDetail(p.hopAddition) || HopAdditionType.Boil,
+          weight
+        };
+
+        if (parsedHop) {
+          parsedHop.additions.push(addition)
+        } else {
+          recipe.hops.push(createProp({
+            name: hopName,
+            alpha,
+            ibu: extractNumeric(p.ibu),
+            form: mapHopDetail(p.hopForm),
+            line: p.line,
+            additions: [addition]
+          }));
+        }
       } else if (p.name && !p.time && p.name.toLowerCase() !== 'total') {
         p.gravity = extractNumeric(p.gravity);
         if (!p.gravity) {
