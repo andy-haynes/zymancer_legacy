@@ -31,7 +31,7 @@ const recipeParser = (state = initialState, action) => {
         suggestions: Object.assign(action.recipe, {
           grains: uniqBy(action.recipe.grains, g => `${g.name}|${g.lovibond}|${g.gravity}`),
           hops: uniqBy(action.recipe.hops, h => `${h.name}|${h.alpha}`),
-          yeasts: uniqBy(action.recipe.yeasts, y => `${y.name}|${y.mfg}|${y.code}`)
+          yeast: uniqBy(action.recipe.yeast, y => `${y.name}|${y.mfg}|${y.code}`)
         })
       });
     default:

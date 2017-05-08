@@ -45,7 +45,7 @@ const RecipeParser = ({ parser, searchCache, actions }) => {
                 toggleSuggestion={suggestionToggle('hops', h.id)}
               />
             ))}
-            {parser.suggestions.yeasts && parser.suggestions.yeasts.map((y, i) => (
+            {parser.suggestions.yeast && parser.suggestions.yeast.map((y, i) => (
               <Paper className={s.parsedIngredient} key={`parsed-yeast-${i}`}>
                 {y.code} | {y.name} | {y.mfg}
                 <div className={s.suggestions}>
