@@ -58,41 +58,90 @@ function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, bo
 function recalculate(state, changed) {
   let { id, name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
 
-  const thicknessUnit = mashSchedule.thickness.consequent;
-  const grainWeight = {
-    value: sumBy(grains, g => helpers.convertToUnit(g.weight, thicknessUnit).value),
-    unit: thicknessUnit
+  const diff = {
+    style: state.style !== style,
+    method: state.method !== method,
+    grains: state.grains !== grains,
+    hops: state.hops !== hops,
+    efficiency: state.efficiency !== efficiency,
+    targetVolume: state.targetVolume !== targetVolume,
+    boilVolume: state.boilVolume !== boilVolume,
+    boilMinutes: state.boilMinutes !== boilMinutes,
+    mashSchedule: state.mashSchedule !== mashSchedule,
+    originalGravity: state.originalGravity !== originalGravity,
+    finalGravity: state.finalGravity !== finalGravity,
+    IBU: state.IBU !== IBU,
+    fermentation: state.fermentation !== fermentation,
+    ABV: state.ABV !== ABV,
+    SRM: state.SRM !== SRM
   };
 
-  boilVolume = zymath.calculateBoilVolume(targetVolume, mashSchedule.boilOff, mashSchedule.thickness, mashSchedule.absorption, boilMinutes, grainWeight);
-  mashSchedule.boilLoss = helpers.multiplyRatioByMeasurement(mashSchedule.boilOff, { value: boilMinutes, unit: Units.Minute }, 2);
-
-  switch (method) {
-    case BrewMethod.AllGrain:
-    case BrewMethod.PartialMash:
-      originalGravity = zymath.calculateGravity(efficiency, grains, targetVolume);
-      mashSchedule = calculateMashSchedule(Object.assign({}, mashSchedule), grains, grainWeight, efficiency, boilVolume);
-      mashSchedule.absorptionLoss = helpers.multiplyRatioByMeasurement(mashSchedule.absorption, grainWeight, 2);
-      break;
-    case BrewMethod.Extract:
-      originalGravity = zymath.calculateGravity(100, grains.filter(g => g.isExtract), targetVolume);
-      break;
+  let grainWeight = Object.assign({}, Defaults.GrainWeight, { value: 0 });
+  if (grains.length) {
+    grainWeight = helpers.sumMeasurements(2, ...grains.map(g => g.weight));
   }
 
-  mashSchedule.totalLoss = helpers.sumMeasurements(2, mashSchedule.boilLoss, mashSchedule.absorptionLoss);
+  if (diff.targetVolume || diff.mashSchedule || diff.boilMinutes || diff.grains) {
+    boilVolume = zymath.calculateBoilVolume(targetVolume, mashSchedule.boilOff, mashSchedule.thickness, mashSchedule.absorption, boilMinutes, grainWeight);
+    mashSchedule.boilLoss = helpers.multiplyRatioByMeasurement(mashSchedule.boilOff, { value: boilMinutes, unit: Units.Minute }, 2);
+  }
 
-  IBU = zymath.calculateTotalIBU(boilVolume, originalGravity, hops);
+  if (diff.method || diff.efficiency || diff.grains || diff.targetVolume || diff.boilVolume || diff.mashSchedule) {
+    switch (method) {
+      case BrewMethod.AllGrain:
+      case BrewMethod.PartialMash:
+        originalGravity = zymath.calculateGravity(efficiency, grains, targetVolume);
+        mashSchedule = calculateMashSchedule(Object.assign({}, mashSchedule), grains, grainWeight, efficiency, boilVolume);
+        mashSchedule.absorptionLoss = helpers.multiplyRatioByMeasurement(mashSchedule.absorption, grainWeight, 2);
+        break;
+      case BrewMethod.Extract:
+        originalGravity = zymath.calculateGravity(100, grains.filter(g => g.isExtract), targetVolume);
+        break;
+    }
+  }
 
-  fermentation = Object.assign({}, fermentation, {
-    cellCount: sumBy(fermentation.yeasts, y => zymath.calculateCellCount(Defaults.CellCount * y.quantity, y.mfgDate, y.starterSteps)) || 0,
-    recommendedCellCount: zymath.calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume)
-  });
-  const apparentAttenuation = (sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || Defaults.YeastAttenuation;
-  finalGravity = zymath.calculateFinalGravity(originalGravity, apparentAttenuation);
-  ABV = zymath.calculateABV(originalGravity, finalGravity);
-  SRM = zymath.calculateSRM(targetVolume, grains);
+  if (diff.mashSchedule || method !== BrewMethod.Extract) {
+    mashSchedule.totalLoss = helpers.sumMeasurements(2, mashSchedule.boilLoss, mashSchedule.absorptionLoss);
+  }
 
-  return { id, name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM };
+  if (diff.boilVolume || diff.originalGravity || diff.hops || diff.grains || diff.targetVolume) {
+    IBU = zymath.calculateTotalIBU(boilVolume, originalGravity, hops);
+  }
+
+  if (diff.fermentation || diff.grains || diff.originalGravity || diff.targetVolume) {
+    fermentation = Object.assign({}, fermentation, {
+      cellCount: sumBy(fermentation.yeasts, y => zymath.calculateCellCount(Defaults.CellCount * y.quantity, y.mfgDate, y.starterSteps)) || 0,
+      recommendedCellCount: zymath.calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume)
+    });
+
+    const apparentAttenuation = (sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || Defaults.YeastAttenuation;
+    finalGravity = zymath.calculateFinalGravity(originalGravity, apparentAttenuation);
+    ABV = zymath.calculateABV(originalGravity, finalGravity);
+  }
+  
+  if (diff.grains || diff.targetVolume) {
+    SRM = zymath.calculateSRM(targetVolume, grains);    
+  }
+
+  return {
+    id,
+    name,
+    style,
+    method,
+    IBU,
+    ABV,
+    SRM,
+    efficiency,
+    grains: state.grains === grains ? state.grains : grains,
+    hops: state.hops === hops ? state.hops : hops,
+    targetVolume: state.targetVolume === targetVolume ? state.targetVolume : targetVolume,
+    boilVolume: state.boilVolume === boilVolume ? state.boilVolume : boilVolume,
+    boilMinutes: state.boilMinutes === boilMinutes ? state.boilMinutes : boilMinutes,
+    mashSchedule: state.mashSchedule === mashSchedule ? state.mashSchedule : mashSchedule,
+    originalGravity: state.originalGravity === originalGravity ? state.originalGravity : originalGravity,
+    finalGravity: state.finalGravity === finalGravity ? state.finalGravity : finalGravity,
+    fermentation: state.fermentation === fermentation ? state.fermentation : fermentation
+  };
 }
 
 const currentRecipe = (state = initialState, action) => {
