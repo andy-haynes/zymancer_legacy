@@ -7,7 +7,8 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import s from './App.css';
 import Header from '../Header';
@@ -15,23 +16,23 @@ import MobileHeader from '../_mobile/Header';
 import { Provider } from 'react-redux';
 import actions from '../../actions';
 
-class App extends Component {
+class App extends React.Component {
 
   static propTypes = {
     context: PropTypes.shape({
       store: PropTypes.object.isRequired,
       insertCss: PropTypes.func,
       setTitle: PropTypes.func,
-      setMeta: PropTypes.func,
+      setMeta: PropTypes.func
     }).isRequired,
     children: PropTypes.element.isRequired,
-    error: PropTypes.object,
+    error: PropTypes.object
   };
 
   static childContextTypes = {
     insertCss: PropTypes.func.isRequired,
     setTitle: PropTypes.func.isRequired,
-    setMeta: PropTypes.func.isRequired,
+    setMeta: PropTypes.func.isRequired
   };
 
   getChildContext() {
@@ -39,7 +40,7 @@ class App extends Component {
     return {
       insertCss: context.insertCss || emptyFunction,
       setTitle: context.setTitle || emptyFunction,
-      setMeta: context.setMeta || emptyFunction,
+      setMeta: context.setMeta || emptyFunction
     };
   }
 

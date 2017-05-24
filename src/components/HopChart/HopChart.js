@@ -1,12 +1,15 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './HopChart.css';
 import { Radar } from 'react-chartjs';
 
 class HopChart extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    options: PropTypes.object.isRequired,
+    diameter: PropTypes.string.isRequired
+  };
 
   shouldComponentUpdate(nextProps) {
     return this.props.hops.length !== nextProps.hops.length
@@ -32,10 +35,5 @@ class HopChart extends React.Component {
     );
   }
 }
-
-/*
-HopChart.propTypes = {
-};
-*/
 
 export default withStyles(s)(HopChart);

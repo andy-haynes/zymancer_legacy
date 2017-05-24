@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SavedRecipes.css';
 import Recipe from '../Recipe';
@@ -8,9 +10,11 @@ import Tab from 'material-ui/Tabs/Tab';
 import FetchedItem from '../FetchedItem';
 
 class SavedRecipes extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    [RecipeType.SavedRecipes]: DefinedTypes.savedRecipes.isRequired
+    //[RecipeType.SharedRecipes]: DefinedTypes.savedRecipes.isRequired,
+    //[RecipeType.PublicRecipes]: DefinedTypes.savedRecipes.isRequired
+  };
 
   render() {
     const buildRecipeSet = (recipeType) => {
@@ -54,10 +58,5 @@ class SavedRecipes extends React.Component {
     );
   }
 }
-
-/*
-SavedRecipes.propTypes = {
-};
-*/
 
 export default withStyles(s)(SavedRecipes);

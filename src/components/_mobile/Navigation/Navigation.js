@@ -7,7 +7,8 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Navigation.css';
 import Link from '../../Link';
@@ -20,38 +21,41 @@ import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import MenuIcon from 'material-ui/svg-icons/navigation/menu';
 import { lightBlue600 } from 'material-ui/styles/colors';
 
-function Navigation({ authenticated, selectMobileTab }) {
-  const accountLink = authenticated ? (
-      <span>
-        <a className={s.link} href="/logout">Log out</a>
-      </span>
-  ) : (<Link navlink className={s.link} to="/login">Log in</Link>);
+class Navigation extends React.PureComponent {
+  static propTypes = {
+    selectMobileTab: PropTypes.func.isRequired,
+    authenticated: PropTypes.bool.isRequired
+  };
 
-  return (
-    <div className={s.root} role="navigation">
-      <IconMenu
-        iconButtonElement={
-          <IconButton>
-            <MenuIcon color={lightBlue600} />
-          </IconButton>
-        }
-      >
-        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Root)}>Recipe</MenuItem>
-        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Grains)}>Grains</MenuItem>
-        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Hops)}>Hops</MenuItem>
-        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Mash)}>Mash</MenuItem>
-        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Fermentation)}>Fermentation</MenuItem>
-        <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Style)}>Style</MenuItem>
-        <MenuItem><Link navlink className={s.link} to="/recipes">Recipes</Link></MenuItem>
-        <MenuItem>{accountLink}</MenuItem>
-      </IconMenu>
-    </div>
-  );
+  render() {
+    const { authenticated } = this.props;
+    const accountLink = authenticated ? (
+        <span>
+          <a className={s.link} href="/logout">Log out</a>
+        </span>
+    ) : (<Link navlink className={s.link} to="/login">Log in</Link>);
+
+    return (
+      <div className={s.root} role="navigation">
+        <IconMenu
+          iconButtonElement={
+            <IconButton>
+              <MenuIcon color={lightBlue600} />
+            </IconButton>
+          }
+        >
+          <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Root)}>Recipe</MenuItem>
+          <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Grains)}>Grains</MenuItem>
+          <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Hops)}>Hops</MenuItem>
+          <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Mash)}>Mash</MenuItem>
+          <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Fermentation)}>Fermentation</MenuItem>
+          <MenuItem onTouchTap={() => selectMobileTab(MobileRecipeTab.Style)}>Style</MenuItem>
+          <MenuItem><Link navlink className={s.link} to="/recipes">Recipes</Link></MenuItem>
+          <MenuItem>{accountLink}</MenuItem>
+        </IconMenu>
+      </div>
+    );
+  }
 }
-
-Navigation.propTypes = {
-  className: PropTypes.string,
-  authenticated: PropTypes.bool
-};
 
 export default withStyles(s)(Navigation);

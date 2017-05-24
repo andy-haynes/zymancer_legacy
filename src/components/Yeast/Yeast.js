@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import DatePicker from 'material-ui/DatePicker';
 import TextField from 'material-ui/TextField';
@@ -16,6 +18,12 @@ import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 
 class Yeast extends React.Component {
+  static propTypes = {
+    yeast: DefinedTypes.yeast.isRequired,
+    actions: PropTypes.object.isRequired,
+    showDetailModal: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = { expanded: true };

@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './ParsedHop.css';
 import Measurement from '../Measurement';
@@ -16,6 +18,11 @@ import Paper from 'material-ui/Paper';
 import IconButton from 'material-ui/IconButton';
 
 class ParsedHop extends React.Component {
+  static propTypes = {
+    hop: DefinedTypes.hop.isRequired,
+    actions: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -28,7 +35,7 @@ class ParsedHop extends React.Component {
   };
 
   render() {
-    const { hop, boilVolume, originalGravity, boilMinutes, actions } = this.props;
+    const { hop, actions } = this.props;
     return (
       <Paper className={s.hop} zDepth={2}>
         <div className="pure-g">

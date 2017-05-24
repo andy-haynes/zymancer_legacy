@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import DefinedTypes from '../../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Paper from 'material-ui/Paper';
 import s from './Style.css';
@@ -15,9 +17,10 @@ function rangeIcon(inRange) {
 }
 
 class Style extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    style: DefinedTypes.style.isRequired,
+    actions: PropTypes.object.isRequired
+  };
 
   componentDidMount() {
     this.props.actions.loadStyle(this.props.style.id);

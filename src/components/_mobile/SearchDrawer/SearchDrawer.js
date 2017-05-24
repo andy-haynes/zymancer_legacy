@@ -1,4 +1,5 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './SearchDrawer.css';
 import Drawer from 'material-ui/Drawer';
@@ -8,6 +9,11 @@ import CloseIcon from 'material-ui/svg-icons/navigation/close';
 import AddCircleIcon from 'material-ui/svg-icons/content/add-circle';
 
 class SearchDrawer extends React.Component {
+  static propTypes = {
+    search: PropTypes.func.isRequired,
+    children: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -49,8 +55,5 @@ class SearchDrawer extends React.Component {
     );
   }
 }
-/*
-SearchDrawer.propTypes = {
-};
-*/
+
 export default withStyles(s)(SearchDrawer);

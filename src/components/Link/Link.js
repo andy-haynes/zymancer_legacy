@@ -7,7 +7,8 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import history from '../../core/history';
 import Defaults from '../../constants/Defaults';
 
@@ -19,8 +20,7 @@ function isModifiedEvent(event) {
   return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
 
-class Link extends Component { // eslint-disable-line react/prefer-stateless-function
-
+class Link extends React.Component {
   static propTypes = {
     to: PropTypes.oneOfType([PropTypes.string, PropTypes.object]).isRequired,
     onClick: PropTypes.func

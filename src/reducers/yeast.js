@@ -17,7 +17,7 @@ function createYeast(yeast) {
       mfgDate,
       quantity: 1,
       viability: zymath.calculateYeastViability(mfgDate),
-      styles: typeof yeast.styles === 'string' ? yeast.styles.split(',').join(', ') : [],
+      styles: typeof yeast.styles === 'string' ? yeast.styles.split(',').join(', ') : '',
       matchScore: yeast.score || 0,
       apparentAttenuation,
       starterSteps: []

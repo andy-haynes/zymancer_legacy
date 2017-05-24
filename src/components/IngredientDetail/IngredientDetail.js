@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './IngredientDetail.css';
 import { displayKeys, detailDisplay } from '../../constants/IngredientDetailDisplay';
@@ -8,6 +10,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 
 class IngredientDetail extends React.Component {
+  static propTypes = {
+    ingredient: DefinedTypes.ingredientDetail.isRequired,
+    children: PropTypes.element.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -57,12 +64,5 @@ class IngredientDetail extends React.Component {
     );
   }
 }
-/*
-IngredientDetail.propTypes = {
-  onRemove: PropTypes.func.isRequired,
-  name:     PropTypes.string.isRequired,
-  gravity:  PropTypes.number.isRequired,
-  color:    PropTypes.string.isRequired
-};
-*/
+
 export default withStyles(s)(IngredientDetail);

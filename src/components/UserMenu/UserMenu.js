@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './UserMenu.css';
 import RecipeParserContainer from '../../containers/RecipeParser';
@@ -20,6 +22,12 @@ import ContentSave from 'material-ui/svg-icons/content/save';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 
 class UserMenu extends React.Component {
+  static propTypes = {
+    recipe: DefinedTypes.recipe.isRequired,
+    authenticated: PropTypes.bool.isRequired,
+    actions: PropTypes.object.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -38,7 +46,6 @@ class UserMenu extends React.Component {
 
   render() {
     const { recipe, authenticated, actions } = this.props;
-
     return (
       <div>
         <Dialog
@@ -88,10 +95,5 @@ class UserMenu extends React.Component {
     );
   }
 }
-
-/*
-UserMenu.propTypes = {
-};
-*/
 
 export default withStyles(s)(UserMenu);

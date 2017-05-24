@@ -1,12 +1,15 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './GrainChart.css';
 import { Doughnut } from 'react-chartjs';
 
 class GrainChart extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+  static propTypes = {
+    grains: PropTypes.arrayOf(DefinedTypes.grain).isRequired,
+    diameter: PropTypes.string.isRequired
+  };
 
   shouldComponentUpdate(nextProps) {
     return this.props.grains.length !== nextProps.grains.length
@@ -31,10 +34,5 @@ class GrainChart extends React.Component {
     );
   }
 }
-
-/*
-GrainChart.propTypes = {
-};
-*/
 
 export default withStyles(s)(GrainChart);

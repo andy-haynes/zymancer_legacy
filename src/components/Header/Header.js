@@ -8,24 +8,31 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
 import Navigation from '../Navigation';
 import logoUrl from './logo-small.png';
 
-function MobileHeader({ authenticated }) {
-  return (
-    <div className={s.root}>
-      <div className={s.container}>
-        <Navigation authenticated={authenticated} />
-        <Link className={s.brand} to="/">
-          <span className={s.runes}>ᚨᛚᚢ</span>
-          <span className={s.brandTxt}>Zymancer</span>
-        </Link>
+class Header extends React.PureComponent {
+  static propTypes = {
+    authenticated: PropTypes.bool.isRequired
+  };
+
+  render() {
+    return (
+      <div className={s.root}>
+        <div className={s.container}>
+          <Navigation authenticated={this.props.authenticated}/>
+          <Link className={s.brand} to="/">
+            <span className={s.runes}>ᚨᛚᚢ</span>
+            <span className={s.brandTxt}>Zymancer</span>
+          </Link>
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 }
 
-export default withStyles(s)(MobileHeader);
+export default withStyles(s)(Header);

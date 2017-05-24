@@ -7,20 +7,20 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import React, { Component, PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Content.css';
 
-class Content extends Component {
-
-  static contextTypes = {
-    setTitle: PropTypes.func.isRequired,
-  };
-
+class Content extends React.Component {
   static propTypes = {
     path: PropTypes.string.isRequired,
     content: PropTypes.string.isRequired,
-    title: PropTypes.string,
+    title: PropTypes.string
+  };
+
+  static contextTypes = {
+    setTitle: PropTypes.func.isRequired
   };
 
   componentWillMount() {

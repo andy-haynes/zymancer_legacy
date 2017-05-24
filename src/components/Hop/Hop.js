@@ -1,4 +1,6 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
+import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Hop.css';
 import Measurement from '../Measurement';
@@ -20,6 +22,15 @@ import NavigationExpandLess from 'material-ui/svg-icons/navigation/expand-less';
 import ActionInfo from 'material-ui/svg-icons/action/info';
 
 class Hop extends React.Component {
+  static propTypes = {
+    hop: DefinedTypes.hop.isRequired,
+    boilVolume: DefinedTypes.measurement.isRequired,
+    originalGravity: PropTypes.number.isRequired,
+    boilMinutes: PropTypes.number.isRequired,
+    actions: PropTypes.object.isRequired,
+    showDetailModal: PropTypes.func.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = { expanded: true };
@@ -128,12 +139,5 @@ class Hop extends React.Component {
     );
   }
 }
-/*
-Hop.propTypes = {
-  onRemove: PropTypes.func.isRequired,
-  name:     PropTypes.string.isRequired,
-  gravity:  PropTypes.number.isRequired,
-  color:    PropTypes.string.isRequired
-};
-*/
+
 export default withStyles(s)(Hop);
