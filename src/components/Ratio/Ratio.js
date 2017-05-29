@@ -5,6 +5,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import helpers from '../../utils/helpers';
 import s from './Ratio.css';
 
 class Ratio extends React.PureComponent {
@@ -21,7 +22,7 @@ class Ratio extends React.PureComponent {
       <div className={s.ratio}>
         <TextField
           id="ratio-input"
-          value={ratio.value}
+          value={helpers.displayMeasurementValue(ratio.value)}
           onChange={(e) => update({ value: e.target.value })}
           style={{width: '52px', position: 'relative', bottom: '4px'}}
         />

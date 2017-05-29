@@ -137,6 +137,10 @@ function extractRange(raw) {
 function isIncompleteDecimal(value) {
   return typeof value === 'string' && value[value.length - 1] === '.';
 }
+
+function displayMeasurementValue(n) {
+  return isNaN(n) ? '∞' : n;
+}
 //endregion
 
 //region dates
@@ -231,6 +235,7 @@ export default {
   numberOrNull,
   extractRange,
   isIncompleteDecimal,
+  displayMeasurementValue,
   monthsSinceDate,
   subtractMonthsFromNow,
   jsonToGraphql,

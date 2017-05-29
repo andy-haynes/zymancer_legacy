@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Slider from 'material-ui/Slider';
 import TextField from 'material-ui/TextField';
+import helpers from '../../utils/helpers';
 import s from './SliderInput.css';
 
 class SliderInput extends React.PureComponent {
@@ -35,7 +36,7 @@ class SliderInput extends React.PureComponent {
       <TextField
         name="slider-input"
         className={s.input}
-        value={value}
+        value={helpers.displayMeasurementValue(value)}
         onChange={(e) => update(e.target.value)}
         disabled={disabled || value === null}
       />

@@ -5,6 +5,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import helpers from '../../utils/helpers';
 import s from './Measurement.css';
 
 class Measurement extends React.PureComponent {
@@ -22,7 +23,7 @@ class Measurement extends React.PureComponent {
         <TextField
           name="measurement-value"
           className={s.measurementValue}
-          value={measurement.value === 0 ? '' : measurement.value}
+          value={helpers.displayMeasurementValue(measurement.value)}
           onChange={e => update(Object.assign({}, measurement, { value: e.target.value }))}
           style={{width: "3em"}}
           disabled={disabled}
