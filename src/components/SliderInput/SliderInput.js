@@ -7,7 +7,7 @@ import s from './SliderInput.css';
 
 class SliderInput extends React.PureComponent {
   static propTypes = {
-    value: PropTypes.number.isRequired,
+    value: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired,
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired,
     update: PropTypes.func.isRequired,

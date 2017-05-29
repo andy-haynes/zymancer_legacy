@@ -132,6 +132,11 @@ function extractRange(raw) {
     toString: () => ret.low ? `${ret.low}` + (typeof ret.high !== 'undefined' ? `–${ret.high}` : '') : ''
   });
 }
+
+// return true for strings ending in '.' to detect incomplete input of a decimal
+function isIncompleteDecimal(value) {
+  return typeof value === 'string' && value[value.length - 1] === '.';
+}
 //endregion
 
 //region dates
@@ -225,6 +230,7 @@ export default {
   sumMeasurements,
   numberOrNull,
   extractRange,
+  isIncompleteDecimal,
   monthsSinceDate,
   subtractMonthsFromNow,
   jsonToGraphql,
