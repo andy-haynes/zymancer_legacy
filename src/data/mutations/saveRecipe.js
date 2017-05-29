@@ -37,7 +37,7 @@ const saveRecipe = {
     const r = { ownerId: request.user.id, name, styleId: style.id, method, volume, ABV, IBU, OG, FG };
     const existing = id > 0;
     if (existing) {
-      const updated = await Recipe.update(r, { where: { id }, returning: true });
+      await Recipe.update(r, { where: { id }, returning: true });
     }
 
     return await (existing ? Recipe.findOne({ where: { id } }) : Recipe.create(r)).then(recipe => {
