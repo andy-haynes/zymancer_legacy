@@ -71,7 +71,7 @@ const _hopFields = {
 };
 
 const _extendedHopFields = Object.assign(_hopFields, {
-  url: { type: new GraphQLNonNull(GraphQLString) },
+  url: { type: GraphQLString },
   coHumulone: { type: GraphQLString },
   totalOil: { type: GraphQLString },
   myrcene: { type: GraphQLString },
