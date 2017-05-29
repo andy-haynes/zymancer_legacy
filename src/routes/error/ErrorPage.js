@@ -23,6 +23,7 @@ class ErrorPage extends React.PureComponent {
 
 
   render() {
+    const { error } = this.props;
     let title = 'Error';
     let content = 'Sorry, a critical error occurred on this page.';
     let errorMessage = null;
@@ -34,7 +35,7 @@ class ErrorPage extends React.PureComponent {
       errorMessage = <pre>{error.stack}</pre>;
     }
 
-    context.setTitle && context.setTitle(title);
+    this.context.setTitle && this.context.setTitle(title);
 
     return (
       <div>

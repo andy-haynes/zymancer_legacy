@@ -20,7 +20,7 @@ class Login extends React.PureComponent {
   };
 
   render() {
-    context.setTitle(title);
+    this.context.setTitle(title);
     return (
       <div className={s.root}>
         <div className={s.container}>

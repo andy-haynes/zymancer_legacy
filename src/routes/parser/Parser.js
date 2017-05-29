@@ -10,7 +10,7 @@ class Parser extends React.PureComponent {
   };
 
   render() {
-    context.setTitle('Recipe Parser');
+    this.context.setTitle('Recipe Parser');
     return (
       <div className={s.parser}>
         <RecipeParserContainer />

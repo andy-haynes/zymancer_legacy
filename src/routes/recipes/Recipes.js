@@ -10,7 +10,7 @@ class Recipes extends React.PureComponent {
   };
 
   render() {
-    context.setTitle('Saved Recipes');
+    this.context.setTitle('Saved Recipes');
     return (
       <div className={s.recipes}>
         <SavedRecipesContainer />

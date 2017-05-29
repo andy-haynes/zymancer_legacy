@@ -10,7 +10,7 @@ class Equipment extends React.PureComponent {
 
 
   render() {
-    context.setTitle('Equipment Profiles');
+    this.context.setTitle('Equipment Profiles');
     return (
       <div className={s.equipment}>
         equipment profiles!
