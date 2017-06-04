@@ -133,6 +133,9 @@ export async function getRecipe(recipeId) {
       },
       hops {
         ${_hopKeys},
+        minutes,
+        form,
+        type,
         weight {
           value,
           unit
