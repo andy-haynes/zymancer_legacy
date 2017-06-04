@@ -47,9 +47,8 @@ function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, bo
       mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(biabThickness, mashSchedule.grainTemp, mashSchedule.infusionTemp);
       mashSchedule.strikeVolume = helpers.convertToUnit(boilVolume, mashSchedule.strikeVolume.unit, 1);
       break;
-    case MashMethod.MultipleRest:
-    case MashMethod.Decoction:
-      break;
+    //case MashMethod.MultipleRest:
+    //case MashMethod.Decoction:
   }
 
   return mashSchedule;

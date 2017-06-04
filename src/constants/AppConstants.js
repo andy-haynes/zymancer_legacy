@@ -20,9 +20,9 @@ export const BrewMethod = keyMirror({
 
 export const MashMethod = keyMirror({
   SingleInfusion: null,
-  MultipleRest: null,
-  BIAB: null,
-  Decoction: null
+  BIAB: null
+  //MultipleRest: null,
+  //Decoction: null
 });
 
 export const ExtractType = keyMirror({

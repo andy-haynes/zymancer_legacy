@@ -39,8 +39,10 @@ class MashSchedule extends React.PureComponent {
                     >
                       <MenuItem value={MashMethod.SingleInfusion} primaryText="Single Infusion" />
                       <MenuItem value={MashMethod.BIAB} primaryText="Brew in a Bag" />
+                      {/*
                       <MenuItem value={MashMethod.Decoction} primaryText="Decoction" />
                       <MenuItem value={MashMethod.MultipleRest} primaryText="Multi-Rest" />
+                      */}
                     </SelectField>
                   </div>
                 </div>
