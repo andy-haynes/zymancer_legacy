@@ -17,8 +17,8 @@ function createHop(hop, boilMinutes, manual = false) {
   })(Object.assign(
     pick(hop, 'name', 'url', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
       id: typeof hop.id !== 'undefined' ? hop.id : ++hopId,
-      alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : hop.alpha,
-      beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : hop.beta,
+      alpha: isNaN(hop.alpha) ? round(alphaRange.avg, 1) : parseFloat(hop.alpha),
+      beta: isNaN(hop.beta) ? round(betaRange.avg, 1) : parseFloat(hop.beta),
       form: hop.form || Defaults.HopForm,
       categories: typeof hop.categories === 'string' ? hop.categories.split(',') : hop.categories || [],
       matchScore: hop.score || 0,
