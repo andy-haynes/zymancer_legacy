@@ -40,17 +40,27 @@ function createGrain(grain) {
 }
 
 const grain = (state = {}, action) => {
+  function stateIfNotNumeric(key) {
+    if (!action[key].match(/\d+\.?\d*/)) {
+      return state;
+    }
+
+    return Object.assign({}, state, {
+      [key]: parseFloat(action[key] )
+    });
+  }
+
   switch (action.type) {
     case RecipeActions.AddGrain:
       return createGrain(action.grain);
     case RecipeActions.SetGrainWeight:
       return Object.assign({}, state, { weight: measurement(state.weight, action) });
     case RecipeActions.SetGrainGravity:
-      return Object.assign({}, state, { gravity: action.gravity });
+      return stateIfNotNumeric('gravity');
     case RecipeActions.SetGrainLovibond:
-      return Object.assign({}, state, { lovibond: action.lovibond });
+      return stateIfNotNumeric('lovibond');
     case RecipeActions.SetGrainLintner:
-      return Object.assign({}, state, { lintner: action.lintner });
+      return stateIfNotNumeric('lintner');
     case RecipeActions.SetGrainExtractType:
       const { extractType } = action;
       return Object.assign({}, state, { extractType, gravity: ExtractGravity[action.extractType] });
