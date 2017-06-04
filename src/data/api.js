@@ -298,8 +298,12 @@ function partialMatchIngredient(query, tokens, blacklist) {
           updateScore(10 * freqFactor);
         } else if (_tokenAliases[token] === s) {
           updateScore(9 * freqFactor);
+        } else if (token.startsWith(s)) {
+          updateScore(0.9 * freqFactor);
+        } else if (token.endsWith(s)) {
+          updateScore(0.4 * freqFactor);
         } else if (token.includes(s)) {
-          updateScore(0.5 * freqFactor);
+          updateScore(0.1 * freqFactor);
         }
       }
     });
