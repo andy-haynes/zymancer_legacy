@@ -65,8 +65,8 @@ Recipe.belongsToMany(Grain, { through: { model: RecipeGrain, unique: false }, as
 Grain.belongsToMany(Recipe, { through: { model: RecipeGrain, unique: false }, as: 'recipes', foreignKey: 'grainId' });
 
 // Recipe <- RecipeHop -> Hop
-Recipe.belongsToMany(Hop, { through: { model: RecipeHop, unique: false }, as: 'hopAdditions', foreignKey: 'recipeId' });
-Hop.belongsToMany(Recipe, { through: { model: RecipeHop, unique: false }, as: 'recipes', foreignKey: 'hopId' });
+Recipe.belongsToMany(Hop, { through: { model: RecipeHop }, as: 'hopAdditions', foreignKey: 'recipeId' });
+Hop.belongsToMany(Recipe, { through: { model: RecipeHop }, as: 'recipes', foreignKey: 'hopId' });
 
 // Recipe <- RecipeYeast -> Yeast
 Recipe.belongsToMany(Yeast, { through: { model: RecipeYeast, unique: false }, as: 'yeast', foreignKey: 'recipeId' });

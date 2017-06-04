@@ -2,6 +2,7 @@ import { GraphQLList, GraphQLInt } from 'graphql';
 import RecipeType from '../types/RecipeType';
 import { Recipe, Grain, Hop, RecipeHop, Yeast, MashSchedule, RecipeFermentation, BJCPStyle } from '../models';
 import pick from 'lodash/pick';
+import flatten from 'lodash/flatten';
 
 const loadRecipe = {
   type: RecipeType,
@@ -18,7 +19,11 @@ const loadRecipe = {
       }, {
         attributes: ['id', 'name', 'alpha', 'beta', 'categories', 'url'],
         model: Hop,
-        as: 'hopAdditions'
+        as: 'hopAdditions',
+        through: {
+          attributes: ['id', 'alpha', 'beta', 'minutes', 'weight', 'form', 'type'],
+          association: 'RecipeHops'
+        }
       }, {
         attributes: ['id', 'name', 'code', 'url', 'description', 'flocculation', 'temperatureLow', 'temperatureHigh', 'toleranceLow', 'toleranceHigh', 'attenuationLow', 'attenuationHigh', 'mfg'],
         model: Yeast,
@@ -27,6 +32,7 @@ const loadRecipe = {
         attributes: ['style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'],
         model: MashSchedule,
         as: 'mashSchedule'
+
       }, {
         attributes: ['pitchRateMillionsMLP'],
         model: RecipeFermentation,
@@ -63,17 +69,19 @@ const loadRecipe = {
         lintner: grain.RecipeGrains.lintner,
         weight: grain.RecipeGrains.weight
       })),
-      hops: recipe.hopAdditions.map(hop => ({
-        id: hop.id,
-        name: hop.name,
-        url: hop.url,
-        alpha: hop.RecipeHops.alpha,
-        beta: hop.RecipeHops.beta,
-        categories: hop.categories,
-        minutes: hop.RecipeHops.minutes,
-        weight: hop.RecipeHops.weight,
-        form: hop.RecipeHops.form,
-        type: hop.RecipeHops.type
+      hops: flatten(recipe.hopAdditions.map(hop => {
+        return hop.RecipeHops.map(addition => ({
+          id: hop.id,
+          name: hop.name,
+          url: hop.url,
+          alpha: addition.alpha,
+          beta: addition.beta,
+          categories: hop.categories,
+          minutes: addition.minutes,
+          weight: addition.weight,
+          form: addition.form,
+          type: addition.type
+        }));
       })),
       yeasts: recipe.yeast.map(yeast => ({
         id: yeast.id,
