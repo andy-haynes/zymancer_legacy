@@ -123,7 +123,7 @@ class Hop extends React.Component {
               </div>
             </div>
           </div>
-          {hop.additions.map(addition => (
+          {hop.additions.sort((a, b) => b.minutes - a.minutes).map(addition => (
             <HopAddition
               key={addition.id}
               hop={hop}
