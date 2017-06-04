@@ -34,17 +34,11 @@ function yeast(state = {}, action) {
         viability: zymath.calculateYeastViability(action.date)
       });
     case RecipeActions.SetYeastViability:
-      return Object.assign({}, state, {
-        viability: action.viability
-      });
+      return helpers.ignoreNonNumeric(state, action, 'viability');
     case RecipeActions.SetYeastAttenuation:
-      return Object.assign({}, state, {
-        apparentAttenuation: action.attenuation
-      });
+      return helpers.ignoreNonNumeric(state, action, 'attenuation');
     case RecipeActions.SetYeastQuantity:
-      return Object.assign({}, state, {
-        quantity: action.quantity
-      });
+      return helpers.ignoreNonNumeric(state, action, 'quantity');
     case RecipeActions.AddStarterStep:
     case RecipeActions.RemoveStarterStep:
     default:
