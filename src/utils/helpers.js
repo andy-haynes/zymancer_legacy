@@ -86,10 +86,10 @@ function multiplyRatioByMeasurement(ratio, measurement, precision) {
 }
 
 function sumMeasurements(precision, ...measurements) {
-  return measurements.reduce((a, b) => ({
+  return measurements.reduce((a, b) => a.value === undefined ? b : {
     value: round(a.value + convertToUnit(b, a.unit).value, precision),
     unit: a.unit
-  }));
+  }, {});
 }
 
 function createRatio(numerator, denominator, min, max) {
