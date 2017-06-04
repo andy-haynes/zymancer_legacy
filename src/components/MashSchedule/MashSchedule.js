@@ -179,6 +179,8 @@ class MashSchedule extends React.PureComponent {
                   </div>
                 </div>
                 <div className="pure-u-1-4">
+                  &nbsp;
+                  {/*
                   <div className={s.mashLabel}>
                     Addition Temp
                   </div>
@@ -188,6 +190,7 @@ class MashSchedule extends React.PureComponent {
                       options={MeasurementUnits.TemperatureOptions}
                     />
                   </div>
+                  */}
                 </div>
               </div>
             </Paper>

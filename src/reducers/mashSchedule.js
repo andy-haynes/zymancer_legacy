@@ -21,7 +21,7 @@ function createMashSchedule(mash = {}) {
     infusionTemp: mash.infusionTemp || Defaults.InfusionTemp,
     mashoutTemp: mash.mashoutTemp || Defaults.MashoutTemp,
     strikeTemp: mash.strikeTemp || { value: 0, unit: Units.Fahrenheit },
-    spargeTemp: mash.spargeTemp || { value: 0, unit: Units.Fahrenheit },
+    //spargeTemp: mash.spargeTemp || { value: 0, unit: Units.Fahrenheit },
     rests: mash.rests || [],
     decoctions: mash.decoctions || [],
     infusionVolume: mash.infusionVolume || emptyVolume,

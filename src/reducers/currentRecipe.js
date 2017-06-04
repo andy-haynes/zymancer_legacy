@@ -40,7 +40,7 @@ function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, bo
       mashSchedule.strikeVolume = zymath.calculateStrikeVolume(grainWeight, mashSchedule.thickness);
       mashSchedule.spargeVolume = zymath.calculateSpargeVolume(boilVolume, mashSchedule.strikeVolume);
       mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(mashSchedule.thickness, mashSchedule.grainTemp, mashSchedule.infusionTemp);
-      mashSchedule.spargeTemp = zymath.calculateMashoutWaterTemp(mashSchedule.strikeVolume, mashSchedule.spargeVolume, grainWeight, mashSchedule.infusionTemp, mashSchedule.mashoutTemp);
+      //mashSchedule.spargeTemp = zymath.calculateMashoutWaterTemp(mashSchedule.strikeVolume, mashSchedule.spargeVolume, grainWeight, mashSchedule.infusionTemp, mashSchedule.mashoutTemp);
       break;
     case MashMethod.BIAB:
       const biabThickness = helpers.createRatio(boilVolume, grainWeight);

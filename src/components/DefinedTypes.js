@@ -115,7 +115,7 @@ const mashSchedule = PropTypes.shape({
   infusionTemp: MeasurementRequired,
   mashoutTemp: MeasurementRequired,
   strikeTemp: MeasurementRequired,
-  spargeTemp: MeasurementRequired,
+  //spargeTemp: MeasurementRequired,
   infusionVolume: MeasurementRequired,
   strikeVolume: MeasurementRequired,
   spargeVolume: MeasurementRequired,
