@@ -7,7 +7,7 @@ import s from './YeastSearchOption.css';
 class YeastSearchOption extends React.PureComponent {
   static propTypes = {
     yeast: DefinedTypes.yeast.isRequired,
-    addHop: PropTypes.func.isRequired
+    addYeast: PropTypes.func.isRequired
   };
 
   render() {
