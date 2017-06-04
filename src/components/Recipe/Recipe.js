@@ -12,7 +12,7 @@ import ImportExport from 'material-ui/svg-icons/communication/import-export';
 
 class Recipe extends React.PureComponent {
   static propTypes = {
-    recipe: DefinedTypes.recipe.isRequired,
+    recipe: DefinedTypes.savedRecipe.isRequired,
     loadRecipe: PropTypes.func.isRequired
   };
 

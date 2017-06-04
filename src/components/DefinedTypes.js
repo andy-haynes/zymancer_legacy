@@ -193,10 +193,23 @@ const recipe = PropTypes.shape({
   })
 });
 
+const savedRecipe = PropTypes.shape({
+  id: NumberOptional,
+  name: StringRequired,
+  OG: NumberRequired,
+  FG: NumberRequired,
+  IBU: NumberRequired,
+  ABV: NumberRequired,
+  style: PropTypes.shape({
+    code: StringOptional,
+    name: StringOptional
+  })
+});
+
 const savedRecipes = PropTypes.arrayOf(
   PropTypes.shape({
     isFetching: BoolRequired,
-    recipes: PropTypes.arrayOf(recipe).isRequired
+    recipes: PropTypes.arrayOf(savedRecipe).isRequired
   })
 );
 
@@ -210,6 +223,7 @@ export default {
   measurementOption,
   ratio,
   recipe,
+  savedRecipe,
   savedRecipes,
   search,
   style,
