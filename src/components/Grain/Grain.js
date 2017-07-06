@@ -13,6 +13,7 @@ import MenuItem from 'material-ui/MenuItem';
 import Paper from 'material-ui/Paper';
 import ContentRemoveCircle from 'material-ui/svg-icons/content/remove-circle';
 import ActionInfo from 'material-ui/svg-icons/action/info';
+import round from 'lodash/round';
 
 class Grain extends React.PureComponent {
   static propTypes = {
@@ -43,7 +44,7 @@ class Grain extends React.PureComponent {
                 }}
               />
               <div className={s.weightPercentage}>
-                {grain.weightPercentage}%
+                {round(grain.weightPercentage, 1)}%
               </div>
             </div>
           </div>
