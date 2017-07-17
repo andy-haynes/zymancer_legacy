@@ -18,6 +18,7 @@ class YeastSearch extends React.PureComponent {
       <IngredientSearch
         {...search}
         filter={actions.createFilter(search.cache)}
+        create={actions.addIngredient}
         header={(
           <div className="pure-g">
             <div className="pure-u-12-24">

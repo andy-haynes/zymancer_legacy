@@ -14,23 +14,33 @@ function createIngredientSearchReducer(ingredientType) {
     query: '',
     results: [],
     loading: false,
-    error: null
+    error: null,
+    active: false
   };
 
   return (state = initialState, action) => {
     switch (action.type) {
+      case SearchActions.CreateIngredient:
+        return Object.assign({}, state, {
+          query: '',
+          results: [],
+          loading: false,
+          active: false
+        });
       case filter:
         return Object.assign({}, state, {
           query: action.query,
           results: action.query.length ? state.results : [],
           loading: action.query.length >= Defaults.MinSearchQueryLength,
-          error: null
+          error: null,
+          active: action.query.length > 0
         });
       case update:
         return Object.assign({}, state, {
           results: action.results,
           loading: false,
-          error: null
+          error: null,
+          active: true
         });
       case clear:
         return initialState;

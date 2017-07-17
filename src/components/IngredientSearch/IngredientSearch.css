@@ -21,3 +21,44 @@
   color: white;
   padding: 0.2em 0.3em;
 }
+
+.createIngredient {
+  border: 1px solid #ddd;
+  border-top: none;
+  cursor: pointer;
+  transition-property: background;
+  transition-duration: 0.2s;
+  transition-timing-function: linear;
+  font-size: 1.1em;
+  padding: 0.6em;
+  background-color: #333;
+  color: #eee;
+  text-align: center;
+}
+
+.createIngredient:hover {
+  background: #888;
+}
+
+.creationForm {
+  margin: 0.1em;
+}
+
+.creationField {
+  padding: 0.4em;
+}
+
+.creationFieldLabel {
+  font-size: 0.6em;
+  color: #777;
+  text-transform: uppercase;
+  position: relative;
+}
+
+.creationFieldInput {
+  padding-right: 1em;
+}
+
+.creationFieldSuffix {
+  padding-top: 0.8em;
+}

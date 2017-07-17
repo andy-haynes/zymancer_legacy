@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import actions from '../actions';
+import hopReducer from '../reducers/hop';
 import GrainSearch from '../components/GrainSearch';
 import MobileGrainSearch from '../components/_mobile/GrainSearch';
 import HopSearch from '../components/HopSearch';
@@ -13,7 +14,8 @@ function createMapState(ingredientType, extraProps) {
   return (state, props = {}) => Object.assign({
     search: Object.assign(
       state.ingredientSearch[ingredientType],
-      pick(state.ingredientSearch, 'cache')
+      pick(state.ingredientSearch, 'cache'),
+      { ingredientType }
     )
   }, props, (extraProps && extraProps(state)) || {});
 }
@@ -22,6 +24,7 @@ function createMapDispatch(ingredientType, createAdd) {
   return (dispatch) => ({
     actions: {
       addIngredient: createAdd(dispatch),
+      create: (form) => dispatch(actions.search.createIngredient(ingredientType, form)),
       createFilter: (cache) => (query) => dispatch(actions.search.queryIngredients(ingredientType, query, cache))
     }
   });
@@ -35,6 +38,7 @@ const addDispatches = {
     },
   [IngredientType.Hop]: (dispatch) =>
     (hop, boilMinutes) => {
+      hop = hopReducer.create(hop, boilMinutes);
       dispatch(actions.recipe.addHop(hop));
       dispatch(actions.recipe.addHopAddition(hop, boilMinutes));
       dispatch(actions.search.clearHopSearch());

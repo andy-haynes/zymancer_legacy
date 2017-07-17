@@ -19,6 +19,7 @@ class HopSearch extends React.PureComponent {
       <IngredientSearch
         {...search}
         filter={actions.createFilter(search.cache)}
+        create={(hop) => actions.addIngredient(hop, boilMinutes)}
         header={(
           <div className="pure-g">
             <div className="pure-u-12-24">

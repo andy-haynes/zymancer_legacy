@@ -41,6 +41,7 @@ export default {
   clearGrainSearch: helpers.createAction(SearchActions.ClearGrainSearch),
   clearHopSearch: helpers.createAction(SearchActions.ClearHopSearch),
   clearYeastSearch: helpers.createAction(SearchActions.ClearYeastSearch),
+  createIngredient: helpers.createAction(SearchActions.CreateIngredient, 'ingredientType', 'form'),
   loadSearchCache,
   queryIngredients,
   updateSearchCache

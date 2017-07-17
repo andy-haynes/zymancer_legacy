@@ -18,6 +18,7 @@ class GrainSearch extends React.PureComponent {
       <IngredientSearch
         {...search}
         filter={actions.createFilter(search.cache)}
+        create={actions.addIngredient}
         header={(
           <div className="pure-g">
             <div className="pure-u-15-24">

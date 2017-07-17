@@ -11,5 +11,6 @@ export default keyMirror({
   UpdateYeastResults: null,
   ClearYeastSearch: null,
   UpdateSearchCache: null,
-  LoadSearchCache: null
+  LoadSearchCache: null,
+  CreateIngredient: null
 });

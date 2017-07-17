@@ -149,7 +149,7 @@ class Yeast extends React.Component {
               max={yeast.attenuationHigh}
               step={0.1}
               style={{paddingBottom: '16px', height: '40px'}}
-              />
+            />
           </div>
           <div className="pure-u-2-24"></div>
           <div className="pure-u-4-24">
