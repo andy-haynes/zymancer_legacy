@@ -180,42 +180,11 @@ class MashSchedule extends React.PureComponent {
                 </div>
                 <div className="pure-u-1-4">
                   &nbsp;
-                  {/*
-                  <div className={s.mashLabel}>
-                    Addition Temp
-                  </div>
-                  <div className={s.mashValue}>
-                    <Measurement
-                      measurement={mashSchedule.spargeTemp}
-                      options={MeasurementUnits.TemperatureOptions}
-                    />
-                  </div>
-                  */}
                 </div>
               </div>
             </Paper>
           </div>
           <div className="pure-u-1-2">
-            <Paper
-              className={s.mashControl}
-              zDepth={2}
-            >
-              <div className="pure-g">
-                <div className="pure-u-3-4">&nbsp;</div>
-                <div className="pure-u-1-4">
-                  <div className={s.mashLabel}>
-                    Total Loss
-                  </div>
-                  <div className={s.mashValue}>
-                    <Measurement
-                      measurement={mashSchedule.totalLoss}
-                      options={MeasurementUnits.RecipeVolume}
-                      disabled={true}
-                    />
-                  </div>
-                </div>
-              </div>
-            </Paper>
             <Paper className={s.mashControl} zDepth={2}>
               <div className="pure-g">
                 <div className="pure-u-3-4">
@@ -283,6 +252,26 @@ class MashSchedule extends React.PureComponent {
                   <div className={s.mashValue}>
                     <Measurement
                       measurement={mashSchedule.boilLoss}
+                      options={MeasurementUnits.RecipeVolume}
+                      disabled={true}
+                    />
+                  </div>
+                </div>
+              </div>
+            </Paper>
+            <Paper
+              className={s.mashControl}
+              zDepth={2}
+            >
+              <div className="pure-g">
+                <div className="pure-u-3-4">&nbsp;</div>
+                <div className="pure-u-1-4">
+                  <div className={s.mashLabel}>
+                    Total Loss
+                  </div>
+                  <div className={s.mashValue}>
+                    <Measurement
+                      measurement={mashSchedule.totalLoss}
                       options={MeasurementUnits.RecipeVolume}
                       disabled={true}
                     />
