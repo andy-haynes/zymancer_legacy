@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './YeastSearchOption.css';
+import round from 'lodash/round';
 
 class YeastSearchOption extends React.PureComponent {
   static propTypes = {
@@ -19,7 +20,7 @@ class YeastSearchOption extends React.PureComponent {
             <div className={s.yeastDetail}>
               {yeast.name}
               <div className={s.matchScore}>
-                {yeast.matchScore}
+                {round(yeast.matchScore, 2)}
               </div>
             </div>
             <div className={s.subtext}>

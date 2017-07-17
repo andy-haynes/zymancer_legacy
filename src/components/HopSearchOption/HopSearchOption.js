@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './HopSearchOption.css';
+import round from 'lodash/round';
 
 class HopSearchOption extends React.PureComponent {
   static propTypes = {
@@ -19,7 +20,7 @@ class HopSearchOption extends React.PureComponent {
             <div className={s.hopDetail}>
               {hop.name}
               <div className={s.matchScore}>
-                {hop.matchScore}
+                {round(hop.matchScore, 2)}
               </div>
               <div className={s.hopCategories}>
                 {hop.categories.join(', ')}

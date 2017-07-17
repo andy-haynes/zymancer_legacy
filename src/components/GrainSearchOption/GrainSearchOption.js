@@ -5,6 +5,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './GrainSearchOption.css';
 import zymath from '../../utils/zymath';
 import Units from '../../constants/Units';
+import round from 'lodash/round';
 
 class GrainSearchOption extends React.PureComponent {
   static propTypes = {
@@ -21,7 +22,7 @@ class GrainSearchOption extends React.PureComponent {
             <div className={s.grainDetail}>
               {grain.name}
               <div className={s.matchScore}>
-                {grain.matchScore}
+                {round(grain.matchScore, 2)}
               </div>
               <div className={s.grainSubtext}>
                 {grain.flavor || grain.characteristics || (desc => desc.length > 100 ? `${desc}...` : desc)(grain.description.substring(0, 100))}
