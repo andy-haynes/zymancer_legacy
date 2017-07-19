@@ -29,12 +29,18 @@ function mapDispatch(dispatch) {
         }
       });
 
-      return selectedIngredient;
+      const create = ({
+        'grains': grain,
+        'hops': hop,
+        'yeast': yeast
+      }[key]).create;
+
+      return Object.assign(create(selectedIngredient), {suggestions: ingredient.suggestions });
     }
 
-    recipe.grains = recipe.grains.map(g => buildSuggestion(g, 'grains', ['name', 'weight', 'lovibond'])).map(grain.create);
-    recipe.hops = recipe.hops.map(h => buildSuggestion(h, 'hops', ['name', 'alpha', 'beta', 'additions'])).map(hop.create);
-    recipe.fermentation = { yeasts: recipe.yeast.map(y => buildSuggestion(y, 'yeast')).map(yeast.create) };
+    recipe.grains = recipe.grains.map(g => buildSuggestion(g, 'grains', ['name', 'weight', 'lovibond']));
+    recipe.hops = recipe.hops.map(h => buildSuggestion(h, 'hops', ['name', 'alpha', 'beta', 'additions']));
+    recipe.fermentation = { yeasts: recipe.yeast.map(y => buildSuggestion(y, 'yeast')) };
 
     return dispatch(actions.saved.loadSavedRecipe(recipe));
   }
