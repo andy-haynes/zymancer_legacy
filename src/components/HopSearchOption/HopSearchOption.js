@@ -41,7 +41,7 @@ class HopSearchOption extends React.PureComponent {
           </div>
           <div className="pure-u-1-1">
             <div className={s.hopSubtext}>
-              {(desc => desc.length > 100 ? `${desc}...` : desc)((hop.aroma || hop.description).substring(0, 100))}
+              {(desc => desc.length === 100 ? `${desc}...` : desc)((hop.aroma || hop.description).substring(0, 100))}
             </div>
           </div>
         </div>

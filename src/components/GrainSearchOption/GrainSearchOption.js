@@ -25,7 +25,7 @@ class GrainSearchOption extends React.PureComponent {
                 {round(grain.matchScore, 2)}
               </div>
               <div className={s.grainSubtext}>
-                {grain.flavor || grain.characteristics || (desc => desc.length > 100 ? `${desc}...` : desc)(grain.description.substring(0, 100))}
+                {grain.flavor || grain.characteristics || (desc => desc.length === 100 ? `${desc}...` : desc)(grain.description.substring(0, 100))}
               </div>
             </div>
           </div>
