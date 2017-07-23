@@ -19,12 +19,12 @@ class YeastSearchOption extends React.PureComponent {
           <div className="pure-u-12-24">
             <div className={s.yeastDetail}>
               {yeast.name}
+              <div className={s.mfg}>
+                {yeast.mfg} {yeast.code}
+              </div>
               <div className={s.matchScore}>
                 {round(yeast.matchScore, 2)}
               </div>
-            </div>
-            <div className={s.subtext}>
-              {yeast.mfg} {yeast.code}
             </div>
           </div>
           <div className="pure-u-6-24">
@@ -39,6 +39,11 @@ class YeastSearchOption extends React.PureComponent {
               {yeast.attenuationLow || '–'}
               {(yeast.attenuationHigh || '') && ' - ' + yeast.attenuationHigh}
               {(yeast.attenuationLow || '') && '%'}
+            </div>
+          </div>
+          <div className="pure-u-1-1">
+            <div className={s.subtext}>
+              {(desc => desc.length === 100 ? `${desc}...` : desc)(yeast.description.substring(0, 100))}
             </div>
           </div>
         </div>
