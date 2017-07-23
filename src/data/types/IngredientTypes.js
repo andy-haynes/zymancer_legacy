@@ -64,6 +64,7 @@ export const GrainInputType = new GraphQLInputObjectType({
 
 const _hopFields = {
   id: { type: new GraphQLNonNull(GraphQLInt) },
+  description: { type: GraphQLString },
   aroma: { type: GraphQLString },
   categories: { type: GraphQLString },
   alpha: { type: GraphQLString },

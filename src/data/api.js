@@ -79,6 +79,7 @@ const _hopKeys = `
   id,
   name,
   url,
+  description,
   aroma,
   categories,
   alpha,

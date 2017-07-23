@@ -6,6 +6,7 @@ const Hop = Model.define('Hops', {
   name: { type: DataType.STRING, allowNull: false },
   categories: { type: DataType.STRING, allowNull: true },
   url: { type: DataType.STRING, allowNull: true },
+  description: { type: DataType.STRING(1024), allowNull: true },
   aroma: { type: DataType.STRING, allowNull: true },
   alpha: { type: DataType.STRING, allowNull: true },
   beta: { type: DataType.STRING, allowNull: true },

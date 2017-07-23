@@ -19,24 +19,29 @@ class HopSearchOption extends React.PureComponent {
           <div className="pure-u-12-24">
             <div className={s.hopDetail}>
               {hop.name}
-              <div className={s.matchScore}>
-                {round(hop.matchScore, 2)}
-              </div>
               <div className={s.hopCategories}>
                 {hop.categories.join(', ')}
+              </div>
+              <div className={s.matchScore}>
+                {round(hop.matchScore, 2)}
               </div>
             </div>
           </div>
           <div className="pure-u-6-24">
             <div className={s.hopDetail}>
               {hop.alphaRange.low}
-              {hop.alphaRange.high ? (` - ${hop.alphaRange.high}`) : ''}
+              {hop.alphaRange.high && (` - ${hop.alphaRange.high}`)}
             </div>
           </div>
           <div className="pure-u-6-24">
             <div className={s.hopDetail}>
               {hop.betaRange.low}
-              {hop.betaRange.high ? (` - ${hop.betaRange.high}`) : ''}
+              {hop.betaRange.high && (` - ${hop.betaRange.high}`)}
+            </div>
+          </div>
+          <div className="pure-u-1-1">
+            <div className={s.hopSubtext}>
+              {hop.aroma || (desc => desc.length > 100 ? `${desc}...` : desc)(hop.description.substring(0, 100))}
             </div>
           </div>
         </div>

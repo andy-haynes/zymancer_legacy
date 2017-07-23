@@ -16,9 +16,16 @@
 }
 
 .hopCategories {
+  display: inline;
   padding-left: 10px;
   font-size: 10px;
   color: #666;
+}
+
+.hopSubtext {
+  font-size: 0.6em;
+  color: #666;
+  padding: 0 1.8em 0.8em 1.2em;
 }
 
 .matchScore {

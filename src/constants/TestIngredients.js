@@ -23,8 +23,7 @@ const grains = fawcett
   });
 
 const hops = ych.map(hop => Object.assign(
-  pick(hop, 'name', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
-  aroma: hop.aroma.join(','),
+  pick(hop, 'name', 'description', 'aroma', 'url', 'alpha', 'beta', 'coHumulone', 'totalOil', 'myrcene', 'caryophyllene', 'farnesene', 'humulene', 'geraniol'), {
   categories: hop.categories.join(','),
   ingredientType: 2
 }));
