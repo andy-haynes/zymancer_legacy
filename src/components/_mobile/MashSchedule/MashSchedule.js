@@ -173,7 +173,7 @@ class MashSchedule extends React.PureComponent {
                     options={MeasurementUnits.TemperatureOptionsShort}
                     style={{display: 'inline-block'}}
                   />
-                  <div className="pure-g" style={{
+                  {/*<div className="pure-g" style={{
                     float: 'right',
                     marginTop: '-0.8em'
                   }}>
@@ -188,7 +188,7 @@ class MashSchedule extends React.PureComponent {
                         />
                       </div>
                     </div>
-                  </div>
+                  </div>*/}
                 </div>
               </SliderInput>
             </div>
