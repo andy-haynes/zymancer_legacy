@@ -8,8 +8,8 @@ export const displayKeys = {
   lovibond: '° Lovibond',
   gravity: 'Specific Gravity',
   lintner: 'Lintner',
-  alpha: 'Alpha',
-  beta: 'Beta',
+  alphaRange: 'Alpha Acid',
+  betaRange: 'Beta Acid',
   aroma: 'Aroma',
   categories: 'Categories',
   code: 'Code',
@@ -41,5 +41,7 @@ export const detailDisplay = Object.assign(
     <a href={i.url} target="_blank">
       {i.url.split('/').splice(0, 3).join('/')}
     </a>
-  )
+  ),
+  alphaRange: (i) => `${i.alphaRange}%`,
+  betaRange: (i) => `${i.betaRange}%`
 });
