@@ -48,9 +48,12 @@ function mapDispatch(dispatch) {
   return {
     actions: {
       loadParsedRecipe,
+      clear: () => dispatch(actions.parser.clear()),
       updateRecipeText: (recipeText) => dispatch(actions.parser.updateRecipeText(recipeText)),
       parseRecipeText: (recipeText, searchCache) => dispatch(actions.parser.parseRecipeText(recipeText, searchCache)),
-      selectIngredientSuggestion: (ingredientKey, matchId, suggestionId) => dispatch(actions.parser.selectIngredientSuggestion(ingredientKey, matchId, suggestionId))
+      selectIngredientSuggestion: (ingredientKey, matchId, suggestionId) =>
+        dispatch(actions.parser.selectIngredientSuggestion(ingredientKey, matchId, suggestionId)),
+      selectParsedIngredient: (lineNumber) => dispatch(actions.parser.selectParsedIngredient(lineNumber))
     }
   };
 }

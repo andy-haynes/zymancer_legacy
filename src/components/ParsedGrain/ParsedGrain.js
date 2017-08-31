@@ -24,7 +24,7 @@ class ParsedGrain extends React.PureComponent {
   render() {
     const { grain, actions, toggleSuggestion } = this.props;
     return (
-      <Paper className={s.parsedGrain} zDepth={2}>
+      <div className={s.parsedGrain}>
         <div className="pure-g">
           <div className="pure-u-10-24">
             <div className={s.grainName}>
@@ -90,7 +90,7 @@ class ParsedGrain extends React.PureComponent {
             </div>
           </div>
         </div>
-      </Paper>
+      </div>
     );
   }
 }

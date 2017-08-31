@@ -1,4 +1,16 @@
 .parsedParameters {
-  padding: 0.5em;
-  margin: 0.6em 0;
+}
+
+.parameter {
+  width: 50%;
+  display: inline-block;
+  cursor: pointer;
+  padding: 0.4em 0;
+}
+
+.selectedParameter {
+  width: 50%;
+  display: inline-block;
+  background-color: rgba(55, 172, 255, 0.1);
+  padding: 0.4em 0;
 }

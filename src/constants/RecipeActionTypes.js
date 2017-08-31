@@ -43,9 +43,12 @@ export default keyMirror({
   SetRecipeStyle: null,
   SetRecipeMethod: null,
   ClearRecipe: null,
+  /* parser */
+  ClearParser: null,
   UpdateRecipeText: null,
   ParseRecipeText: null,
   SelectIngredientSuggestion: null,
+  SelectParsedIngredient: null,
   /* yeast */
   SetPitchRate: null,
   AddYeast: null,

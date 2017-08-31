@@ -129,7 +129,7 @@ const _parameterMapping = {
 };
 //endregion
 
-function parseLine(line) {
+function parseLine(line, lineNumber) {
   let isWeight = true;
   let match = _rxNamedWeight.exec(line);
   if (!match) {
@@ -155,7 +155,8 @@ function parseLine(line) {
       ppg: extractGroup(_rxPPG),
       extract: extractGroup(_rxExtractForm),
       addition: extractGroup(_rxAddition),
-      line
+      line,
+      lineNumber
     };
 
     const freeNumbers = line.match(_rxSoleNumeric);
@@ -186,7 +187,8 @@ function parseLine(line) {
     if (recipeParameter) {
       return {
         parameter: recipeParameter[1],
-        value: recipeParameter[2]
+        value: recipeParameter[2],
+        lineNumber
       };
     }
 
@@ -197,17 +199,17 @@ function parseLine(line) {
       const mfg = yeast[0];
       return {
         code: yeast[mfg ? 1 : 2].toString(),
-        mfg
+        mfg,
+        lineNumber
       };
     }
 
     // check against style
-    const style = BJCPStyles.map(s => ({ name: s.name.toLowerCase(), id: s.id }))
-                            .filter(s => line.toLowerCase().includes(s.name))
-                            .map(s => s.id)[0];
+    const style = BJCPStyles.map(s => ({ name: s.name, id: s.id }))
+                            .filter(s => line.toLowerCase().includes(s.name.toLowerCase()))[0];
 
     if (style) {
-      return { style };
+      return { style: Object.assign(style, { lineNumber }) };
     }
   }
 
@@ -271,7 +273,7 @@ function parseQuantity(qty) {
 
 function buildRecipe(parsed) {
   const recipe = {
-    styleId: null,
+    style: null,
     grains: [],
     hops: [],
     yeast: [],
@@ -293,7 +295,8 @@ function buildRecipe(parsed) {
           name: p.name,
           time: extractNumeric(p.time),
           weight,
-          line: p.line
+          line: p.line,
+          lineNumber: p.lineNumber
         }));
       } else if (p.alpha || p.time || p.hopAddition || p.hopForm) {
         const mapHopDetail = (d) => d && _recipeMapping[d.toLowerCase()];
@@ -316,6 +319,7 @@ function buildRecipe(parsed) {
             ibu: extractNumeric(p.ibu),
             form: mapHopDetail(p.hopForm),
             line: p.line,
+            lineNumber: p.lineNumber,
             additions: [addition]
           }));
         }
@@ -342,7 +346,8 @@ function buildRecipe(parsed) {
           extractType: isExtract ? _recipeMapping[p.extract] : null,
           isExtract,
           weight,
-          line: p.line
+          line: p.line,
+          lineNumber: p.lineNumber
         }));
       }
     } else if (p.code) {
@@ -354,11 +359,12 @@ function buildRecipe(parsed) {
           parameter,
           quantity: parseQuantity(p.value),
           value: extractNumeric(p.value),
-          line: p.line
+          line: p.line,
+          lineNumber: p.lineNumber
         }));
       }
     } else if (p.style) {
-      recipe.styleId = p.style;
+      recipe.style = p.style;
     }
   });
 
@@ -368,5 +374,5 @@ function buildRecipe(parsed) {
 export default function parseText(recipeText) {
   return buildRecipe(recipeText.split('\n')
                                .filter(l => l.trim().length > 0)
-                               .map(l => parseLine(l.trim())));
+                               .map((l, i) => parseLine(l.trim(), i)));
 }

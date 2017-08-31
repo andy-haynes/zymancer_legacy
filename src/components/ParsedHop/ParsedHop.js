@@ -37,7 +37,7 @@ class ParsedHop extends React.Component {
   render() {
     const { hop, actions } = this.props;
     return (
-      <Paper className={s.hop} zDepth={2}>
+      <div className={s.hop}>
         <div className="pure-g">
           <div className="pure-u-2-24">
           </div>
@@ -128,7 +128,7 @@ class ParsedHop extends React.Component {
             />
           ))*/}
         </Collapse>
-      </Paper>
+      </div>
     );
   }
 }

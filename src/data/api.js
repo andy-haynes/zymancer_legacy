@@ -426,7 +426,7 @@ export async function matchParsedIngredients(parsed, searchCache) {
 
   const query = `{
     matchParsedIngredients(
-      ${parsed.styleId ? `style: { id: ${parsed.styleId} },` : ''}
+      ${parsed.style && parsed.style.id ? `style: { id: ${parsed.style.id} },` : ''}
       grains: [${parsedGrains}],
       hops: [${parsedHops}],
       yeast: [${parsedYeast}]
@@ -446,6 +446,7 @@ export async function matchParsedIngredients(parsed, searchCache) {
 
   function buildSuggestions(ingredients, matchKey, reducer) {
     return ingredients.map(i => Object.assign(reducer.create(i), {
+      lineNumber: i.lineNumber,
       suggestions: (ingredientMap[getName(i)] || [])
         .map(score => score.id)
         .map(id => {
@@ -465,7 +466,7 @@ export async function matchParsedIngredients(parsed, searchCache) {
     hops: buildSuggestions(parsed.hops, 'hops', hop),
     yeast: buildSuggestions(parsed.yeast, 'yeast', yeast),
     parameters: parsed.parameters,
-    style: parsed.styleId !== undefined ? { id: parsed.styleId } : undefined
+    style: parsed.style
   };
 }
 //endregion

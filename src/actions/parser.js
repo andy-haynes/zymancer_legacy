@@ -19,8 +19,10 @@ function parseRecipeText(recipeText, searchCache) {
 }
 
 export default {
+  clear: helpers.createAction(RecipeActions.ClearParser),
   updateRecipeText: helpers.createAction(RecipeActions.UpdateRecipeText, 'recipeText'),
   updateSuggestions: helpers.createAction(RecipeActions.ParseRecipeText, 'recipe'),
   selectIngredientSuggestion: helpers.createAction(RecipeActions.SelectIngredientSuggestion, 'ingredientKey', 'matchId', 'suggestionId'),
+  selectParsedIngredient: helpers.createAction(RecipeActions.SelectParsedIngredient, 'lineNumber'),
   parseRecipeText
 };
