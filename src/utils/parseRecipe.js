@@ -273,7 +273,7 @@ function parseQuantity(qty) {
 
 function buildRecipe(parsed) {
   const recipe = {
-    style: null,
+    style: { id: 1 },
     grains: [],
     hops: [],
     yeast: [],
