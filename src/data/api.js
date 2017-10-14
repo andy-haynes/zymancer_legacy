@@ -451,7 +451,7 @@ export async function matchParsedIngredients(parsed, searchCache) {
         .map(score => score.id)
         .map(id => {
           const match = matched[matchKey].find(m => m.id === id);
-          return match && Object.assign(match, {
+          return match && Object.assign({}, match, {
             score: ingredientMap[getName(i)].find(ingredient => ingredient.id === id).score
           });
         })
