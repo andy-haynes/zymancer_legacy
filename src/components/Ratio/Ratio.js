@@ -18,18 +18,19 @@ class Ratio extends React.PureComponent {
 
   render() {
     const { ratio, antecedentOptions, consequentOptions, update } = this.props;
+    const _update = (changed) => update(Object.assign({}, ratio, changed));
     return (
       <div className={s.ratio}>
         <TextField
           id="ratio-input"
           value={helpers.displayMeasurementValue(ratio.value)}
-          onChange={(e) => update({ value: e.target.value })}
+          onChange={(e) => _update({ value: e.target.value })}
           style={{width: '52px', position: 'relative', bottom: '4px'}}
         />
         <SelectField
           className={s.ratioUnit}
           value={ratio.antecedent}
-          onChange={(e, i, v) => update({ antecedent: v })}
+          onChange={(e, i, v) => _update({ antecedent: v })}
           disabled={antecedentOptions.length === 1}
           style={{width: '65px'}}
         >
@@ -43,7 +44,7 @@ class Ratio extends React.PureComponent {
         <SelectField
           className={s.ratioUnit}
           value={ratio.consequent}
-          onChange={(e, i, v) => update({ consequent: v })}
+          onChange={(e, i, v) => _update({ consequent: v })}
           disabled={consequentOptions.length === 1}
           style={{width: '65px'}}
         >
