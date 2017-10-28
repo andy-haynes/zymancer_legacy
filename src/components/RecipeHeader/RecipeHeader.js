@@ -7,6 +7,7 @@ import MeasurementUnits from '../../constants/MeasurementUnits';
 import Defaults from '../../constants/Defaults';
 import { BrewMethod } from '../../constants/AppConstants';
 import Measurement from '../Measurement';
+import StyleSelection from '../StyleSelection';
 import UserMenu from '../UserMenu';
 import round from 'lodash/round';
 import zymath from '../../utils/zymath';
@@ -15,7 +16,6 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import { grey200 } from 'material-ui/styles/colors';
-import BJCPStyles from '../../constants/BJCPStyles';
 
 class RecipeHeader extends React.PureComponent {
   static propTypes = {
@@ -41,22 +41,7 @@ class RecipeHeader extends React.PureComponent {
                   style={{width: '19em'}}
                 />
               </div>
-              <div>
-                <SelectField
-                  value={recipe.style.id}
-                  onChange={(e, i, v) => actions.setRecipeStyle(v)}
-                  className={s.longInput}
-                  style={{width: '19.7em'}}
-                >
-                  {BJCPStyles.map((style, i) => (
-                    <MenuItem
-                      key={i}
-                      value={style.id}
-                      primaryText={`${style.code} - ${style.name}`}
-                    />
-                  ))}
-                </SelectField>
-              </div>
+              <StyleSelection style={recipe.style} setStyle={actions.setRecipeStyle} />
             </div>
             <div className={s.inputBlock} style={{marginRight: '-1.8em'}}>
               <div className="pure-g">
