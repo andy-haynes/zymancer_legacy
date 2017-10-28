@@ -219,10 +219,7 @@ const currentRecipe = (state = initialState, action) => {
         mobileTab: action.tab
       });
     default:
-      // randomize the style on load
-      return Object.assign({}, state, {
-        style: style(state.style, action)
-      });
+      return state;
   }
 };
 
