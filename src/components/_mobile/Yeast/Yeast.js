@@ -7,7 +7,6 @@ import TextField from 'material-ui/TextField';
 import s from './Yeast.css';
 import Measurement from '../Measurement';
 import SliderInput from '../SliderInput';
-import { YeastViabilityMonths } from '../../../constants/Defaults';
 import dateFormat from 'dateformat';
 import Collapse from 'react-collapse';
 import IconButton from 'material-ui/IconButton';

@@ -9,12 +9,13 @@ import pick from 'lodash/pick';
 function mapState(state) {
   return {
     parser: state.recipeParser,
-    searchCache: state.ingredientSearch.cache
+    searchCache: state.ingredientSearch.cache,
+    configuration: state.configuration
   };
 }
 
 function mapDispatch(dispatch) {
-  function loadParsedRecipe({ recipe, suggestions }) {
+  function loadParsedRecipe({ recipe, suggestions }, configuration) {
     function buildSuggestion(ingredient, key, overrideProps = []) {
       const ingredientSuggestion = suggestions[key].find(s => s.id === ingredient.id);
       const selectedIngredient = Object.assign({}, ingredientSuggestion.suggestions.find(s => s.active));
@@ -35,7 +36,7 @@ function mapDispatch(dispatch) {
         'yeast': yeast
       }[key]).create;
 
-      return Object.assign(create(selectedIngredient), {suggestions: ingredient.suggestions });
+      return Object.assign(create(selectedIngredient, configuration), { suggestions: ingredient.suggestions });
     }
 
     recipe.grains = recipe.grains.map(g => buildSuggestion(g, 'grains', ['name', 'weight', 'lovibond']));
@@ -50,10 +51,11 @@ function mapDispatch(dispatch) {
       loadParsedRecipe,
       clear: () => dispatch(actions.parser.clear()),
       updateRecipeText: (recipeText) => dispatch(actions.parser.updateRecipeText(recipeText)),
-      parseRecipeText: (recipeText, searchCache) => dispatch(actions.parser.parseRecipeText(recipeText, searchCache)),
+      selectParsedIngredient: (lineNumber) => dispatch(actions.parser.selectParsedIngredient(lineNumber)),
+      parseRecipeText: (recipeText, searchCache, configuration) =>
+        dispatch(actions.parser.parseRecipeText(recipeText, searchCache, configuration)),
       selectIngredientSuggestion: (ingredientKey, matchId, suggestionId) =>
-        dispatch(actions.parser.selectIngredientSuggestion(ingredientKey, matchId, suggestionId)),
-      selectParsedIngredient: (lineNumber) => dispatch(actions.parser.selectParsedIngredient(lineNumber))
+        dispatch(actions.parser.selectIngredientSuggestion(ingredientKey, matchId, suggestionId))
     }
   };
 }

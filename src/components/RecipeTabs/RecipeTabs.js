@@ -23,10 +23,10 @@ class RecipeTabs extends React.Component {
   };
 
   render() {
-    const { recipe, authenticated, actions, isMobile } = this.props;
+    const { recipe, configuration, authenticated, actions, isMobile } = this.props;
     return (
       <div className={s.recipeTabs}>
-        {!isMobile && <RecipeHeader {...{ recipe, authenticated, actions }} />}
+        {!isMobile && <RecipeHeader {...{ recipe, configuration, authenticated, actions }} />}
         {!isMobile && <Tabs>
           <Tab className={s.recipeTab} label="Grains">
             <GrainBillContainer />

@@ -1,25 +1,23 @@
 import RecipeActions from '../constants/RecipeActionTypes';
-import zymath from '../utils/zymath';
-import helpers from '../utils/helpers';
-import Defaults from '../constants/Defaults';
-import { MashMethod } from '../constants/AppConstants';
 import measurement from './measurement';
 import ratio from './ratio';
 import Units from '../constants/Units';
+import { DefaultConfiguration } from './configuration';
 
-function createMashSchedule(mash = {}) {
+function createMashSchedule(mash = {}, configuration = DefaultConfiguration) {
+  const { mash: mashDefaults } = configuration.defaults;
   const emptyVolume = { value: 0, unit: Units.Quart };
   return {
-    style: mash.style || MashMethod.SingleInfusion,
-    thickness: mash.thickness || Defaults.MashThickness,
-    boilOff: mash.boilOff || Defaults.BoilOffRate,
-    absorption: mash.absorption || Defaults.GrainAbsorptionLoss,
+    style: mash.style || mashDefaults.style,
+    thickness: mash.thickness || mashDefaults.mashThickness,
+    boilOff: mash.boilOff || mashDefaults.boilOffRate,
+    absorption: mash.absorption || mashDefaults.grainAbsorption,
     boilLoss: mash.boilLoss || emptyVolume,
     absorptionLoss: mash.absorptionLoss || emptyVolume,
     totalLoss: mash.totalLoss || emptyVolume,
-    grainTemp: mash.grainTemp || Defaults.GrainTemp,
-    infusionTemp: mash.infusionTemp || Defaults.InfusionTemp,
-    mashoutTemp: mash.mashoutTemp || Defaults.MashoutTemp,
+    grainTemp: mash.grainTemp || mashDefaults.grainTemp,
+    infusionTemp: mash.infusionTemp || mashDefaults.infusionTemp,
+    mashoutTemp: mash.mashoutTemp || mashDefaults.mashoutTemp,
     strikeTemp: mash.strikeTemp || { value: 0, unit: Units.Fahrenheit },
     //spargeTemp: mash.spargeTemp || { value: 0, unit: Units.Fahrenheit },
     rests: mash.rests || [],
@@ -75,7 +73,7 @@ const mashSchedule = (state = {}, action) => {
         }))
       });
     default:
-      return Object.keys(state).length ? state : createMashSchedule();
+      return Object.keys(state).length ? state : createMashSchedule({}, action.configuration);
   }
 };
 

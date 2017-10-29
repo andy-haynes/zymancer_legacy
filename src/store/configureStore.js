@@ -2,10 +2,17 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 import createHelpers from './createHelpers';
+import recipeActions from '../actions/recipe';
+
+const configurationMiddleware = store => next => action => {
+  return next(Object.assign({}, action, {
+    configuration: store.getState().configuration
+  }));
+};
 
 export default function configureStore(initialState, helpersConfig) {
   const helpers = createHelpers(helpersConfig);
-  const middleware = [thunk.withExtraArgument(helpers)];
+  const middleware = [thunk.withExtraArgument(helpers), configurationMiddleware];
 
   let enhancer;
 

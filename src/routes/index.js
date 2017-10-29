@@ -20,7 +20,7 @@ import error from './error';
 import calculator from './calculator';
 import recipes from './recipes';
 import parser from './parser';
-import equipment from './equipment';
+import configuration from './configuration';
 
 export default {
   path: '/',
@@ -28,7 +28,7 @@ export default {
     calculator,
     recipes,
     parser,
-    equipment,
+    configuration,
     contact,
     login,
     content,
@@ -39,7 +39,7 @@ export default {
       tabs: { backgroundColor: '#777' },
       inkBar: { backgroundColor: '#0cf' }
     });
-    
+
     const component = await next();
 
     if (component === undefined) {

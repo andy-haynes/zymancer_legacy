@@ -1,0 +1,34 @@
+.configuration {
+}
+
+.configSection {
+  padding: 1em 2em;
+  overflow-y: scroll;
+  height: 34em;
+}
+
+.configSectionLabel {
+  font-size: 1.2em;
+  color: #aaa;
+  font-weight: 500;
+  padding-left: -1em;
+}
+
+.configControls {
+  padding: 1em 0 0 2em;
+}
+
+.configLabel {
+  font-size: 0.9em;
+  color: #777;
+  margin-top: 0.9em;
+  margin-right: 1em;
+}
+
+.configValue {
+  padding-left: 1.2em;
+}
+
+.configButtons {
+  margin: 1em;
+}

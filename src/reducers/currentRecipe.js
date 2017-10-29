@@ -1,8 +1,6 @@
 import RecipeActions from '../constants/RecipeActionTypes';
 import zymath from '../utils/zymath';
 import helpers from '../utils/helpers';
-import parseRecipe from '../utils/parseRecipe';
-import Defaults from '../constants/Defaults';
 import Units from '../constants/Units';
 import { BrewMethod, MashMethod, MobileRecipeTab } from '../constants/AppConstants';
 import grain from './grain';
@@ -12,21 +10,24 @@ import mashSchedule from './mashSchedule';
 import style from './style';
 import measurement from './measurement';
 import sumBy from 'lodash/sumBy'
+import recipe from '../actions/recipe';
+
+const emptyVolume = { value: 0, unit: Units.Gallon };
 
 const initialState = {
   id: null,
-  name: 'My Awesome Mixed Beer #6',
-  method: BrewMethod.AllGrain,
+  name: '',
+  method: '',
   loaded: false,
   originalGravity: 1.0,
   finalGravity: 1.0,
   IBU: 0,
   ABV: 0,
   SRM: 0,
-  targetVolume: Defaults.TargetVolume,
-  boilVolume: Defaults.BoilVolume,
-  boilMinutes: Defaults.BoilMinutes,
-  efficiency: Defaults.EfficiencyPercentage,
+  targetVolume: emptyVolume,
+  boilVolume: emptyVolume,
+  boilMinutes: 0,
+  efficiency: 0,
   grains: [],
   hops: [],
   mashSchedule: mashSchedule(undefined, {}),
@@ -34,17 +35,17 @@ const initialState = {
   mobileTab: MobileRecipeTab.Root
 };
 
-function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, boilVolume) {
+function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, boilVolume, defaults) {
   switch (mashSchedule.style) {
     case MashMethod.SingleInfusion:
       mashSchedule.strikeVolume = zymath.calculateStrikeVolume(grainWeight, mashSchedule.thickness);
       mashSchedule.spargeVolume = zymath.calculateSpargeVolume(boilVolume, mashSchedule.strikeVolume);
-      mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(mashSchedule.thickness, mashSchedule.grainTemp, mashSchedule.infusionTemp);
-      //mashSchedule.spargeTemp = zymath.calculateMashoutWaterTemp(mashSchedule.strikeVolume, mashSchedule.spargeVolume, grainWeight, mashSchedule.infusionTemp, mashSchedule.mashoutTemp);
+      mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(mashSchedule.thickness, mashSchedule.grainTemp, mashSchedule.infusionTemp, defaults);
+      //mashSchedule.spargeTemp = zymath.calculateMashoutWaterTemp(mashSchedule.strikeVolume, mashSchedule.spargeVolume, grainWeight, mashSchedule.infusionTemp, mashSchedule.mashoutTemp, defaults);
       break;
     case MashMethod.BIAB:
       const biabThickness = helpers.createRatio(boilVolume, grainWeight);
-      mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(biabThickness, mashSchedule.grainTemp, mashSchedule.infusionTemp);
+      mashSchedule.strikeTemp = zymath.calculateStrikeWaterTemp(biabThickness, mashSchedule.grainTemp, mashSchedule.infusionTemp, defaults);
       mashSchedule.strikeVolume = helpers.convertToUnit(boilVolume, mashSchedule.strikeVolume.unit, 1);
       break;
     //case MashMethod.MultipleRest:
@@ -54,7 +55,8 @@ function calculateMashSchedule(mashSchedule, grains, grainWeight, efficiency, bo
   return mashSchedule;
 }
 
-function recalculate(state, changed) {
+function recalculate(state, changed, configuration) {
+  const { defaults } = configuration;
   let { id, name, style, method, grains, hops, efficiency, targetVolume, boilVolume, boilMinutes, mashSchedule, originalGravity, finalGravity, IBU, fermentation, ABV, SRM } = Object.assign({}, state, changed);
 
   const diff = {
@@ -75,7 +77,7 @@ function recalculate(state, changed) {
     SRM: state.SRM !== SRM
   };
 
-  let grainWeight = Object.assign({}, Defaults.GrainWeight, { value: 0 });
+  let grainWeight = Object.assign({}, defaults.fermentables.weight, { value: 0 });
   if (grains.length) {
     grainWeight = helpers.sumMeasurements(2, ...grains.map(g => g.weight));
   }
@@ -90,7 +92,7 @@ function recalculate(state, changed) {
       case BrewMethod.AllGrain:
       case BrewMethod.PartialMash:
         originalGravity = zymath.calculateGravity(efficiency, grains, targetVolume);
-        mashSchedule = calculateMashSchedule(Object.assign({}, mashSchedule), grains, grainWeight, efficiency, boilVolume);
+        mashSchedule = calculateMashSchedule(Object.assign({}, mashSchedule), grains, grainWeight, efficiency, boilVolume, defaults);
         mashSchedule.absorptionLoss = helpers.multiplyRatioByMeasurement(mashSchedule.absorption, grainWeight, 2);
         break;
       case BrewMethod.Extract:
@@ -108,18 +110,21 @@ function recalculate(state, changed) {
   }
 
   if (diff.fermentation || diff.grains || diff.originalGravity || diff.targetVolume) {
+    const pitchRate = fermentation.pitchRate || defaults.fermentation.pitchRate;
+    const cellCount = fermentation.cellCount || defaults.fermentation.cellCount;
     fermentation = Object.assign({}, fermentation, {
-      cellCount: sumBy(fermentation.yeasts, y => zymath.calculateCellCount(Defaults.CellCount * y.quantity, y.mfgDate, y.starterSteps)) || 0,
-      recommendedCellCount: zymath.calculateRecommendedCellCount(fermentation.pitchRate, originalGravity, targetVolume)
+      pitchRate,
+      cellCount: sumBy(fermentation.yeasts, y => zymath.calculateCellCount(cellCount * y.quantity, y.mfgDate, [])) || 0,
+      recommendedCellCount: zymath.calculateRecommendedCellCount(pitchRate, originalGravity, targetVolume)
     });
 
-    const apparentAttenuation = (sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || Defaults.YeastAttenuation;
+    const apparentAttenuation = (sumBy(fermentation.yeasts, yeast => yeast.apparentAttenuation / 100) / fermentation.yeasts.length) || defaults.fermentation.attenuation;
     finalGravity = zymath.calculateFinalGravity(originalGravity, apparentAttenuation);
     ABV = zymath.calculateABV(originalGravity, finalGravity);
   }
-  
+
   if (diff.grains || diff.targetVolume) {
-    SRM = zymath.calculateSRM(targetVolume, grains);    
+    SRM = zymath.calculateSRM(targetVolume, grains);
   }
 
   return {
@@ -147,7 +152,7 @@ const currentRecipe = (state = initialState, action) => {
   const updateRecipe = (changed, refresh = true) => Object.assign(
     {},
     state,
-    refresh ? recalculate(state, changed) : changed,
+    refresh ? recalculate(state, changed, action.configuration) : changed,
     { loaded: true }
   );
 
@@ -219,6 +224,18 @@ const currentRecipe = (state = initialState, action) => {
         mobileTab: action.tab
       });
     default:
+      if (action.configuration) {
+        const defaults = action.configuration.defaults;
+        return updateRecipe(Object.assign({}, state, {
+          name: defaults.recipe.name,
+          method: defaults.recipe.brewMethod,
+          style: defaults.recipe.style,
+          targetVolume: defaults.recipe.targetVolume,
+          boilMinutes: defaults.recipe.boilMinutes,
+          efficiency: defaults.mash.efficiency
+        }));
+      }
+
       return state;
   }
 };

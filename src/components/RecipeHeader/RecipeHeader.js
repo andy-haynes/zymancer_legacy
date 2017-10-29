@@ -4,7 +4,6 @@ import DefinedTypes from '../DefinedTypes';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './RecipeHeader.css';
 import MeasurementUnits from '../../constants/MeasurementUnits';
-import Defaults from '../../constants/Defaults';
 import { BrewMethod } from '../../constants/AppConstants';
 import Measurement from '../Measurement';
 import StyleSelection from '../StyleSelection';
@@ -25,7 +24,7 @@ class RecipeHeader extends React.PureComponent {
   };
 
   render() {
-    const { recipe, authenticated, actions } = this.props;
+    const { recipe, configuration, authenticated, actions } = this.props;
     return (
       <div className={s.recipeHeader}>
         <div className="pure-g">
@@ -155,8 +154,8 @@ class RecipeHeader extends React.PureComponent {
                   </div>
                   <SliderInput
                     value={recipe.method === BrewMethod.Extract ? 100 : recipe.efficiency}
-                    min={Defaults.MinEfficiencyPercentage}
-                    max={Defaults.MaxEfficiencyPercentage}
+                    min={configuration.defaults.mash.minEfficiencyPercentage}
+                    max={configuration.defaults.mash.maxEfficiencyPercentage}
                     update={actions.setEfficiency}
                     sliderWidth={'3-4'}
                     inputWidth={'1-4'}

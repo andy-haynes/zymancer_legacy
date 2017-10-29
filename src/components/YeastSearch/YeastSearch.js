@@ -13,7 +13,7 @@ class YeastSearch extends React.PureComponent {
   };
 
   render() {
-    const { search, actions } = this.props;
+    const { search, configuration, actions } = this.props;
     return (
       <IngredientSearch
         {...search}
@@ -36,7 +36,7 @@ class YeastSearch extends React.PureComponent {
         {search.results.map(yeast => (
           <YeastSearchOption
             key={yeast.id}
-            addYeast={() => actions.addIngredient(yeast)}
+            addYeast={() => actions.addIngredient(yeast, configuration)}
             yeast={yeast}
           />
         ))}

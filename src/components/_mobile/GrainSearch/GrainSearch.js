@@ -16,7 +16,7 @@ class GrainSearch extends React.PureComponent {
   };
 
   render() {
-    const { search, actions, dismiss } = this.props;
+    const { search, configuration, actions, dismiss } = this.props;
     return (
       <IngredientSearch
         {...search}
@@ -31,7 +31,7 @@ class GrainSearch extends React.PureComponent {
                 height: '3.5em'
               }}
               onTouchTap={() => {
-                actions.addIngredient(grain);
+                actions.addIngredient(grain, configuration);
                 dismiss && dismiss();
               }}
             >

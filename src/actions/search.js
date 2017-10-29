@@ -1,26 +1,22 @@
 import SearchActions from '../constants/SearchActionTypes';
-import { IngredientType, MinSearchQueryLength } from '../constants/AppConstants';
-import fetch from '../core/fetch';
+import { IngredientType } from '../constants/AppConstants';
 import helpers from '../utils/helpers';
-import grain from '../reducers/grain';
-import hop from '../reducers/hop';
-import yeast from '../reducers/yeast';
 import { searchIngredients, tokenizeIngredients } from '../data/api';
 
 function queryIngredients(ingredientType, query, searchCache) {
   return async (dispatch) => {
-    const createActions = (filterAction, updateAction, reducer) => ({
+    const createActions = (filterAction, updateAction) => ({
       filter: helpers.createAction(filterAction, 'query'),
       update: (results) => ({
-        results: results.map(r => reducer.create(r)),
-        type: updateAction
+        type: updateAction,
+        results
       })
     });
 
     const { filter, update } = {
-      [IngredientType.Grain]: createActions(SearchActions.FilterGrainResults, SearchActions.UpdateGrainResults, grain),
-      [IngredientType.Hop]: createActions(SearchActions.FilterHopResults, SearchActions.UpdateHopResults, hop),
-      [IngredientType.Yeast]: createActions(SearchActions.FilterYeastResults, SearchActions.UpdateYeastResults, yeast)
+      [IngredientType.Grain]: createActions(SearchActions.FilterGrainResults, SearchActions.UpdateGrainResults),
+      [IngredientType.Hop]: createActions(SearchActions.FilterHopResults, SearchActions.UpdateHopResults),
+      [IngredientType.Yeast]: createActions(SearchActions.FilterYeastResults, SearchActions.UpdateYeastResults)
     }[ingredientType];
 
     dispatch(filter(query));

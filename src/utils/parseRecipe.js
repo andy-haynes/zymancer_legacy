@@ -3,7 +3,6 @@ import Units from '../constants/Units';
 import helpers from './helpers';
 import zymath from './zymath';
 import { ExtractGravity, HopAdditionType, HopForm, RecipeParameter, ExtractType } from '../constants/AppConstants';
-import Defaults from '../constants/Defaults';
 import BJCPStyles from '../constants/BJCPStyles';
 import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';

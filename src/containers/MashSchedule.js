@@ -2,12 +2,13 @@ import { connect } from 'react-redux';
 import actions from '../actions';
 import MashSchedule from '../components/MashSchedule'
 import MobileMashSchedule from '../components/_mobile/MashSchedule'
-import pick from 'lodash/pick';
 
 const { recipe } = actions;
 
 function mapState(state) {
-  return pick(state.currentRecipe, 'mashSchedule');
+  return {
+    mashSchedule: state.currentRecipe.mashSchedule
+  };
 }
 
 function mapDispatch(dispatch) {

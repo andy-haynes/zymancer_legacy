@@ -18,7 +18,8 @@ const measurement = (state = {}, action) => {
     return Object.assign(measurement, state);
   } else if (state.unit !== measurement.unit) {
     // convert unit
-    return helpers.convertToUnit(state, measurement.unit, Defaults.MeasurementPrecision[action.type] || 1);
+    const precision = Defaults.MeasurementPrecision[action.type] || action.precision || 1;
+    return helpers.convertToUnit(state, measurement.unit, precision);
   } else {
     // parse input
     measurement.value = parseFloat(value);

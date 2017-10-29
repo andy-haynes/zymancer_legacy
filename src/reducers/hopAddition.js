@@ -1,15 +1,15 @@
 import RecipeActions from '../constants/RecipeActionTypes';
-import Defaults from '../constants/Defaults';
 import measurement from './measurement';
 
 let additionId = 0;
 
-function createHopAddition(addition = {}, hop, minutes, manual = false) {
+function createHopAddition(addition = {}, hop, configuration, minutes, manual = false) {
+  const { hops: defaults } = configuration.defaults;
   return {
     id: (hop.id * 1000) + additionId++,
     minutes: isNaN(addition.minutes) ? minutes : addition.minutes || 0,
-    type: addition.type || Defaults.HopAdditionType,
-    weight: addition.weight || Defaults.HopAdditionWeight,
+    type: addition.type || defaults.additionType,
+    weight: addition.weight || defaults.weight,
     defaultAddition: manual
   };
 }
@@ -17,7 +17,7 @@ function createHopAddition(addition = {}, hop, minutes, manual = false) {
 const hopAddition = (state = {}, action) => {
   switch (action.type) {
     case RecipeActions.AddHopAddition:
-      return createHopAddition(undefined, action.hop, action.boilMinutes, true);
+      return createHopAddition(undefined, action.hop, action.configuration, action.boilMinutes, true);
     case RecipeActions.SetHopAdditionType:
       return Object.assign({}, state, {
         type: action.additionType,

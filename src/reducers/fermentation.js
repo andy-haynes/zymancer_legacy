@@ -1,9 +1,8 @@
 import RecipeActions from '../constants/RecipeActionTypes';
-import Defaults from '../constants/Defaults';
 import yeast from './yeast';
 
 const initialState = {
-  pitchRate: Defaults.PitchRate,
+  pitchRate: 0,
   cellCount: 0,
   recommendedCellCount: 0,
   yeasts: []

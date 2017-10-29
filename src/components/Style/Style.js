@@ -23,7 +23,9 @@ class Style extends React.Component {
   };
 
   componentDidMount() {
-    this.props.actions.loadStyle(this.props.style.id);
+    if (this.props.style.id !== undefined) {
+      this.props.actions.loadStyle(this.props.style.id);
+    }
   }
 
   render() {

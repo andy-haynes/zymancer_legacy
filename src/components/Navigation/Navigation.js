@@ -33,6 +33,8 @@ class Navigation extends React.PureComponent {
         <span className={s.spacer}>|</span>
         <Link navlink className={s.link} to="/parser">Parser</Link>
         <span className={s.spacer}>|</span>
+        <Link navlink className={s.link} to="/configuration">Configure</Link>
+        <span className={s.spacer}>|</span>
         {accountLink}
       </div>
     );

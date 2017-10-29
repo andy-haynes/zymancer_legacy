@@ -16,7 +16,8 @@ function createMapState(ingredientType, extraProps) {
       state.ingredientSearch[ingredientType],
       pick(state.ingredientSearch, 'cache'),
       { ingredientType }
-    )
+    ),
+    configuration: state.configuration
   }, props, (extraProps && extraProps(state)) || {});
 }
 
@@ -32,20 +33,21 @@ function createMapDispatch(ingredientType, createAdd) {
 
 const addDispatches = {
   [IngredientType.Grain]: (dispatch) =>
-    (grain) => {
-      dispatch(actions.recipe.addGrain(grain));
+    (grain, configuration) => {
+      grain.weight = null;
+      dispatch(actions.recipe.addGrain(grain, configuration));
       dispatch(actions.search.clearGrainSearch());
     },
   [IngredientType.Hop]: (dispatch) =>
-    (hop, boilMinutes) => {
-      hop = hopReducer.create(hop, boilMinutes);
+    (hop, configuration, boilMinutes) => {
+      hop = hopReducer.create(hop, configuration, boilMinutes);
       dispatch(actions.recipe.addHop(hop));
       dispatch(actions.recipe.addHopAddition(hop, boilMinutes));
       dispatch(actions.search.clearHopSearch());
     },
   [IngredientType.Yeast]: (dispatch) =>
-    (yeast) => {
-      dispatch(actions.recipe.addYeast(yeast));
+    (yeast, configuration) => {
+      dispatch(actions.recipe.addYeast(yeast, configuration));
       dispatch(actions.search.clearYeastSearch());
     }
 };

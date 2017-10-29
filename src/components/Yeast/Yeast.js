@@ -8,7 +8,6 @@ import Paper from 'material-ui/Paper';
 import s from './Yeast.css';
 import Measurement from '../Measurement';
 import SliderInput from '../SliderInput';
-import { YeastViabilityMonths } from '../../constants/Defaults';
 import dateFormat from 'dateformat';
 import Collapse from 'react-collapse';
 import IconButton from 'material-ui/IconButton';
@@ -34,7 +33,7 @@ class Yeast extends React.Component {
   };
 
   render() {
-    const { yeast, actions, showDetailModal } = this.props;
+    const { yeast, configuration, actions, showDetailModal } = this.props;
     return (
       <Paper className={s.yeast} zDepth={2}>
         <div className="pure-g">
@@ -63,7 +62,6 @@ class Yeast extends React.Component {
                   onChange={(e, date) => actions.setMfgDate(yeast, date)}
                   hintText="Mfg Date"
                   textFieldStyle={{width: '5em'}}
-                  /*minDate={subtractMonthsFromNow(YeastViabilityMonths)}*/
                   maxDate={new Date()}
                   formatDate={(d) => dateFormat(d, 'd mmm yy')}
                   autoOk

@@ -138,7 +138,7 @@ function setTempRange(defaultTemp, measurement) {
   return Object.assign(pick(defaultTemp, 'min', 'max'), measurement);
 }
 
-function calculateStrikeWaterTemp(mashThickness, sourceTemp, targetTemp) {
+function calculateStrikeWaterTemp(mashThickness, sourceTemp, targetTemp, defaults) {
   const source = helpers.convertToUnit(sourceTemp, Units.Fahrenheit);
   const target = helpers.convertToUnit(targetTemp, Units.Fahrenheit);
   const convertedRatio = helpers.convertRatio(mashThickness, {
@@ -147,13 +147,13 @@ function calculateStrikeWaterTemp(mashThickness, sourceTemp, targetTemp) {
   }).value;
   const deltaT = ((0.2 / convertedRatio) * (target.value - source.value)) + target.value;
 
-  return setTempRange(Defaults.InfusionTemp, {
+  return setTempRange(defaults.InfusionTemp, {
     value: round(deltaT, 1),
     unit: Units.Fahrenheit
   });
 }
 
-function calculateMashoutWaterTemp(strikeVolume, spargeVolume, grainWeight, infusionTemp, mashoutTemp) {
+function calculateMashoutWaterTemp(strikeVolume, spargeVolume, grainWeight, infusionTemp, mashoutTemp, defaults) {
   const mashoutF = helpers.convertToUnit(mashoutTemp, Units.Fahrenheit).value;
   const deltaT = mashoutF - helpers.convertToUnit(infusionTemp, Units.Fahrenheit).value;
 
@@ -161,7 +161,7 @@ function calculateMashoutWaterTemp(strikeVolume, spargeVolume, grainWeight, infu
   const strike = helpers.convertToUnit(strikeVolume, Units.Quart).value;
   const sparge = helpers.convertToUnit(spargeVolume, Units.Quart).value;
 
-  return setTempRange(Defaults.MashoutTemp, {
+  return setTempRange(defaults.MashoutTemp, {
     value: round((deltaT * ((0.2 * weight * strike) / sparge)) + mashoutF, 1),
     unit: Units.Fahrenheit
   });

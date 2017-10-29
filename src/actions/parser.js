@@ -4,11 +4,11 @@ import parseText from '../utils/parseRecipe';
 import actions from '../actions';
 import { matchParsedIngredients } from '../data/api';
 
-function parseRecipeText(recipeText, searchCache) {
+function parseRecipeText(recipeText, searchCache, configuration) {
   const parsed = parseText(recipeText);
   return async (dispatch) => {
     if (parsed !== null) {
-      const recipe = await matchParsedIngredients(parsed, searchCache);
+      const recipe = await matchParsedIngredients(parsed, searchCache, configuration);
       if (recipe) {
         return dispatch(actions.parser.updateSuggestions(recipe));
       }

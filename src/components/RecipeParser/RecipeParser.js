@@ -17,7 +17,8 @@ class RecipeParser extends React.PureComponent {
   };
 
   render() {
-    const { parser, searchCache, actions } = this.props;
+    const { parser, searchCache, configuration, actions } = this.props;
+
     function suggestionToggle(ingredientKey, matchId) {
       return (suggestionId) => actions.selectIngredientSuggestion(ingredientKey, matchId, suggestionId)
     }
@@ -127,13 +128,13 @@ class RecipeParser extends React.PureComponent {
                   label="Load"
                   secondary={true}
                   style={{float: 'right'}}
-                  onClick={() => actions.loadParsedRecipe(parser)}
+                  onClick={() => actions.loadParsedRecipe(parser, configuration)}
                 />
                 <RaisedButton
                   label="Parse"
                   primary={true}
                   style={{float: 'right'}}
-                  onClick={() => actions.parseRecipeText(parser.text, searchCache)}
+                  onClick={() => actions.parseRecipeText(parser.text, searchCache, configuration)}
                 />
                 {parser.matchedLines.length > 0 && (
                   <RaisedButton

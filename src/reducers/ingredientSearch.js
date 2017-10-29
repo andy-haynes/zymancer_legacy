@@ -1,13 +1,33 @@
 import SearchActions from '../constants/SearchActionTypes';
 import searchCache from './searchCache';
-import Defaults from '../constants/Defaults';
-import { IngredientType } from '../constants/AppConstants';
+import grain from './grain';
+import hop from './hop';
+import yeast from './yeast';
+import {
+  IngredientType,
+  MinSearchQueryLength
+} from '../constants/AppConstants';
 
 function createIngredientSearchReducer(ingredientType) {
-  const { filter, update, clear } = {
-    [IngredientType.Grain]: { filter: SearchActions.FilterGrainResults, update: SearchActions.UpdateGrainResults, clear: SearchActions.ClearGrainSearch },
-    [IngredientType.Hop]:   { filter: SearchActions.FilterHopResults,   update: SearchActions.UpdateHopResults,   clear: SearchActions.ClearHopSearch },
-    [IngredientType.Yeast]: { filter: SearchActions.FilterYeastResults, update: SearchActions.UpdateYeastResults, clear: SearchActions.ClearYeastSearch }
+  const { filter, update, clear, reducer } = {
+    [IngredientType.Grain]: {
+      filter: SearchActions.FilterGrainResults,
+      update: SearchActions.UpdateGrainResults,
+      clear: SearchActions.ClearGrainSearch,
+      reducer: grain
+    },
+    [IngredientType.Hop]: {
+      filter: SearchActions.FilterHopResults,
+      update: SearchActions.UpdateHopResults,
+      clear: SearchActions.ClearHopSearch,
+      reducer: hop
+    },
+    [IngredientType.Yeast]: {
+      filter: SearchActions.FilterYeastResults,
+      update: SearchActions.UpdateYeastResults,
+      clear: SearchActions.ClearYeastSearch,
+      reducer: yeast
+    }
   }[ingredientType];
 
   const initialState = {
@@ -19,6 +39,8 @@ function createIngredientSearchReducer(ingredientType) {
   };
 
   return (state = initialState, action) => {
+    const mapResults = (ingredient) => reducer.create(ingredient, action.configuration);
+
     switch (action.type) {
       case SearchActions.CreateIngredient:
         return Object.assign({}, state, {
@@ -30,14 +52,14 @@ function createIngredientSearchReducer(ingredientType) {
       case filter:
         return Object.assign({}, state, {
           query: action.query,
-          results: action.query.length ? state.results : [],
-          loading: action.query.length >= Defaults.MinSearchQueryLength,
+          results: action.query.length ? state.results.map(mapResults) : [],
+          loading: action.query.length >= MinSearchQueryLength,
           error: null,
           active: action.query.length > 0
         });
       case update:
         return Object.assign({}, state, {
-          results: action.results,
+          results: action.results.map(mapResults),
           loading: false,
           error: null,
           active: true

@@ -1,5 +1,4 @@
 import RecipeActions from '../constants/RecipeActionTypes';
-import Defaults from '../constants/Defaults';
 import helpers from '../utils/helpers';
 import zymath from '../utils/zymath';
 import measurement from './measurement';

@@ -13,6 +13,7 @@ import { FermentationInputType } from '../types/FermentationType';
 import { MashScheduleInputType } from '../types/MashScheduleType';
 import { StyleInputType } from '../types/StyleType';
 import { Recipe, RecipeGrain, RecipeHop, RecipeYeast, RecipeFermentation, MashSchedule } from '../models';
+import { DefaultConfiguration } from '../../reducers/configuration';
 import pick from 'lodash/pick';
 
 const saveRecipe = {
@@ -98,7 +99,7 @@ const saveRecipe = {
       MashSchedule.create(Object.assign(
         pick(mashSchedule, 'style', 'thickness', 'absorption', 'boilOff', 'grainTemp', 'infusionTemp', 'mashoutTemp'),
         { recipeId: recipe.id }
-      ));
+      ), DefaultConfiguration);
 
       return recipe;
     });

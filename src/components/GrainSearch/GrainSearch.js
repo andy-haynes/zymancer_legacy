@@ -13,7 +13,7 @@ class GrainSearch extends React.PureComponent {
   };
 
   render() {
-    const { search, actions } = this.props;
+    const { search, configuration, actions } = this.props;
     return (
       <IngredientSearch
         {...search}
@@ -36,7 +36,7 @@ class GrainSearch extends React.PureComponent {
         {search.results.map(grain => (
           <GrainSearchOption
             key={grain.id}
-            addGrain={() => actions.addIngredient(grain)}
+            addGrain={() => actions.addIngredient(grain, configuration)}
             grain={grain}
           />
         ))}

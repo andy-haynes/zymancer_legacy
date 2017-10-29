@@ -1,5 +1,4 @@
 import RecipeActions from '../constants/RecipeActionTypes';
-import Defaults from '../constants/Defaults';
 import { ExtractType, ExtractGravity } from '../constants/AppConstants';
 import measurement from './measurement';
 import helpers from '../utils/helpers';
@@ -7,9 +6,10 @@ import pick from 'lodash/pick';
 
 let grainId = 0;
 
-function createGrain(grain) {
+function createGrain(grain, configuration) {
   const props = pick(grain, 'id', 'name', 'mfg', 'url', 'DBCG', 'DBFG', 'isExtract', 'category', 'flavor');
   const extractType = grain.isExtract ? (grain.extractType || ExtractType.Dry) : null;
+  const { fermentables: defaults } = configuration.defaults;
 
   if (typeof props.id === 'undefined') {
     props.id = ++grainId;
@@ -23,15 +23,15 @@ function createGrain(grain) {
     if (lovibondRange !== null) {
       lovibond = lovibondRange.avg;
     } else {
-      lovibond = Defaults.GrainLovibond;
+      lovibond = defaults.lovibond;
     }
   }
 
   return Object.assign(props, {
     description: grain.description || '',
-    weight: grain.weight || Defaults.GrainWeight,
-    gravity: grain.gravity || (extractType ? ExtractGravity[extractType] : Defaults.GrainGravity),
-    lintner: parseFloat(grain.lintner) || 0,
+    weight: grain.weight || defaults.weight,
+    gravity: grain.gravity || (extractType ? ExtractGravity[extractType] : defaults.gravity),
+    lintner: parseFloat(grain.lintner) || defaults.lintner,
     characteristics: grain.characteristics ? (typeof grain.characteristics === 'object' ? grain.characteristics.split(',') : grain.characteristics) : null,
     matchScore: grain.score || 0,
     lovibond,
@@ -42,7 +42,7 @@ function createGrain(grain) {
 const grain = (state = {}, action) => {
   switch (action.type) {
     case RecipeActions.AddGrain:
-      return createGrain(action.grain);
+      return createGrain(action.grain, action.configuration);
     case RecipeActions.SetGrainWeight:
       return Object.assign({}, state, { weight: measurement(state.weight, action) });
     case RecipeActions.SetGrainGravity:

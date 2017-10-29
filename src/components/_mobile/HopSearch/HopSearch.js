@@ -17,7 +17,7 @@ class HopSearch extends React.PureComponent {
   };
 
   render() {
-    const { search, boilMinutes, actions, dismiss } = this.props;
+    const { search, configuration, boilMinutes, actions, dismiss } = this.props;
     return (
       <IngredientSearch
         {...search}
@@ -32,7 +32,7 @@ class HopSearch extends React.PureComponent {
                 height: '3.5em'
               }}
               onTouchTap={() => {
-                actions.addIngredient(hop, boilMinutes);
+                actions.addIngredient(hop, configuration, boilMinutes);
                 dismiss && dismiss();
               }}
             >

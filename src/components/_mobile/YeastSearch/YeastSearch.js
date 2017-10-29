@@ -15,7 +15,7 @@ class YeastSearch extends React.PureComponent {
   };
 
   render() {
-    const { search, actions } = this.props;
+    const { search, configuration, actions } = this.props;
     return (
       <IngredientSearch
         {...search}
@@ -30,7 +30,7 @@ class YeastSearch extends React.PureComponent {
                 height: '3.5em'
               }}
               onTouchTap={() => {
-                actions.addIngredient(yeast);
+                actions.addIngredient(yeast, configuration);
                 dismiss && dismiss();
               }}
             >

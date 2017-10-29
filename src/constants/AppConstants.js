@@ -71,5 +71,14 @@ export const MobileRecipeTab = keyMirror({
   Style: null
 });
 
+export const ConfigSection = keyMirror({
+  Recipe: null,
+  Fermentables: null,
+  Hops: null,
+  Mash: null,
+  Fermentation: null,
+  Formulas: null
+});
+
 export const MinSearchQueryLength = 1;
 export const MaxSearchResults = 30;

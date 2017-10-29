@@ -9,6 +9,7 @@ const { recipe: recipeActions } = actions;
 function mapState(state) {
   return {
     recipe: state.currentRecipe,
+    configuration: state.configuration,
     authenticated: state.auth.authenticated,
     isMobile: state.isMobile
   };

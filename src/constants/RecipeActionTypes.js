@@ -43,6 +43,7 @@ export default keyMirror({
   SetRecipeStyle: null,
   SetRecipeMethod: null,
   ClearRecipe: null,
+  ConfigureDefault: null,
   /* parser */
   ClearParser: null,
   UpdateRecipeText: null,

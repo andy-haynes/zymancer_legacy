@@ -1,5 +1,4 @@
 import RecipeActions from '../constants/RecipeActionTypes';
-import Defaults from '../constants/Defaults';
 import BJCPStyles from '../constants/BJCPStyles';
 
 const style = (state, action) => {

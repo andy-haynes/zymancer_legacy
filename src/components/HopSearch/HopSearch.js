@@ -14,12 +14,12 @@ class HopSearch extends React.PureComponent {
   };
 
   render() {
-    const { search, boilMinutes, actions } = this.props;
+    const { search, configuration, boilMinutes, actions } = this.props;
     return (
       <IngredientSearch
         {...search}
         filter={actions.createFilter(search.cache)}
-        create={(hop) => actions.addIngredient(hop, boilMinutes)}
+        create={(hop) => actions.addIngredient(hop, configuration, boilMinutes)}
         header={(
           <div className="pure-g">
             <div className="pure-u-12-24">
@@ -37,7 +37,7 @@ class HopSearch extends React.PureComponent {
         {search.results.map(hop => (
           <HopSearchOption
             key={hop.id}
-            addHop={() => actions.addIngredient(hop, boilMinutes)}
+            addHop={() => actions.addIngredient(hop, configuration, boilMinutes)}
             hop={hop}
           />
         ))}

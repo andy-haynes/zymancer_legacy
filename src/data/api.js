@@ -1,12 +1,11 @@
-import { RecipeType, RecipeParameter } from '../constants/AppConstants';
-import Defaults from '../constants/Defaults';
-import Units from '../constants/Units';
+import { RecipeType } from '../constants/AppConstants';
 import { IngredientType, MinSearchQueryLength } from '../constants/AppConstants';
 import fetch from '../core/fetch';
 import helpers from '../utils/helpers';
 import grain from '../reducers/grain';
 import hop from '../reducers/hop';
 import yeast from '../reducers/yeast';
+import { DefaultConfiguration } from '../reducers/configuration';
 import mashSchedule from '../reducers/mashSchedule';
 import pick from 'lodash/pick';
 import groupBy from 'lodash/groupBy';
@@ -170,21 +169,25 @@ export async function getRecipe(recipeId) {
     return Object.assign(measurement, pick(defaultMeasurement, 'min', 'max'));
   }
 
+  // TODO: fetch configuration
+  const configuration = DefaultConfiguration;
+  const { mash: mashDefaults } = configuration.defaults;
+
   return Object.assign({}, data.loadRecipe, {
     targetVolume: data.loadRecipe.volume,
-    grains: grains.map(g => grain.create(g)),
-    hops: _groupHops(hops).map(h => hop.create(h)),
+    grains: grains.map(g => grain.create(g, configuration)),
+    hops: _groupHops(hops).map(h => hop.create(h, configuration, undefined)),
     fermentation: {
       pitchRate: fermentation.pitchRateMillionsMLP,
-      yeasts: yeasts.map(y => yeast.create(y))
+      yeasts: yeasts.map(y => yeast.create(y, configuration))
     },
     mashSchedule: (mash => Object.assign({}, mash, {
-      thickness: setMeasurementRanges(mash.thickness, Defaults.MashThickness),
-      boilOff: setMeasurementRanges(mash.boilOff, Defaults.BoilOffRate),
-      absorption: setMeasurementRanges(mash.absorption, Defaults.GrainAbsorptionLoss),
-      infusionTemp: setMeasurementRanges(mash.infusionTemp, Defaults.InfusionTemp),
-      mashoutTemp: setMeasurementRanges(mash.mashoutTemp, Defaults.MashoutTemp)
-    }))(mashSchedule.create(_mashSchedule))
+      thickness: setMeasurementRanges(mash.thickness, mashDefaults.thickness),
+      boilOff: setMeasurementRanges(mash.boilOff, mashDefaults.boilOffRate),
+      absorption: setMeasurementRanges(mash.absorption, mashDefaults.absorption),
+      infusionTemp: setMeasurementRanges(mash.infusionTemp, mashDefaults.infusionTemp),
+      mashoutTemp: setMeasurementRanges(mash.mashoutTemp, mashDefaults.mashoutTemp)
+    }))(mashSchedule.create(_mashSchedule, configuration))
   });
 }
 
@@ -401,7 +404,7 @@ export async function searchIngredients(ingredientType, query, searchCache) {
 //endregion
 
 //region recipe parsing
-export async function matchParsedIngredients(parsed, searchCache) {
+export async function matchParsedIngredients(parsed, searchCache, configuration) {
   const ingredientMap = {};
   function matchingIdStr(ingredients, tokens, blacklist) {
     return [...new Set([...new Set(ingredients)]
@@ -445,7 +448,7 @@ export async function matchParsedIngredients(parsed, searchCache) {
   const matched = data.matchParsedIngredients;
 
   function buildSuggestions(ingredients, matchKey, reducer) {
-    return ingredients.map(i => Object.assign(reducer.create(i), {
+    return ingredients.map(i => Object.assign(reducer.create(i, configuration), {
       lineNumber: i.lineNumber,
       suggestions: (ingredientMap[getName(i)] || [])
         .map(score => score.id)
