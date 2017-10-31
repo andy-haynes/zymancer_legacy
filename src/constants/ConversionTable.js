@@ -93,7 +93,7 @@ const conversionTable = {
     Minute: 60
   },
   Minute: {
-    Hour: 0.000277778
+    Hour: 0.01666667
   }
 };
 
