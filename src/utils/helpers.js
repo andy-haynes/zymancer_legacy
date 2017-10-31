@@ -202,13 +202,13 @@ function createAction(type, ...argNames) {
   }
 }
 
-function ignoreNonNumeric(state, action, key) {
+function ignoreNonNumericReducer(state, action, key) {
   if (!action[key].match(/\d+\.?\d*/)) {
     return state;
   }
 
   return Object.assign({}, state, {
-    [key]: parseFloat(action[key] )
+    [key]: parseFloat(action[key])
   });
 }
 //endregion
@@ -250,7 +250,7 @@ export default {
   subtractMonthsFromNow,
   jsonToGraphql,
   createAction,
-  ignoreNonNumeric,
+  ignoreNonNumericReducer,
   mobile: {
     formatIngredientName
   }

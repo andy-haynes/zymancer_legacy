@@ -46,11 +46,11 @@ const grain = (state = {}, action) => {
     case RecipeActions.SetGrainWeight:
       return Object.assign({}, state, { weight: measurement(state.weight, action) });
     case RecipeActions.SetGrainGravity:
-      return helpers.ignoreNonNumeric(state, action, 'gravity');
+      return helpers.ignoreNonNumericReducer(state, action, 'gravity');
     case RecipeActions.SetGrainLovibond:
-      return helpers.ignoreNonNumeric(state, action, 'lovibond');
+      return helpers.ignoreNonNumericReducer(state, action, 'lovibond');
     case RecipeActions.SetGrainLintner:
-      return helpers.ignoreNonNumeric(state, action, 'lintner');
+      return helpers.ignoreNonNumericReducer(state, action, 'lintner');
     case RecipeActions.SetGrainExtractType:
       const { extractType } = action;
       return Object.assign({}, state, { extractType, gravity: ExtractGravity[action.extractType] });

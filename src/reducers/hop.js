@@ -33,9 +33,9 @@ const hop = (state = {}, action) => {
     case RecipeActions.AddHop:
       return createHop(action.hop, action.configuration, action.boilMinutes, true);
     case RecipeActions.SetHopAlpha:
-      return helpers.ignoreNonNumeric(state, action, 'alpha');
+      return helpers.ignoreNonNumericReducer(state, action, 'alpha');
     case RecipeActions.SetHopBeta:
-      return helpers.ignoreNonNumeric(state, action, 'beta');
+      return helpers.ignoreNonNumericReducer(state, action, 'beta');
     case RecipeActions.SetHopForm:
       return Object.assign({}, state, { form: action.form });
     case RecipeActions.AddHopAddition:
