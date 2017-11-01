@@ -15,12 +15,10 @@ import routes from './routes';
 import actions from './actions';
 import history from './core/history';
 import configureStore from './store/configureStore';
-import { readState, saveState } from 'history/lib/DOMStateStorage';
+
 import {
   addEventListener,
-  removeEventListener,
-  windowScrollX,
-  windowScrollY,
+  removeEventListener
 } from './core/DOMUtils';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
@@ -53,22 +51,11 @@ const context = {
   },
 };
 
-// Restore the scroll position if it was saved into the state
-function restoreScrollPosition(state) {
-  if (state && state.scrollY !== undefined) {
-    window.scrollTo(state.scrollX, state.scrollY);
-  } else {
-    window.scrollTo(0, 0);
-  }
-}
-
 let renderComplete = (state, callback) => {
   const elem = document.getElementById('css');
   if (elem) elem.parentNode.removeChild(elem);
   callback(true);
   renderComplete = (s) => {
-    restoreScrollPosition(s);
-
     // Google Analytics tracking. Don't send 'pageview' event after
     // the initial rendering, as it was already sent
     if (window.ga) {
@@ -100,7 +87,7 @@ function run() {
       getElementById('source').
       getAttribute('data-initial-state')
   );
-  let currentLocation = history.getCurrentLocation();
+  let currentLocation = history.location;
 
   // Make taps on links and buttons work fast on mobiles
   FastClick.attach(document.body);
@@ -110,14 +97,6 @@ function run() {
 
   // Re-render the app when window.location changes
   function onLocationChange(location) {
-    // Save the page scroll position into the current location's state
-    if (currentLocation.key) {
-      saveState(currentLocation.key, {
-        ...readState(currentLocation.key),
-        scrollX: windowScrollX(),
-        scrollY: windowScrollY(),
-      });
-    }
     currentLocation = location;
 
     UniversalRouter.resolve(routes, {
@@ -133,21 +112,10 @@ function run() {
   const removeHistoryListener = history.listen(onLocationChange);
   history.replace(currentLocation);
 
-  // https://developers.google.com/web/updates/2015/09/history-api-scroll-restoration
-  let originalScrollRestoration;
-  if (window.history && 'scrollRestoration' in window.history) {
-    originalScrollRestoration = window.history.scrollRestoration;
-    window.history.scrollRestoration = 'manual';
-  }
-
   // Prevent listeners collisions during history navigation
   addEventListener(window, 'pagehide', function onPageHide() {
     removeEventListener(window, 'pagehide', onPageHide);
     removeHistoryListener();
-    if (originalScrollRestoration) {
-      window.history.scrollRestoration = originalScrollRestoration;
-      originalScrollRestoration = undefined;
-    }
   });
 }
 
