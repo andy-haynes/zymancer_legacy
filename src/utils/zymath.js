@@ -2,7 +2,6 @@ import SRMColors from '../constants/SRMColors';
 import Units from '../constants/Units';
 import helpers from './helpers';
 import { ExtractGravity, HopAdditionType } from '../constants/AppConstants';
-import Defaults from '../constants/Defaults';
 import round from 'lodash/round';
 import sumBy from 'lodash/sumBy';
 import pick from 'lodash/pick';

@@ -1,5 +1,5 @@
-import Defaults from '../constants/Defaults';
 import helpers from '../utils/helpers';
+import { MeasurementPrecision } from '../constants/AppConstants';
 
 const measurement = (state = {}, action) => {
   const { measurement } = action;
@@ -18,7 +18,7 @@ const measurement = (state = {}, action) => {
     return Object.assign(measurement, state);
   } else if (state.unit !== measurement.unit) {
     // convert unit
-    const precision = Defaults.MeasurementPrecision[action.type] || action.precision || 1;
+    const precision = MeasurementPrecision[action.type] || action.precision || 1;
     return helpers.convertToUnit(state, measurement.unit, precision);
   } else {
     // parse input

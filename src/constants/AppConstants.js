@@ -1,4 +1,5 @@
 import keyMirror from 'fbjs/lib/keyMirror';
+import RecipeActionTypes from './RecipeActionTypes';
 
 export const RecipeType = keyMirror({
   SavedRecipes: null,
@@ -79,6 +80,29 @@ export const ConfigSection = keyMirror({
   Fermentation: null,
   Formulas: null
 });
+
+export const MeasurementPrecision = {
+  [RecipeActionTypes.SetGrainWeight]: 2,
+  [RecipeActionTypes.SetBoilVolume]: 1,
+  [RecipeActionTypes.SetTargetVolume]: 1,
+  [RecipeActionTypes.SetHopAdditionWeight]: 2,
+  [RecipeActionTypes.SetGrainAbsorption]: 1,
+  [RecipeActionTypes.SetBoilOff]: 1,
+  [RecipeActionTypes.SetInfusionTemp]: 1,
+  [RecipeActionTypes.SetGrainTemp]: 1
+};
+
+// routing
+export const SelectedRoute = {
+  '/': ['', 'recipe'],
+  '/recipes': ['recipes'],
+  '/parser': ['parser'],
+  '/account': ['account'],
+  '/configuration': ['configuration'],
+  '/login': ['login'],
+  '/logout': ['logout'],
+  '/contact': ['contact']
+};
 
 export const MinSearchQueryLength = 1;
 export const MaxSearchResults = 30;
