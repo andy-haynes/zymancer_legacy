@@ -11,13 +11,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import emptyFunction from 'fbjs/lib/emptyFunction';
 import s from './App.css';
-import Header from '../Header';
-import MobileHeader from '../_mobile/Header';
+import HeaderContainer, { MobileHeaderContainer } from '../../containers/Header';
 import { Provider } from 'react-redux';
-import actions from '../../actions';
 
 class App extends React.Component {
-
   static propTypes = {
     context: PropTypes.shape({
       store: PropTypes.object.isRequired,
@@ -59,24 +56,18 @@ class App extends React.Component {
     }
 
     const store = this.props.context.store;
-    const state = store.getState();
-    const authenticated = state.auth.authenticated;
-    const isMobile = state.isMobile;
+    const isMobile = store.getState().isMobile;
 
     return (
       <Provider store={store}>
         <div>
-          {!isMobile && <Header authenticated={authenticated} />}
-          {isMobile && <MobileHeader
-            authenticated={authenticated}
-            selectMobileTab={(tab) => store.dispatch(actions.recipe.selectMobileTab(tab))}
-          />}
+          {!isMobile && <HeaderContainer />}
+          {isMobile && <MobileHeaderContainer />}
           {this.props.children}
         </div>
       </Provider>
     );
   }
-
 }
 
 export default App;

@@ -115,6 +115,7 @@ app.get('*', async (req, res, next) => {
     const data = { title: '', description: '', style: '', script: assets.main.js, children: '' };
 
     const store = configureStore({
+      navigation: { route: req.path },
       auth: { authenticated: typeof req.user !== 'undefined' },
       isMobile: req.device.type === 'phone'
     }, {

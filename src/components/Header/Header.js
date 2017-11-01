@@ -12,20 +12,50 @@ import PropTypes from 'prop-types';
 import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import s from './Header.css';
 import Link from '../Link';
-import Navigation from '../Navigation';
-import logoUrl from './logo-small.png';
 
 class Header extends React.PureComponent {
   static propTypes = {
-    authenticated: PropTypes.bool.isRequired
+    activeRoute: PropTypes.string.isRequired,
+    authenticated: PropTypes.bool.isRequired,
+    actions: PropTypes.object.isRequired
   };
 
   render() {
+    const { activeRoute, authenticated, actions } = this.props;
+    const setRoute = (route) => (e) => actions.setRoute(route);
+
+    const createLink = (route, title) => (
+      <Link
+        className={s.link}
+        to={route}
+        onClick={setRoute(route)}
+        data-active={activeRoute === route}
+      >
+        {title}
+      </Link>
+    );
+
+    const accountLink = authenticated ? (
+      <span>
+          <a className={s.link} href="/logout">Log out</a>
+        </span>
+    ) : createLink('/login', 'Log In');
+
     return (
       <div className={s.root}>
         <div className={s.container}>
-          <Navigation authenticated={this.props.authenticated}/>
-          <Link className={s.brand} to="/">
+          <div className={s.navigation}>
+            {createLink('/', 'Calculator')}
+            <span className={s.spacer}>|</span>
+            {createLink('/recipes', 'Recipes')}
+            <span className={s.spacer}>|</span>
+            {createLink('/parser', 'Parser')}
+            <span className={s.spacer}>|</span>
+            {createLink('/config', 'Configuration')}
+            <span className={s.spacer}>|</span>
+            {accountLink}
+          </div>
+          <Link className={s.brand} to="/" onClick={setRoute('/')}>
             <span className={s.runes}>ᚨᛚᚢ</span>
             <span className={s.brandTxt}>Zymancer</span>
           </Link>

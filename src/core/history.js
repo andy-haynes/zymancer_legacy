@@ -7,10 +7,9 @@
  * LICENSE.txt file in the root directory of this source tree.
  */
 
-import createHistory from 'history/lib/createBrowserHistory';
-import createMemoryHistory from 'history/lib/createMemoryHistory';
-import useQueries from 'history/lib/useQueries';
+import createHistory from 'history/createBrowserHistory';
+import createMemoryHistory from 'history/createMemoryHistory';
 
-const history = useQueries(process.env.BROWSER ? createHistory : createMemoryHistory)();
+const history = (process.env.BROWSER ? createHistory : createMemoryHistory)();
 
 export default history;

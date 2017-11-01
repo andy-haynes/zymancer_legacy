@@ -10,7 +10,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import history from '../../core/history';
-import { SelectedRoute } from '../../constants/AppConstants';
 
 function isLeftClickEvent(event) {
   return event.button === 0;
@@ -56,12 +55,9 @@ class Link extends React.Component {
   };
 
   render() {
-    const { to, navlink, ...props } = this.props; // eslint-disable-line no-use-before-define
-    const currentPath = history.getCurrentLocation().pathname.split('/')[1];
-    const active = navlink && SelectedRoute[to].some(r => r === currentPath);
-    return <a data-active={active} href={history.createHref(to)} {...props} onClick={this.handleClick} />;
+    const { to, ...props } = this.props; // eslint-disable-line no-use-before-define
+    return <a href={to} {...props} onClick={this.handleClick} />;
   }
-
 }
 
 export default Link;
