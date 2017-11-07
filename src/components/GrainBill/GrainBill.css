@@ -1,12 +1,21 @@
 .grainBill {
-  padding: 1em 0.7em;
 }
 
 .grainChart {
-  padding: 8% 0 0 18%;
-  min-height: 350px;
 }
 
 .grains {
-  padding-right: 0.7em;
+  padding: 0.5em;
+  overflow-y: scroll;
+}
+
+@media (max-height: 800px) {
+  .grainChart {
+    padding: 20px 0 0 110px;
+  }
+
+  .grains {
+    margin-top: 25px;
+    height: 385px;
+  }
 }

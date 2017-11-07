@@ -37,3 +37,15 @@
   bottom: 0.2em;
   left: 0.3em;
 }
+
+.styleDescriptions {
+  border-top: 1px #ccc solid;
+}
+
+@media (max-height: 800px) {
+  .styleDescriptions {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    height: 360px;
+  }
+}

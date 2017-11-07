@@ -1,12 +1,21 @@
 .hopSchedule {
-  padding: 1em 0.7em;
 }
 
 .hopChart {
-  padding: 8% 0 0 18%;
-  min-height: 350px;
 }
 
 .hops {
-  padding-right: 0.7em;
+  padding: 0.5em;
+  overflow-y: scroll;
+}
+
+@media (max-height: 800px) {
+  .hopChart {
+    padding: 20px 0 0 110px;
+  }
+
+  .hops {
+    margin-top: 25px;
+    height: 385px;
+  }
 }

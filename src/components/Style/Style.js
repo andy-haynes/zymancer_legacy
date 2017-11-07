@@ -76,75 +76,79 @@ class Style extends React.Component {
               &nbsp;
             </div>
           </div>
-          <div className="pure-u-1-1">
-            <div className={s.styleNote}>
-              <em>{style.description}</em>
+        </div>
+        <div className={s.styleDescriptions}>
+          <div className="pure-g">
+            <div className="pure-u-1-1">
+              <div className={s.styleNote}>
+                <em>{style.description}</em>
+              </div>
             </div>
+            {style.overallImpression && (
+              <div className="pure-u-1-3">
+                <div className={s.label}>Overall Impression</div>
+                <div className={s.styleText}>
+                  {style.overallImpression}
+                </div>
+              </div>
+            )}
+            {style.aroma && (
+              <div className="pure-u-1-3">
+                <div className={s.label}>Aroma</div>
+                <div className={s.styleText}>
+                  {style.aroma}
+                </div>
+              </div>
+            )}
+            {style.mouthfeel && (
+              <div className="pure-u-1-3">
+                <div className={s.label}>Mouthfeel</div>
+                <div className={s.styleText}>
+                  {style.mouthfeel}
+                </div>
+              </div>
+            )}
+            {style.comments && (
+              <div className="pure-u-1-3">
+                <div className={s.label}>Comments</div>
+                <div className={s.styleText}>
+                  {style.comments}
+                </div>
+              </div>
+            )}
+            {style.history && (
+              <div className="pure-u-1-3">
+                <div className={s.label}>History</div>
+                <div className={s.styleText}>
+                  {style.history}
+                </div>
+              </div>
+            )}
+            {style.characterstics && (
+              <div className="pure-u-1-3">
+                <div className={s.label}>Characterstics</div>
+                <div className={s.styleText}>
+                  {style.characterstics}
+                </div>
+              </div>
+            )}
+            {style.styleComparisons && (
+              <div className="pure-u-1-2">
+                <div className={s.label}>Style Comparisons</div>
+                <div className={s.styleText}>
+                  {style.styleComparisons}
+                </div>
+              </div>
+            )}
+            {style.commercialExamples && (
+              <div className="pure-u-1-3">
+                <div className={s.label}>Commercial Examples</div>
+                <div className={s.styleText}>
+                  {style.commercialExamples}
+                </div>
+              </div>
+            )}
           </div>
-          {style.overallImpression && (
-            <div className="pure-u-1-3">
-              <div className={s.label}>Overall Impression</div>
-              <div className={s.styleText}>
-                {style.overallImpression}
-              </div>
-            </div>
-          )}
-          {style.aroma && (
-            <div className="pure-u-1-3">
-              <div className={s.label}>Aroma</div>
-              <div className={s.styleText}>
-                {style.aroma}
-              </div>
-            </div>
-          )}
-          {style.mouthfeel && (
-            <div className="pure-u-1-3">
-              <div className={s.label}>Mouthfeel</div>
-              <div className={s.styleText}>
-                {style.mouthfeel}
-              </div>
-            </div>
-          )}
-          {style.comments && (
-            <div className="pure-u-1-3">
-              <div className={s.label}>Comments</div>
-              <div className={s.styleText}>
-                {style.comments}
-              </div>
-            </div>
-          )}
-          {style.history && (
-            <div className="pure-u-1-3">
-              <div className={s.label}>History</div>
-              <div className={s.styleText}>
-                {style.history}
-              </div>
-            </div>
-          )}
-          {style.characterstics && (
-            <div className="pure-u-1-3">
-              <div className={s.label}>Characterstics</div>
-              <div className={s.styleText}>
-                {style.characterstics}
-              </div>
-            </div>
-          )}
-          {style.styleComparisons && (
-            <div className="pure-u-1-2">
-              <div className={s.label}>Style Comparisons</div>
-              <div className={s.styleText}>
-                {style.styleComparisons}
-              </div>
-            </div>
-          )}
-          {style.commercialExamples && (
-            <div className="pure-u-1-3">
-              <div className={s.label}>Commercial Examples</div>
-              <div className={s.styleText}>
-                {style.commercialExamples}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     );
