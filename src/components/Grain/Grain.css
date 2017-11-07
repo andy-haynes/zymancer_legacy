@@ -1,15 +1,15 @@
 .grain {
-  border-radius: 4px;
-  padding: 6px;
-  margin-bottom: 8px;
+  border-radius: 0.2em;
+  padding: 0.5em;
+  margin-bottom: 0.6em;
 }
 
 .grainName {
-  padding: 10px 0 0 10px;
+  height: 2em;
+  padding: 0.2em 0.5em 0 0.5em;
 }
 
 .removeGrain {
-  padding-top: 10px;
 }
 
 .grainColor {
@@ -18,9 +18,10 @@
 }
 
 .weightPercentage {
+  display: inline-block;
   position: relative;
-  top: 1.5em;
-  left: 0.2em;
+  bottom: -1.5em;
+  left: 0.5em;
   font-size: 0.9em;
   color: #333;
   font-weight: 400;

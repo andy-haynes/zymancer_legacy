@@ -43,9 +43,9 @@ class Grain extends React.PureComponent {
                   top: '-0.4em'
                 }}
               />
-              <div className={s.weightPercentage}>
-                {round(grain.weightPercentage, 1)}%
-              </div>
+            </div>
+            <div className={s.weightPercentage}>
+              {round(grain.weightPercentage, 1)}%
             </div>
           </div>
           <div className="pure-u-12-24">
