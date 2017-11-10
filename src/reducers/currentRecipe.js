@@ -88,7 +88,7 @@ function recalculate(state, changed, configuration) {
   }
 
   if (diff.method || diff.efficiency || diff.grains || diff.targetVolume || diff.boilVolume || diff.mashSchedule) {
-    switch (method) {
+    switch (method || defaults.recipe.brewMethod) {
       case BrewMethod.AllGrain:
       case BrewMethod.PartialMash:
         originalGravity = zymath.calculateGravity(efficiency, grains, targetVolume);
@@ -227,12 +227,12 @@ const currentRecipe = (state = initialState, action) => {
       if (action.configuration) {
         const defaults = action.configuration.defaults;
         return updateRecipe(Object.assign({}, state, {
-          name: defaults.recipe.name,
-          method: defaults.recipe.brewMethod,
-          style: defaults.recipe.style,
-          targetVolume: defaults.recipe.targetVolume,
-          boilMinutes: defaults.recipe.boilMinutes,
-          efficiency: defaults.mash.efficiency
+          name: state.name || defaults.recipe.name,
+          method: state.method || defaults.recipe.brewMethod,
+          style: state.style || defaults.recipe.style,
+          targetVolume: state.targetVolume.value ? state.targetVolume : defaults.recipe.targetVolume,
+          boilMinutes: state.boilMinutes || defaults.recipe.boilMinutes,
+          efficiency: state.efficiency || defaults.mash.efficiency
         }));
       }
 

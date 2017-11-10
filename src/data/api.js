@@ -419,7 +419,7 @@ export async function matchParsedIngredients(parsed, searchCache, configuration)
     )];
   }
 
-  const getName = (i) => i.name || i.code;
+  const getName = (i) => (i.name || i.code).toLowerCase();
 
   const [parsedGrains, parsedHops, parsedYeast] = [
     matchingIdStr(parsed.grains.map(getName), searchCache[IngredientType.Grain], ['malt']),

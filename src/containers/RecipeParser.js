@@ -5,6 +5,7 @@ import grain from '../reducers/grain';
 import hop from '../reducers/hop';
 import yeast from '../reducers/yeast';
 import pick from 'lodash/pick';
+import { RecipeParameter } from '../constants/AppConstants';
 
 function mapState(state) {
   return {
@@ -39,11 +40,18 @@ function mapDispatch(dispatch) {
       return Object.assign(create(selectedIngredient, configuration), { suggestions: ingredient.suggestions });
     }
 
-    recipe.grains = recipe.grains.map(g => buildSuggestion(g, 'grains', ['name', 'weight', 'lovibond']));
-    recipe.hops = recipe.hops.map(h => buildSuggestion(h, 'hops', ['name', 'alpha', 'beta', 'additions']));
-    recipe.fermentation = { yeasts: recipe.yeast.map(y => buildSuggestion(y, 'yeast')) };
+    const getParameter = (parameter) => recipe.parameters.find(p => p.parameter === parameter) || {};
 
-    return dispatch(actions.saved.loadSavedRecipe(recipe));
+    return dispatch(actions.saved.loadSavedRecipe(Object.assign(recipe, {
+      targetVolume: getParameter(RecipeParameter.TargetVolume).quantity,
+      method: getParameter(RecipeParameter.BrewMethod).value,
+      efficiency: getParameter(RecipeParameter.Efficiency).value,
+      grains: recipe.grains.map(g => buildSuggestion(g, 'grains', ['name', 'weight', 'lovibond'])),
+      hops: recipe.hops.map(h => buildSuggestion(h, 'hops', ['name', 'alpha', 'beta', 'additions'])),
+      fermentation: {
+        yeasts: recipe.yeast.map(y => buildSuggestion(y, 'yeast'))
+      }
+    })));
   }
 
   return {
