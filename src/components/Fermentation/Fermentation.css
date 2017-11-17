@@ -10,6 +10,15 @@
 }
 
 .yeasts {
+  width: 47%;
+  height: 49vh;
+  padding: 0.5em;
+  overflow-y: auto;
+  position: absolute;
+  top: 5em;
+  bottom: 0;
+  left: 51%;
+  border: 1px solid #eee;
 }
 
 .cellCount {
@@ -41,13 +50,4 @@ sup {
 .division {
   width: 3.8em;
   margin: 0.1em 0;
-}
-
-@media (max-height: 800px) {
-  .yeasts {
-    overflow-x: hidden;
-    overflow-y: scroll;
-    padding: 0.2em 0.5em;
-    height: 370px;
-  }
 }

@@ -2,20 +2,17 @@
 }
 
 .grainChart {
+  padding: 7% 0 0 22%;
 }
 
 .grains {
+  min-height: 60vh;
+  width: 48%;
   padding: 0.5em;
-  overflow-y: scroll;
-}
-
-@media (max-height: 800px) {
-  .grainChart {
-    padding: 20px 0 0 110px;
-  }
-
-  .grains {
-    margin-top: 25px;
-    height: 385px;
-  }
+  overflow-y: auto;
+  position: absolute;
+  top: 8px;
+  bottom: 0;
+  left: 4px;
+  border: 1px solid #eee;
 }

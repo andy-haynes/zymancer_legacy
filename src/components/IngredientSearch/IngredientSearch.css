@@ -1,4 +1,5 @@
 .ingredientSearch {
+  margin: 0 0 0.4em 2em;
 }
 
 .searchInput {
@@ -10,7 +11,7 @@
   position: absolute;
   width: 45%;
   z-index: 1000;
-  max-height: 90%;
+  max-height: 50vh;
   overflow: auto;
   background-color: white;
   border-bottom: 1px solid #ddd;
