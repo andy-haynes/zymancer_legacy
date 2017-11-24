@@ -10,12 +10,12 @@ export default {
     return await next();
   },
   children: [{
-    path: '/',
+    path: '/calculator',
     async action({ isMobile }) {
       return <Calculator {...{ isMobile }} />;
     }
   }, {
-    path: '/recipe/:id',
+    path: '/calculator/:id',
     async action({ context, isMobile }, { id }) {
       const recipe = process.env.BROWSER && await getRecipe(id);
       if (recipe) {

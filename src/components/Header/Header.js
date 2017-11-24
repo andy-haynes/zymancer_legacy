@@ -45,13 +45,15 @@ class Header extends React.PureComponent {
       <div className={s.root}>
         <div className={s.container}>
           <div className={s.navigation}>
-            {createLink('/', 'Calculator')}
+            {createLink('/', 'Home')}
+            <span className={s.spacer}>|</span>
+            {createLink('/calculator', 'Calculator')}
             <span className={s.spacer}>|</span>
             {createLink('/recipes', 'Recipes')}
             <span className={s.spacer}>|</span>
             {createLink('/parser', 'Parser')}
             <span className={s.spacer}>|</span>
-            {createLink('/config', 'Configuration')}
+            {createLink('/config', 'Configure')}
             <span className={s.spacer}>|</span>
             {accountLink}
           </div>

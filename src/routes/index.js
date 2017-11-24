@@ -13,6 +13,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 
 // Child routes
+import home from './home';
 import contact from './contact';
 import login from './login';
 import content from './content';
@@ -25,6 +26,7 @@ import configuration from './configuration';
 export default {
   path: '/',
   children: [
+    home,
     calculator,
     recipes,
     parser,
