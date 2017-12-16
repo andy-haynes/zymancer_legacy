@@ -18,7 +18,7 @@ function mapState(state) {
 function mapDispatch(dispatch) {
   function loadParsedRecipe({ recipe, suggestions }, configuration) {
     function buildSuggestion(ingredient, key, overrideProps = []) {
-      const ingredientSuggestion = suggestions[key].find(s => s.id === ingredient.id);
+      const ingredientSuggestion = suggestions[key].find(s => (s.id || s.code) === (ingredient.id || ingredient.code));
       const selectedIngredient = Object.assign({}, ingredientSuggestion.suggestions.find(s => s.active));
       const parsedFields = pick(ingredient, overrideProps);
 
