@@ -1,12 +1,9 @@
-import SRMColors from '../constants/SRMColors';
 import Units from '../constants/Units';
 import helpers from './helpers';
 import zymath from './zymath';
-import { ExtractGravity, HopAdditionType, HopForm, RecipeParameter, ExtractType } from '../constants/AppConstants';
+import { HopAdditionType, HopForm, RecipeParameter, ExtractType } from '../constants/AppConstants';
 import BJCPStyles from '../constants/BJCPStyles';
-import round from 'lodash/round';
-import sumBy from 'lodash/sumBy';
-import pick from 'lodash/pick';
+import { IngredientType } from '../constants/AppConstants';
 
 //region regex
 const _weightOptions = 'lbs|lb|pound|pounds|ounce|ounces|oz|kg|gram|g';
@@ -40,6 +37,8 @@ const _rxAddition = /(whirlfloc|yeast nutrient|nutrient|calcium chloride|canning
 const _rxSoleNumeric = /\s+([0-9.]+\d*)\s+(?!SG|%|SRM|IBU|lbs|lb|pound|pounds|ounce|ounces|oz|kg|tsp|tbsp|liter|l|gallon|gal|quart|g|qt|minutes|minute|min|hours|hour|hr|aa|aau|alpha|a.a.|Lovibond|Lov|L)/ig;
 const _rxRecipeParameter = /(boil time|boiling time|batch size|yield|for|boil size|original gravity|final gravity|terminal gravity|og|fg|attenuation|srm|color|ibu|ibus|bitterness|plato|efficiency|abv|alcohol by volume|alcohol by vol|method)[\sa-z()=:]+((?:[0-9.]+\d*)[°]?\s*(?:%|minutes|minute|min|sg|ibu|srm|tsp|tbsp|liter|l\s{0,1}$|quart|qt|gallons|gallon|gal|lbs|lb|pound|pounds|ounce|ounces|oz|kg|gram|g)?)/i;
 //endregion
+
+const _stripChars = ['\\[', '\\]'];
 
 //region unit mapping
 const _unitMapping = {
@@ -124,20 +123,55 @@ const _parameterMapping = {
 };
 //endregion
 
-function parseLine(line, lineNumber) {
+const ingredientTypeKeywords = {
+  [IngredientType.Grain]: ['malt', 'grain'],
+  [IngredientType.Hop]: ['hop'],
+  [IngredientType.Yeast]: ['yeast']
+};
+
+function parseLine(line, lineNumber, searchCache) {
+  line = _stripChars.reduce((l, c) => l.replace(new RegExp(c, 'ig'), ''), line);
   let isWeight = true;
+
+  const tokenScore = Object.keys(searchCache).reduce((matched, ingredientType) => {
+    matched[ingredientType] = searchCache[ingredientType]
+      .filter(token => line.toLowerCase().includes(token));
+    return matched;
+  }, {});
+
+  const tokenMatches = Object.keys(tokenScore)
+    .filter(k => tokenScore[k].length)
+    .sort((a, b) => tokenScore[b].length - tokenScore[a].length);
+
+  const tokenMatch = tokenMatches.find(ingredientType =>
+    line.split(' ').some(w => ingredientTypeKeywords[ingredientType].includes(w))
+  ) || tokenMatches[0];
+
   let match = _rxNamedWeight.exec(line);
   if (!match) {
     isWeight = false;
     match = _rxNamedVolume.exec(line);
   }
 
-  if (match) {
+  if (match || tokenMatch) {
     const extractGroup = (regex) => ((m) => m && m[1].trim())(regex.exec(line));
+    let name;
+    if (tokenMatch) {
+      name = line.split(' ')
+        .filter(w => tokenScore[tokenMatch].includes(w.toLowerCase()))
+        .join(' ')
+        .trim();
+    } else {
+      name = match[2].trim();
+    }
+
+    if (!name) {
+      return null;
+    }
 
     const parsed = {
-      [isWeight ? 'weight' : 'volume']: match[1],
-      name: match[2].trim(),
+      [isWeight ? 'weight' : 'volume']: (match ? match[1] : null),
+      name,
       alpha: extractGroup(_rxAlpha),
       ibu: extractGroup(_rxIBU),
       hopForm: extractGroup(_rxHopForm),
@@ -154,16 +188,34 @@ function parseLine(line, lineNumber) {
       lineNumber
     };
 
+    let yeast = line.match(_rxYeastMfg);
+    if (yeast || tokenMatch === IngredientType.Yeast) {
+      yeast = yeast.slice(1);
+      const mfg = yeast[0];
+      return {
+        code: yeast[mfg ? 1 : 2].toString(),
+        mfg,
+        lineNumber
+      };
+    }
+
     const freeNumbers = line.match(_rxSoleNumeric);
 
     if (!parsed.addition) {
-      if (parsed.time && (parsed.hopForm || parsed.hopAddition) && (parsed.alpha || parsed.ibu) === null && freeNumbers) {
-        // no alpha but definitely a hop, try a lone number that looks appropriate
-        const alpha = freeNumbers[0];
+      const maybeHop = parsed.time
+        && (parsed.hopForm || parsed.hopAddition)
+        && (parsed.alpha || parsed.ibu) === null
+        && freeNumbers;
+
+      const maybeGrain = (parsed.alpha || parsed.time) === null
+        && ((parsed.gravity || parsed.plato || parsed.ppg) === null || parsed.grainColor === null);
+
+      if (maybeHop || tokenMatch === IngredientType.Hop) {
+        const alpha = freeNumbers ? freeNumbers[0] : parsed.alpha;
         if (alpha >= 0 && alpha < 25) {
           parsed.alpha = alpha;
         }
-      } else if ((parsed.alpha || parsed.time) === null && ((parsed.gravity || parsed.plato || parsed.ppg) === null || parsed.grainColor === null) && freeNumbers) {
+      } else if ((maybeGrain || tokenMatch === IngredientType.Grain) && freeNumbers) {
         // no gravity or srm, best take whatever's close to being within range
         freeNumbers.forEach((n) => {
           if (parsed.ppg === null && n > 25 && n < 44) {
@@ -189,7 +241,7 @@ function parseLine(line, lineNumber) {
 
     // maybe it's yeast?
     let yeast = line.match(_rxYeastMfg);
-    if (yeast) {
+    if (yeast || tokenMatch === IngredientType.Yeast) {
       yeast = yeast.slice(1);
       const mfg = yeast[0];
       return {
@@ -366,8 +418,20 @@ function buildRecipe(parsed) {
   return recipe;
 }
 
-export default function parseText(recipeText) {
+const tokenLengthThresholds = {
+  [IngredientType.Grain]: 3,
+  [IngredientType.Hop]: 3,
+  [IngredientType.Yeast]: 4
+};
+
+export default function parseText(recipeText, searchCache) {
+  const searchTokens = Object.keys(searchCache).reduce((cache, ingredientType) => {
+    cache[ingredientType] = Object.keys(searchCache[ingredientType])
+      .filter(t => t.length >= tokenLengthThresholds[ingredientType]);
+    return cache;
+  }, {});
+
   return buildRecipe(recipeText.split('\n')
                                .filter(l => l.trim().length > 0)
-                               .map((l, i) => parseLine(l.trim(), i)));
+                               .map((l, i) => parseLine(l.trim(), i, searchTokens)));
 }

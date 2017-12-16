@@ -5,7 +5,7 @@ import actions from '../actions';
 import { matchParsedIngredients } from '../data/api';
 
 function parseRecipeText(recipeText, searchCache, configuration) {
-  const parsed = parseText(recipeText);
+  const parsed = parseText(recipeText, searchCache);
   return async (dispatch) => {
     if (parsed !== null) {
       const recipe = await matchParsedIngredients(parsed, searchCache, configuration);
