@@ -276,10 +276,12 @@ export async function getSavedRecipes(recipeType) {
 //endregion
 
 //region ingredient search
+function cleanTokenString(value) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, ' ');
+}
+
 function buildTokenScore(query, resolveTokens, blacklist = []) {
-  return query
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, ' ')
+  return cleanTokenString(query)
     .split(/\s+/g)
     .filter(s => !blacklist.includes(s))
     .forEach(resolveTokens);
@@ -342,17 +344,28 @@ const _tokenAliases = flatten((aliases => Object.keys(aliases).map(a => [
 export async function tokenizeIngredients() {
   function histogramReduce(blacklist, props) {
     return (tokens, ingredient) => {
+      // iterate over the identifier keys
       props.filter(p => ingredient[p]).forEach(key => {
-        ingredient[key]
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, ' ')
+        const identifier = cleanTokenString(ingredient[key]);
+
+        // use entire ingredient identifier as a token
+        if (!tokens[identifier]) {
+          tokens[identifier] = [];
+        }
+        tokens[identifier].push(ingredient.id);
+
+        // tokenize ingredient identifier and map to id
+        identifier
           .split(/\s+/g)
           .forEach(i => {
             if (i && !blacklist.includes(i)) {
               if (!tokens.hasOwnProperty(i)) {
                 tokens[i] = [];
               }
-              tokens[i].push(ingredient.id);
+
+              if (!tokens[i].includes(ingredient.id)) {
+                tokens[i].push(ingredient.id);
+              }
             }
           });
       });
