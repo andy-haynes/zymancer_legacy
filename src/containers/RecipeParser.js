@@ -41,8 +41,7 @@ function mapDispatch(dispatch) {
     }
 
     const getParameter = (parameter) => recipe.parameters.find(p => p.parameter === parameter) || {};
-
-    return dispatch(actions.saved.loadSavedRecipe(Object.assign(recipe, {
+    const parsedRecipe = {
       targetVolume: getParameter(RecipeParameter.TargetVolume).quantity,
       method: getParameter(RecipeParameter.BrewMethod).value,
       efficiency: getParameter(RecipeParameter.Efficiency).value,
@@ -51,7 +50,12 @@ function mapDispatch(dispatch) {
       fermentation: {
         yeasts: recipe.yeast.map(y => buildSuggestion(y, 'yeast'))
       }
-    })));
+    };
+
+    // clear out undefined keys
+    Object.keys(parsedRecipe).forEach(k => parsedRecipe[k] === undefined && delete parsedRecipe[k]);
+
+    return dispatch(actions.saved.loadSavedRecipe(Object.assign(recipe, parsedRecipe)));
   }
 
   return {
