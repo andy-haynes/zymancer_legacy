@@ -373,7 +373,7 @@ export async function tokenizeIngredients() {
 
   const ingredients = data.tokenizeIngredients;
   return {
-    [IngredientType.Grain]: ingredients.grains.reduce(histogramReduce(['malt', 'ale'], ['name']), {}),
+    [IngredientType.Grain]: ingredients.grains.reduce(histogramReduce(['ale'], ['name']), {}),
     [IngredientType.Hop]: ingredients.hops.reduce(histogramReduce(['hop'], ['name']), {}),
     [IngredientType.Yeast]: ingredients.yeast.reduce(histogramReduce(['yeast'], ['name', 'code']), {})
   };
@@ -422,7 +422,7 @@ export async function matchParsedIngredients(parsed, searchCache, configuration)
   const getName = (i) => (i.name || i.code).toLowerCase();
 
   const [parsedGrains, parsedHops, parsedYeast] = [
-    matchingIdStr(parsed.grains.map(getName), searchCache[IngredientType.Grain], ['malt']),
+    matchingIdStr(parsed.grains.map(getName), searchCache[IngredientType.Grain], []),
     matchingIdStr(parsed.hops.map(getName), searchCache[IngredientType.Hop], ['hop']),
     matchingIdStr(parsed.yeast.map(getName), searchCache[IngredientType.Yeast], ['yeast'])
   ];
