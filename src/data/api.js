@@ -218,11 +218,7 @@ export async function saveRecipe(recipe) {
     apparentAttenuation: round(y.apparentAttenuation / 100, 2)
   })));
 
-  function parseValue(m) {
-    m.value = parseFloat(m.value);
-    return m;
-  }
-
+  const parseValue = (measurement) => Object.assign(measurement, { value: parseFloat(measurement.value) });
   const cleanMeasurement = (measurement) => parseValue(pick(measurement, 'value', 'unit'));
   const cleanRatio = (ratio) => parseValue(pick(ratio, 'value', 'antecedent', 'consequent'));
 
