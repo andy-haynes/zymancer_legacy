@@ -15,6 +15,7 @@
 
 .pageDescription {
   padding: 0.6em;
+  min-height: 4em;
 }
 
 .pageHeader a {
