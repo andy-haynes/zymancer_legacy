@@ -5,14 +5,14 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Grain from '../Grain';
 import Ingredient from '../IngredientDetail';
 import s from './GrainBill.css';
+import GrainChartContainer from '../../containers/GrainChart';
 import Search from '../../containers/IngredientSearch';
-import GrainChart from '../../containers/GrainChart';
 
 class GrainBill extends React.PureComponent {
   static propTypes = {
     grains: PropTypes.arrayOf(DefinedTypes.grain).isRequired,
     targetVolume: DefinedTypes.measurement.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
   };
 
   render() {
@@ -35,9 +35,7 @@ class GrainBill extends React.PureComponent {
           </div>
           <div className="pure-u-1-2">
             <Search.GrainSearch />
-            <div className={s.grainChart}>
-              <GrainChart diameter="350px"/>
-            </div>
+            {grains.length ? <GrainChartContainer /> : ''}
           </div>
         </div>
       </div>

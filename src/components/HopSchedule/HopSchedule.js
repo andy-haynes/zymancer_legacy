@@ -5,7 +5,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import Hop from '../Hop';
 import Ingredient from '../IngredientDetail';
 import s from './HopSchedule.css';
-import HopChart from '../../containers/HopChart';
+import HopChartContainer from '../../containers/HopChart';
 import Search from '../../containers/IngredientSearch';
 
 class HopSchedule extends React.PureComponent {
@@ -14,7 +14,7 @@ class HopSchedule extends React.PureComponent {
     originalGravity: PropTypes.number.isRequired,
     boilVolume: DefinedTypes.measurement.isRequired,
     boilMinutes: PropTypes.number.isRequired,
-    actions: PropTypes.object.isRequired
+    actions: PropTypes.object.isRequired,
   };
 
   render() {
@@ -39,9 +39,7 @@ class HopSchedule extends React.PureComponent {
           </div>
           <div className="pure-u-1-2">
             <Search.HopSearch />
-            <div className={s.hopChart}>
-              {hops.length ? <HopChart diameter="350px" /> : ''}
-            </div>
+            {hops.length ? <HopChartContainer /> : ''}
           </div>
         </div>
       </div>
