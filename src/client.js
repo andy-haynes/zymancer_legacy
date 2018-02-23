@@ -69,7 +69,7 @@ let renderComplete = (state, callback) => {
 function render(container, state, component) {
   return new Promise((resolve, reject) => {
     try {
-      ReactDOM.render(
+      ReactDOM.hydrate(
         component,
         container,
         renderComplete.bind(undefined, state, resolve)
