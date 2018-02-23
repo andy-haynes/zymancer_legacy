@@ -1,9 +1,8 @@
 import Units from '../constants/Units';
 import helpers from './helpers';
 import zymath from './zymath';
-import { HopAdditionType, HopForm, RecipeParameter, ExtractType } from '../constants/AppConstants';
+import { HopAdditionType, HopForm, RecipeParameter, ExtractType, IngredientType } from '../constants/AppConstants';
 import BJCPStyles from '../constants/BJCPStyles';
-import { IngredientType } from '../constants/AppConstants';
 
 //region regex
 const _weightOptions = 'lbs|lb|pound|pounds|ounce|ounces|oz|kg|gram|g';
