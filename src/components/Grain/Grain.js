@@ -50,7 +50,7 @@ class Grain extends React.PureComponent {
           </div>
           <div className="pure-u-12-24">
             <div className="pure-g">
-              <div className="pure-u-1-2" style={{marginTop: '-0.8em'}}>
+              <div className="pure-u-1-2">
                 <Measurement
                   measurement={grain.weight}
                   update={(weight) => actions.setWeight(grain, weight)}
@@ -58,18 +58,17 @@ class Grain extends React.PureComponent {
                 />
               </div>
               <div className="pure-u-1-2"
-                   style={{marginTop: '-0.8em', display: grain.extractType !== null ? 'block' : 'none'}}>
+                   style={{display: grain.extractType !== null ? 'block' : 'none'}}>
                 <SelectField
                   value={grain.extractType}
                   onChange={(e, k, v) => actions.setExtractType(grain, v)}
-                  style={{width: '6em'}}
                 >
                   <MenuItem value={ExtractType.Dry} primaryText="Dry"/>
                   <MenuItem value={ExtractType.Liquid} primaryText="Liquid"/>
                 </SelectField>
               </div>
               <div className="pure-u-1-2"
-                   style={{marginTop: '-0.8em', display: grain.extractType !== null ? 'none' : 'block'}}>
+                   style={{display: grain.extractType !== null ? 'none' : 'block'}}>
                 <TextField
                   id="lintner-input"
                   value={grain.lintner}
@@ -77,7 +76,7 @@ class Grain extends React.PureComponent {
                   style={{width: '3em'}}
                 />&deg;L
               </div>
-              <div className="pure-u-1-2" style={{marginTop: '-0.8em'}}>
+              <div className="pure-u-1-2" style={{marginTop: '-2em'}}>
                 <TextField
                   id="gravity-input"
                   value={zymath.formatGravity(grain.gravity)}
@@ -85,7 +84,7 @@ class Grain extends React.PureComponent {
                   style={{width: '3em'}}
                 />
               </div>
-              <div className="pure-u-1-2" style={{marginTop: '-0.8em'}}>
+              <div className="pure-u-1-2" style={{marginTop: '-2em'}}>
                 <TextField
                   id="lovibond-input"
                   value={grain.lovibond}

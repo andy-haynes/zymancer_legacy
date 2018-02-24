@@ -1,10 +1,4 @@
 .measurement {
-}
-
-.measurementValue {
   position: relative;
-  bottom: 4px;
-}
-
-.measurementUnit {
+  top: -1.8em;
 }

@@ -29,30 +29,23 @@ class HopAddition extends React.PureComponent {
     return (
       <div className={s.hopAddition}>
         <div className="pure-g">
-          <div className="pure-u-5-24">
+          <div className="pure-u-4-24">
             <div className={s.additionWeight}>
               <Measurement
                 measurement={addition.weight}
                 update={(weight) => actions.setAdditionWeight(addition, hop, weight)}
                 options={MeasurementUnits.HopAdditionWeight}
+                selectWidth={'2em'}
+                selectMenuWidth={'4em'}
               />
             </div>
-          </div>
-          <div className="pure-u-7-24">
-            <SliderInput
-              value={addition.minutes}
-              min={0}
-              max={boilMinutes}
-              update={(minutes) => actions.setAdditionTime(addition, hop, minutes)}
-              disabled={addition.type !== HopAdditionType.Boil}
-            />
           </div>
           <div className="pure-u-6-24">
             <div className={s.additionType}>
               <SelectField
                 value={addition.type}
                 onChange={(e, i, v) => actions.setAdditionType(addition, hop, v)}
-                style={{width: '7.5em'}}
+                style={{width: '8em'}}
               >
                 <MenuItem primaryText='First Wort' value={HopAdditionType.FirstWort} />
                 <MenuItem primaryText='Hop Back' value={HopAdditionType.HopBack} />
@@ -62,7 +55,18 @@ class HopAddition extends React.PureComponent {
               </SelectField>
             </div>
           </div>
-          <div className="pure-u-5-24">
+          <div className="pure-u-7-24">
+            <div className={s.additionMinutes}>
+              <SliderInput
+                value={addition.minutes}
+                min={0}
+                max={boilMinutes}
+                update={(minutes) => actions.setAdditionTime(addition, hop, minutes)}
+                disabled={addition.type !== HopAdditionType.Boil}
+              />
+            </div>
+          </div>
+          <div className="pure-u-6-24">
             <div className={s.additionDetail}>
               {round(zymath.calculateIBU(addition, hop.alpha, originalGravity, boilVolume), 1)}
             </div>

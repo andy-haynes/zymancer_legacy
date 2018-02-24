@@ -1,14 +1,14 @@
 .hopAddition {
   border-radius: 0.3em;
+  margin-bottom: -1em;
   padding: 0 0.5em;
 }
 
 .additionWeight {
-  padding-top: 0.6em;
 }
 
 .removeAddition {
-  padding-top: 1.1em;
+   margin-top: 0.4em;
 }
 
 .minuteLabel {
@@ -17,7 +17,6 @@
   font-size: 0.6em;
   color: #777;
   text-transform: uppercase;
-  margin-bottom: -1em;
 }
 
 .detailLabel {
@@ -25,12 +24,20 @@
   color: #777;
 }
 
-.additionDetail {
-  padding: 1.3em 0 0 1em;
-  float: left;
-  min-width: 2.5em;
+.additionMinutes {
+  margin-top: -0.6em;
 }
 
 .additionType {
-  padding: 0.4em 0 0 2em;
+  margin-left: 0.8em;
+}
+
+.additionDetail {
+  float: left;
+  min-width: 2.5em;
+  margin: 0.6em 0 0 0.8em;
+}
+
+.additionDetail:first-child {
+  margin-left: 2.5em;
 }

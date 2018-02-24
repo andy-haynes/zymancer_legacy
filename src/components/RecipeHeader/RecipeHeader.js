@@ -28,8 +28,11 @@ class RecipeHeader extends React.PureComponent {
     return (
       <div className={s.recipeHeader}>
         <div className="pure-g">
-          <div className="pure-u-1-1">
-            <div className={s.inputBlock} style={{marginRight: '1.5em', paddingTop: '1.2em'}}>
+          <div className="pure-u-sm-1 pure-u-md-1-2 pure-u-lg-1-3">
+            <div className={s.recipeMenuIcon}>
+              <UserMenu recipe={recipe} authenticated={authenticated} actions={actions} />
+            </div>
+            <div className={s.inputBlock}>
               <div>
                 <TextField
                   id="recipe-name"
@@ -42,7 +45,9 @@ class RecipeHeader extends React.PureComponent {
               </div>
               <StyleSelection style={recipe.style} setStyle={actions.setRecipeStyle} />
             </div>
-            <div className={s.inputBlock} style={{marginRight: '-1.8em'}}>
+          </div>
+          <div className="pure-u-sm-1 pure-u-md-1-2 pure-u-lg-1-3">
+            <div className={s.inputBlock}>
               <div className="pure-g">
                 <div className="pure-u-1-1">
                   <div className={s.headerLabel}>
@@ -53,7 +58,7 @@ class RecipeHeader extends React.PureComponent {
                   </div>
                 </div>
                 <div className="pure-u-1-1">
-                  <div className={s.headerLabel} style={{marginTop: '0.3em'}}>
+                  <div className={s.headerLabel}>
                     FG
                   </div>
                   <div className={s.calculatedValue}>
@@ -62,7 +67,7 @@ class RecipeHeader extends React.PureComponent {
                 </div>
               </div>
             </div>
-            <div className={s.inputBlock} style={{marginRight: '-2em'}}>
+            <div className={s.inputBlock}>
               <div className="pure-g">
                 <div className="pure-u-1-1">
                   <div className={s.headerLabel}>
@@ -73,7 +78,7 @@ class RecipeHeader extends React.PureComponent {
                   </div>
                 </div>
                 <div className="pure-u-1-1">
-                  <div className={s.headerLabel} style={{marginTop: '0.3em'}}>
+                  <div className={s.headerLabel}>
                     ABV
                   </div>
                   <div className={s.calculatedValue}>
@@ -82,86 +87,79 @@ class RecipeHeader extends React.PureComponent {
                 </div>
               </div>
             </div>
-            <div className={s.inputBlock} style={{marginRight: '-6em'}}>
-              <div className="pure-g">
-                <div className="pure-u-1-1" style={{marginBottom: '-0.6em'}}>
-                  <div className={s.headerLabel}>
-                    Target Volume
-                  </div>
-                  <Measurement
-                    measurement={recipe.targetVolume}
-                    update={actions.setTargetVolume}
-                    options={MeasurementUnits.RecipeVolume}
-                  />
-                </div>
-                <div className="pure-u-1-1">
-                  <div className={s.headerLabel}>
-                    Boil Volume
-                  </div>
-                  <Measurement
-                    measurement={recipe.boilVolume}
-                    update={actions.setBoilVolume}
-                    options={MeasurementUnits.RecipeVolume}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className={s.inputBlock} style={{marginRight: '-0.3em'}}>
-              <div className="pure-g">
-                <div className="pure-u-1-1">
-                  <div className={s.headerLabel}>
-                    SRM
-                  </div>
-                  <div className={s.beerColor} style={{backgroundColor: zymath.SRMtoRGB(recipe.SRM)}}></div>
-                </div>
-                <div className="pure-u-1-1" style={{marginTop: '1.85em'}}>
-                  <div className={s.headerLabel}>
-                    Boil Minutes
-                  </div>
-                  <TextField
-                    id="boil-minutes"
-                    className={s.recipeInput}
-                    value={recipe.boilMinutes}
-                    onChange={e => actions.setBoilTime(e.target.value)}
-                    style={{width: "3em"}}
-                  />
-                </div>
-              </div>
-            </div>
             <div className={s.inputBlock}>
-              <div className="pure-g">
-                <div className="pure-u-23-24">
-                  <div className={s.headerLabel}>
-                    Brew Method
-                  </div>
-                  <SelectField
-                    value={recipe.method}
-                    onChange={(e, k, v) => actions.setRecipeMethod(v)}
-                    style={{width: '80%', marginRight: '-1.5em'}}
-                    fullWidth
-                  >
-                    <MenuItem value={BrewMethod.AllGrain}    primaryText="All Grain   " />
-                    <MenuItem value={BrewMethod.PartialMash} primaryText="Partial Mash" />
-                    <MenuItem value={BrewMethod.Extract}     primaryText="Extract     " />
-                  </SelectField>
+              <div className={s.volume}>
+                <div className={s.headerLabel}>
+                  Target Volume
                 </div>
-                <div className="pure-u-1-24">
-                  <UserMenu recipe={recipe} authenticated={authenticated} actions={actions} />
+                <Measurement
+                  measurement={recipe.targetVolume}
+                  update={actions.setTargetVolume}
+                  options={MeasurementUnits.RecipeVolume}
+                />
+              </div>
+              <div className={s.volume}>
+                <div className={s.headerLabel}>
+                  Boil Volume
                 </div>
-                <div className="pure-u-1-1" style={{marginTop: '-0.6em'}}>
-                  <div className={s.headerLabel} style={{margin: '0.45em 0 -0.7em 0'}}>
-                    Mash Efficiency
-                  </div>
-                  <SliderInput
-                    value={recipe.method === BrewMethod.Extract ? 100 : recipe.efficiency}
-                    min={configuration.defaults.mash.minEfficiencyPercentage}
-                    max={configuration.defaults.mash.maxEfficiencyPercentage}
-                    update={actions.setEfficiency}
-                    sliderWidth={'3-4'}
-                    inputWidth={'1-4'}
-                    disabled={recipe.method === BrewMethod.Extract}
-                  />
+                <Measurement
+                  measurement={recipe.boilVolume}
+                  update={actions.setBoilVolume}
+                  options={MeasurementUnits.RecipeVolume}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="pure-u-sm-1 pure-u-md-1-2 pure-u-lg-1-3">
+            <div className={s.inputBlock}>
+              <div>
+                <div className={s.headerLabel}>
+                  SRM
                 </div>
+                <div className={s.beerColor} style={{backgroundColor: zymath.SRMtoRGB(recipe.SRM)}}>&nbsp;</div>
+              </div>
+              <div style={{marginTop: "0.5em"}}>
+                <div className={s.headerLabel}>
+                  Boil Minutes
+                </div>
+                <TextField
+                  id="boil-minutes"
+                  className={s.recipeInput}
+                  value={recipe.boilMinutes}
+                  onChange={e => actions.setBoilTime(e.target.value)}
+                  style={{width: "3em"}}
+                />
+              </div>
+            </div>
+            <div className={s.inputBlock} style={{marginLeft: "1em"}}>
+              <div>
+                <div className={s.headerLabel}>
+                  Brew Method
+                </div>
+                <SelectField
+                  value={recipe.method}
+                  onChange={(e, k, v) => actions.setRecipeMethod(v)}
+                  style={{width: '15em'}}
+                  fullWidth
+                >
+                  <MenuItem value={BrewMethod.AllGrain}    primaryText="All Grain   " />
+                  <MenuItem value={BrewMethod.PartialMash} primaryText="Partial Mash" />
+                  <MenuItem value={BrewMethod.Extract}     primaryText="Extract     " />
+                </SelectField>
+              </div>
+              <div style={{marginTop: '-1.4em', width: '15em'}}>
+                <div className={s.headerLabel}>
+                  Mash Efficiency
+                </div>
+                <SliderInput
+                  value={recipe.method === BrewMethod.Extract ? 100 : recipe.efficiency}
+                  min={configuration.defaults.mash.minEfficiencyPercentage}
+                  max={configuration.defaults.mash.maxEfficiencyPercentage}
+                  update={actions.setEfficiency}
+                  sliderWidth={'3-4'}
+                  inputWidth={'1-4'}
+                  disabled={recipe.method === BrewMethod.Extract}
+                />
               </div>
             </div>
           </div>

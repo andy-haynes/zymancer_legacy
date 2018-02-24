@@ -97,9 +97,15 @@ class Hop extends React.Component {
         </div>
         <Collapse isOpened={this.state.expanded}>
           <div className="pure-g">
-            <div className="pure-u-5-24">
+            <div className="pure-u-1-24">&nbsp;</div>
+            <div className="pure-u-4-24">
               <div className={s.detailLabel}>
                 Quantity
+              </div>
+            </div>
+            <div className="pure-u-6-24">
+              <div className={s.detailLabel}>
+                Addition
               </div>
             </div>
             <div className="pure-u-8-24">
@@ -107,18 +113,13 @@ class Hop extends React.Component {
                 Minutes
               </div>
             </div>
-            <div className="pure-u-5-24" style={{paddingLeft: '0.3em'}}>
-              <div className={s.detailLabel}>
-                Addition
-              </div>
-            </div>
             <div className="pure-u-2-24">
-              <div className={s.detailLabel} style={{paddingLeft: '0.8em'}}>
+              <div className={s.detailLabel}>
                 IBU
               </div>
             </div>
             <div className="pure-u-2-24">
-              <div className={s.detailLabel} style={{paddingLeft: '0.8em'}}>
+              <div className={s.detailLabel}>
                 Util
               </div>
             </div>
