@@ -101,7 +101,7 @@ class MashSchedule extends React.PureComponent {
                 <SliderInput
                   {...mashSchedule.thickness}
                   step={0.05}
-                  update={(value) => actions.setThickness({ value })}
+                  update={(value) => actions.setThickness(Object.assign({}, mashSchedule.thickness, { value }))}
                   sliderWidth="1-2"
                   inputWidth="1-2"
                 >
@@ -195,7 +195,7 @@ class MashSchedule extends React.PureComponent {
                     <SliderInput
                       {...mashSchedule.absorption}
                       step={0.01}
-                      update={(value) => actions.setAbsorption({ value })}
+                      update={(value) => actions.setAbsorption(Object.assign({}, mashSchedule.absorption, { value }))}
                       sliderWidth="1-2"
                       inputWidth="1-2"
                     >
@@ -232,7 +232,7 @@ class MashSchedule extends React.PureComponent {
                     <SliderInput
                       {...mashSchedule.boilOff}
                       step={0.1}
-                      update={(value) => actions.setBoilOff({ value })}
+                      update={(value) => actions.setBoilOff(Object.assign({}, mashSchedule.boilOff, { value }))}
                       sliderWidth="1-2"
                       inputWidth="1-2"
                     >
