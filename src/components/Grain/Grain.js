@@ -62,9 +62,10 @@ class Grain extends React.PureComponent {
                 <SelectField
                   value={grain.extractType}
                   onChange={(e, k, v) => actions.setExtractType(grain, v)}
+                  style={{width: '7em'}}
                 >
-                  <MenuItem value={ExtractType.Dry} primaryText="Dry"/>
-                  <MenuItem value={ExtractType.Liquid} primaryText="Liquid"/>
+                  <MenuItem value={ExtractType.Dry} primaryText="Dry" />
+                  <MenuItem value={ExtractType.Liquid} primaryText="Liquid" />
                 </SelectField>
               </div>
               <div className="pure-u-1-2"

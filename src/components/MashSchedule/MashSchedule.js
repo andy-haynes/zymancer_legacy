@@ -35,7 +35,7 @@ class MashSchedule extends React.PureComponent {
                     <SelectField
                       value={mashSchedule.style}
                       onChange={(e, i, v) => actions.setStyle(v)}
-                      style={{position: 'relative', top: '4px', width: '10em'}}
+                      style={{position: 'relative', top: '0.2em', width: '11em'}}
                     >
                       <MenuItem value={MashMethod.SingleInfusion} primaryText="Single Infusion" />
                       <MenuItem value={MashMethod.BIAB} primaryText="Brew in a Bag" />

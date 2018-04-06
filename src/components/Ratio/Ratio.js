@@ -25,28 +25,28 @@ class Ratio extends React.PureComponent {
           id="ratio-input"
           value={helpers.displayMeasurementValue(ratio.value)}
           onChange={(e) => _update({ value: e.target.value })}
-          style={{width: '52px', position: 'relative', bottom: '4px'}}
+          style={{width: '5em', position: 'relative', bottom: '1em'}}
         />
         <SelectField
           className={s.ratioUnit}
           value={ratio.antecedent}
           onChange={(e, i, v) => _update({ antecedent: v })}
           disabled={antecedentOptions.length === 1}
-          style={{width: '65px'}}
+          style={{width: '5em', marginTop: '0.2em'}}
         >
           {antecedentOptions.map(option => (
             <MenuItem key={option.order} value={option.value} primaryText={option.name} />
           ))}
         </SelectField>
         &nbsp;&nbsp;
-        <span style={{position: 'relative', top: '4px', fontSize: '28px', fontWeight: '100', color: '#bbb'}}>/</span>
+        <span style={{position: 'relative', top: '0.2em', fontSize: '2em', fontWeight: '100', color: '#bbb'}}>/</span>
         &nbsp;&nbsp;
         <SelectField
           className={s.ratioUnit}
           value={ratio.consequent}
           onChange={(e, i, v) => _update({ consequent: v })}
           disabled={consequentOptions.length === 1}
-          style={{width: '65px'}}
+          style={{width: '5em'}}
         >
           {consequentOptions.map(option => (
             <MenuItem key={option.order} value={option.value} primaryText={option.name} />
