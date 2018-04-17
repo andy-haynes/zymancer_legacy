@@ -139,17 +139,6 @@ class MashSchedule extends React.PureComponent {
                     </SliderInput>
                   </div>
                 </div>
-                <div className="pure-u-1-4">
-                  <div className={s.mashLabel}>
-                    Addition Temp
-                  </div>
-                  <div className={s.mashValue}>
-                    <Measurement
-                      measurement={mashSchedule.strikeTemp}
-                      options={MeasurementUnits.TemperatureOptions}
-                    />
-                  </div>
-                </div>
               </div>
             </Paper>
             <Paper
@@ -191,13 +180,13 @@ class MashSchedule extends React.PureComponent {
                   <div className={s.mashLabel}>
                     Grain Absorption
                   </div>
-                  <div className={s.mashValue}>
+                  <div className={s.mashLoss}>
                     <SliderInput
                       {...mashSchedule.absorption}
                       step={0.01}
                       update={(value) => actions.setAbsorption(Object.assign({}, mashSchedule.absorption, { value }))}
-                      sliderWidth="1-2"
-                      inputWidth="1-2"
+                      sliderWidth="1-3"
+                      inputWidth="2-3"
                     >
                       <Ratio
                         ratio={mashSchedule.absorption}
@@ -228,13 +217,13 @@ class MashSchedule extends React.PureComponent {
                   <div className={s.mashLabel}>
                     Boil Off Rate
                   </div>
-                  <div className={s.mashValue}>
+                  <div className={s.mashLoss}>
                     <SliderInput
                       {...mashSchedule.boilOff}
                       step={0.1}
                       update={(value) => actions.setBoilOff(Object.assign({}, mashSchedule.boilOff, { value }))}
-                      sliderWidth="1-2"
-                      inputWidth="1-2"
+                      sliderWidth="1-3"
+                      inputWidth="2-3"
                     >
                       <Ratio
                         ratio={mashSchedule.boilOff}

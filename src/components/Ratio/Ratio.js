@@ -5,6 +5,7 @@ import withStyles from 'isomorphic-style-loader/lib/withStyles';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 import TextField from 'material-ui/TextField';
+import MeasurementUnit from '../MeasurementUnit';
 import helpers from '../../utils/helpers';
 import s from './Ratio.css';
 
@@ -18,40 +19,28 @@ class Ratio extends React.PureComponent {
 
   render() {
     const { ratio, antecedentOptions, consequentOptions, update } = this.props;
-    const _update = (changed) => update(Object.assign({}, ratio, changed));
+    const updateRatio = (changed) => update(Object.assign({}, ratio, changed));
     return (
       <div className={s.ratio}>
         <TextField
           id="ratio-input"
           value={helpers.displayMeasurementValue(ratio.value)}
-          onChange={(e) => _update({ value: e.target.value })}
-          style={{width: '5em', position: 'relative', bottom: '1em'}}
+          onChange={(e) => updateRatio({ value: e.target.value })}
+          style={{width: '3.5em', position: 'relative', bottom: '1.7em'}}
         />
-        <SelectField
-          className={s.ratioUnit}
-          value={ratio.antecedent}
-          onChange={(e, i, v) => _update({ antecedent: v })}
-          disabled={antecedentOptions.length === 1}
-          style={{width: '5em', marginTop: '0.2em'}}
-        >
-          {antecedentOptions.map(option => (
-            <MenuItem key={option.order} value={option.value} primaryText={option.name} />
-          ))}
-        </SelectField>
+        <MeasurementUnit
+          unit={ratio.antecedent}
+          update={(unit) => updateRatio({ antecedent: unit })}
+          options={antecedentOptions}
+        />
         &nbsp;&nbsp;
-        <span style={{position: 'relative', top: '0.2em', fontSize: '2em', fontWeight: '100', color: '#bbb'}}>/</span>
+        <span style={{position: 'relative', top: '-0.6em', fontSize: '2em', fontWeight: '100', color: '#bbb'}}>/</span>
         &nbsp;&nbsp;
-        <SelectField
-          className={s.ratioUnit}
-          value={ratio.consequent}
-          onChange={(e, i, v) => _update({ consequent: v })}
-          disabled={consequentOptions.length === 1}
-          style={{width: '5em'}}
-        >
-          {consequentOptions.map(option => (
-            <MenuItem key={option.order} value={option.value} primaryText={option.name} />
-          ))}
-        </SelectField>
+        <MeasurementUnit
+          unit={ratio.consequent}
+          update={(unit) => updateRatio({ consequent: unit })}
+          options={consequentOptions}
+        />
       </div>
     );
   }

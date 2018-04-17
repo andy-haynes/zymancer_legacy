@@ -2,7 +2,7 @@ import Units from './Units';
 
 const _displayAbbreviations = {
   Gallon: 'gallon',
-  Quart: 'qt',
+  Quart: 'quart',
   Liter: 'liter',
   Pound: 'lbs',
   Ounce: 'oz',
